@@ -54,12 +54,13 @@ class ProxyQuery implements ProxyQueryInterface
         //ordering
         $qb->orderBy($qf->propertyValue($this->sortBy), $this->sortOrder);
 
-        $nodes = $qb->execute();
+        $nodes = $qb->execute()->getNodes();
 
         $documents = array();
 
         foreach ($nodes as $path => $node) {
-            $documents[$node->getPath()] = $this->documentManager->getunitOfWork()->createDocument($this->documentName, $node->getNode());
+            $documents[$node->getPath()] = $this->documentManager->getunitOfWork()->createDocument($this->documentName, $node);
+            print_r($node->getPropertiesValues());
         }
         return $documents;
 
