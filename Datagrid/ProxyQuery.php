@@ -60,7 +60,6 @@ class ProxyQuery implements ProxyQueryInterface
 
         foreach ($nodes as $path => $node) {
             $documents[$node->getPath()] = $this->documentManager->getunitOfWork()->createDocument($this->documentName, $node);
-            print_r($node->getPropertiesValues());
         }
         return $documents;
 
