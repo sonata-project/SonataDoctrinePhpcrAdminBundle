@@ -18,6 +18,7 @@
         <!-- ListBuilder -->
         <service id="sonata.admin.builder.phpcr_list" class="Sonata\DoctrinePHPCRAdminBundle\Builder\ListBuilder" >
             <argument type="service" id="sonata.admin.guesser.phpcr_list_chain" />
+            <argument />
         </service>
 
         <service id="sonata.admin.guesser.phpcr_list" class="Sonata\DoctrinePHPCRAdminBundle\Guesser\TypeGuesser">
