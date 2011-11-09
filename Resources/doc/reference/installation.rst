@@ -9,7 +9,7 @@ Download bundle
 Add the following lines to the file ``deps``::
 
   [SonataDoctrinePHPCRAdminBundle]
-      git=http://github.com/sonata-project/SonataDoctrinePHPCRAdminBundle.git
+      git=http://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle.git
       target=/bundles/Sonata/DoctrinePHPCRAdminBundle
 
 and run::
