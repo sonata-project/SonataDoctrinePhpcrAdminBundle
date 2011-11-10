@@ -67,11 +67,12 @@ class ProxyQuery implements ProxyQueryInterface
      * Creates a Query Builder from the QOMFactory
      *
      * @param \PHPCR\Query\QOM\QueryObjectModelFactoryInterface $qomFactory
+     * @param \PHPCR\Util\QOM\QueryBuilder $queryBuilder
      */
-    public function __construct(QueryObjectModelFactoryInterface $qomFactory)
+    public function __construct(QueryObjectModelFactoryInterface $qomFactory, QueryBuilder $queryBuilder)
     {
         $this->qomFactory = $qomFactory;
-        $this->qb = new QueryBuilder($qomFactory);
+        $this->qb = $queryBuilder;
     }
 
     /**

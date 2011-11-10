@@ -26,6 +26,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 use Symfony\Component\Form\FormFactory;
 
 use Doctrine\ODM\PHPCR\Mapping\ClassMetadataInfo;
+use PHPCR\Util\QOM\QueryBuilder;
 
 class DatagridBuilder implements DatagridBuilderInterface
 {
@@ -123,9 +124,10 @@ class DatagridBuilder implements DatagridBuilderInterface
      */
     public function getBaseDatagrid(AdminInterface $admin, array $values = array())
     {
-        $queryBuilder = $admin->getModelManager()->createQuery($admin->getClass());
+        $qomFactory = $admin->getModelManager()->createQuery($admin->getClass());
+        $queryBuilder = new QueryBuilder($qomFactory);
 
-        $query = new ProxyQuery($queryBuilder);
+        $query = new ProxyQuery($qomFactory, $queryBuilder);
         $query->setDocumentName($admin->getClass());
         $query->setDocumentManager($admin->getModelManager()->getDocumentManager());
         $pager = new Pager;
