@@ -89,9 +89,7 @@ class ProxyQuery implements ProxyQueryInterface
         $qf = $this->qomFactory;
         $qb = $this->qb;
 
-        //selector
-        $classMD = $this->documentManager->getClassMetadata($this->documentName);
-        $qb->from($qf->selector($classMD->nodeType));
+        $qb->from($qf->selector($this->getNodeType()));
 
         //constraint
         $qb->andWhere($qf->comparison($qf->propertyValue('[phpcr:class]'), Constants::JCR_OPERATOR_EQUAL_TO, $qf->literal($this->documentName)));
@@ -276,5 +274,16 @@ class ProxyQuery implements ProxyQueryInterface
     public function andWhere(ConstraintInterface $constraint)
     {
         $this->qb->andWhere($constraint);
+    }
+
+    /**
+     * Gets a string with the type of the node
+     *
+     * @return string type of the node
+     */
+    public function getNodeType()
+    {
+        $classMD = $this->documentManager->getClassMetadata($this->documentName);
+        return $classMD->nodeType;
     }
 }
