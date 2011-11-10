@@ -12,59 +12,50 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
+use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
+use PHPCR\Query\QOM\QueryObjectModelConstantsInterface as Constants;
 
 class StringFilter extends Filter
 {
     /**
-     * @param QueryBuilder $queryBuilder
-     * @param string $alias
-     * @param string $field
-     * @param string $data
+     * Applies a constraint to the query
+     *
+     * @param Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery $queryBuilder
+     * @param string $alias has no effect
+     * @param string $field field uhere to apply the constraint
+     * @param array $data determines the constraint
      * @return
      */
-    public function filter($queryBuilder, $alias, $field, $data)
+    public function filter($queryBuilder, $alias = null, $field, $data)
     {
         if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
             return;
         }
 
         $data['value'] = trim($data['value']);
+        $data['type'] = !isset($data['type']) ?  ChoiceType::TYPE_CONTAINS : $data['type'];
 
         if (strlen($data['value']) == 0) {
             return;
         }
 
-        $data['type'] = !isset($data['type']) ?  ChoiceType::TYPE_CONTAINS : $data['type'];
+        $qf = $queryBuilder->getQueryObjectModelFactory();
 
-        $operator = $this->getOperator((int) $data['type']);
+        switch ($data['type']) {
+        case ChoiceType::TYPE_EQUAL:
+            $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_EQUAL_TO, $qf->literal($data['value']));
+            break;
+        case ChoiceType::TYPE_NOT_CONTAINS:
+            $constraint = $qf->fulltextSearch($field, "* -".$data['value'], '['.$queryBuilder->getDocumentManager()->getClassMetadata($queryBuilder->getDocumentName())->nodeType.']');
+            break;
+        case ChoiceType::TYPE_CONTAINS:
+        default:
 
-        if (!$operator) {
-            $operator = 'LIKE';
+            $constraint = $qf->fulltextSearch($field, $data['value'], '['.$queryBuilder->getDocumentManager()->getClassMetadata($queryBuilder->getDocumentName())->nodeType.']');
+
         }
+        $queryBuilder->andWhere($constraint);
 
-        // c.name > '1' => c.name OPERATOR :FIELDNAME
-        $this->applyWhere($queryBuilder, sprintf('%s.%s %s :%s', $alias, $field, $operator, $this->getName()));
-
-        if ($data['type'] == ChoiceType::TYPE_EQUAL) {
-            $queryBuilder->setParameter($this->getName(), $data['value']);
-        } else {
-            $queryBuilder->setParameter($this->getName(), sprintf($this->getOption('format'), $data['value']));
-        }
-    }
-
-    /**
-     * @param $type
-     * @return bool
-     */
-    private function getOperator($type)
-    {
-        $choices = array(
-            ChoiceType::TYPE_CONTAINS         => 'LIKE',
-            ChoiceType::TYPE_NOT_CONTAINS     => 'NOT LIKE',
-            ChoiceType::TYPE_EQUAL            => '=',
-        );
-
-        return isset($choices[$type]) ? $choices[$type] : false;
     }
 
     /**

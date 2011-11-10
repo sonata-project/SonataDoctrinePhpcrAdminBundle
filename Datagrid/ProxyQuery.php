@@ -15,6 +15,7 @@ use Doctrine\ODM\PHPCR\DocumentManager;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use PHPCR\Query\QOM\QueryObjectModelConstantsInterface as Constants;
 use PHPCR\Util\QOM\QueryBuilder;
+use PHPCR\Query\QOM\ConstraintInterface;
 
 /**
  * This class is used to abstract the Admin Bundle from the different QueryBuilder implementations
@@ -110,7 +111,7 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * Allows for direct calls to the QueryBuilder. TODO: I am not sure it this should exist in PHPCR context.
+     * Allows for direct calls to the QueryBuilder. TODO: I am not sure if this should exist in PHPCR context.
      *
      * @param string $name name of the method
      * @param array $args arguments of the call
@@ -228,6 +229,16 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
+     * Gets the document manager
+     *
+     * @return \Doctrine\ODM\PHPCR\DocumentManager $documentManager
+     */
+    public function getDocumentManager()
+    {
+        return $this->documentManager;
+    }
+
+    /**
      * Sets the document name (Class of the document)
      *
      * @param string $documentName
@@ -235,5 +246,35 @@ class ProxyQuery implements ProxyQueryInterface
     public function setDocumentName($documentName)
     {
         $this->documentName = $documentName;
+    }
+
+    /**
+     * Gets the document name (Class of the document)
+     *
+     * @return string $documentName
+     */
+    public function getDocumentName()
+    {
+        return $this->documentName;
+    }
+    /**
+     * Gets the QueryObjectModelFactory
+     *
+     * @return \PHPCR\Query\QOM\QueryobjectModelFactory
+     */
+    public function getQueryObjectModelFactory()
+    {
+      return $this->qomFactory;
+    }
+
+    /**
+     * Adds a constraint to the query
+     *
+     * @param ConstraintInterface $constraint
+     * @return void
+     */
+    public function andWhere(ConstraintInterface $constraint)
+    {
+        $this->qb->andWhere($constraint);
     }
 }
