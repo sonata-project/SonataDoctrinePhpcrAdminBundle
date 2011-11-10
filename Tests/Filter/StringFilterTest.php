@@ -67,7 +67,7 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
         $qf = $this->getMock('PHPCR\Query\QOM\QueryObjectModelFactoryInterface', array(), array());
         $qf->expects($this->once())
             ->method('propertyValue')
-            ->with('['.$field.']')
+            ->with($field)
             ->will($this->returnValue($property));
         $qf->expects($this->once())
             ->method('literal')
@@ -84,34 +84,60 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
             ->method('andWhere')
             ->with($comparison);
         $stringFilter = new StringFilter();
-        $stringFilter->filter($this->qb, null, 'somefield', array('type' => ChoiceType::TYPE_EQUAL, 'value' => 'somevalue'));
+        $stringFilter->filter($this->qb, null, 'somefield', array('type' => ChoiceType::TYPE_EQUAL, 'value' => $value));
     }
 
-    //public function testFilterTypeContains()
-    //{
-    //    $field = 'somefield';
-    //    $value = 'somevalue';
-    //    $fulltext = $this->getMock('PHPCR\Query\QOM\FullTextSearchInterface', array(), array());
-    //    $constant = Constants::JCR_OPERATOR_EQUAL_TO;
-    //    $property = $this->getMock('PHPCR\Query\QOM\PropertyValueInterface', array(), array());
-    //    $staticOperand = $this->getMock('PHPCR\Query\QOM\StaticOperandInterface', array(), array());
-    //    $qf = $this->getMock('PHPCR\Query\QOM\QueryObjectModelFactoryInterface', array(), array());
+    public function testFilterTypeContains()
+    {
+        $field = 'somefield';
+        $value = 'somevalue';
+        $nodetype = 'somenodetype';
+        $fulltext = $this->getMock('PHPCR\Query\QOM\FullTextSearchInterface', array(), array());
+        $constant = Constants::JCR_OPERATOR_EQUAL_TO;
+        $staticOperand = $this->getMock('PHPCR\Query\QOM\StaticOperandInterface', array(), array());
+        $qf = $this->getMock('PHPCR\Query\QOM\QueryObjectModelFactoryInterface', array(), array());
 
-    //    $qf->expects($this->once())
-    //        ->method('fullTextSearch')
-    //        ->with($field, $property)
-    //        ->with($this->returnValue($fullText))
-    //    $qf->expects($this->once())
-    //        ->method('comparison')
-    //        ->with($property, Constants::JCR_OPERATOR_EQUAL_TO, $staticOperand)
-    //        ->will($this->returnValue($fulltext));
-    //    $this->qb->expects($this->once())
-    //        ->method('getQueryObjectModelFactory')
-    //        ->will($this->returnValue($qf));
-    //    $this->qb->expects($this->once())
-    //        ->method('andWhere')
-    //        ->with($comparison);
-    //    $stringFilter = new StringFilter();
-    //    $stringFilter->filter($this->qb, null, 'somefield', array('type' => ChoiceType::TYPE_CONTAINS, 'value' => 'somevalue'));
-    //}
+        $qf->expects($this->once())
+            ->method('fullTextSearch')
+            ->with($field, $value, '['.$nodetype.']')
+            ->will($this->returnValue($fulltext));
+        $this->qb->expects($this->once())
+            ->method('getQueryObjectModelFactory')
+            ->will($this->returnValue($qf));
+        $this->qb->expects($this->once())
+            ->method('andWhere')
+            ->with($fulltext);
+        $this->qb->expects($this->once())
+            ->method('getNodeType')
+            ->will($this->returnValue($nodetype));
+        $stringFilter = new StringFilter();
+        $stringFilter->filter($this->qb, null, 'somefield', array('type' => ChoiceType::TYPE_CONTAINS, 'value' => $value));
+    }
+
+    public function testFilterTypeNotContains()
+    {
+        $field = 'somefield';
+        $value = 'somevalue';
+        $nodetype = 'somenodetype';
+        $fulltext = $this->getMock('PHPCR\Query\QOM\FullTextSearchInterface', array(), array());
+        $constant = Constants::JCR_OPERATOR_EQUAL_TO;
+        $staticOperand = $this->getMock('PHPCR\Query\QOM\StaticOperandInterface', array(), array());
+        $qf = $this->getMock('PHPCR\Query\QOM\QueryObjectModelFactoryInterface', array(), array());
+
+        $qf->expects($this->once())
+            ->method('fullTextSearch')
+            ->with($field, "* -".$value, '['.$nodetype.']')
+            ->will($this->returnValue($fulltext));
+        $this->qb->expects($this->once())
+            ->method('getQueryObjectModelFactory')
+            ->will($this->returnValue($qf));
+        $this->qb->expects($this->once())
+            ->method('andWhere')
+            ->with($fulltext);
+        $this->qb->expects($this->once())
+            ->method('getNodeType')
+            ->will($this->returnValue($nodetype));
+        $stringFilter = new StringFilter();
+        $stringFilter->filter($this->qb, null, 'somefield', array('type' => ChoiceType::TYPE_NOT_CONTAINS, 'value' => $value));
+    }
 }
