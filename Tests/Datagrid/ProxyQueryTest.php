@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\DoctrinePHPCRAdminBundle\Tests\ProxyQuery;
+namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Datagrid;
 
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 
