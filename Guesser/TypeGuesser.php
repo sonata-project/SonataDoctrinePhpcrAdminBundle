@@ -80,10 +80,12 @@ class TypeGuesser implements TypeGuesserInterface
             case 'string':
                 return new TypeGuess('integer', array(), Guess::HIGH_CONFIDENCE);
             case 'binary':
-            case 'reference':
-            case 'weakreference':
             case 'uri':
                 return new TypeGuess('integer', array(), Guess::MEDIUM_CONFIDENCE);
+            case 'node':
+                return new TypeGuess('node', array(), Guess::MEDIUM_CONFIDENCE);
+            case 'reference':
+            case 'weakreference':
             default:
                 return new TypeGuess('text', array(), Guess::LOW_CONFIDENCE);
         }

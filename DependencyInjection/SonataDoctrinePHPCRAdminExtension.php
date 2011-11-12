@@ -53,6 +53,7 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
                         'integer'      => 'SonataAdminBundle:CRUD:base_list_field.html.twig',
                         'decimal'      => 'SonataAdminBundle:CRUD:base_list_field.html.twig',
                         'identifier'   => 'SonataAdminBundle:CRUD:base_list_field.html.twig',
+                        'node'         => 'SonataDoctrinePHPCRAdminBundle:CRUD:list_node.html.twig'
                     )
                 )
             )
@@ -76,6 +77,7 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
         $loader->load('doctrine_phpcr.xml');
         $loader->load('doctrine_phpcr_filter_types.xml');
         $loader->load('route.xml');
+        $loader->load('twig.xml');
 
         $configuration = new Configuration();
         $processor = new Processor();
