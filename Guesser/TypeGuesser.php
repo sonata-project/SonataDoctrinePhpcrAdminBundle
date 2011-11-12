@@ -62,27 +62,31 @@ class TypeGuesser implements TypeGuesserInterface
             }
         }
 
-        return new TypeGuess('text', array(), Guess::LOW_CONFIDENCE);
-        //TODO: work on this when getTypeOfField is implemented
-        //switch ($metadata->getTypeOfField($property))
-        //{
-        //    //case 'array':
-        //    //  return new TypeGuess('Collection', array(), Guess::HIGH_CONFIDENCE);
-        //    case 'boolean':
-        //        return new TypeGuess('checkbox', array(), Guess::HIGH_CONFIDENCE);
-        //    case 'date':
-        //        return new TypeGuess('date', array(), Guess::HIGH_CONFIDENCE);
+        switch ($metadata->getTypeOfField($property))
+        {
+            //case 'array':
+            //  return new TypeGuess('Collection', array(), Guess::HIGH_CONFIDENCE);
+            case 'boolean':
+                return new TypeGuess('checkbox', array(), Guess::HIGH_CONFIDENCE);
+            case 'date':
+                return new TypeGuess('date', array(), Guess::HIGH_CONFIDENCE);
 
-        //    case 'decimal':
-        //    case 'double':
-        //        return new TypeGuess('number', array(), Guess::MEDIUM_CONFIDENCE);
-        //    case 'integer':
-        //    case 'long':
-        //        return new TypeGuess('integer', array(), Guess::MEDIUM_CONFIDENCE);
-        //    default:
-        //        return new TypeGuess('text', array(), Guess::LOW_CONFIDENCE);
-        //    //TODO: add rest of types  http://phpcr.github.com/doc/html/phpcr/propertytype.html
-        //}
+            case 'decimal':
+            case 'double':
+                return new TypeGuess('number', array(), Guess::MEDIUM_CONFIDENCE);
+            case 'integer':
+            case 'long':
+                return new TypeGuess('integer', array(), Guess::MEDIUM_CONFIDENCE);
+            case 'string':
+                return new TypeGuess('integer', array(), Guess::HIGH_CONFIDENCE);
+            case 'binary':
+            case 'reference':
+            case 'weakreference':
+            case 'uri':
+                return new TypeGuess('integer', array(), Guess::MEDIUM_CONFIDENCE);
+            default:
+                return new TypeGuess('text', array(), Guess::LOW_CONFIDENCE);
+        }
     }
 
     protected function getMetadata($class)
