@@ -36,16 +36,26 @@ class ListBuilder implements ListBuilderInterface
         $this->templates = $templates;
     }
 
+    /**
+     * Returns an empty field description collection
+     *
+     * @param array $options
+     * @return FieldDescriptionCollection
+     */
     public function getBaseList(array $options = array())
     {
         return new FieldDescriptionCollection;
     }
 
     /**
+     * Adds a field to the Field description collection and sets its type.
+     * If not type provided, will try to guess it.
+     *
      * @param \Sonata\AdminBundle\Admin\FieldDescriptionCollection $list
-     * @param null $type
+     * @param string|null $type
      * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
      * @param \Sonata\AdminBundle\Admin\AdminInterface $admin
+     * @return FieldDescriptionCollection
      */
     public function addField(FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
@@ -56,8 +66,6 @@ class ListBuilder implements ListBuilderInterface
             $fieldDescription->setType($type);
         }
 
-        $fieldDescription->setType($type);
-
         $this->fixFieldDescription($admin, $fieldDescription);
         $admin->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
 
@@ -65,7 +73,8 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * The method defines the correct default settings for the provided FieldDescription
+     * The method defines the correct default settings for the provided
+     * FieldDescription
      *
      * @param \Sonata\AdminBundle\Admin\AdminInterface $admin
      * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
