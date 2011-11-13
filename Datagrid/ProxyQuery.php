@@ -109,11 +109,13 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * Allows for direct calls to the QueryBuilder. TODO: I am not sure if this should exist in PHPCR context.
+     * Allows for direct calls to the QueryBuilder.
      *
      * @param string $name name of the method
      * @param array $args arguments of the call
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public function __call($name, $args)
     {
@@ -160,6 +162,9 @@ class ProxyQuery implements ProxyQueryInterface
         return $this->sortOrder;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getSingleScalarResult()
     {
         /* TODO: Figure out who calls this method and what to do here in context of PHPCR */

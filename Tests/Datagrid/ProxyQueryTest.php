@@ -31,7 +31,8 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $pq = new ProxyQuery($this->qf, $this->qb);
-        $this->assertEquals($this->qb, $pq->getQueryBuilder());
+        $this->assertInstanceOf('PHPCR\Util\QOM\QueryBuilder', $pq->getQueryBuilder());
+        $this->assertInstanceOf('PHPCR\Query\QOM\QueryObjectModelFactoryInterface', $pq->getQueryObjectModelFactory());
     }
 
     public function testSetSortBy()
@@ -114,6 +115,7 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
         $this->qb->expects($this->once())
             ->method('andWhere')
             ->with($this->anything());
+        $uow = $this->getMock('Doctrine\ODM\PHPCR\UnitOfWork', array(), array(), '', false);
         $dm = $this->getMockBuilder('Doctrine\ODM\PHPCR\DocumentManager')
             ->disableOriginalConstructor()
             ->getMock();
@@ -121,12 +123,18 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
             ->method('getClassMetadata')
             ->with("some_document_name")
             ->will($this->returnValue(new dummyMetaData()));
+        $dm->expects($this->exactly(2))
+            ->method('getUnitOfWork')
+            ->will($this->returnValue($uow));
         $query = $this->getMockBuilder('Jackalope\Query\QueryResult')
             ->disableOriginalConstructor()
             ->getMock();
         $query->expects($this->once())
             ->method('getNodes')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue(array(
+                'somepath1' => new NodeMock(),
+                'somepath2' => new NodeMock(),
+            )));
         $this->qb->expects($this->once())
             ->method('execute')
             ->will($this->returnValue($query));
@@ -136,4 +144,40 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
         $pq->execute();
     }
 
+    public function testGetAndSetDocumentName()
+    {
+        $pq = new ProxyQuery($this->qf, $this->qb);
+        $name = 'somename';
+        $pq->setDocumentName($name);
+        $this->assertEquals($name, $pq->getDocumentName());
+    }
+
+    public function testGetAndSetDocumentManager()
+    {
+        $dm = $this->getMockBuilder('Doctrine\ODM\PHPCR\DocumentManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $pq = new ProxyQuery($this->qf, $this->qb);
+        $pq->setDocumentManager($dm);
+        $this->assertEquals($dm, $pq->getDocumentManager());
+    }
+
+    public function testAndWhere()
+    {
+        $constraint = $this->getMock('PHPCR\Query\QOM\ConstraintInterface');
+        $this->qb->expects($this->once())
+            ->method('andWhere')
+            ->with($constraint);
+        $pq = new ProxyQuery($this->qf, $this->qb);
+        $pq->andWhere($constraint);
+
+    }
+}
+
+class NodeMock
+{
+    public function getPath()
+    {
+        return "somepath";
+    }
 }
