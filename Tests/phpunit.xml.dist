@@ -16,4 +16,16 @@
             <directory>./</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist>
+            <directory>../</directory>
+            <exclude>
+                <directory>../Tests</directory>
+                <directory>../Resources</directory>
+                <directory>../DependencyInjection</directory>
+                <file>../SonataDoctrinePHPCRAdminBundle.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+
 </phpunit>
