@@ -17,22 +17,22 @@ $deps = array(
     
 );
 
-//foreach ($deps as $dep) {
-//    list($name, $url, $rev, $cmd) = $dep;
-//
-//    echo "> Installing/Updating $name\n";
-//
-//    $installDir = $vendorDir.'/'.$name;
-//    if (!is_dir($installDir)) {
-//        system(sprintf('git clone --quiet %s %s', escapeshellarg($url), escapeshellarg($installDir)));
-//    }
-//
-//    if($cmd == '') {
-//        system(sprintf('cd %s && git fetch origin && git reset --hard %s', escapeshellarg($installDir), escapeshellarg($rev)));
-//    } else {
-//        system(sprintf('cd %s && git fetch origin && git reset --hard %s && git %s', escapeshellarg($installDir), escapeshellarg($rev), $cmd));
-//    }
-//}
+foreach ($deps as $dep) {
+    list($name, $url, $rev, $cmd) = $dep;
+
+    echo "> Installing/Updating $name\n";
+
+    $installDir = $vendorDir.'/'.$name;
+    if (!is_dir($installDir)) {
+        system(sprintf('git clone --quiet %s %s', escapeshellarg($url), escapeshellarg($installDir)));
+    }
+
+    if($cmd == '') {
+        system(sprintf('cd %s && git fetch origin && git reset --hard %s', escapeshellarg($installDir), escapeshellarg($rev)));
+    } else {
+        system(sprintf('cd %s && git fetch origin && git reset --hard %s && git %s', escapeshellarg($installDir), escapeshellarg($rev), $cmd));
+    }
+}
 
 //updating symfony-cmf stuff to latest version
 system(sprintf('cd %s/symfony-cmf/vendor/doctrine-phpcr-odm && git checkout origin/master', $vendorDir));
