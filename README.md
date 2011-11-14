@@ -3,7 +3,7 @@ Doctrine PHPCR Admin
 
 [![Build Status](https://secure.travis-ci.org/sonata-project/SonataDoctrinePhpcrAdminBundle.png)](https://secure.travis-ci.org/#!/sonata-project/SonataDoctrinePhpcrAdminBundle)
 
-This bundle integrates the SonataAdminBundle with the Doctrine PHPCR project.
+This bundle integrates the SonataAdminBundle with the Doctrine PHPCR project 
 
 Check out the documentation on [Resources/doc](https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/tree/master/Resources/doc)
 

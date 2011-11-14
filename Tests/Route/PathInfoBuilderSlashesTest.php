@@ -36,6 +36,7 @@ class PathInfoBuilderSlashesTest extends \PHPUnit_Framework_TestCase
         $collection->expects($this->exactly(6))
             ->method('add')
             ->with($this->anything());
+        
         $builder = new PathInfoBuilderSlashes();
         $builder->build($admin, $collection);
     }

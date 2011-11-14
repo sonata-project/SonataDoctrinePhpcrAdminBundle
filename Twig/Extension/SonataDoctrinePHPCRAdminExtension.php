@@ -83,7 +83,7 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
      *
      * @param \PHPCR\NodeInterface $node
      * @param string $property
-     * @return string representing the property
+     * @return string String representation of the property
      */
     public function renderNodeProperty(NodeInterface $node, $property)
     {
@@ -91,10 +91,10 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     }
 
     /**
-     * Renders a property of a node
+     * Renders a path of a node
      *
      * @param \PHPCR\NodeInterface $node
-     * @return string the path
+     * @return string Node path
      */
     public function renderNodePath(NodeInterface $node)
     {
