@@ -12,9 +12,21 @@
          bootstrap="Tests/tests/bootstrap.php"
 >
     <testsuites>
-        <testsuite name="AdminBundle Test Suite">
+        <testsuite name="PHPCR Util Test Suite">
             <directory>./Tests/</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist>
+            <directory>./</directory>
+            <exclude>
+                <directory>./Tests</directory>
+                <directory>./vendor</directory>
+                <directory>./Resources</directory>
+                <directory>./DependencyInjection</directory>
+                <file>./SonataDoctrinePHPCRAdminBundle.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
 
 </phpunit>
