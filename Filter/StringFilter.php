@@ -46,12 +46,12 @@ class StringFilter extends Filter
             $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_EQUAL_TO, $qf->literal($data['value']));
             break;
         case ChoiceType::TYPE_NOT_CONTAINS:
-            $constraint = $qf->fulltextSearch($field, "* -".$data['value'], '['.$queryBuilder->getNodeType().']');
+            $constraint = $qf->fulltextSearch($field, "'* -".$data['value']."'", '['.$queryBuilder->getNodeType().']');
             break;
         case ChoiceType::TYPE_CONTAINS:
         default:
 
-            $constraint = $qf->fulltextSearch($field, $data['value'], '['.$queryBuilder->getNodeType().']');
+            $constraint = $qf->fulltextSearch($field, '\''.$data['value'].'\'', '['.$queryBuilder->getNodeType().']');
 
         }
         $queryBuilder->andWhere($constraint);

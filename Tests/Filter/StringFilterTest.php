@@ -105,7 +105,7 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
         $qf = $this->getMock('PHPCR\Query\QOM\QueryObjectModelFactoryInterface', array(), array());
         $qf->expects($this->once())
             ->method('fullTextSearch')
-            ->with($field, $value, '['.$nodetype.']')
+            ->with($field, '\''.$value.'\'', '['.$nodetype.']')
             ->will($this->returnValue($fulltext));
         $this->qb->expects($this->once())
             ->method('getQueryObjectModelFactory')
@@ -133,7 +133,7 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
         $qf = $this->getMock('PHPCR\Query\QOM\QueryObjectModelFactoryInterface', array(), array());
         $qf->expects($this->once())
             ->method('fullTextSearch')
-            ->with($field, "* -".$value, '['.$nodetype.']')
+            ->with($field, "'* -".$value."'", '['.$nodetype.']')
             ->will($this->returnValue($fulltext));
         $this->qb->expects($this->once())
             ->method('getQueryObjectModelFactory')
