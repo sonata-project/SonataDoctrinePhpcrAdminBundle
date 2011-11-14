@@ -38,6 +38,7 @@ class PagerTest extends \PHPUnit_Framework_TestCase
 
         $this->pager->setQuery($proxyQuery);
         $this->pager->init();
+        
         $this->AssertEquals(2, $this->pager->getLastPage());
     }
 
@@ -61,6 +62,7 @@ class PagerTest extends \PHPUnit_Framework_TestCase
         $this->pager->setQuery($proxyQuery);
         $this->pager->setPage(2);
         $this->pager->init();
+        
         $this->AssertEquals(2, $this->pager->getLastPage());
     }
 
@@ -84,10 +86,11 @@ class PagerTest extends \PHPUnit_Framework_TestCase
         //Max per page 0 means no pagination
         $this->pager->setMaxPerPage(0);
         $this->pager->init();
+        
         $this->AssertEquals(0, $this->pager->getLastPage());
     }
 
-    public function testNoPagesPerNoResults()
+    public function testNoPagesForNoResults()
     {
         $proxyQuery = $this->getMockBuilder('Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery')
             ->disableOriginalConstructor()
@@ -108,6 +111,7 @@ class PagerTest extends \PHPUnit_Framework_TestCase
         $this->pager->init();
         $this->AssertEquals(0, $this->pager->getLastPage());
     }
+    
     public function testInitNoQuery()
     {
         $this->setExpectedException('RuntimeException');
