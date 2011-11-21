@@ -12,7 +12,16 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 
 use Sonata\DoctrinePHPCRAdminBundle\Route\PathInfoBuilderSlashes;
+use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
 
+//No idea why, phpunit crashes when mocking Admin if this is not present.
+//Maybe some autoload problem?
+class phpunitfix implements LabelTranslatorStrategyInterface
+{
+    public function getLabel($label, $context = '', $type = ''){
+        return "ho";
+    }
+}
 class PathInfoBuilderSlashesTest extends \PHPUnit_Framework_TestCase
 {
     function testBuild()
@@ -36,7 +45,7 @@ class PathInfoBuilderSlashesTest extends \PHPUnit_Framework_TestCase
         $collection->expects($this->exactly(6))
             ->method('add')
             ->with($this->anything());
-        
+
         $builder = new PathInfoBuilderSlashes();
         $builder->build($admin, $collection);
     }
