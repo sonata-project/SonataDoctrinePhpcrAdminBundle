@@ -14,31 +14,24 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 use Sonata\DoctrinePHPCRAdminBundle\Route\PathInfoBuilderSlashes;
 use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
 
-//No idea why, phpunit crashes when mocking Admin if this is not present.
-//Maybe some autoload problem?
-class phpunitfix implements LabelTranslatorStrategyInterface
-{
-    public function getLabel($label, $context = '', $type = ''){
-        return "ho";
-    }
-}
 class PathInfoBuilderSlashesTest extends \PHPUnit_Framework_TestCase
 {
     function testBuild()
     {
-        $collectionChild = $this->getMock('Sonata\AdminBundle\Route\RouteCollection', array(), array(), '', false);
+        $collectionChild = $this->getMock('Sonata\\AdminBundle\\Route\\RouteCollection', array(), array(), '', false);
 
-        $adminChild = $this->getMock('Sonata\AdminBundle\Admin\Admin', array(), array(), '', false);
+        //$adminChild = $this->getMock('Sonata\\AdminBundle\\Admin\\Admin', array(), array(), '', false);
+        $adminChild = $this->getMockBuilder('Sonata\\AdminBundle\\Admin\\Admin')->disableOriginalConstructor()->getMock();
         $adminChild->expects($this->once())
             ->method('getRoutes')
             ->will($this->returnValue($collectionChild));
 
-        $admin = $this->getMock('Sonata\AdminBundle\Admin\Admin', array(), array(), '', false);
+        $admin = $this->getMockBuilder('Sonata\\AdminBundle\\Admin\\Admin')->disableOriginalConstructor()->getMock();
         $admin->expects($this->once())
             ->method('getChildren')
             ->will($this->returnValue(array($adminChild)));
 
-        $collection = $this->getMock('Sonata\AdminBundle\Route\RouteCollection', array(), array(), '', false);
+        $collection = $this->getMock('Sonata\\AdminBundle\\Route\\RouteCollection', array(), array(), '', false);
         $collection->expects($this->once())
             ->method('addCollection')
             ->with($this->anything());
