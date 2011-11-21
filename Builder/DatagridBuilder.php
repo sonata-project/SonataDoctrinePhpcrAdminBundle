@@ -73,7 +73,6 @@ class DatagridBuilder implements DatagridBuilderInterface
         }
 
         $fieldDescription->setOption('code', $fieldDescription->getOption('code', $fieldDescription->getName()));
-        $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
         $fieldDescription->setOption('name', $fieldDescription->getOption('name', $fieldDescription->getName()));
     }
 
@@ -99,7 +98,7 @@ class DatagridBuilder implements DatagridBuilderInterface
                 if (is_array($value)) {
                     $fieldDescription->setOption($name, array_merge($value, $fieldDescription->getOption($name, array())));
                 } else {
-                    $fieldDescription->setOption($name,    $fieldDescription->getOption($name, $value));
+                    $fieldDescription->setOption($name, $fieldDescription->getOption($name, $value));
                 }
             }
         } else {
@@ -112,6 +111,9 @@ class DatagridBuilder implements DatagridBuilderInterface
         $fieldDescription->mergeOption('field_options', array('required' => false));
         $filter = $this->filterFactory->create($fieldDescription->getName(), $type, $fieldDescription->getOptions());
 
+        if (!$filter->getLabel()) {
+            $filter->setLabel($admin->getLabelTranslatorStrategy()->getLabel($fieldDescription->getName(), 'filter', 'label'));
+        }
         $datagrid->addFilter($filter);
 
         return $datagrid->addFilter($filter);
