@@ -12,6 +12,7 @@ $deps = array(
     array('symfony', 'git://github.com/symfony/symfony.git', isset($_SERVER['SYMFONY_VERSION']) ? $_SERVER['SYMFONY_VERSION'] : 'origin/master', ''),
     array('knpmenu', 'git://github.com/knplabs/KnpMenu.git', 'origin/master', ''),
     array('Sonata/AdminBundle', 'git://github.com/sonata-project/SonataAdminBundle.git', 'origin/master', ''),
+    array('Doctrine/PHPCRBundle', 'git://github.com/doctrine/DoctrinePHPCRBundle.git', 'origin/master', ''),
     array('gaufrette', 'git://github.com/knplabs/Gaufrette.git', 'origin/master',''),
     array('symfony-cmf', 'git://github.com/symfony-cmf/symfony-cmf.git', 'origin/master', 'submodule update --init --recursive'),
     array('twig', 'git://github.com/fabpot/Twig.git', 'origin/master', ''),
