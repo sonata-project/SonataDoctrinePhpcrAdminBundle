@@ -12,7 +12,7 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Guesser;
 
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
-use Symfony\Bundle\DoctrinePHPCRBundle\ManagerRegistry;
+use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
 use Doctrine\ODM\PHPCR\Mapping\MappingException;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
