@@ -6,34 +6,30 @@ First install the Sonata Admin Bundle
 With cmf-sandbox
 ----------------
 
-This bundle is under development. Currently, the best way to try it and see what is going on is to install a [cmf-sandbox](https://github.com/nacmartin/cmf-sandbox/tree/adminbundle).
+This bundle is under development. Currently, the best way to try it and see what is going on is to install a [cmf-sandbox](https://github.com/symfony-cmf/cmf-sandbox/).
 
-run::
+Follow the README of the sandbox for how to install it and load the fixtures to see some content.
 
-    git clone git://github.com/nacmartin/cmf-sandbox.git
-
-and switch to branch `adminbundle` and download the vendors, which include this bundle::
-
-    git checkout adminbundle
-    bin/vendors install
-
-There are some dependencies that must be fixed manually::
-
-    cd vendor/symfony-cmf/vendor/doctrine-phpcr-odm/lib/vendor/jackalope
-    git checkout master
-    cd lib/phpcr
-    git checkout master
-
-Note that you will need a running instance of a PHPCR implementation, such as [jackalope](https://github.com/jackalope/jackalope).
 
 Without cmf-sandbox
 -------------------
 
-Add the following lines to the file ``deps``::
+The PHPCR Admin Bundle depends on PHPCR-ODM and on the SonataAdminBundle which in turn depends on SonatajQueryBundle.
+For PHPCR-ODM, follow the instructions at [DoctrinePHPCRBundle](https://github.com/doctrine/DoctrinePHPCRBundle).
 
-  [SonataDoctrinePHPCRAdminBundle]
-      git=http://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle.git
-      target=/bundles/Sonata/DoctrinePHPCRAdminBundle
+Then for the admin bundle, add the following lines to the file ``deps``:
+
+    [SonatajQueryBundle]
+        git=http://github.com/sonata-project/SonatajQueryBundle.git
+        target=/bundles/Sonata/jQueryBundle
+
+    [SonataAdminBundle]
+        git=https://github.com/sonata-project/SonataAdminBundle.git
+        target=/bundles/Sonata/AdminBundle
+
+    [SonataDoctrinePHPCRAdminBundle]
+        git=http://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle.git
+        target=/bundles/Sonata/DoctrinePHPCRAdminBundle
 
 and run::
 
@@ -50,8 +46,9 @@ files:
   {
       return array(
           // ...
+          new Sonata\jQueryBundle\SonatajQueryBundle(),
+          new Sonata\AdminBundle\SonataAdminBundle(),
           new Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle(),
           // ...
       );
   }
-
