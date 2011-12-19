@@ -86,6 +86,24 @@ class ProxyQuery implements ProxyQueryInterface
      */
     public function execute(array $params = array(), $hydrationMode = null)
     {
+        // get nodes
+        $nodes = $this->executeRaw();
+
+        $documents = array();
+
+        foreach ($nodes as $path => $node) {
+            $documents[$node->getPath()] = $this->documentManager->getunitOfWork()->createDocument($this->documentName, $node);
+        }
+        return $documents;
+    }
+
+    /**
+     * Executes the query and returns the raw nodes.
+     * 
+     * @return array with nodes
+     */
+    public function executeRaw()
+    {
         $qf = $this->qomFactory;
         $qb = $this->qb;
 
@@ -97,15 +115,7 @@ class ProxyQuery implements ProxyQueryInterface
         //ordering
         $qb->orderBy($qf->propertyValue($this->sortBy), $this->sortOrder);
 
-        $nodes = $qb->execute()->getNodes();
-
-        $documents = array();
-
-        foreach ($nodes as $path => $node) {
-            $documents[$node->getPath()] = $this->documentManager->getunitOfWork()->createDocument($this->documentName, $node);
-        }
-        return $documents;
-
+        return $qb->execute()->getNodes();
     }
 
     /**
