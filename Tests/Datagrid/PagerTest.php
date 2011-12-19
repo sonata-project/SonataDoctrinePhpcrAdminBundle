@@ -32,8 +32,7 @@ class PagerTest extends \PHPUnit_Framework_TestCase
             ->method('setFirstResult')
             ->with($this->equalTo(0));
         $proxyQuery->expects($this->once())
-            ->method('execute')
-            ->with($this->anything())
+            ->method('executeRaw')
             ->will($this->returnValue(range(0, 12)));
 
         $this->pager->setQuery($proxyQuery);
@@ -55,8 +54,7 @@ class PagerTest extends \PHPUnit_Framework_TestCase
             ->method('setFirstResult')
             ->with($this->equalTo(10));
         $proxyQuery->expects($this->once())
-            ->method('execute')
-            ->with($this->anything())
+            ->method('executeRaw')
             ->will($this->returnValue(range(0, 12)));
 
         $this->pager->setQuery($proxyQuery);
@@ -78,8 +76,7 @@ class PagerTest extends \PHPUnit_Framework_TestCase
             ->method('setFirstResult')
             ->with($this->equalTo(0));
         $proxyQuery->expects($this->once())
-            ->method('execute')
-            ->with($this->anything())
+            ->method('executeRaw')
             ->will($this->returnValue(range(0, 12)));
 
         $this->pager->setQuery($proxyQuery);
@@ -102,8 +99,7 @@ class PagerTest extends \PHPUnit_Framework_TestCase
             ->method('setFirstResult')
             ->with($this->equalTo(0));
         $proxyQuery->expects($this->once())
-            ->method('execute')
-            ->with($this->anything())
+            ->method('executeRaw')
             //No results means no pagination
             ->will($this->returnValue(array()));
 
