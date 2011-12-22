@@ -11,7 +11,7 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
-use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
+use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 use PHPCR\Query\QOM\QueryObjectModelConstantsInterface as Constants;
 
@@ -49,8 +49,10 @@ class StringFilter extends Filter
             $constraint = $qf->fulltextSearch($field, "* -".$data['value'], '['.$queryBuilder->getNodeType().']');
             break;
         case ChoiceType::TYPE_CONTAINS:
+            $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LIKE, $qf->literal('%'.$data['value'].'%'));
+            break;
+        case ChoiceType::TYPE_CONTAINS_WORDS:
         default:
-
             $constraint = $qf->fulltextSearch($field, $data['value'], '['.$queryBuilder->getNodeType().']');
 
         }
@@ -70,7 +72,7 @@ class StringFilter extends Filter
 
     public function getRenderSettings()
     {
-        return array('sonata_type_filter_choice', array(
+        return array('doctrine_phpcr_type_filter_choice', array(
             'field_type'    => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'label'         => $this->getLabel()
