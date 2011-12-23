@@ -42,15 +42,14 @@ class DateFilter extends Filter
 
         $qf = $queryBuilder->getQueryObjectModelFactory();
         
-        $datetime = new \DateTime($data['value']['year'].'-'.$data['value']['month'].'-'.$data['value']['day']);
+        $date = $data['value']['year'].'-'.$data['value']['month'].'-'.$data['value']['day'];
+        $from = new \DateTime($date);
+        $to = new \DateTime($date . ' +86399 seconds'); // 23 hours 59 minutes 59 seconds
         switch ($data['type']) {
         default:
-            $value = \PHPCR\PropertyType::convertType($datetime, \PHPCR\PropertyType::STRING);
-            $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_GREATER_THAN_OR_EQUAL_TO, $qf->literal('(CAST(\''.$value.'\' AS DATE))'));
+            $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LESS_THAN_OR_EQUAL_TO, $qf->literal($to));
             $queryBuilder->andWhere($constraint);
-            $datetime->modify('+86399 seconds'); // 23 hours 59 minutes 59 seconds
-            $value = \PHPCR\PropertyType::convertType($datetime, \PHPCR\PropertyType::STRING);
-            $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LESS_THAN_OR_EQUAL_TO, $qf->literal('(CAST(\''.$value.'\' AS DATE))'));
+            $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_GREATER_THAN_OR_EQUAL_TO, $qf->literal($from));
         }
         $queryBuilder->andWhere($constraint);
     }
