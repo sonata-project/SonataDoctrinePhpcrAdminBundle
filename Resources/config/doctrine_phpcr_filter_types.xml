@@ -31,8 +31,8 @@
             <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_string" />
         </service>
 
-        <service id="sonata.admin.phpcr.filter.type.number" class="Sonata\DoctrinePHPCRAdminBundle\Filter\NumberFilter">
-            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_number" />
+        <service id="sonata.admin.phpcr.filter.type.date" class="Sonata\DoctrinePHPCRAdminBundle\Filter\DateFilter">
+            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_date" />
         </service>
     </services>
 
