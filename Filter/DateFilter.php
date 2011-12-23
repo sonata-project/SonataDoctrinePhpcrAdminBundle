@@ -29,27 +29,45 @@ class DateFilter extends Filter
      */
     public function filter($queryBuilder, $alias = null, $field, $data)
     {
-        if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
+        if (!$data || !is_array($data) || !isset($data['value'])) {
             return;
         }
 
-        //$data['value'] = trim($data['value']);
-        $data['type'] = !isset($data['type']) ?  ChoiceType::TYPE_CONTAINS : $data['type'];
-
-        //if (strlen($data['value']) == 0) {
-        //    return;
-        //}
+        $data['value']['year'] = isset($data['value']['year']) && $data['value']['year'] ? $data['value']['year'] : date('Y');
+        $data['value']['month'] = isset($data['value']['month']) && $data['value']['month'] ? $data['value']['month'] : date('m');
+        $data['value']['day'] = isset($data['value']['day']) && $data['value']['day'] ? $data['value']['day'] : date('d');
+        $data['type'] = isset($data['type']) ? $data['type'] : DateType::TYPE_EQUAL;
 
         $qf = $queryBuilder->getQueryObjectModelFactory();
-        
-        $date = $data['value']['year'].'-'.$data['value']['month'].'-'.$data['value']['day'];
+
+        $date = '' . $data['value']['year']. '-' . $data['value']['month'] . '-' . $data['value']['day'];
+
         $from = new \DateTime($date);
         $to = new \DateTime($date . ' +86399 seconds'); // 23 hours 59 minutes 59 seconds
         switch ($data['type']) {
-        default:
-            $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LESS_THAN_OR_EQUAL_TO, $qf->literal($to));
-            $queryBuilder->andWhere($constraint);
-            $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_GREATER_THAN_OR_EQUAL_TO, $qf->literal($from));
+            case DateType::TYPE_GREATER_EQUAL:
+                $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_GREATER_THAN_OR_EQUAL_TO, $qf->literal($from));
+                break;
+            case DateType::TYPE_GREATER_THAN:
+                $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_GREATER_THAN, $qf->literal($to));
+                break;
+            case DateType::TYPE_LESS_EQUAL:
+                $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LESS_THAN_OR_EQUAL_TO, $qf->literal($to));
+                break;
+            case DateType::TYPE_LESS_THAN:
+                $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LESS_THAN, $qf->literal($from));
+                break;
+            case DateType::TYPE_NULL:
+                $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_EQUAL_TO, $qf->literal(null));
+                break;
+            case DateType::TYPE_NOT_NULL:
+                $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_NOT_EQUAL_TO, $qf->literal(null));
+                break;
+            case DateType::TYPE_EQUAL:
+            default:
+                $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LESS_THAN_OR_EQUAL_TO, $qf->literal($to));
+                $queryBuilder->andWhere($constraint);
+                $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_GREATER_THAN_OR_EQUAL_TO, $qf->literal($from));
         }
         $queryBuilder->andWhere($constraint);
     }
