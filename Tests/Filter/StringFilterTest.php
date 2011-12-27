@@ -12,7 +12,7 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 
 use Sonata\DoctrinePHPCRAdminBundle\Filter\StringFilter;
-use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
+use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 use PHPCR\Query\QOM\QueryObjectModelConstantsInterface as Constants;
 
 class StringFilterTest extends \PHPUnit_Framework_TestCase
@@ -118,7 +118,7 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($nodetype));
         
         $stringFilter = new StringFilter();
-        $stringFilter->filter($this->qb, null, 'somefield', array('type' => ChoiceType::TYPE_CONTAINS, 'value' => $value));
+        $stringFilter->filter($this->qb, null, 'somefield', array('type' => ChoiceType::TYPE_CONTAINS_WORDS, 'value' => $value));
     }
 
     public function testFilterTypeNotContains()
