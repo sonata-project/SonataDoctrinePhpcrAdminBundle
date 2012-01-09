@@ -12,8 +12,8 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Twig\Extension;
 
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
+use Sonata\AdminBundle\Exception\NoValueException;
 use Sonata\AdminBundle\Filter\FilterInterface;
-use Sonata\AdminBundle\Admin\NoValueException;
 use PHPCR\NodeInterface;
 
 use Symfony\Component\Form\FormView;
