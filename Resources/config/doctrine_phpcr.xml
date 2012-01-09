@@ -22,7 +22,7 @@
         </service>
 
         <service id="sonata.admin.guesser.phpcr_list" class="Sonata\DoctrinePHPCRAdminBundle\Guesser\TypeGuesser">
-            <argument type="service" id="doctrine_phpcr.odm" />
+            <argument type="service" id="doctrine_phpcr" />
             <tag name="sonata.admin.guesser.phpcr_list" />
         </service>
 
@@ -36,7 +36,7 @@
         </service>
 
         <service id="sonata.admin.guesser.phpcr_show" class="Sonata\DoctrinePHPCRAdminBundle\Guesser\TypeGuesser">
-            <argument type="service" id="doctrine_phpcr.odm" />
+            <argument type="service" id="doctrine_phpcr" />
             <tag name="sonata.admin.guesser.phpcr_show" />
         </service>
 
@@ -52,7 +52,7 @@
         </service>
 
         <service id="sonata.admin.guesser.phpcr_datagrid" class="Sonata\DoctrinePHPCRAdminBundle\Guesser\FilterTypeGuesser">
-            <argument type="service" id="doctrine_phpcr.odm" />
+            <argument type="service" id="doctrine_phpcr" />
             <tag name="sonata.admin.guesser.phpcr_datagrid" />
         </service>
 
