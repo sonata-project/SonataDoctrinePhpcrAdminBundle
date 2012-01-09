@@ -33,43 +33,43 @@ class DateFilter extends Filter
             return;
         }
 
-        $data['value']['year'] = isset($data['value']['year']) && $data['value']['year'] ? $data['value']['year'] : date('Y');
-        $data['value']['month'] = isset($data['value']['month']) && $data['value']['month'] ? $data['value']['month'] : date('m');
-        $data['value']['day'] = isset($data['value']['day']) && $data['value']['day'] ? $data['value']['day'] : date('d');
-        $data['type'] = isset($data['type']) ? $data['type'] : DateType::TYPE_EQUAL;
+        if (isset($data['value']['year']) && $data['value']['year'] && isset($data['value']['month']) && $data['value']['month'] && isset($data['value']['day']) && $data['value']['day']) {
 
-        $qf = $queryBuilder->getQueryObjectModelFactory();
+            $data['type'] = isset($data['type']) ? $data['type'] : DateType::TYPE_EQUAL;
 
-        $date = '' . $data['value']['year']. '-' . $data['value']['month'] . '-' . $data['value']['day'];
+            $qf = $queryBuilder->getQueryObjectModelFactory();
 
-        $from = new \DateTime($date);
-        $to = new \DateTime($date . ' +86399 seconds'); // 23 hours 59 minutes 59 seconds
-        switch ($data['type']) {
-            case DateType::TYPE_GREATER_EQUAL:
-                $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_GREATER_THAN_OR_EQUAL_TO, $qf->literal($from));
-                break;
-            case DateType::TYPE_GREATER_THAN:
-                $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_GREATER_THAN, $qf->literal($to));
-                break;
-            case DateType::TYPE_LESS_EQUAL:
-                $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LESS_THAN_OR_EQUAL_TO, $qf->literal($to));
-                break;
-            case DateType::TYPE_LESS_THAN:
-                $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LESS_THAN, $qf->literal($from));
-                break;
-            case DateType::TYPE_NULL:
-                $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_EQUAL_TO, $qf->literal(null));
-                break;
-            case DateType::TYPE_NOT_NULL:
-                $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_NOT_EQUAL_TO, $qf->literal(null));
-                break;
-            case DateType::TYPE_EQUAL:
-            default:
-                $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LESS_THAN_OR_EQUAL_TO, $qf->literal($to));
-                $queryBuilder->andWhere($constraint);
-                $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_GREATER_THAN_OR_EQUAL_TO, $qf->literal($from));
+            $date = '' . $data['value']['year']. '-' . $data['value']['month'] . '-' . $data['value']['day'];
+
+            $from = new \DateTime($date);
+            $to = new \DateTime($date . ' +86399 seconds'); // 23 hours 59 minutes 59 seconds
+            switch ($data['type']) {
+                case DateType::TYPE_GREATER_EQUAL:
+                    $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_GREATER_THAN_OR_EQUAL_TO, $qf->literal($from));
+                    break;
+                case DateType::TYPE_GREATER_THAN:
+                    $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_GREATER_THAN, $qf->literal($to));
+                    break;
+                case DateType::TYPE_LESS_EQUAL:
+                    $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LESS_THAN_OR_EQUAL_TO, $qf->literal($to));
+                    break;
+                case DateType::TYPE_LESS_THAN:
+                    $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LESS_THAN, $qf->literal($from));
+                    break;
+                case DateType::TYPE_NULL:
+                    $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_EQUAL_TO, $qf->literal(null));
+                    break;
+                case DateType::TYPE_NOT_NULL:
+                    $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_NOT_EQUAL_TO, $qf->literal(null));
+                    break;
+                case DateType::TYPE_EQUAL:
+                default:
+                    $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LESS_THAN_OR_EQUAL_TO, $qf->literal($to));
+                    $queryBuilder->andWhere($constraint);
+                    $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_GREATER_THAN_OR_EQUAL_TO, $qf->literal($from));
+            }
+            $queryBuilder->andWhere($constraint);
         }
-        $queryBuilder->andWhere($constraint);
     }
 
     public function getDefaultOptions()
