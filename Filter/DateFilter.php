@@ -23,8 +23,8 @@ class DateFilter extends Filter
      *
      * @param Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery $queryBuilder
      * @param string $alias has no effect
-     * @param string $field field uhere to apply the constraint
-     * @param array $data determines the constraint
+     * @param string $field field where to apply the constraint
+     * @param array $data determines the date constraint [value => [year => Y, month => m, day => d], type => DateType::TYPE_GREATER_EQUAL|DateType::TYPE_GREATER_THAN|DateType::TYPE_LESS_EQUAL|DateType::TYPE_LESS_THAN|DateType::TYPE_NULL|DateType::TYPE_NOT_NULL|DateType::TYPE_EQUAL]
      * @return
      */
     public function filter($queryBuilder, $alias = null, $field, $data)
