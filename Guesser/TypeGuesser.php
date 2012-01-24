@@ -16,7 +16,7 @@ use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
 use Doctrine\ODM\PHPCR\Mapping\MappingException;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadataInfo;
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 
 class TypeGuesser implements TypeGuesserInterface
 {
@@ -48,16 +48,16 @@ class TypeGuesser implements TypeGuesserInterface
             $mapping = $metadata->getAssociationMapping($property);
 
             switch ($mapping['type']) {
-                case ClassMetadataInfo::ONE_TO_MANY:
+                case ClassMetadata::ONE_TO_MANY:
                     return new TypeGuess('phpcr_one_to_many', array(), Guess::HIGH_CONFIDENCE);
 
-                case ClassMetadataInfo::MANY_TO_MANY:
+                case ClassMetadata::MANY_TO_MANY:
                     return new TypeGuess('phpcr_many_to_many', array(), Guess::HIGH_CONFIDENCE);
 
-                case ClassMetadataInfo::MANY_TO_ONE:
+                case ClassMetadata::MANY_TO_ONE:
                     return new TypeGuess('phpcr_many_to_one', array(), Guess::HIGH_CONFIDENCE);
 
-                case ClassMetadataInfo::ONE_TO_ONE:
+                case ClassMetadata::ONE_TO_ONE:
                     return new TypeGuess('phpcr_one_to_one', array(), Guess::HIGH_CONFIDENCE);
             }
         }

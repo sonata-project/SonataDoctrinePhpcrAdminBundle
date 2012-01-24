@@ -18,7 +18,7 @@ use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Builder\ShowBuilderInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadataInfo;
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 
 class ShowBuilder implements ShowBuilderInterface
 {
@@ -47,10 +47,10 @@ class ShowBuilder implements ShowBuilderInterface
         $admin->addShowFieldDescription($fieldDescription->getName(), $fieldDescription);
 
         switch($fieldDescription->getMappingType()) {
-            case ClassMetadataInfo::MANY_TO_ONE:
-            case ClassMetadataInfo::MANY_TO_MANY:
-            case ClassMetadataInfo::ONE_TO_MANY:
-            case ClassMetadataInfo::ONE_TO_ONE:
+            case ClassMetadata::MANY_TO_ONE:
+            case ClassMetadata::MANY_TO_MANY:
+            case ClassMetadata::ONE_TO_MANY:
+            case ClassMetadata::ONE_TO_ONE:
                 // todo
                 return;
             default:
@@ -95,36 +95,36 @@ class ShowBuilder implements ShowBuilderInterface
 
             $fieldDescription->setTemplate(sprintf('SonataAdminBundle:CRUD:show_%s.html.twig', $fieldDescription->getType()));
 
-            if ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY_TO_ONE) {
+            if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {
                 $fieldDescription->setTemplate('SonataAdminBundle:CRUD:show_orm_many_to_one.html.twig');
             }
 
-            if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE_TO_ONE) {
+            if ($fieldDescription->getMappingType() == ClassMetadata::ONE_TO_ONE) {
                 $fieldDescription->setTemplate('SonataAdminBundle:CRUD:show_orm_one_to_one.html.twig');
             }
 
-            if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE_TO_MANY) {
+            if ($fieldDescription->getMappingType() == ClassMetadata::ONE_TO_MANY) {
                 $fieldDescription->setTemplate('SonataAdminBundle:CRUD:show_orm_one_to_many.html.twig');
             }
 
-            if ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY_TO_MANY) {
+            if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_MANY) {
                 $fieldDescription->setTemplate('SonataAdminBundle:CRUD:show_orm_many_to_many.html.twig');
             }
         }
 
-        if ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY_TO_ONE) {
+        if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {
             $admin->attachAdminClass($fieldDescription);
         }
 
-        if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE_TO_ONE) {
+        if ($fieldDescription->getMappingType() == ClassMetadata::ONE_TO_ONE) {
             $admin->attachAdminClass($fieldDescription);
         }
 
-        if ($fieldDescription->getMappingType() == ClassMetadataInfo::ONE_TO_MANY) {
+        if ($fieldDescription->getMappingType() == ClassMetadata::ONE_TO_MANY) {
             $admin->attachAdminClass($fieldDescription);
         }
 
-        if ($fieldDescription->getMappingType() == ClassMetadataInfo::MANY_TO_MANY) {
+        if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_MANY) {
             $admin->attachAdminClass($fieldDescription);
         }
     }

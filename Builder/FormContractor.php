@@ -18,7 +18,7 @@ use Sonata\AdminBundle\Builder\FormContractorInterface;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormFactoryInterface;
 
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadataInfo;
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 
 use Sonata\DoctrinePHPCRAdminBundle\Admin\FieldDescription;
 
@@ -64,7 +64,7 @@ class FormContractor implements FormContractorInterface
         $fieldDescription->setAdmin($admin);
         $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'standard'));
 
-        if (in_array($fieldDescription->getMappingType(), array(ClassMetadataInfo::ONE_TO_MANY, ClassMetadataInfo::MANY_TO_MANY, ClassMetadataInfo::MANY_TO_ONE, ClassMetadataInfo::ONE_TO_ONE ))) {
+        if (in_array($fieldDescription->getMappingType(), array(ClassMetadata::ONE_TO_MANY, ClassMetadata::MANY_TO_MANY, ClassMetadata::MANY_TO_ONE, ClassMetadata::ONE_TO_ONE ))) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
@@ -102,14 +102,14 @@ class FormContractor implements FormContractorInterface
             $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
 
             switch ($fieldDescription->getMappingType()) {
-                case ClassMetadataInfo::ONE_TO_MANY:
-                case ClassMetadataInfo::MANY_TO_MANY:
+                case ClassMetadata::ONE_TO_MANY:
+                case ClassMetadata::MANY_TO_MANY:
                     $options['multiple']            = true;
                     $options['parent']              = 'choice';
                     break;
 
-                case ClassMetadataInfo::MANY_TO_ONE:
-                case ClassMetadataInfo::ONE_TO_ONE:
+                case ClassMetadata::MANY_TO_ONE:
+                case ClassMetadata::ONE_TO_ONE:
                     break;
             }
 

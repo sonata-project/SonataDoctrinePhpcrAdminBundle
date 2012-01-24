@@ -25,7 +25,6 @@ use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 
 use Symfony\Component\Form\FormFactory;
 
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadataInfo;
 use PHPCR\Util\QOM\QueryBuilder;
 
 class DatagridBuilder implements DatagridBuilderInterface

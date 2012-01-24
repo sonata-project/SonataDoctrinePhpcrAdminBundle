@@ -16,7 +16,7 @@ use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
 use Doctrine\ODM\PHPCR\Mapping\MappingException;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadataInfo;
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 
 class FilterTypeGuesser implements TypeGuesserInterface
 {
@@ -54,10 +54,10 @@ class FilterTypeGuesser implements TypeGuesserInterface
             $mapping = $metadata->getAssociationMapping($property);
 
             switch ($mapping['type']) {
-                case ClassMetadataInfo::ONE_TO_ONE:
-                case ClassMetadataInfo::ONE_TO_MANY:
-                case ClassMetadataInfo::MANY_TO_ONE:
-                case ClassMetadataInfo::MANY_TO_MANY:
+                case ClassMetadata::ONE_TO_ONE:
+                case ClassMetadata::ONE_TO_MANY:
+                case ClassMetadata::MANY_TO_ONE:
+                case ClassMetadata::MANY_TO_MANY:
 
                     $options['operator_type'] = 'sonata_type_boolean';
                     $options['operator_options'] = array();

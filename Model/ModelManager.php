@@ -39,7 +39,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @abstract
      * @param string $class
-     * @return \Doctrine\ODM\PHPCR\Mapping\ClassMetadataInfo
+     * @return \Doctrine\ODM\PHPCR\Mapping\ClassMetadata
      */
     public function getMetadata($class)
     {

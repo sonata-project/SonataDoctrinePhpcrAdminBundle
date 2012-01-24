@@ -30,7 +30,7 @@ class ListBuilderTest extends \PHPUnit_Framework_TestCase
     private function setupAddField()
     {
         $this->lb = new ListBuilder($this->guesser, $this->templates);
-        $this->metaData = $this->getMock('\Doctrine\ODM\PHPCR\Mapping\ClassMetadataInfo', array(), array(), '', false);
+        $this->metaData = $this->getMock('\Doctrine\ODM\PHPCR\Mapping\ClassMetadata', array(), array(), '', false);
         $this->modelManager = $this->getMock('\Sonata\AdminBundle\Model\ModelManagerInterface');
         $this->modelManager->expects($this->any())
             ->method('getMetadata')
