@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /*
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
- * @author Nacho Martín <nitram.ohcan@gmail.com> 
+ * @author Nacho Martín <nitram.ohcan@gmail.com>
  */
 class AddTemplatesCompilerPass implements CompilerPassInterface
 {
@@ -51,7 +51,7 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
 
     public function fixSettings($container)
     {
-        $pool = $container->getDefinition('sonata.admin.manager.phpcr');
+        $pool = $container->getDefinition('sonata.admin.manager.doctrine_phpcr');
 
         // not very clean but don't know how to do that for now
         $settings = false;

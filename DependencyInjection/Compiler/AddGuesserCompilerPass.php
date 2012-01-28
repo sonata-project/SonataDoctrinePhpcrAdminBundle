@@ -31,27 +31,27 @@ class AddGuesserCompilerPass implements CompilerPassInterface
     {
 
         // ListBuilder
-        $definition = $container->getDefinition('sonata.admin.guesser.phpcr_list_chain');
+        $definition = $container->getDefinition('sonata.admin.guesser.doctrine_phpcr_list_chain');
         $services = array();
-        foreach($container->findTaggedServiceIds('sonata.admin.guesser.phpcr_list') as $id => $attributes) {
+        foreach($container->findTaggedServiceIds('sonata.admin.guesser.doctrine_phpcr_list') as $id => $attributes) {
             $services[] = new Reference($id);
         }
 
         $definition->replaceArgument(0, $services);
 
         // ListBuilder
-        $definition = $container->getDefinition('sonata.admin.guesser.phpcr_datagrid_chain');
+        $definition = $container->getDefinition('sonata.admin.guesser.doctrine_phpcr_datagrid_chain');
         $services = array();
-        foreach($container->findTaggedServiceIds('sonata.admin.guesser.phpcr_datagrid') as $id => $attributes) {
+        foreach($container->findTaggedServiceIds('sonata.admin.guesser.doctrine_phpcr_datagrid') as $id => $attributes) {
             $services[] = new Reference($id);
         }
 
         $definition->replaceArgument(0, $services);
 
         // ShowBuilder
-        $definition = $container->getDefinition('sonata.admin.guesser.phpcr_show_chain');
+        $definition = $container->getDefinition('sonata.admin.guesser.doctrine_phpcr_show_chain');
         $services = array();
-        foreach($container->findTaggedServiceIds('sonata.admin.guesser.phpcr_show') as $id => $attributes) {
+        foreach($container->findTaggedServiceIds('sonata.admin.guesser.doctrine_phpcr_show') as $id => $attributes) {
             $services[] = new Reference($id);
         }
 

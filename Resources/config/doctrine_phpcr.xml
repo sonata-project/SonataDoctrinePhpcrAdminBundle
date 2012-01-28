@@ -6,57 +6,57 @@
 
     <services>
 
-        <service id="sonata.admin.manager.phpcr" class="Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager">
+        <service id="sonata.admin.manager.doctrine_phpcr" class="Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager">
             <argument type="service" id="doctrine_phpcr.odm.default_document_manager" />
         </service>
 
         <!-- FormBuilder -->
-        <service id="sonata.admin.builder.phpcr_form" class="Sonata\DoctrinePHPCRAdminBundle\Builder\FormContractor">
+        <service id="sonata.admin.builder.doctrine_phpcr_form" class="Sonata\DoctrinePHPCRAdminBundle\Builder\FormContractor">
             <argument type="service" id="form.factory" />
         </service>
 
         <!-- ListBuilder -->
-        <service id="sonata.admin.builder.phpcr_list" class="Sonata\DoctrinePHPCRAdminBundle\Builder\ListBuilder" >
-            <argument type="service" id="sonata.admin.guesser.phpcr_list_chain" />
+        <service id="sonata.admin.builder.doctrine_phpcr_list" class="Sonata\DoctrinePHPCRAdminBundle\Builder\ListBuilder" >
+            <argument type="service" id="sonata.admin.guesser.doctrine_phpcr_list_chain" />
             <argument />
         </service>
 
-        <service id="sonata.admin.guesser.phpcr_list" class="Sonata\DoctrinePHPCRAdminBundle\Guesser\TypeGuesser">
+        <service id="sonata.admin.guesser.doctrine_phpcr_list" class="Sonata\DoctrinePHPCRAdminBundle\Guesser\TypeGuesser">
             <argument type="service" id="doctrine_phpcr" />
-            <tag name="sonata.admin.guesser.phpcr_list" />
+            <tag name="sonata.admin.guesser.doctrine_phpcr_list" />
         </service>
 
-        <service id="sonata.admin.guesser.phpcr_list_chain" class="Sonata\AdminBundle\Guesser\TypeGuesserChain">
+        <service id="sonata.admin.guesser.doctrine_phpcr_list_chain" class="Sonata\AdminBundle\Guesser\TypeGuesserChain">
             <argument />
         </service>
 
         <!-- ShowBuilder  -->
-        <service id="sonata.admin.builder.phpcr_show" class="Sonata\DoctrinePHPCRAdminBundle\Builder\ShowBuilder" >
-            <argument type="service" id="sonata.admin.guesser.phpcr_show_chain" />
+        <service id="sonata.admin.builder.doctrine_phpcr_show" class="Sonata\DoctrinePHPCRAdminBundle\Builder\ShowBuilder" >
+            <argument type="service" id="sonata.admin.guesser.doctrine_phpcr_show_chain" />
         </service>
 
-        <service id="sonata.admin.guesser.phpcr_show" class="Sonata\DoctrinePHPCRAdminBundle\Guesser\TypeGuesser">
+        <service id="sonata.admin.guesser.doctrine_phpcr_show" class="Sonata\DoctrinePHPCRAdminBundle\Guesser\TypeGuesser">
             <argument type="service" id="doctrine_phpcr" />
-            <tag name="sonata.admin.guesser.phpcr_show" />
+            <tag name="sonata.admin.guesser.doctrine_phpcr_show" />
         </service>
 
-        <service id="sonata.admin.guesser.phpcr_show_chain" class="Sonata\AdminBundle\Guesser\TypeGuesserChain">
+        <service id="sonata.admin.guesser.doctrine_phpcr_show_chain" class="Sonata\AdminBundle\Guesser\TypeGuesserChain">
             <argument />
         </service>
 
         <!-- DatagridBuilder guesser -->
-        <service id="sonata.admin.builder.phpcr_datagrid" class="Sonata\DoctrinePHPCRAdminBundle\Builder\DatagridBuilder">
+        <service id="sonata.admin.builder.doctrine_phpcr_datagrid" class="Sonata\DoctrinePHPCRAdminBundle\Builder\DatagridBuilder">
             <argument type="service" id="form.factory" />
             <argument type="service" id="sonata.admin.builder.filter.factory" />
-            <argument type="service" id="sonata.admin.guesser.phpcr_datagrid_chain" />
+            <argument type="service" id="sonata.admin.guesser.doctrine_phpcr_datagrid_chain" />
         </service>
 
-        <service id="sonata.admin.guesser.phpcr_datagrid" class="Sonata\DoctrinePHPCRAdminBundle\Guesser\FilterTypeGuesser">
+        <service id="sonata.admin.guesser.doctrine_phpcr_datagrid" class="Sonata\DoctrinePHPCRAdminBundle\Guesser\FilterTypeGuesser">
             <argument type="service" id="doctrine_phpcr" />
-            <tag name="sonata.admin.guesser.phpcr_datagrid" />
+            <tag name="sonata.admin.guesser.doctrine_phpcr_datagrid" />
         </service>
 
-        <service id="sonata.admin.guesser.phpcr_datagrid_chain" class="Sonata\AdminBundle\Guesser\TypeGuesserChain">
+        <service id="sonata.admin.guesser.doctrine_phpcr_datagrid_chain" class="Sonata\AdminBundle\Guesser\TypeGuesserChain">
             <argument />
         </service>
     </services>

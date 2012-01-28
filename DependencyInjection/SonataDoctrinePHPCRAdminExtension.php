@@ -83,10 +83,10 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
         $processor = new Processor();
         $config = $processor->processConfiguration($configuration, $configs);
 
-        $pool = $container->getDefinition('sonata.admin.manager.phpcr');
+        $pool = $container->getDefinition('sonata.admin.manager.doctrine_phpcr');
         $pool->addMethodCall('__hack_doctrine_phpcr__', $config);
 
-        $container->getDefinition('sonata.admin.builder.phpcr_list')
+        $container->getDefinition('sonata.admin.builder.doctrine_phpcr_list')
             ->replaceArgument(1, $config['templates']['types']['list']);
     }
 }

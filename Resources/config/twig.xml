@@ -5,10 +5,9 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="sonata.admin.twig.phpcr_extension" class="Sonata\DoctrinePHPCRAdminBundle\Twig\Extension\SonataDoctrinePHPCRAdminExtension">
+        <service id="sonata.admin.twig.doctrine_phpcr_extension" class="Sonata\DoctrinePHPCRAdminBundle\Twig\Extension\SonataDoctrinePHPCRAdminExtension">
             <tag name="twig.extension"/>
         </service>
     </services>
 
 </container>
-
