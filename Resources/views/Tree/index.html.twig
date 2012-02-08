@@ -25,6 +25,7 @@ file that was distributed with this source code.
                 $(document).ready(function() {
                     initTree({
                         "selector": "#tree",
+                        "contentselector": ".sonata-ba-content",
                         "path": {
                             "expanded":     [ "/cms" ],
                             "preloaded":    [ "/cms" ],
@@ -54,10 +55,7 @@ file that was distributed with this source code.
                                 "{{ handler.label }}": {
                                     "label": "{{handler.label}}",
                                     "action": function (node) {
-                                        window.location = Routing.generate(
-                                            '{{handler.routes.create}}',
-                                            { "id": node.attr("id") }
-                                        );
+                                        $('.sonata-ba-content').load( Routing.generate( '{{handler.routes.create}}', { "id": node.attr("id") }));
                                     }
                                 },
                             {% endfor %}
