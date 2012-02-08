@@ -124,9 +124,8 @@ class DatagridBuilder implements DatagridBuilderInterface
      * @return \Sonata\AdminBundle\Datagrid\DatagridInterface
      */
     public function getBaseDatagrid(AdminInterface $admin, array $values = array())
-    {
-        $qomFactory = $admin->getModelManager()->createQuery($admin->getClass());
-        $queryBuilder = new QueryBuilder($qomFactory);
+    {   $queryBuilder = $admin->getModelManager()->getDocumentManager()->createQueryBuilder();
+        $qomFactory = $queryBuilder->getQOMFactory();
 
         $query = new ProxyQuery($qomFactory, $queryBuilder);
         $query->setDocumentName($admin->getClass());
