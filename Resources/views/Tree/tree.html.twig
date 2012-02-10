@@ -13,9 +13,9 @@ file that was distributed with this source code.
 {% include 'SymfonyCmfPHPCRBrowserBundle:Base:tree.html.twig' %}
 <script type="text/javascript">
     $(document).ready(function() {
-        var treeState = generateTreeStateArray("{{ id }}");
+        var treeState = AdminTree.generateTreeStateArray("{{ id }}");
         
-        initTree({
+        AdminTree.initTree({
             "selector": "#tree",
             "contentselector": ".sonata-ba-content",
             "path": {
