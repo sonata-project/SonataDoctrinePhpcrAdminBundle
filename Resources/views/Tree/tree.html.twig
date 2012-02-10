@@ -1,0 +1,59 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+
+{% include 'SymfonyCmfPHPCRBrowserBundle:Base:tree.html.twig' %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        var treeState = generateTreeStateArray("{{ id }}");
+        
+        initTree({
+            "selector": "#tree",
+            "contentselector": ".sonata-ba-content",
+            "path": {
+                "expanded":     treeState,
+                "preloaded":    treeState,
+            },
+            "icon": {
+                "document": "{{ asset('bundles/symfonycmftree/images/document.png') }}",
+                "folder":   "{{ asset('bundles/symfonycmftree/images/folder.png') }}"
+            },
+            "route": {
+                "edit":     'admin_sandbox_main_editablestaticcontent_edit',
+                "erase":    'admin_sandbox_main_editablestaticcontent_delete'
+            },
+            "routecollection": {
+                {% for handler in handlers %}
+                    "{{handler.className}}" :{
+                        "label" : "{{ handler.label }}",
+                        "routes" : {
+                            {% for code, path in handler.routes %}
+                                "{{ code }}" : "{{ path }}",
+                            {% endfor%}
+                        }
+                    },
+                {% endfor%}
+            },
+            "doctypes": {
+                {% for handler in handlers %}
+                    "{{ handler.label }}": {
+                        "label": "{{handler.label}}",
+                        "action": function (node) {
+                            window.location(Routing.generate('{{handler.routes.create}}'));
+                        }
+                    },
+                {% endfor %}
+            }
+        });
+    });
+</script>
+
+<div id="tree"></div>
