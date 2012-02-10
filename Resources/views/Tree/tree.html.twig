@@ -47,7 +47,7 @@ file that was distributed with this source code.
                     "{{ handler.label }}": {
                         "label": "{{handler.label}}",
                         "action": function (node) {
-                            window.location(Routing.generate('{{handler.routes.create}}'));
+                            window.location = Routing.generate('{{handler.routes.create}}');
                         }
                     },
                 {% endfor %}
