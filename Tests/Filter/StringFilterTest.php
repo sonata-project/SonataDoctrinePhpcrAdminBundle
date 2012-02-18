@@ -65,10 +65,9 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
         $field = 'somefield';
         $value = 'somevalue';
         $comparison = $this->getMock('PHPCR\Query\QOM\ComparisonInterface', array(), array());
-        $constant = Constants::JCR_OPERATOR_EQUAL_TO;
         $property = $this->getMock('PHPCR\Query\QOM\PropertyValueInterface', array(), array());
         $staticOperand = $this->getMock('PHPCR\Query\QOM\StaticOperandInterface', array(), array());
-        
+
         $qf = $this->getMock('PHPCR\Query\QOM\QueryObjectModelFactoryInterface', array(), array());
         $qf->expects($this->once())
             ->method('propertyValue')
@@ -88,7 +87,7 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
         $this->qb->expects($this->once())
             ->method('andWhere')
             ->with($comparison);
-        
+
         $stringFilter = new StringFilter();
         $stringFilter->filter($this->qb, null, 'somefield', array('type' => ChoiceType::TYPE_EQUAL, 'value' => $value));
     }
@@ -99,9 +98,7 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
         $value = 'somevalue';
         $nodetype = 'somenodetype';
         $fulltext = $this->getMock('PHPCR\Query\QOM\FullTextSearchInterface', array(), array());
-        $constant = Constants::JCR_OPERATOR_EQUAL_TO;
-        $staticOperand = $this->getMock('PHPCR\Query\QOM\StaticOperandInterface', array(), array());
-        
+
         $qf = $this->getMock('PHPCR\Query\QOM\QueryObjectModelFactoryInterface', array(), array());
         $qf->expects($this->once())
             ->method('fullTextSearch')
@@ -116,7 +113,7 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
         $this->qb->expects($this->once())
             ->method('getNodeType')
             ->will($this->returnValue($nodetype));
-        
+
         $stringFilter = new StringFilter();
         $stringFilter->filter($this->qb, null, 'somefield', array('type' => ChoiceType::TYPE_CONTAINS_WORDS, 'value' => $value));
     }
@@ -127,9 +124,7 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
         $value = 'somevalue';
         $nodetype = 'somenodetype';
         $fulltext = $this->getMock('PHPCR\Query\QOM\FullTextSearchInterface', array(), array());
-        $constant = Constants::JCR_OPERATOR_EQUAL_TO;
-        $staticOperand = $this->getMock('PHPCR\Query\QOM\StaticOperandInterface', array(), array());
-        
+
         $qf = $this->getMock('PHPCR\Query\QOM\QueryObjectModelFactoryInterface', array(), array());
         $qf->expects($this->once())
             ->method('fullTextSearch')
