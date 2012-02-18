@@ -110,7 +110,7 @@ class ProxyQuery implements ProxyQueryInterface
         $qb->from($qf->selector($this->getNodeType()));
 
         //constraint
-        $qb->andWhere($qf->comparison($qf->propertyValue('[phpcr:class]'), Constants::JCR_OPERATOR_EQUAL_TO, $qf->literal($this->documentName)));
+        $qb->andWhere($qf->comparison($qf->propertyValue('phpcr:class'), Constants::JCR_OPERATOR_EQUAL_TO, $qf->literal($this->documentName)));
 
         //ordering
         $qb->orderBy($qf->propertyValue($this->sortBy), $this->sortOrder);
