@@ -471,4 +471,15 @@ class ModelManager implements ModelManagerInterface
     {
         return $collection->removeElement($element);
     }
+
+    public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null)
+    {
+        return null;
+    }
+
+    function getExportFields($class)
+    {
+        return null;
+    }
+
 }
