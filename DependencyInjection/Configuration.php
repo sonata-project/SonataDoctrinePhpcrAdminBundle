@@ -46,7 +46,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                         ->arrayNode('filter')
                             ->prototype('scalar')->end()
-                            ->defaultValue(array('SonataDoctrineORMAdminBundle:Form:filter_admin_fields.html.twig'))
+                            ->defaultValue(array('SonataDoctrinePHPCRAdminBundle:Form:filter_admin_fields.html.twig'))
                         ->end()
                         ->arrayNode('types')
                             ->children()
