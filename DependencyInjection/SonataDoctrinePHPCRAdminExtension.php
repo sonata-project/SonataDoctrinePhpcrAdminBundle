@@ -78,6 +78,7 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
         $loader->load('doctrine_phpcr_filter_types.xml');
         $loader->load('route.xml');
         $loader->load('twig.xml');
+        $loader->load('block.xml');
 
         $configuration = new Configuration();
         $processor = new Processor();
