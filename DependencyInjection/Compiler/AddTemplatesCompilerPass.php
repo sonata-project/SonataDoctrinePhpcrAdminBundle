@@ -32,7 +32,7 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
         $settings = $this->fixSettings($container);
         foreach ($container->findTaggedServiceIds('sonata.admin') as $id => $attributes) {
 
-            if (!isset($attributes[0]['manager_type']) || $attributes[0]['manager_type'] != 'orm') {
+            if (!isset($attributes[0]['manager_type']) || $attributes[0]['manager_type'] != 'doctrine_phpcr') {
                 continue;
             }
 

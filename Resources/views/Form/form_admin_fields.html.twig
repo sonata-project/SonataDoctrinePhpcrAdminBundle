@@ -76,3 +76,32 @@ file that was distributed with this source code.
         INVALID MODE : {{ id }} - type : sonata_type_collection - mapping : {{ sonata_admin.field_description.mappingtype }}
     {% endif %}
 {% endblock %}
+
+{% block doctrine_phpcr_type_tree_model_widget %}
+{% include 'SymfonyCmfPHPCRBrowserBundle:Base:tree.html.twig' %}
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        var treeState = AdminTree.generateTreeStateArray("{{ id }}");
+        SelectTree.initTree({
+            "selector": "#{{id}}-tree-selector",
+            "output": "#{{id}}-tree-selector-output",
+            "path": {
+                "expanded":     treeState,
+                "preloaded":    treeState,
+            },
+            "icon": {
+                "document": "{{ asset('bundles/symfonycmftree/images/document.png') }}",
+                "folder":   "{{ asset('bundles/symfonycmftree/images/folder.png') }}"
+            },
+            "route": {
+                "edit":     'admin_sandbox_main_editablestaticcontent_edit',
+                "erase":    'admin_sandbox_main_editablestaticcontent_delete'
+            },
+        });
+    });
+</script>
+
+<input name="{{full_name}}" id="{{id}}-tree-selector-output" value="{{value}}">
+<div id="{{id}}-tree-selector"></div>
+{% endblock %}
