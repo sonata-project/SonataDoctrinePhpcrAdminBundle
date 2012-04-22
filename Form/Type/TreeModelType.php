@@ -33,9 +33,9 @@ class TreeModelType extends AbstractType
 
     }
 
-    public function getDefaultOptions(array $options)
+    public function getDefaultOptions()
     {
-        $defaultOptions = array(
+        return array(
             'template'          => 'doctrine_phpcr_type_tree_model',
             'model_manager'     => null,
             'class'             => null,
@@ -45,21 +45,16 @@ class TreeModelType extends AbstractType
             'rootNode'          => '/',
             'parent'            => 'choice',
             'preferred_choices' => array(),
+            'choice_list'       => function (Options $options, $previousValue) {
+                return $options['choice_list'] ?  $options['choice_list'] : new ModelChoiceList(
+                    $options['model_manager'],
+                    $options['class'],
+                    $options['property'],
+                    $options['query'],
+                    $options['choices']
+                );
+            }
         );
-
-        $options = array_replace($defaultOptions, $options);
-
-        if (!isset($options['choice_list'])) {
-            $defaultOptions['choice_list'] = new ModelChoiceList(
-                $options['model_manager'],
-                $options['class'],
-                $options['property'],
-                $options['query'],
-                $options['choices']
-            );
-        }
-
-        return $defaultOptions;
     }
 
     public function getParent(array $options)
