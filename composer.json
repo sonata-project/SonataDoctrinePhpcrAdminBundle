@@ -1,0 +1,28 @@
+{
+    "name": "sonata-project/doctrine-phpcr-admin-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony Sonata / Integrate Doctrine PHPCR into the SonataAdminBundle",
+    "keywords": ["Admin Generator", "admin", "sonata", "bootstrap"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thomas Rabaix",
+            "email": "thomas.rabaix@sonata-project.org",
+            "homepage": "http://sonata-project.org"
+        },
+        {
+            "name": "Sonata Community",
+            "homepage": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "sonata-project/admin-bundle": "dev-master",
+        "symfony/framework-bundle": "dev-master",
+        "symfony/security-bundle": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Sonata\\DoctrinePHPCRAdminBundle": "" }
+    },
+    "target-dir": "Sonata/DoctrinePHPCRAdminBundle"
+}
