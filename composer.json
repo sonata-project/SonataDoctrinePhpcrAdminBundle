@@ -19,7 +19,9 @@
         "php": ">=5.3.2",
         "sonata-project/admin-bundle": "dev-master",
         "symfony/framework-bundle": "dev-master",
-        "symfony/security-bundle": "dev-master"
+        "symfony/security-bundle": "dev-master",
+        "symfony/twig-bundle":"dev-master",
+        "doctrine/phpcr-odm":"dev-master"
     },
     "autoload": {
         "psr-0": { "Sonata\\DoctrinePHPCRAdminBundle": "" }
