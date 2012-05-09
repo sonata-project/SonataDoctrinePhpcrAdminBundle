@@ -135,11 +135,14 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * Set the property to be sorted by
      *
-     * @param string $sortBy property name
+     * @param array $parentAssociationMappings
+     * @param array $fieldMapping
+     *
+     * @return mixed
      */
-    public function setSortBy($sortBy)
+    public function setSortBy($parentAssociationMappings, $fieldMapping)
     {
-        $this->sortBy = $sortBy;
+        $this->sortBy = $fieldMapping['fieldName'];
     }
 
     /**
@@ -300,5 +303,21 @@ class ProxyQuery implements ProxyQueryInterface
     {
         $classMD = $this->documentManager->getClassMetadata($this->documentName);
         return $classMD->nodeType;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUniqueParameterId()
+    {
+    }
+
+    /**
+     * @param array $associationMappings
+     *
+     * @return mixed
+     */
+    public function entityJoin(array $associationMappings)
+    {
     }
 }

@@ -16,6 +16,14 @@ use Sonata\AdminBundle\Admin\BaseFieldDescription;
 class FieldDescription extends BaseFieldDescription
 {
     /**
+     * {@inheritdoc}
+     */
+    public function __construct()
+    {
+        $this->parentAssociationMappings = array();
+    }
+
+    /**
      * Define the association mapping definition
      *
      * @param array $associationMapping
@@ -77,4 +85,37 @@ class FieldDescription extends BaseFieldDescription
         return isset($this->fieldMapping['id']) ? $this->fieldMapping['id'] : false;
     }
 
+    /**
+     * return the value linked to the description
+     *
+     * @param mixed $object
+     *
+     * @return bool|mixed
+     */
+    public function getValue($object)
+    {
+        foreach ($this->parentAssociationMappings as $parentAssociationMapping) {
+            $object = $this->getFieldValue($object, $parentAssociationMapping['fieldName']);
+        }
+
+        return $this->getFieldValue($object, $this->fieldName);
+    }
+
+    /**
+     * set the parent association mappings information
+     *
+     * @param array $parentAssociationMappings
+     *
+     * @return void
+     */
+    public function setParentAssociationMappings(array $parentAssociationMappings)
+    {
+        foreach ($parentAssociationMappings as $parentAssociationMapping) {
+            if (!is_array($parentAssociationMapping)) {
+                throw new \RuntimeException('An association mapping must be an array');
+            }
+        }
+
+        $this->parentAssociationMappings = $parentAssociationMappings;
+    }
 }

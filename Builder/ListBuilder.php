@@ -60,7 +60,7 @@ class ListBuilder implements ListBuilderInterface
     public function addField(FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         if ($type == null) {
-            $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName());
+            $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
             $fieldDescription->setType($guessType->getType());
         } else {
             $fieldDescription->setType($type);
@@ -96,6 +96,8 @@ class ListBuilder implements ListBuilderInterface
                 $fieldDescription->setFieldMapping($metadata->fieldMappings[$fieldDescription->getName()]);
                 if ($fieldDescription->getOption('sortable') !== false) {
                     $fieldDescription->setOption('sortable', $fieldDescription->getOption('sortable', $fieldDescription->getName()));
+                    $fieldDescription->setOption('sort_parent_association_mappings', $fieldDescription->getOption('sort_parent_association_mappings', $fieldDescription->getParentAssociationMappings()));
+                    $fieldDescription->setOption('sort_field_mapping', $fieldDescription->getOption('sort_field_mapping', $fieldDescription->getFieldMapping()));
                 }
             }
 

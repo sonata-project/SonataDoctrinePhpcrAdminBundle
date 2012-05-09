@@ -13,6 +13,8 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+
 use PHPCR\Query\QOM\QueryObjectModelConstantsInterface as Constants;
 
 class StringFilter extends Filter
@@ -20,13 +22,13 @@ class StringFilter extends Filter
     /**
      * Applies a constraint to the query
      *
-     * @param Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery $queryBuilder
+     * @param ProxyQueryInterface $queryBuilder
      * @param string $alias has no effect
      * @param string $field field uhere to apply the constraint
      * @param array $data determines the constraint
      * @return
      */
-    public function filter($queryBuilder, $alias = null, $field, $data)
+    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
     {
         if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
             return;

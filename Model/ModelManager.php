@@ -338,7 +338,7 @@ class ModelManager implements ModelManagerInterface
             }
         } else {
             $values['_sort_order']  = 'ASC';
-            $values['_sort_by']     = $fieldDescription->getOption('sortable');
+            $values['_sort_by']     = $fieldDescription->getName();
         }
 
         return array('filter' => $values);
