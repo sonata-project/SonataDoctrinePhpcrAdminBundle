@@ -12,11 +12,14 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Guesser;
 
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
+use Sonata\AdminBundle\Model\ModelManagerInterface;
+
 use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
 use Doctrine\ODM\PHPCR\Mapping\MappingException;
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
+
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 
 class TypeGuesser implements TypeGuesserInterface
 {
@@ -33,9 +36,10 @@ class TypeGuesser implements TypeGuesserInterface
     /**
      * @param string $class
      * @param string $property
+     * @param \Sonata\AdminBundle\Model\ModelManagerInterface $modelManager
      * @return TypeGuess
      */
-    public function guessType($class, $property)
+    public function guessType($class, $property, ModelManagerInterface $modelManager)
     {
         if (!$ret = $this->getMetadata($class)) {
             return new TypeGuess('text', array(), Guess::LOW_CONFIDENCE);
@@ -62,8 +66,7 @@ class TypeGuesser implements TypeGuesserInterface
             }
         }
 
-        switch ($metadata->getTypeOfField($property))
-        {
+        switch ($metadata->getTypeOfField($property)) {
             //case 'array':
             //  return new TypeGuess('Collection', array(), Guess::HIGH_CONFIDENCE);
             case 'boolean':
