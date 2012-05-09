@@ -91,9 +91,10 @@ class ProxyQuery implements ProxyQueryInterface
 
         $documents = array();
 
-        foreach ($nodes as $path => $node) {
+        foreach ($nodes as $node) {
             $documents[$node->getPath()] = $this->documentManager->getunitOfWork()->createDocument($this->documentName, $node);
         }
+
         return $documents;
     }
 
@@ -113,7 +114,9 @@ class ProxyQuery implements ProxyQueryInterface
         $qb->andWhere($qf->comparison($qf->propertyValue('phpcr:class'), Constants::JCR_OPERATOR_EQUAL_TO, $qf->literal($this->documentName)));
 
         //ordering
-        $qb->orderBy($qf->propertyValue($this->sortBy), $this->sortOrder);
+        if ($this->getSortBy()) {
+            $qb->orderBy($qf->propertyValue($this->sortBy), $this->sortOrder);
+        }
 
         return $qb->execute()->getNodes();
     }
