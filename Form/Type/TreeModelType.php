@@ -18,6 +18,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
+use Symfony\Component\OptionsResolver\Options;
+
 use Sonata\AdminBundle\Form\EventListener\MergeCollectionListener;
 use Sonata\AdminBundle\Form\ChoiceList\ModelChoiceList;
 use Sonata\AdminBundle\Form\DataTransformer\ModelsToArrayTransformer;
@@ -30,7 +32,6 @@ class TreeModelType extends AbstractType
     {
         $builder->prependClientTransformer(new ModelToIdTransformer($options['model_manager'], $options['class']));
         $builder->setAttribute('rootNode', $options['rootNode']);
-
     }
 
     public function getDefaultOptions()
@@ -46,7 +47,7 @@ class TreeModelType extends AbstractType
             'parent'            => 'choice',
             'preferred_choices' => array(),
             'choice_list'       => function (Options $options, $previousValue) {
-                return $options['choice_list'] ?  $options['choice_list'] : new ModelChoiceList(
+                return new ModelChoiceList(
                     $options['model_manager'],
                     $options['class'],
                     $options['property'],
@@ -67,4 +68,3 @@ class TreeModelType extends AbstractType
         return 'doctrine_phpcr_type_tree_model';
     }
 }
-
