@@ -128,7 +128,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function find($class, $id)
     {
-        $value = $id;
+        $value = '/'.$id;
         return $this->documentManager->getRepository($class)->find($value);
     }
 
@@ -220,7 +220,7 @@ class ModelManager implements ModelManagerInterface
     {
         $class = $this->getMetadata(get_class($document));
         $path = $class->reflFields[$class->identifier]->getValue($document);
-        return array($path);
+        return array(substr($path, 1));
     }
 
     /**
