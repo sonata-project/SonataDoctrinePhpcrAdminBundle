@@ -21,7 +21,8 @@
         "symfony/framework-bundle": "dev-master",
         "symfony/security-bundle": "dev-master",
         "symfony/twig-bundle":"dev-master",
-        "doctrine/phpcr-odm":"dev-master"
+        "doctrine/phpcr-odm":"dev-master",
+        "doctrine/phpcr-bundle":"dev-master"
     },
     "autoload": {
         "psr-0": { "Sonata\\DoctrinePHPCRAdminBundle": "" }
