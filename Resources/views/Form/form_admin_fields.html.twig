@@ -78,7 +78,7 @@ file that was distributed with this source code.
 {% endblock %}
 
 {% block doctrine_phpcr_type_tree_model_widget %}
-{% include 'SymfonyCmfPHPCRBrowserBundle:Base:tree.html.twig' %}
+{% include 'SymfonyCmfTreeBrowserBundle:Base:tree.html.twig' %}
 <script type="text/javascript">
     $(document).ready(function() {
 
@@ -88,7 +88,7 @@ file that was distributed with this source code.
             "output": "#{{id}}-tree-selector-output",
             "path": {
                 "expanded":     treeState,
-                "preloaded":    treeState,
+                "preloaded":    treeState
             },
             "icon": {
                 "document": "{{ asset('bundles/symfonycmftree/images/document.png') }}",

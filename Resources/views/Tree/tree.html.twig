@@ -10,7 +10,7 @@ file that was distributed with this source code.
 #}
 
 
-{% include 'SymfonyCmfPHPCRBrowserBundle:Base:tree.html.twig' %}
+{% include 'SymfonyCmfTreeBrowserBundle:Base:tree.html.twig' %}
 <script type="text/javascript">
     $(document).ready(function() {
         var treeState = AdminTree.generateTreeStateArray("{{ id }}");
@@ -20,7 +20,7 @@ file that was distributed with this source code.
             "contentselector": ".sonata-ba-content",
             "path": {
                 "expanded":     treeState,
-                "preloaded":    treeState,
+                "preloaded":    treeState
             },
             "icon": {
                 "document": "{{ asset('bundles/symfonycmftree/images/document.png') }}",

@@ -12,7 +12,7 @@
         },
         {
             "name": "Sonata Community",
-            "homepage": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle/contributors"
+            "homepage": "https://github.com/sonata-project/SonataDoctrinePHPCRAdminBundle/contributors"
         }
     ],
     "require": {
@@ -23,6 +23,9 @@
         "symfony/twig-bundle":"dev-master",
         "doctrine/phpcr-odm":"dev-master",
         "doctrine/phpcr-bundle":"dev-master"
+    },
+    "suggest": {
+        "symfony-cmf/tree-browser-bundle":"dev-master"
     },
     "autoload": {
         "psr-0": { "Sonata\\DoctrinePHPCRAdminBundle": "" }
