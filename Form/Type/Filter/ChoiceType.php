@@ -14,8 +14,8 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType as BaseChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormTypeInterface;
-use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormViewInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -33,7 +33,7 @@ class ChoiceType extends BaseChoiceType
         return 'doctrine_phpcr_type_filter_choice';
     }
 
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $choices = array(
             self::TYPE_CONTAINS        => $this->translator->trans('label_type_contains', array(), 'SonataAdminBundle'),
