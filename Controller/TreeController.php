@@ -8,6 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TreeController extends Controller
 {
+    private $template;
+
+    public function __construct($template = 'SonataDoctrinePHPCRAdminBundle:Tree:tree.html.twig')
+    {
+        $this->template = $template;
+    }
 
     /**
      * Renders a tree, passing the routes for each of the admin types (document types)
@@ -16,12 +22,11 @@ class TreeController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function treeAction($id) {
-        
         //Obtain the routes for each document
         $pool = $this->get('sonata.admin.pool');
         $classes = $pool->getAdminClasses();
         $adminClasses = array();
-        
+
         foreach ($classes as $class) {
             $instance = $this->get($class);
             $routeCollection = array();
@@ -36,7 +41,7 @@ class TreeController extends Controller
                 'routes'    => $routeCollection));
         }
 
-        return $this->render('SonataDoctrinePHPCRAdminBundle:Tree:tree.html.twig', array(
+        return $this->render($this->template, array(
             'id'            => $id,
             'admin_pool'    => $this->container->get('sonata.admin.pool'),
             'handlers'      => $adminClasses
