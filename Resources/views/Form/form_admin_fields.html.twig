@@ -85,6 +85,7 @@ file that was distributed with this source code.
         var treeState = AdminTree.generateTreeStateArray("{{ id }}");
         SelectTree.initTree({
             "selector": "#{{id}}-tree-selector",
+            "rootNode": "{{ rootNode }}",
             "output": "#{{id}}-tree-selector-output",
             "path": {
                 "expanded":     treeState,
