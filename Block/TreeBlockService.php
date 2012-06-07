@@ -37,7 +37,11 @@ class TreeBlockService extends BaseBlockService
      */
     public function execute(BlockInterface $block, Response $response = null)
     {
-        return $this->templating->renderResponse('SonataDoctrinePHPCRAdminBundle:Block:tree.html.twig', array(), $response);
+        $options = array('id' => '/');
+        if (null !== $block->getSettings()) {
+            $options = array_merge($options, $block->getSettings());
+        }
+        return $this->templating->renderResponse('SonataDoctrinePHPCRAdminBundle:Block:tree.html.twig', $options, $response);
     }
 
     /**
