@@ -86,6 +86,9 @@ file that was distributed with this source code.
         SelectTree.initTree({
             "selector": "#{{id}}-tree-selector",
             "rootNode": "{{ rootNode }}",
+            "ajax": {
+                "children_url": Routing.generate('sonata.admin.doctrine_phpcr.phpcrodm_children')
+            },
             "output": "#{{id}}-tree-selector-output",
             "path": {
                 "expanded":     treeState,
@@ -95,10 +98,7 @@ file that was distributed with this source code.
                 "document": "{{ asset('bundles/symfonycmftree/images/document.png') }}",
                 "folder":   "{{ asset('bundles/symfonycmftree/images/folder.png') }}"
             },
-            "route": {
-                "edit":     'admin_sandbox_main_editablestaticcontent_edit',
-                "erase":    'admin_sandbox_main_editablestaticcontent_delete'
-            },
+            "rootNode": "{{ rootNode }}"
         });
     });
 </script>

@@ -19,6 +19,10 @@ file that was distributed with this source code.
             "selector": "#tree",
             "rootNode": "{{ id }}",
             "contentselector": ".sonata-ba-content",
+            "ajax": {
+                "children_url": Routing.generate('sonata.admin.doctrine_phpcr.phpcrodm_children'),
+                "move_url": Routing.generate('sonata.admin.doctrine_phpcr.phpcrodm_move')
+            },
             "path": {
                 "expanded":     treeState,
                 "preloaded":    treeState

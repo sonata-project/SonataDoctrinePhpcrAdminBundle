@@ -80,7 +80,6 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
         $loader->load('route.xml');
         $loader->load('twig.xml');
         $loader->load('block.xml');
-        $loader->load('controller.xml');
 
         $configuration = new Configuration();
         $processor = new Processor();
