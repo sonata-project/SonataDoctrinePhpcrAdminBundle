@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormViewInterface;
 use Symfony\Component\Form\FormView;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -33,6 +34,12 @@ class TreeModelType extends AbstractType
     {
         $builder->prependClientTransformer(new ModelToIdTransformer($options['model_manager'], $options['class']));
         $builder->setAttribute('rootNode', $options['rootNode']);
+    }
+
+    public function buildView(FormViewInterface $view, FormInterface $form, array $options)
+    {
+        parent::buildView($view, $form, $options);
+        $view->setVar('rootNode', $form->getAttribute('rootNode'));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
