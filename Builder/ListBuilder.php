@@ -59,6 +59,24 @@ class ListBuilder implements ListBuilderInterface
      */
     public function addField(FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
+        $this->buildField($type, $fieldDescription, $admin);
+        $admin->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
+
+        return $list->add($fieldDescription);
+    }
+
+    /**
+     * Sets the Field description type.
+     * If not type provided, will try to guess it.
+     *
+     * @param \Sonata\AdminBundle\Admin\FieldDescriptionCollection $list
+     * @param string|null $type
+     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     * @param \Sonata\AdminBundle\Admin\AdminInterface $admin
+     * @return FieldDescriptionCollection
+     */
+    public function buildField($type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
+    {
         if ($type == null) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
             $fieldDescription->setType($guessType->getType());
@@ -67,9 +85,6 @@ class ListBuilder implements ListBuilderInterface
         }
 
         $this->fixFieldDescription($admin, $fieldDescription);
-        $admin->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
-
-        return $list->add($fieldDescription);
     }
 
     /**
