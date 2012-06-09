@@ -206,6 +206,18 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
+     * Modify a field description to display it in the list view.
+     *
+     * @param null|mixed                                           $type
+     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface  $fieldDescription
+     * @param \Sonata\AdminBundle\Admin\AdminInterface             $admin
+     */
+    public function buildField($type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
+    {
+        // NOOP
+    }
+
+    /**
      * @param $type
      * @return string
      */
