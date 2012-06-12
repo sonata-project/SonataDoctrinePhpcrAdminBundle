@@ -37,7 +37,7 @@ class TreeBlockService extends BaseBlockService
      */
     public function execute(BlockInterface $block, Response $response = null)
     {
-        $options = array('id' => '/');
+        $options = array('id' => '/', 'selected' => null);
         if (null !== $block->getSettings()) {
             $options = array_merge($options, $block->getSettings());
         }
