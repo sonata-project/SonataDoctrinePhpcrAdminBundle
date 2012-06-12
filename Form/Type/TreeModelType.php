@@ -33,13 +33,15 @@ class TreeModelType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->prependClientTransformer(new ModelToIdTransformer($options['model_manager'], $options['class']));
-        $builder->setAttribute('rootNode', $options['rootNode']);
+        $builder->setAttribute('root_node', $options['root_node']);
+        $builder->setAttribute('select_root_node', $options['select_root_node']);
     }
 
     public function buildView(FormViewInterface $view, FormInterface $form, array $options)
     {
         parent::buildView($view, $form, $options);
-        $view->setVar('rootNode', $form->getAttribute('rootNode'));
+        $view->setVar('root_node', $form->getAttribute('root_node'));
+        $view->setVar('select_root_node', $form->getAttribute('select_root_node'));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -51,7 +53,8 @@ class TreeModelType extends AbstractType
             'property'          => null,
             'query'             => null,
             'choices'           => null,
-            'rootNode'          => '/',
+            'root_node'          => '/',
+            'select_root_node'  => false,
             'parent'            => 'choice',
             'preferred_choices' => array(),
             'choice_list'       => function (Options $options, $previousValue) {
@@ -64,6 +67,11 @@ class TreeModelType extends AbstractType
                 );
             }
         ));
+    }
+
+    public function getParent()
+    {
+        return 'field';
     }
 
     public function getName()
