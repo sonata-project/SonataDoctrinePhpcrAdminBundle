@@ -6,6 +6,10 @@
                 <source>content_tree</source>
                 <target>Content</target>
             </trans-unit>
+            <trans-unit id="reset_tree">
+                <source>reset_tree</source>
+                <target>Reset</target>
+            </trans-unit>
         </body>
      </file>
 </xliff>

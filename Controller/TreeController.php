@@ -21,7 +21,8 @@ class TreeController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function treeAction($id, $selected = null) {
+    public function treeAction($id, $selected = null)
+    {
         //Obtain the routes for each document
         $pool = $this->get('sonata.admin.pool');
         $classes = $pool->getAdminClasses();
