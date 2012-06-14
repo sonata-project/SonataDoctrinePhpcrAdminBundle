@@ -47,12 +47,27 @@ file that was distributed with this source code.
                     },
                 {% endfor%}
             },
+            {# TODO: this is just used for creating new documents. bad naming #}
             "doctypes": {
                 {% for handler in handlers %}
                     "{{ handler.label }}": {
                         "label": "{{handler.label}}",
                         "action": function (node) {
                             window.location = Routing.generate('{{handler.routes.create}}');
+                        }
+                    },
+                {% endfor %}
+            },
+            "types": {
+                {% for class, info in types %}
+                    "{{ class }}": {
+                        "valid_children": [
+                            {% for child in info.valid_children %}
+                                "{{ child }}",
+                            {% endfor %}
+                        ],
+                        "icon": {
+                            "image": "{{ info.image }}"
                         }
                     },
                 {% endfor %}

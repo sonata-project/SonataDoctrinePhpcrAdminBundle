@@ -91,6 +91,28 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
 
         $container->getDefinition('sonata.admin.builder.doctrine_phpcr_list')
             ->replaceArgument(1, $config['templates']['types']['list']);
+
+        $this->loadTreeTypes($config, $container);
+    }
+
+    /**
+     * Set the tree type mapping configuration in the services
+     *
+     * @param array $config
+     * @param ContainerBuilder $container
+     */
+    private function loadTreeTypes($config, ContainerBuilder $container)
+    {
+
+        $classToKey = array();
+        foreach($config['document_tree'] as $class => $dummy) {
+            //$classToKey =
+        }
+
+        $container->getDefinition('sonata.admin.doctrine_phpcr.phpcrodm_tree')
+            ->replaceArgument(3, array_keys($config['document_tree']));
+        $container->getDefinition('sonata.admin.doctrine_phpcr.tree_controller')
+            ->replaceArgument(0, $config['document_tree']);
     }
 }
 
