@@ -11,85 +11,20 @@ file that was distributed with this source code.
 
 {% extends 'SonataAdminBundle:Form:form_admin_fields.html.twig' %}
 
-
-{# Custom Sonata Admin Extension #}
-{% block sonata_admin_orm_one_to_one_widget %}
-    {% include 'SonataDoctrineORMAdminBundle:CRUD:edit_orm_one_to_one.html.twig' %}
-{% endblock %}
-
-{% block sonata_admin_orm_many_to_many_widget %}
-    {% include 'SonataDoctrineORMAdminBundle:CRUD:edit_orm_many_to_many.html.twig' %}
-{% endblock %}
-
-{% block sonata_admin_orm_many_to_one_widget %}
-    {% include 'SonataDoctrineORMAdminBundle:CRUD:edit_orm_many_to_one.html.twig' %}
-{% endblock %}
-
-{% block sonata_admin_orm_one_to_many_widget %}
-    {% include 'SonataDoctrineORMAdminBundle:CRUD:edit_orm_one_to_many.html.twig' %}
-{% endblock %}
-
-{% block sonata_type_model_widget %}
-    {#
-        This is not the best way to do if
-        TODO : improve this part
-    #}
-
-    {#model {{ sonata_admin.field_description.mappingtype }}#}
-
-    {% if sonata_admin.field_description is empty %}
-        {{ block('choice_widget') }}
-    {% elseif sonata_admin.field_description.mappingtype == 1 %}
-        {{ block('sonata_admin_orm_one_to_one_widget') }}
-    {% elseif sonata_admin.field_description.mappingtype == 2 %}
-        {{ block('sonata_admin_orm_many_to_one_widget') }}
-    {% elseif sonata_admin.field_description.mappingtype == 8 %}
-        {{ block('sonata_admin_orm_many_to_many_widget') }}
-    {% elseif sonata_admin.field_description.mappingtype == 4 %}
-        {{ block('sonata_admin_orm_one_to_many_widget') }}
-    {% else %}
-        {#INVALID MODE : {{ id }}#}
-        {{ block('choice_widget') }}
-    {% endif %}
-{% endblock %}
-
-{% block sonata_type_admin_widget %}
-    {#admin {{ sonata_admin.field_description.mappingtype }}#}
-    {% if sonata_admin.field_description.mappingtype == 1 %}
-        {{ block('sonata_admin_orm_one_to_one_widget') }}
-    {% elseif sonata_admin.field_description.mappingtype == 2 %}
-        {{ block('sonata_admin_orm_many_to_one_widget') }}
-    {% elseif sonata_admin.field_description.mappingtype == 8 %}
-        {{ block('sonata_admin_orm_many_to_many_widget') }}
-    {% elseif sonata_admin.field_description.mappingtype == 4 %}
-        ICI
-        {{ block('sonata_admin_orm_one_to_many_widget') }}
-    {% else %}
-        INVALID MODE : {{ id }}
-    {% endif %}
-{% endblock %}
-
-{% block sonata_type_collection_widget %}
-    {% if sonata_admin.field_description.mappingtype == 4 %}
-        {{ block('sonata_admin_orm_one_to_many_widget') }}
-    {% else %}
-        INVALID MODE : {{ id }} - type : sonata_type_collection - mapping : {{ sonata_admin.field_description.mappingtype }}
-    {% endif %}
-{% endblock %}
-
 {% block doctrine_phpcr_type_tree_model_widget %}
 {% include 'SymfonyCmfTreeBrowserBundle:Base:tree.html.twig' %}
 <script type="text/javascript">
     $(document).ready(function() {
 
-        var treeState = AdminTree.generateTreeStateArray("{{ id }}");
+        var treeState = AdminTree.generateTreeStateArray("{{ value }}");
         SelectTree.initTree({
             "selector": "#{{id}}-tree-selector",
-            "rootNode": "{{ rootNode }}",
+            "rootNode": "{{ root_node }}",
             "ajax": {
                 "children_url": Routing.generate('sonata.admin.doctrine_phpcr.phpcrodm_children')
             },
             "output": "#{{id}}-tree-selector-output",
+            "reset": "#{{id}}-tree-reset",
             "path": {
                 "expanded":     treeState,
                 "preloaded":    treeState
@@ -98,11 +33,17 @@ file that was distributed with this source code.
                 "document": "{{ asset('bundles/symfonycmftree/images/document.png') }}",
                 "folder":   "{{ asset('bundles/symfonycmftree/images/folder.png') }}"
             },
-            "rootNode": "{{ rootNode }}"
+            "selected": '{{ value }}',
+            "selectRootNode": {{ select_root_node ? 'true' : 'false' }}
         });
-    });
+    })
 </script>
 
-<input name="{{full_name}}" id="{{id}}-tree-selector-output" value="{{value}}">
 <div id="{{id}}-tree-selector"></div>
+{% if value == 0 %}
+<input name="{{full_name}}" id="{{id}}-tree-selector-output" value="{{ select_root_node ? root_node : ''}}" readonly="readonly">
+{% else %}
+<input name="{{full_name}}" id="{{id}}-tree-selector-output" value="{{value}}" readonly="readonly">
+{% endif %}
+<button class="btn btn-mini" id={{id}}-tree-reset>{{ 'reset_tree' | trans({}, 'SonataDoctrinePHPCRAdmin') }}</button>
 {% endblock %}

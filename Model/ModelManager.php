@@ -128,8 +128,11 @@ class ModelManager implements ModelManagerInterface
      */
     public function find($class, $id)
     {
-        $value = $id;
-        return $this->documentManager->getRepository($class)->find($value);
+        if (null === $class) {
+            return $this->documentManager->find(null, $id);
+        }
+
+        return $this->documentManager->getRepository($class)->find($id);
     }
 
     /**
@@ -139,6 +142,9 @@ class ModelManager implements ModelManagerInterface
      */
     public function findBy($class, array $criteria = array())
     {
+        if (null === $class) {
+            return $this->documentManager->find(null, $id);
+        }
         return $this->documentManager->getRepository($class)->findBy($criteria);
     }
 

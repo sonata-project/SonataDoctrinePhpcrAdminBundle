@@ -13,11 +13,12 @@ file that was distributed with this source code.
 {% include 'SymfonyCmfTreeBrowserBundle:Base:tree.html.twig' %}
 <script type="text/javascript">
     $(document).ready(function() {
-        var treeState = AdminTree.generateTreeStateArray("{{ id }}");
+        var treeState = AdminTree.generateTreeStateArray("{{ selected }}");
 
         AdminTree.initTree({
             "selector": "#tree",
             "rootNode": "{{ id }}",
+            "selected": "{{ selected }}",
             "contentselector": ".sonata-ba-content",
             "ajax": {
                 "children_url": Routing.generate('sonata.admin.doctrine_phpcr.phpcrodm_children'),
@@ -53,7 +54,7 @@ file that was distributed with this source code.
                     "{{ handler.label }}": {
                         "label": "{{handler.label}}",
                         "action": function (node) {
-                            window.location = Routing.generate('{{handler.routes.create}}');
+                            window.location = Routing.generate('{{handler.routes.create}}', { "parent": node.attr("id") });
                         }
                     },
                 {% endfor %}
