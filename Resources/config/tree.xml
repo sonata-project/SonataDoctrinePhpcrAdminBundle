@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="sonata.admin.doctrine_phpcr.tree_controller"
+                 class="Sonata\DoctrinePHPCRAdminBundle\Controller\TreeController">
+            <argument/>
+            <call method="setContainer"><argument type="service" id="service_container"/></call>
+        </service>
+
+        <service id="sonata.admin.doctrine_phpcr.phpcrodm_tree" class="Sonata\DoctrinePHPCRAdminBundle\Tree\PhpcrOdmTree">
+            <argument type="service" id="doctrine_phpcr.odm.default_document_manager" />
+            <argument type="service" id="sonata.admin.manager.doctrine_phpcr"/>
+            <argument type="service" id="sonata.admin.pool"/>
+            <argument/>
+        </service>
+
+        <service id="sonata.admin.doctrine_phpcr.phpcrodm_controller" class="Symfony\Cmf\Bundle\TreeBrowserBundle\Controller\TreeBrowserController">
+            <argument type="service" id="sonata.admin.doctrine_phpcr.phpcrodm_tree" />
+        </service>
+
+    </services>
+
+</container>

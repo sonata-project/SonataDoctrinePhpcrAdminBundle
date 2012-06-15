@@ -26,7 +26,6 @@ class ModelManager implements ModelManagerInterface
     protected $documentManager;
 
     /**
-     *
      * @param \Doctrine\ODM\PHPCR\DocumentManager $documentManager
      */
     public function __construct(DocumentManager $documentManager)
@@ -39,6 +38,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @abstract
      * @param string $class
+     *
      * @return \Doctrine\ODM\PHPCR\Mapping\ClassMetadata
      */
     public function getMetadata($class)
@@ -169,7 +169,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param string $parentAssociationMapping
      * @param string $class
-     * @return \Sonata\AdminBundle\Admin\ORM\FieldDescription
+     * @return FieldDescriptionInterface
      */
     public function getParentFieldDescription($parentAssociationMapping, $class)
     {
