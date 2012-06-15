@@ -140,7 +140,11 @@ class PhpcrOdmTree implements TreeInterface
             if (method_exists($document, '__toString')) {
                 $label = (string)$document;
             }
-            $label = substr($label, 0, 20) . ' <not editable>';
+            if (strlen($label) > 18) {
+                // TODO: tooltip with full name?
+                $label = substr($label, 0, 17) . '...';
+            }
+            $label .= ' <not editable>';
             $id = $this->defaultModelManager->getNormalizedIdentifier($document);
         }
 
