@@ -20,6 +20,9 @@ file that was distributed with this source code.
         SelectTree.initTree({
             "selector": "#{{id}}-tree-selector",
             "rootNode": "{{ root_node }}",
+            "ajax": {
+                "children_url": Routing.generate('sonata.admin.doctrine_phpcr.phpcrodm_children')
+            },
             "output": "#{{id}}-tree-selector-output",
             "reset": "#{{id}}-tree-reset",
             "path": {
@@ -29,10 +32,6 @@ file that was distributed with this source code.
             "icon": {
                 "document": "{{ asset('bundles/symfonycmftree/images/document.png') }}",
                 "folder":   "{{ asset('bundles/symfonycmftree/images/folder.png') }}"
-            },
-            "route": {
-                "edit":     'admin_sandbox_main_editablestaticcontent_edit',
-                "erase":    'admin_sandbox_main_editablestaticcontent_delete'
             },
             "selected": '{{ value }}',
             "selectRootNode": {{ select_root_node ? 'true' : 'false' }}
