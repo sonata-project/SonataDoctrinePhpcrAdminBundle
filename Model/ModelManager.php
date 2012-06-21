@@ -128,6 +128,8 @@ class ModelManager implements ModelManagerInterface
      */
     public function find($class, $id)
     {
+        $id = $this->addLeadingSlash($id);
+
         if (null === $class) {
             return $this->documentManager->find(null, $id);
         }
@@ -142,9 +144,6 @@ class ModelManager implements ModelManagerInterface
      */
     public function findBy($class, array $criteria = array())
     {
-        if (null === $class) {
-            return $this->documentManager->find(null, $id);
-        }
         return $this->documentManager->getRepository($class)->findBy($criteria);
     }
 
@@ -214,7 +213,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getModelIdentifier($class)
     {
-        return $this->getMetadata($class)->identifier;
+        return $this->stripLeadingSlash($this->getMetadata($class)->identifier);
     }
 
     /**
@@ -226,7 +225,7 @@ class ModelManager implements ModelManagerInterface
     {
         $class = $this->getMetadata(get_class($document));
         $path = $class->reflFields[$class->identifier]->getValue($document);
-        return array($path);
+        return array($this->stripLeadingSlash($path));
     }
 
     /**
@@ -235,7 +234,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getIdentifierFieldNames($class)
     {
-        return array($this->getMetadata($class)->getIdentifier());
+        return array($this->stripLeadingSlash($this->getMetadata($class)->getIdentifier()));
     }
 
     /**
@@ -483,9 +482,18 @@ class ModelManager implements ModelManagerInterface
         return null;
     }
 
-    function getExportFields($class)
+    public function getExportFields($class)
     {
         return null;
     }
 
+    protected function addLeadingSlash($id)
+    {
+        return '/'.$id;
+    }
+
+    protected function stripLeadingSlash($id)
+    {
+        return substr($id, 1);
+    }
 }
