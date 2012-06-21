@@ -144,10 +144,6 @@ class ModelManager implements ModelManagerInterface
      */
     public function findBy($class, array $criteria = array())
     {
-        if (null === $class) {
-            return $this->documentManager->find(null, $id);
-        }
-
         return $this->documentManager->getRepository($class)->findBy($criteria);
     }
 
