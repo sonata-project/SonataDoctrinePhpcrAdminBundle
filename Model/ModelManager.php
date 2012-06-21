@@ -213,7 +213,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getModelIdentifier($class)
     {
-        return $this->stripLeadingSlash($this->getMetadata($class)->identifier, 1);
+        return $this->stripLeadingSlash($this->getMetadata($class)->identifier);
     }
 
     /**
@@ -225,7 +225,7 @@ class ModelManager implements ModelManagerInterface
     {
         $class = $this->getMetadata(get_class($document));
         $path = $class->reflFields[$class->identifier]->getValue($document);
-        return array($this->stripLeadingSlash($path, 1));
+        return array($this->stripLeadingSlash($path));
     }
 
     /**
@@ -234,7 +234,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getIdentifierFieldNames($class)
     {
-        return array($this->stripLeadingSlash($this->getMetadata($class)->getIdentifier(), 1));
+        return array($this->stripLeadingSlash($this->getMetadata($class)->getIdentifier()));
     }
 
     /**
