@@ -16,8 +16,10 @@ use Sonata\DoctrinePHPCRAdminBundle\Admin\FieldDescription;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Doctrine\ODM\PHPCR\DocumentManager;
 use Sonata\AdminBundle\Exception\ModelManagerException;
+
+use Doctrine\ODM\PHPCR\DocumentManager;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
 
@@ -128,8 +130,6 @@ class ModelManager implements ModelManagerInterface
      */
     public function find($class, $id)
     {
-        $id = $this->addLeadingSlash($id);
-
         if (null === $class) {
             return $this->documentManager->find(null, $id);
         }
@@ -192,10 +192,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function createQuery($class, $alias = 'o')
     {
-        $qf= $this->getDocumentManager()->getPhpcrSession()->getWorkspace()->getQueryManager()->getQOMFactory();
-
-
-        return $qf;
+        return $this->getDocumentManager()->getPhpcrSession()->getWorkspace()->getQueryManager()->getQOMFactory();
     }
 
     /**
@@ -213,7 +210,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getModelIdentifier($class)
     {
-        return $this->stripLeadingSlash($this->getMetadata($class)->identifier);
+        return $this->getMetadata($class)->identifier;
     }
 
     /**
@@ -225,7 +222,7 @@ class ModelManager implements ModelManagerInterface
     {
         $class = $this->getMetadata(get_class($document));
         $path = $class->reflFields[$class->identifier]->getValue($document);
-        return array($this->stripLeadingSlash($path));
+        return array($path);
     }
 
     /**
@@ -234,7 +231,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getIdentifierFieldNames($class)
     {
-        return array($this->stripLeadingSlash($this->getMetadata($class)->getIdentifier()));
+        return array($this->getModelIdentifier($class));
     }
 
     /**
@@ -248,14 +245,14 @@ class ModelManager implements ModelManagerInterface
             throw new \RunTimeException('Invalid argument, object or null required');
         }
 
-        // the entities is not managed
-        //if (!$document || !$this->getDocumentManager()->getUnitOfWork()->isInIdentityMap($document)) {
-        //    return null;
-        //}
+        // the document is not managed
+        if (!$document || !$this->getDocumentManager()->contains($document)) {
+            return null;
+        }
 
         $values = $this->getIdentifierValues($document);
 
-        return $values[0];
+        return substr($values[0], 1);
     }
 
     /**
@@ -454,7 +451,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getModelCollectionInstance($class)
     {
-        return new \Doctrine\Common\Collections\ArrayCollection();
+        return new ArrayCollection();
     }
 
     public function collectionClear(&$collection)
@@ -485,15 +482,5 @@ class ModelManager implements ModelManagerInterface
     public function getExportFields($class)
     {
         return null;
-    }
-
-    protected function addLeadingSlash($id)
-    {
-        return '/'.$id;
-    }
-
-    protected function stripLeadingSlash($id)
-    {
-        return substr($id, 1);
     }
 }
