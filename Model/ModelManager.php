@@ -214,15 +214,23 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @throws \RuntimeException
+     * Transforms the document into the PHPCR path, but strips the leading / to
+     * avoid problems with the urls. PHPCR-ODM will re-add the leading slash
+     * when needed.
+     *
+     * Note: doctrine ORM seems to know multiple identifiers for one document.
+     * We only ever have one, but return that wrapped into an array for
+     * consistency.
+     *
      * @param $document
-     * @return
+     *
+     * @return array with the id string for this document
      */
     public function getIdentifierValues($document)
     {
         $class = $this->getMetadata(get_class($document));
         $path = $class->reflFields[$class->identifier]->getValue($document);
-        return array($path);
+        return array(substr($path, 1));
     }
 
     /**
@@ -235,8 +243,12 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @throws \RunTimeException
-     * @param $document
+     * Return the identifiers as one string. This is just taking the id out of
+     * the array again.
+     *
+     * @param object|null $document the document to get an id for. For null
+     *      document, null is returned.
+     *
      * @return null|string
      */
     public function getNormalizedIdentifier($document)
@@ -252,7 +264,7 @@ class ModelManager implements ModelManagerInterface
 
         $values = $this->getIdentifierValues($document);
 
-        return substr($values[0], 1);
+        return $values[0];
     }
 
     /**
