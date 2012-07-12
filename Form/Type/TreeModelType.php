@@ -48,6 +48,7 @@ class TreeModelType extends AbstractType
     {
         $resolver->setDefaults(array(
             'template'          => 'doctrine_phpcr_type_tree_model',
+            'compound'          => false,
             'model_manager'     => null,
             'class'             => null,
             'property'          => null,
