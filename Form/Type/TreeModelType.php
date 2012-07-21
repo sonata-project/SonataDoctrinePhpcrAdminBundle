@@ -39,8 +39,8 @@ class TreeModelType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         parent::buildView($view, $form, $options);
-        $view->setVar('root_node', $form->getAttribute('root_node'));
-        $view->setVar('select_root_node', $form->getAttribute('select_root_node'));
+        $view->vars['root_node'] = $form->getAttribute('root_node');
+        $view->vars['select_root_node'] = $form->getAttribute('select_root_node');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
