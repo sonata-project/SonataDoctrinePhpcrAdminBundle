@@ -11,8 +11,9 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Model;
 
-use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\DoctrinePHPCRAdminBundle\Admin\FieldDescription;
+use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
+use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -192,7 +193,12 @@ class ModelManager implements ModelManagerInterface
      */
     public function createQuery($class, $alias = 'o')
     {
-        return $this->getDocumentManager()->getPhpcrSession()->getWorkspace()->getQueryManager()->getQOMFactory();
+        $queryBuilder = $this->getDocumentManager()->createQueryBuilder();
+        $qomFactory = $queryBuilder->getQOMFactory();
+        $query = new ProxyQuery($qomFactory, $queryBuilder);
+        $query->setDocumentName($class);
+        $query->setDocumentManager($this->getDocumentManager());
+        return $query;
     }
 
     /**
