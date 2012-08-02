@@ -21,7 +21,6 @@ use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
 
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\Pager;
-use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 
 use Symfony\Component\Form\FormFactory;
 
