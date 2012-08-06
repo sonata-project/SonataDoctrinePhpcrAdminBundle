@@ -34,11 +34,18 @@ class FieldDescription extends BaseFieldDescription
         if (!is_array($associationMapping)) {
            throw new \RuntimeException('The association mapping must be an array');
         }
-
+        
         $this->associationMapping = $associationMapping;
-
-        $this->type         = $this->type ?: $associationMapping['type'];
-        $this->mappingType  = $this->mappingType ?: $associationMapping['type'];
+        
+        if(isset($associationMapping['type'])){
+            $this->type         = $this->type ?: $associationMapping['type'];
+            $this->mappingType  = $this->mappingType ?: $associationMapping['type'];
+        } else if(array_key_exists('referenceType', $associationMapping)){
+            $this->type         = $this->type ?: \Doctrine\ODM\PHPCR\Mapping\ClassMetadata::MANY_TO_ONE;
+            $this->mappingType  = $this->mappingType ?: \Doctrine\ODM\PHPCR\Mapping\ClassMetadata::MANY_TO_ONE;
+        } else {
+            throw new \RuntimeException('Unknown association mapping type');
+        }
         $this->fieldName    = $associationMapping['fieldName'];
     }
 
