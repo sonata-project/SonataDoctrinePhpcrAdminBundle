@@ -43,17 +43,19 @@ class FormContractor implements FormContractorInterface
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
+        $metadata = null;
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
+            /** @var Doctrine\ODM\PHPCR\Mapping\ClassMetadata $metadata */
             $metadata = $admin->getModelManager()->getMetadata($admin->getClass());
-
+            
             // set the default field mapping
             if (isset($metadata->fieldMappings[$fieldDescription->getName()])) {
                 $fieldDescription->setFieldMapping($metadata->fieldMappings[$fieldDescription->getName()]);
             }
 
             // set the default association mapping
-            if (isset($metadata->associationMappings[$fieldDescription->getName()])) {
-                $fieldDescription->setAssociationMapping($metadata->associationMappings[$fieldDescription->getName()]);
+            if (isset($metadata->referrersMappings[$fieldDescription->getName()])) {
+                $fieldDescription->setAssociationMapping($metadata->referrersMappings[$fieldDescription->getName()]);
             }
         }
 
@@ -63,8 +65,18 @@ class FormContractor implements FormContractorInterface
 
         $fieldDescription->setAdmin($admin);
         $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'standard'));
+        
+        $mappingTypes = array(
+            ClassMetadata::TO_ONE,
+            ClassMetadata::TO_MANY,
+            ClassMetadata::ONE_TO_ONE,
+            ClassMetadata::ONE_TO_MANY,
+            ClassMetadata::MANY_TO_ONE,
+            ClassMetadata::MANY_TO_MANY
+        );
 
-        if (in_array($fieldDescription->getMappingType(), array(ClassMetadata::ONE_TO_MANY, ClassMetadata::MANY_TO_MANY, ClassMetadata::MANY_TO_ONE, ClassMetadata::ONE_TO_ONE ))) {
+
+        if ($metadata && isset($metadata->referrersMappings[$fieldDescription->getName()]) && in_array($fieldDescription->getMappingType(), $mappingTypes)) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
