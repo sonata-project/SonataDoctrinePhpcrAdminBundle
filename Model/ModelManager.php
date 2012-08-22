@@ -97,7 +97,7 @@ class ModelManager implements ModelManagerInterface
         try {
             $this->documentManager->persist($object);
             $this->documentManager->flush();
-        } catch ( \Exception $e ) {
+        } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
     }
@@ -107,7 +107,7 @@ class ModelManager implements ModelManagerInterface
         try {
             $this->documentManager->persist($object);
             $this->documentManager->flush();
-        } catch ( \Exception $e ) {
+        } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
     }
@@ -117,7 +117,7 @@ class ModelManager implements ModelManagerInterface
         try {
             $this->documentManager->remove($object);
             $this->documentManager->flush();
-        } catch ( \Exception $e ) {
+        } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
     }
@@ -281,25 +281,38 @@ class ModelManager implements ModelManagerInterface
      */
     public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx)
     {
-        $fieldNames = $this->getIdentifierFieldNames($class);
+        /** @var \PHPCR\Util\QOM\QueryBuilder $qb  */
         $qb = $queryProxy->getQueryBuilder();
+        $qmf = $qb->getQOMFactory();
 
-        $prefix = uniqid();
-        $sqls = array();
+        $fieldNames = $this->getIdentifierFieldNames($class);
+
+        $constraint = null;
         foreach ($idx as $pos => $id) {
-            $ids     = explode('-', $id);
-
-            $ands = array();
+            $ids = explode('-', $id);
             foreach ($fieldNames as $posName => $name) {
-                $parameterName = sprintf('field_%s_%s_%d', $prefix, $name, $pos);
-                $ands[] = sprintf('%s.%s = :%s', $qb->getRootAlias(), $name, $parameterName);
-                $qb->setParameter($parameterName, $ids[$posName]);
+//                $condition = $qmf->comparison($qmf->propertyValue($name), '=', $qmf->literal('/'.$ids[$posName]));
+                $path = $this->createPath($ids[$posName]);
+                
+                $condition = $qmf->sameNode($path);
+                if ($constraint) {
+                    $constraint = $qmf->orConstraint($constraint, $condition);
+                } else {
+                    $constraint = $condition;
+                }
             }
-
-            $sqls[] = implode(' AND ', $ands);
         }
-
-        $qb->andWhere(sprintf('( %s )', implode(' OR ', $sqls)));
+        $qb->andWhere($constraint);
+    }
+    
+    protected function createPath($id)
+    {
+        $segments = preg_split('#/#', $id, null, PREG_SPLIT_NO_EMPTY);
+        $path = "";
+        foreach ($segments as $segment) {
+            $path .= "/".$segment;
+        }
+        return $path;
     }
 
     /**
@@ -324,7 +337,7 @@ class ModelManager implements ModelManagerInterface
 
             $this->documentManager->flush();
             $this->documentManager->clear();
-        } catch ( \Exception $e ) {
+        } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
     }
@@ -357,8 +370,8 @@ class ModelManager implements ModelManagerInterface
                 $values['_sort_order'] = 'ASC';
             }
         } else {
-            $values['_sort_order']  = 'ASC';
-            $values['_sort_by']     = $fieldDescription->getName();
+            $values['_sort_order'] = 'ASC';
+            $values['_sort_by'] = $fieldDescription->getName();
         }
 
         return array('filter' => $values);
@@ -386,8 +399,8 @@ class ModelManager implements ModelManagerInterface
     {
         return array(
             '_sort_order' => 'ASC',
-            '_sort_by'    => $this->getModelIdentifier($class),
-            '_page'       => 1
+            '_sort_by' => $this->getModelIdentifier($class),
+            '_page' => 1
         );
     }
 
@@ -427,7 +440,7 @@ class ModelManager implements ModelManagerInterface
                 $property = $name;
             }
 
-            $setter = 'set'.$this->camelize($name);
+            $setter = 'set' . $this->camelize($name);
 
             if ($reflClass->hasMethod($setter)) {
                 if (!$reflClass->getMethod($setter)->isPublic()) {
