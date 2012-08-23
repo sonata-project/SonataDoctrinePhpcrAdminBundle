@@ -288,13 +288,11 @@ class ModelManager implements ModelManagerInterface
         $fieldNames = $this->getIdentifierFieldNames($class);
 
         $constraint = null;
-        foreach ($idx as $pos => $id) {
+        foreach ($idx as $id) {
             $ids = explode('-', $id);
             foreach ($fieldNames as $posName => $name) {
-//                $condition = $qmf->comparison($qmf->propertyValue($name), '=', $qmf->literal('/'.$ids[$posName]));
                 $path = $this->createPath($ids[$posName]);
-                
-                $condition = $qmf->sameNode($path);
+                $condition = $qmf->sameNode($path); 
                 if ($constraint) {
                     $constraint = $qmf->orConstraint($constraint, $condition);
                 } else {
@@ -304,13 +302,17 @@ class ModelManager implements ModelManagerInterface
         }
         $qb->andWhere($constraint);
     }
-    
+
+    /**
+     * @param string $id
+     * @return string
+     */
     protected function createPath($id)
     {
         $segments = preg_split('#/#', $id, null, PREG_SPLIT_NO_EMPTY);
-        $path = "";
+        $path = '';
         foreach ($segments as $segment) {
-            $path .= "/".$segment;
+            $path .= sprintf('/"%s"', $segment);
         }
         return $path;
     }
