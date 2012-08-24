@@ -67,7 +67,7 @@ class TreeController extends Controller
                 $routeCollection[end($action)] = sprintf('%s_%s', $instance->getBaseRouteName(), end($action));
             }
             array_push($adminClasses, array(
-                'label'     => $instance->getLabel(),
+                'label'     => $instance->trans($instance->getLabel()),
                 'className' => $instance->getClass(),
                 'baseRoute' => $instance->getBaseRoutePattern(),
                 'routes'    => $routeCollection));
