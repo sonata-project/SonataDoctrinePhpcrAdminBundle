@@ -38,7 +38,7 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
     public function testSetSortBy()
     {
         $pq = new ProxyQuery($this->qf, $this->qb);
-        $pq->setSortBy('field');
+        $pq->setSortBy(array(), array('fieldName' => 'field'));
         $this->assertEquals('field', $pq->getSortBy());
     }
 
@@ -129,11 +129,14 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
         $query = $this->getMockBuilder('Jackalope\Query\QueryResult')
             ->disableOriginalConstructor()
             ->getMock();
+        $node = $this->getMockBuilder('Jackalope\Node')
+            ->disableOriginalConstructor()
+            ->getMock();
         $query->expects($this->once())
             ->method('getNodes')
             ->will($this->returnValue(array(
-                'somepath1' => new NodeMock(),
-                'somepath2' => new NodeMock(),
+                'somepath1' => $node,
+                'somepath2' => $node,
             )));
         $this->qb->expects($this->once())
             ->method('execute')
@@ -171,13 +174,5 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
         $pq = new ProxyQuery($this->qf, $this->qb);
         $pq->andWhere($constraint);
 
-    }
-}
-
-class NodeMock
-{
-    public function getPath()
-    {
-        return "somepath";
     }
 }
