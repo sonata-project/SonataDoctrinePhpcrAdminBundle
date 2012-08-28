@@ -57,7 +57,7 @@ class FieldDescription extends BaseFieldDescription
     public function getTargetEntity()
     {
         if ($this->associationMapping) {
-            return $this->associationMapping['targetEntity'];
+            return $this->associationMapping['targetDocument'];
         }
 
         return null;
