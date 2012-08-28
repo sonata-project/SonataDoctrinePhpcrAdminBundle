@@ -304,8 +304,7 @@ class ModelManager implements ModelManagerInterface
         foreach ($idx as $id) {
             $ids = explode('-', $id);
             foreach ($fieldNames as $posName => $name) {
-                // because the PHPCR-ODM needs absolute paths we need to add the first / if missing
-                $path = substr($ids[$posName], 0, 1) === '/' ? $ids[$posName] : '/'.$ids[$posName];
+                $path = $this->getBackendId($ids[$posName]);
                 $condition = $qmf->sameNode($path); 
                 if ($constraint) {
                     $constraint = $qmf->orConstraint($constraint, $condition);
@@ -315,6 +314,21 @@ class ModelManager implements ModelManagerInterface
             }
         }
         $qb->andWhere($constraint);
+    }
+
+    /**
+     * Add leading slash to construct valid phpcr document id.
+     * 
+     * The phpcr-odm QueryBuilder uses absolute paths and expects id´s to start with a forward slash
+     * because SonataAdmin uses object id´s for constructing URL´s it has to use id´s without the
+     * leading slash.
+     * 
+     * @param $id
+     * @return string
+     */
+    public function getBackendId($id)
+    {
+        return substr($id, 0, 1) === '/' ? $id : '/'.$id;
     }
 
     /**
