@@ -295,7 +295,7 @@ class ModelManager implements ModelManagerInterface
     public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx)
     {
         $fieldNames = $this->getIdentifierFieldNames($class);
-        
+
         /** @var \PHPCR\Util\QOM\QueryBuilder $qb  */
         $qb = $queryProxy->getQueryBuilder();
         $qmf = $qb->getQOMFactory();
@@ -305,7 +305,7 @@ class ModelManager implements ModelManagerInterface
             $ids = explode('-', $id);
             foreach ($fieldNames as $posName => $name) {
                 $path = $this->getBackendId($ids[$posName]);
-                $condition = $qmf->sameNode($path); 
+                $condition = $qmf->sameNode($path);
                 if ($constraint) {
                     $constraint = $qmf->orConstraint($constraint, $condition);
                 } else {
@@ -318,11 +318,11 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * Add leading slash to construct valid phpcr document id.
-     * 
+     *
      * The phpcr-odm QueryBuilder uses absolute paths and expects id´s to start with a forward slash
      * because SonataAdmin uses object id´s for constructing URL´s it has to use id´s without the
      * leading slash.
-     * 
+     *
      * @param $id
      * @return string
      */
@@ -340,8 +340,8 @@ class ModelManager implements ModelManagerInterface
     {
         try {
             $i = 0;
-            foreach ($queryProxy->getQuery()->iterate() as $pos => $object) {
-                $this->documentManager->remove($object[0]);
+            foreach ($queryProxy->getQuery()->execute()->getNodes() as $pos => $object) {
+                $object->remove();
 
                 if ((++$i % 20) == 0) {
                     $this->documentManager->flush();
