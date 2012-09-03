@@ -340,7 +340,7 @@ class ModelManager implements ModelManagerInterface
     {
         try {
             $i = 0;
-            foreach ($queryProxy->getQuery()->execute()->getNodes() as $pos => $object) {
+            foreach ($queryProxy->getQuery()->execute()->getNodes() as $object) {
                 $object->remove();
 
                 if ((++$i % 20) == 0) {
