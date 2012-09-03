@@ -92,32 +92,44 @@ class ModelManager implements ModelManagerInterface
         return $fieldDescription;
     }
 
+    /**
+     * @param mixed $object
+     * @throws \Sonata\AdminBundle\Exception\ModelManagerException
+     */
     public function create($object)
     {
         try {
             $this->documentManager->persist($object);
             $this->documentManager->flush();
-        } catch ( \Exception $e ) {
+        } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
     }
 
+    /**
+     * @param mixed $object
+     * @throws \Sonata\AdminBundle\Exception\ModelManagerException
+     */
     public function update($object)
     {
         try {
             $this->documentManager->persist($object);
             $this->documentManager->flush();
-        } catch ( \Exception $e ) {
+        } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
     }
 
+    /**
+     * @param object $object
+     * @throws \Sonata\AdminBundle\Exception\ModelManagerException
+     */
     public function delete($object)
     {
         try {
             $this->documentManager->remove($object);
             $this->documentManager->flush();
-        } catch ( \Exception $e ) {
+        } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
     }
@@ -256,6 +268,7 @@ class ModelManager implements ModelManagerInterface
      *      document, null is returned.
      *
      * @return null|string
+     * @throws \RunTimeException
      */
     public function getNormalizedIdentifier($document)
     {
@@ -282,39 +295,53 @@ class ModelManager implements ModelManagerInterface
     public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx)
     {
         $fieldNames = $this->getIdentifierFieldNames($class);
+
+        /** @var \PHPCR\Util\QOM\QueryBuilder $qb  */
         $qb = $queryProxy->getQueryBuilder();
+        $qmf = $qb->getQOMFactory();
 
-        $prefix = uniqid();
-        $sqls = array();
-        foreach ($idx as $pos => $id) {
-            $ids     = explode('-', $id);
-
-            $ands = array();
+        $constraint = null;
+        foreach ($idx as $id) {
+            $ids = explode('-', $id);
             foreach ($fieldNames as $posName => $name) {
-                $parameterName = sprintf('field_%s_%s_%d', $prefix, $name, $pos);
-                $ands[] = sprintf('%s.%s = :%s', $qb->getRootAlias(), $name, $parameterName);
-                $qb->setParameter($parameterName, $ids[$posName]);
+                $path = $this->getBackendId($ids[$posName]);
+                $condition = $qmf->sameNode($path);
+                if ($constraint) {
+                    $constraint = $qmf->orConstraint($constraint, $condition);
+                } else {
+                    $constraint = $condition;
+                }
             }
-
-            $sqls[] = implode(' AND ', $ands);
         }
-
-        $qb->andWhere(sprintf('( %s )', implode(' OR ', $sqls)));
+        $qb->andWhere($constraint);
     }
 
     /**
-     * Deletes a set of $class identified by the provided $idx array
+     * Add leading slash to construct valid phpcr document id.
      *
-     * @param $class
+     * The phpcr-odm QueryBuilder uses absolute paths and expects id´s to start with a forward slash
+     * because SonataAdmin uses object id´s for constructing URL´s it has to use id´s without the
+     * leading slash.
+     *
+     * @param $id
+     * @return string
+     */
+    public function getBackendId($id)
+    {
+        return substr($id, 0, 1) === '/' ? $id : '/'.$id;
+    }
+
+    /**
+     * @param string $class
      * @param \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryProxy
-     * @return void
+     * @throws \Sonata\AdminBundle\Exception\ModelManagerException
      */
     public function batchDelete($class, ProxyQueryInterface $queryProxy)
     {
         try {
             $i = 0;
-            foreach ($queryProxy->getQuery()->iterate() as $pos => $object) {
-                $this->documentManager->remove($object[0]);
+            foreach ($queryProxy->getQuery()->execute()->getNodes() as $object) {
+                $object->remove();
 
                 if ((++$i % 20) == 0) {
                     $this->documentManager->flush();
@@ -324,7 +351,7 @@ class ModelManager implements ModelManagerInterface
 
             $this->documentManager->flush();
             $this->documentManager->clear();
-        } catch ( \Exception $e ) {
+        } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
     }
@@ -332,7 +359,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * Returns a new model instance
      * @param string $class
-     * @return
+     * @return mixed
      */
     public function getModelInstance($class)
     {
@@ -357,8 +384,8 @@ class ModelManager implements ModelManagerInterface
                 $values['_sort_order'] = 'ASC';
             }
         } else {
-            $values['_sort_order']  = 'ASC';
-            $values['_sort_by']     = $fieldDescription->getName();
+            $values['_sort_order'] = 'ASC';
+            $values['_sort_by'] = $fieldDescription->getName();
         }
 
         return array('filter' => $values);
@@ -386,8 +413,8 @@ class ModelManager implements ModelManagerInterface
     {
         return array(
             '_sort_order' => 'ASC',
-            '_sort_by'    => $this->getModelIdentifier($class),
-            '_page'       => 1
+            '_sort_by' => $this->getModelIdentifier($class),
+            '_page' => 1
         );
     }
 
@@ -404,7 +431,8 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param string $class
      * @param array $array
-     * @return object
+     * @return mixed|void
+     * @throws \Symfony\Component\Form\Exception\PropertyAccessDeniedException
      */
     public function modelReverseTransform($class, array $array = array())
     {
@@ -427,7 +455,7 @@ class ModelManager implements ModelManagerInterface
                 $property = $name;
             }
 
-            $setter = 'set'.$this->camelize($name);
+            $setter = 'set' . $this->camelize($name);
 
             if ($reflClass->hasMethod($setter)) {
                 if (!$reflClass->getMethod($setter)->isPublic()) {
@@ -472,31 +500,61 @@ class ModelManager implements ModelManagerInterface
         return new ArrayCollection();
     }
 
+    /**
+     * @param mixed $collection
+     * @return mixed
+     */
     public function collectionClear(&$collection)
     {
         return $collection->clear();
     }
 
+    /**
+     * @param mixed $collection
+     * @param mixed $element
+     * @return mixed
+     */
     public function collectionHasElement(&$collection, &$element)
     {
         return $collection->contains($element);
     }
 
+    /**
+     * @param mixed $collection
+     * @param mixed $element
+     * @return mixed
+     */
     public function collectionAddElement(&$collection, &$element)
     {
         return $collection->add($element);
     }
 
+    /**
+     * @param mixed $collection
+     * @param mixed $element
+     * @return mixed
+     */
     public function collectionRemoveElement(&$collection, &$element)
     {
         return $collection->removeElement($element);
     }
 
+    /**
+     * @param \Sonata\AdminBundle\Datagrid\DatagridInterface $datagrid
+     * @param array $fields
+     * @param null $firstResult
+     * @param null $maxResult
+     * @return null
+     */
     public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null)
     {
         return null;
     }
 
+    /**
+     * @param string $class
+     * @return null
+     */
     public function getExportFields($class)
     {
         return null;
