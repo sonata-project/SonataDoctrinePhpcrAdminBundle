@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
+namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Route;
 
 use Sonata\DoctrinePHPCRAdminBundle\Route\PathInfoBuilderSlashes;
 use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
