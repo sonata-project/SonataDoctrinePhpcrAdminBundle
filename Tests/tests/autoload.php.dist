@@ -1,11 +1,13 @@
 <?php
 
 // try to reuse lib defined in a current symfony2 project
-$autoload = __DIR__.'/../../../../../../app/autoload.php';
+$rootDir = __DIR__.'/../../../../../../../';
+$autoload = $rootDir . 'app/autoload.php';
 if (is_file($autoload)) {
     include $autoload;
 } else {
-    $file = __DIR__.'/../../vendor/autoload.php';
+    $rootDir = __DIR__.'/../../';
+    $file = $rootDir . 'vendor/autoload.php';
     if (!file_exists($file)) {
         throw new RuntimeException('Run "composer update --dev" to run test suite.');
     }
@@ -25,5 +27,5 @@ AnnotationRegistry::registerLoader(function($class) use ($loader) {
     $loader->loadClass($class);
     return class_exists($class, false);
 });
-AnnotationRegistry::registerFile(__DIR__.'/../../vendor/doctrine/phpcr-odm/lib/Doctrine/ODM/PHPCR/Mapping/Annotations/DoctrineAnnotations.php');
+AnnotationRegistry::registerFile($rootDir . 'vendor/doctrine/phpcr-odm/lib/Doctrine/ODM/PHPCR/Mapping/Annotations/DoctrineAnnotations.php');
 
