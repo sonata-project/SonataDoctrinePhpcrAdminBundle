@@ -24,7 +24,7 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->qf = $this->getMock('PHPCR\\Query\\QOM\\QueryObjectModelFactoryInterface', array(), array());
+        $this->qf = $this->getMock('PHPCR\\Query\\QOM\\QueryObjectModelFactoryInterface');
         $this->qb = $this->getMockBuilder('PHPCR\\Util\\QOM\\QueryBuilder')
             ->disableOriginalConstructor()
             ->getMock();
