@@ -248,7 +248,7 @@ class ModelManager implements ModelManagerInterface
     {
         $class = $this->getMetadata(get_class($document));
         $path = $class->reflFields[$class->identifier]->getValue($document);
-        return array(substr($path, 1));
+        return array($path);
     }
 
     /**
@@ -284,6 +284,25 @@ class ModelManager implements ModelManagerInterface
         $values = $this->getIdentifierValues($document);
 
         return $values[0];
+    }
+
+    /**
+     * Return the identifier as a string that is save to use in a url.
+     * Currently only the leading slash is removed.
+     *
+     * @param object|null $document the document to get an id for. For null
+     *      document, null is returned.
+     *
+     * @return null|string
+     * @throws \RunTimeException
+     */
+    public function getUrlsafeIdentifier($document)
+    {
+        $id = $this->getNormalizedIdentifier($document);
+        if (null !== $id) {
+            return substr($id, 1);
+        }
+        return null;
     }
 
     /**
