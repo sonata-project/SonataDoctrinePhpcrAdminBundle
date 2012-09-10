@@ -223,8 +223,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
-     * @return string
+     * {@inheritDoc}
      */
     public function getModelIdentifier($class)
     {
@@ -232,17 +231,14 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * Transforms the document into the PHPCR path, but strips the leading / to
-     * avoid problems with the urls. PHPCR-ODM will re-add the leading slash
-     * when needed.
+     * Transforms the document into the PHPCR path.
      *
-     * Note: doctrine ORM seems to know multiple identifiers for one document.
-     * We only ever have one, but return that wrapped into an array for
-     * consistency.
+     * Note: This is returning an array because Doctrine ORM for example can
+     * have multiple identifiers, e.g. if the primary key is composed of
+     * several columns. We only ever have one, but return that wrapped into an
+     * array to adhere to the interface.
      *
-     * @param $document
-     *
-     * @return array with the id string for this document
+     * {@inheritDoc}
      */
     public function getIdentifierValues($document)
     {
@@ -261,14 +257,9 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * Return the identifiers as one string. This is just taking the id out of
-     * the array again.
+     * {@inheritDoc}
      *
-     * @param object|null $document the document to get an id for. For null
-     *      document, null is returned.
-     *
-     * @return null|string
-     * @throws \RunTimeException
+     * This is just taking the id out of the array again.
      */
     public function getNormalizedIdentifier($document)
     {
@@ -287,14 +278,11 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * Return the identifier as a string that is save to use in a url.
+     * {@inheritDoc}
+     *
      * Currently only the leading slash is removed.
-     *
-     * @param object|null $document the document to get an id for. For null
-     *      document, null is returned.
-     *
-     * @return null|string
-     * @throws \RunTimeException
+     * TODO: do we also have to encode certain characters like spaces or does
+     * that happen automatically?
      */
     public function getUrlsafeIdentifier($document)
     {
@@ -376,9 +364,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * Returns a new model instance
-     * @param string $class
-     * @return mixed
+     * {@inheritDoc}
      */
     public function getModelInstance($class)
     {
