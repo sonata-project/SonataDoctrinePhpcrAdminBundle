@@ -4,6 +4,7 @@
     "description": "Symfony Sonata / Integrate Doctrine PHPCR into the SonataAdminBundle",
     "keywords": ["Admin Generator", "admin", "sonata", "bootstrap"],
     "license": "MIT",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Nacho Martin",
@@ -22,10 +23,8 @@
         "symfony/security-bundle": "2.1.*",
         "symfony/twig-bundle":"2.1.*",
         "doctrine/phpcr-odm":"1.0.*",
-        "doctrine/phpcr-bundle":"1.0.*"
-    },
-    "suggest": {
-        "symfony-cmf/tree-browser-bundle":"to have a tree widget for phpcr data. require version 1.0.*"
+        "doctrine/phpcr-bundle":"1.0.*",
+        "symfony-cmf/tree-browser-bundle": "dev-master"
     },
     "autoload": {
         "psr-0": { "Sonata\\DoctrinePHPCRAdminBundle": "" }

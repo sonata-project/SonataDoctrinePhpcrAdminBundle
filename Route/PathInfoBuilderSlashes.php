@@ -17,10 +17,10 @@ use Sonata\AdminBundle\Route\RouteCollection;
 class PathInfoBuilderSlashes implements RouteBuilderInterface
 {
     /**
-     * RouteBuilder that allowes slashes in the ids.
+     * RouteBuilder that allows slashes in the ids.
      *
-     * @param \Sonata\AdminBundle\Admin\AdminInterface $admin
-     * @param \Sonata\AdminBundle\Route\RouteCollection $collection
+     * @param AdminInterface $admin
+     * @param RouteCollection $collection
      */
     function build(AdminInterface $admin, RouteCollection $collection)
     {

@@ -1,50 +1,31 @@
 <?php
 
 // try to reuse lib defined in a current symfony2 project
-$autoload = __DIR__.'/../../../../../../app/autoload.php';
+$rootDir = __DIR__.'/../../../../../../../';
+$autoload = $rootDir . 'app/autoload.php';
 if (is_file($autoload)) {
     include $autoload;
 } else {
-    $vendorDir = __DIR__.'/../../vendor';
-    require_once $vendorDir.'/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
+    $rootDir = __DIR__.'/../../';
+    $file = $rootDir . 'vendor/autoload.php';
+    if (!file_exists($file)) {
+        throw new RuntimeException('Run "composer update --dev" to run test suite.');
+    }
 
-    $loader = new Symfony\Component\ClassLoader\UniversalClassLoader();
-    $loader->registerNamespaces(array(
-        'Symfony'   => array($vendorDir.'/symfony/src'),
-        'Sonata\AdminBundle'   => array($vendorDir),
-        'Knp'       => array($vendorDir.'/knpmenu/src'),
-        'Gaufrette' => array($vendorDir.'/gaufrette/src'),
-        'Symfony\\Cmf'                          => array($vendorDir.'/symfony-cmf/src', $vendorDir.'/bundles'),
-        'Doctrine\\Bundle'                      => array($vendorDir),
-        'Doctrine\\ODM\\PHPCR'                  => array($vendorDir.'/symfony-cmf/vendor/doctrine-phpcr-odm/lib'),
-        'Doctrine\\Common'                      => array($vendorDir.'/symfony-cmf/vendor/doctrine-phpcr-odm/lib/vendor/doctrine-common/lib'),
-        'Jackalope'                             => array($vendorDir.'/symfony-cmf/vendor/doctrine-phpcr-odm/lib/vendor/jackalope/src'),
-        'PHPCR'                                 => array(
-            $vendorDir.'/symfony-cmf/vendor/doctrine-phpcr-odm/lib/vendor/jackalope/lib/phpcr/src',
-            $vendorDir.'/symfony-cmf/vendor/doctrine-phpcr-odm/lib/vendor/jackalope/lib/phpcr-utils/src'
-        ),
+    require_once $file;
 
-
-    ));
-
-    $loader->registerPrefixes(array(
-        'Twig_'            => $vendorDir.'/twig/lib',
-        'Twig_Extensions_' => $vendorDir.'/twig-extensions/lib',
-    ));
-
-
-    $loader->register();
-
-    spl_autoload_register(function($class) {
-        if (0 === strpos($class, 'Sonata\\DoctrinePHPCRAdminBundle\\')) {
-            $path = __DIR__.'/../../'.implode('/', array_slice(explode('\\', $class), 2)).'.php';
-
-            if (!stream_resolve_include_path($path)) {
-                return false;
-            }
-            require_once $path;
-            return true;
-        }
-    });
+    if ( !class_exists('Symfony\\Component\\ClassLoader\\UniversalClassLoader')) {
+        throw new RuntimeException('Run "composer update --dev" to run test suite. (You seem to have missed the --dev part.)');
+    }
 }
+
+use Symfony\Component\ClassLoader\UniversalClassLoader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
+
+$loader = new UniversalClassLoader();
+AnnotationRegistry::registerLoader(function($class) use ($loader) {
+    $loader->loadClass($class);
+    return class_exists($class, false);
+});
+AnnotationRegistry::registerFile($rootDir . 'vendor/doctrine/phpcr-odm/lib/Doctrine/ODM/PHPCR/Mapping/Annotations/DoctrineAnnotations.php');
 

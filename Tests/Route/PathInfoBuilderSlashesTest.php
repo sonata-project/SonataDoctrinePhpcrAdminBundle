@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
+namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Route;
 
 use Sonata\DoctrinePHPCRAdminBundle\Route\PathInfoBuilderSlashes;
 use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
@@ -20,7 +20,6 @@ class PathInfoBuilderSlashesTest extends \PHPUnit_Framework_TestCase
     {
         $collectionChild = $this->getMock('Sonata\\AdminBundle\\Route\\RouteCollection', array(), array(), '', false);
 
-        //$adminChild = $this->getMock('Sonata\\AdminBundle\\Admin\\Admin', array(), array(), '', false);
         $adminChild = $this->getMockBuilder('Sonata\\AdminBundle\\Admin\\Admin')->disableOriginalConstructor()->getMock();
         $adminChild->expects($this->once())
             ->method('getRoutes')
@@ -35,7 +34,7 @@ class PathInfoBuilderSlashesTest extends \PHPUnit_Framework_TestCase
         $collection->expects($this->once())
             ->method('addCollection')
             ->with($this->anything());
-        $collection->expects($this->exactly(6))
+        $collection->expects($this->exactly(7))
             ->method('add')
             ->with($this->anything());
 

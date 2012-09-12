@@ -12,6 +12,8 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Datagrid;
 
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
+use PHPCR\NodeInterface;
+use PHPCR\Query\QueryResultInterface;
 
 class dummyMetaData
 {
@@ -22,8 +24,8 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->qf = $this->getMock('PHPCR\Query\QOM\QueryObjectModelFactoryInterface', array(), array());
-        $this->qb = $this->getMockBuilder('PHPCR\Util\QOM\QueryBuilder')
+        $this->qf = $this->getMock('PHPCR\\Query\\QOM\\QueryObjectModelFactoryInterface');
+        $this->qb = $this->getMockBuilder('PHPCR\\Util\\QOM\\QueryBuilder')
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -31,14 +33,14 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $pq = new ProxyQuery($this->qf, $this->qb);
-        $this->assertInstanceOf('PHPCR\Util\QOM\QueryBuilder', $pq->getQueryBuilder());
-        $this->assertInstanceOf('PHPCR\Query\QOM\QueryObjectModelFactoryInterface', $pq->getQueryObjectModelFactory());
+        $this->assertInstanceOf('PHPCR\\Util\\QOM\\QueryBuilder', $pq->getQueryBuilder());
+        $this->assertInstanceOf('PHPCR\\Query\\QOM\\QueryObjectModelFactoryInterface', $pq->getQueryObjectModelFactory());
     }
 
     public function testSetSortBy()
     {
         $pq = new ProxyQuery($this->qf, $this->qb);
-        $pq->setSortBy('field');
+        $pq->setSortBy(array(), array('fieldName' => 'field'));
         $this->assertEquals('field', $pq->getSortBy());
     }
 
@@ -89,18 +91,18 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute()
     {
-        $source = $this->getMock('PHPCR\Query\QOM\SourceInterface', array(), array());
+        $source = $this->getMock('PHPCR\\Query\\QOM\\SourceInterface', array(), array());
         $this->qf->expects($this->once())
             ->method('selector')
             ->with($this->anything())
             ->will($this->returnValue($source));
-        $dynamic_operand = $this->getMock('PHPCR\Query\QOM\DynamicOperandInterface', array(), array());
-        $static_operand = $this->getMock('PHPCR\Query\QOM\StaticOperandInterface', array(), array());
+        $dynamic_operand = $this->getMock('PHPCR\\Query\\QOM\\DynamicOperandInterface', array(), array());
+        $static_operand = $this->getMock('PHPCR\\Query\\QOM\\StaticOperandInterface', array(), array());
         $this->qf->expects($this->any())
             ->method('propertyValue')
             ->with($this->anything())
             ->will($this->returnValue($dynamic_operand));
-        $constraint = $this->getMock('PHPCR\Query\QOM\ConstraintInterface', array(), array());
+        $constraint = $this->getMock('PHPCR\\Query\\QOM\\ConstraintInterface', array(), array());
         $this->qf->expects($this->once())
             ->method('comparison')
             ->with($this->anything())
@@ -115,8 +117,8 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
         $this->qb->expects($this->once())
             ->method('andWhere')
             ->with($this->anything());
-        $uow = $this->getMock('Doctrine\ODM\PHPCR\UnitOfWork', array(), array(), '', false);
-        $dm = $this->getMockBuilder('Doctrine\ODM\PHPCR\DocumentManager')
+        $uow = $this->getMock('Doctrine\\ODM\\PHPCR\\UnitOfWork', array(), array(), '', false);
+        $dm = $this->getMockBuilder('Doctrine\\ODM\\PHPCR\\DocumentManager')
             ->disableOriginalConstructor()
             ->getMock();
         $dm->expects($this->once())
@@ -126,14 +128,13 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
         $dm->expects($this->exactly(2))
             ->method('getUnitOfWork')
             ->will($this->returnValue($uow));
-        $query = $this->getMockBuilder('Jackalope\Query\QueryResult')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $query = $this->getMock('Sonata\\DoctrinePHPCRAdminBundle\\Tests\\Datagrid\\MockQueryResult');
+        $node = $this->getMock('Sonata\\DoctrinePHPCRAdminBundle\\Tests\\Datagrid\\MockNode');
         $query->expects($this->once())
             ->method('getNodes')
             ->will($this->returnValue(array(
-                'somepath1' => new NodeMock(),
-                'somepath2' => new NodeMock(),
+                'somepath1' => $node,
+                'somepath2' => $node,
             )));
         $this->qb->expects($this->once())
             ->method('execute')
@@ -154,7 +155,7 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAndSetDocumentManager()
     {
-        $dm = $this->getMockBuilder('Doctrine\ODM\PHPCR\DocumentManager')
+        $dm = $this->getMockBuilder('Doctrine\\ODM\\PHPCR\\DocumentManager')
             ->disableOriginalConstructor()
             ->getMock();
         $pq = new ProxyQuery($this->qf, $this->qb);
@@ -164,7 +165,7 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
 
     public function testAndWhere()
     {
-        $constraint = $this->getMock('PHPCR\Query\QOM\ConstraintInterface');
+        $constraint = $this->getMock('PHPCR\\Query\\QOM\\ConstraintInterface');
         $this->qb->expects($this->once())
             ->method('andWhere')
             ->with($constraint);
@@ -174,10 +175,9 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class NodeMock
-{
-    public function getPath()
-    {
-        return "somepath";
-    }
-}
+/**
+ * dummy class because mocking NodeInterface is not possible, as Traversable
+ * is not directly implementable and PHPUnit is not creative enough.
+ */
+abstract class MockNode implements \Iterator, NodeInterface {}
+abstract class MockQueryResult implements \Iterator, NodeInterface {}
