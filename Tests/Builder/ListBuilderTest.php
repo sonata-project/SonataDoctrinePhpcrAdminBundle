@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Sonata\DoctrinePHPCRAdminBundle\Tests\ListBuilder;
+namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Builder;
 
 use Sonata\DoctrinePHPCRAdminBundle\Builder\ListBuilder;
 
@@ -31,7 +31,7 @@ class ListBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $this->lb = new ListBuilder($this->guesser, $this->templates);
         $this->metaData = $this->getMock('\Doctrine\ODM\PHPCR\Mapping\ClassMetadata', array(), array(), '', false);
-        $this->modelManager = $this->getMock('\Sonata\AdminBundle\Model\ModelManagerInterface');
+        $this->modelManager = $this->getMockBuilder('\Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager')->disableOriginalConstructor()->getMock();
         $this->modelManager->expects($this->any())
             ->method('getMetadata')
             ->will($this->returnValue($this->metaData));
