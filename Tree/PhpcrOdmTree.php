@@ -193,10 +193,20 @@ class PhpcrOdmTree implements TreeInterface
         /** @var $meta \Doctrine\ODM\PHPCR\Mapping\ClassMetadata */
         $children = array();
         foreach ($meta->childrenMappings as $mapping) {
-            $children = array_merge($children, $meta->getReflectionProperty($mapping['name'])->getValue($document)->toArray());
+            $prop = $meta->getReflectionProperty($mapping['name'])->getValue($document);
+            if (is_null($prop)) {
+                continue;
+            }
+            if (! is_array($prop)) {
+                $prop = $prop->toArray();
+            }
+            $children = array_merge($children, $prop);
         }
         foreach ($meta->childMappings as $mapping) {
-            $children[$mapping['fieldName']] = $meta->getReflectionProperty($mapping['name'])->getValue($document);
+            $prop = $meta->getReflectionProperty($mapping['name'])->getValue($document);
+            if (! is_null($prop)) {
+                $children[$mapping['fieldName']] = $prop;
+            }
         }
 
         return $children;
