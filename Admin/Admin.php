@@ -20,6 +20,32 @@ use Sonata\AdminBundle\Admin\Admin as BaseAdmin;
  */
 class Admin extends BaseAdmin
 {
+    /**
+     * Path to the root node of simple pages.
+     *
+     * @var string
+     */
+    protected $root;
+
+    public function setRoot($root)
+    {
+        $this->root = $root;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createQuery($context = 'list')
+    {
+        $query = $this->getModelManager()->createQuery($this->getClass(), '', $this->root);
+
+        foreach ($this->extensions as $extension) {
+            $extension->configureQuery($this, $query, $context);
+        }
+
+        return $query;
+    }
+
     public function generateObjectUrl($name, $object, array $parameters = array(), $absolute = false)
     {
         $parameters['id'] = $this->getUrlsafeIdentifier($object);
