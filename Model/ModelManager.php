@@ -203,13 +203,16 @@ class ModelManager implements ModelManagerInterface
      * @param string $alias (provided only for compatibility with the interface TODO: remove)
      * @return \PHPCR\Query\QueryManagerInterface
      */
-    public function createQuery($class, $alias = 'o')
+    public function createQuery($class, $alias = 'o', $root = null)
     {
         $queryBuilder = $this->getDocumentManager()->createQueryBuilder();
         $qomFactory = $queryBuilder->getQOMFactory();
         $query = new ProxyQuery($qomFactory, $queryBuilder);
         $query->setDocumentName($class);
         $query->setDocumentManager($this->getDocumentManager());
+        if ($root) {
+            $query->where($qomFactory->descendantNode($root));
+        }
         return $query;
     }
 
