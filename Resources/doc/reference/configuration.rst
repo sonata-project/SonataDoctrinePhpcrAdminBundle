@@ -39,9 +39,9 @@ operations.
                 valid_children: []
             Symfony\Cmf\Bundle\MenuItem\Document\MenuItem:
                 valid_children:
-                    - Symfony\Cmf\Bundle\MenuItem\Document\MenuItem
-                    - Symfony\Cmf\Bundle\MultilangContentBundle\Document\MultilangMenuItem
-            Symfony\Cmf\Bundle\MultilangContentBundle\Document\MultilangMenuItem:
+                    - Symfony\Cmf\Bundle\MenuBundle\Document\MenuItem
+                    - Symfony\Cmf\Bundle\MenuBundle\Document\MultilangMenuItem
+            Symfony\Cmf\Bundle\MenuBundle\Document\MultilangMenuItem:
                 valid_children:
-                    - Symfony\Cmf\Bundle\MenuItem\Document\MenuItem
-                    - Symfony\Cmf\Bundle\MultilangContentBundle\Document\MultilangMenuItem
+                    - Symfony\Cmf\Bundle\MenuBundle\Document\MenuItem
+                    - Symfony\Cmf\Bundle\MenuBundle\Document\MultilangMenuItem
