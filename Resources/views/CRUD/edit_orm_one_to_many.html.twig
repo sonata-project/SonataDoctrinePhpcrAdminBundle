@@ -85,12 +85,10 @@ file that was distributed with this source code.
                     <a
                         href="{{ sonata_admin.field_description.associationadmin.generateUrl('create') }}"
                         onclick="start_field_retrieve_{{ id }}(event)"
-                        class="sonata-ba-action"
+                        class="btn sonata-ba-action"
                         >
-                        <img
-                            src="{{ asset('bundles/sonataadmin/famfamfam/add.png') }}"
-                            alt="{% trans from 'SonataAdminBundle' %}btn_add{% endtrans %}"
-                         />
+                        <i class="icon-plus"></i>
+                        {{ 'link_add'|trans({}, 'SonataAdminBundle') }}
                     </a>
                 </span>
             {% endif %}
@@ -139,12 +137,10 @@ file that was distributed with this source code.
                     <a
                         href="{{ sonata_admin.field_description.associationadmin.generateUrl('create') }}"
                         onclick="start_field_dialog_form_add_{{ id }}(event)"
-                        class="sonata-ba-action"
+                        class="btn sonata-ba-action"
                         >
-                        <img
-                            src="{{ asset('bundles/sonataadmin/famfamfam/add.png') }}"
-                            alt="{% trans from 'SonataAdminBundle' %}btn_add{% endtrans %}"
-                         />
+                        <i class="icon-plus"></i>
+                        {{ 'link_add'|trans({}, 'SonataAdminBundle') }}
                     </a>
                 {% endif %}
             </span>
