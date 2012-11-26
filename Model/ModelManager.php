@@ -304,7 +304,6 @@ class ModelManager implements ModelManagerInterface
      */
     public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx)
     {
-        $fieldNames = $this->getIdentifierFieldNames($class);
 
         /** @var \PHPCR\Util\QOM\QueryBuilder $qb  */
         $qb = $queryProxy->getQueryBuilder();
@@ -312,15 +311,12 @@ class ModelManager implements ModelManagerInterface
 
         $constraint = null;
         foreach ($idx as $id) {
-            $ids = explode('-', $id);
-            foreach ($fieldNames as $posName => $name) {
-                $path = $this->getBackendId($ids[$posName]);
-                $condition = $qmf->sameNode($path);
-                if ($constraint) {
-                    $constraint = $qmf->orConstraint($constraint, $condition);
-                } else {
-                    $constraint = $condition;
-                }
+            $path = $this->getBackendId($id);
+            $condition = $qmf->sameNode($path);
+            if ($constraint) {
+                $constraint = $qmf->orConstraint($constraint, $condition);
+            } else {
+                $constraint = $condition;
             }
         }
         $qb->andWhere($constraint);
