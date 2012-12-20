@@ -21,6 +21,7 @@ use Sonata\AdminBundle\Exception\ModelManagerException;
 
 use Doctrine\ODM\PHPCR\DocumentManager;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Util\ClassUtils;
 
 use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
 
@@ -245,7 +246,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getIdentifierValues($document)
     {
-        $class = $this->getMetadata(get_class($document));
+        $class = $this->getMetadata(ClassUtils::getClass($document));
         $path = $class->reflFields[$class->identifier]->getValue($document);
         return array($path);
     }

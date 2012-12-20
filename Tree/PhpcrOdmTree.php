@@ -5,7 +5,9 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tree;
 use PHPCR\Util\NodeHelper;
 
 use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
+
 use Doctrine\ODM\PHPCR\DocumentManager;
+use Doctrine\Common\Util\ClassUtils;
 
 use Sonata\AdminBundle\Admin\Pool;
 use Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager;
@@ -127,7 +129,7 @@ class PhpcrOdmTree implements TreeInterface
      */
     private function documentToArray($document)
     {
-        $className = get_class($document);
+        $className = ClassUtils::getClass($document);
         $rel = (in_array($className, $this->validClasses)) ? $className : 'undefined';
 
         $admin = $this->getAdmin($document);
@@ -172,7 +174,7 @@ class PhpcrOdmTree implements TreeInterface
      */
     private function getAdmin($document)
     {
-        $class = get_class($document);
+        $class = ClassUtils::getClass($document);
         if (!isset($this->admins[$class])) {
             // will return null if not defined
             $this->admins[$class] = $this->pool->getAdminByClass($class);
@@ -189,7 +191,7 @@ class PhpcrOdmTree implements TreeInterface
     {
         $admin = $this->getAdmin($document);
         $manager = (null !== $admin) ? $admin->getModelManager() : $this->defaultModelManager;
-        $meta = $manager->getMetadata(get_class($document));
+        $meta = $manager->getMetadata(ClassUtils::getClass($document));
         /** @var $meta \Doctrine\ODM\PHPCR\Mapping\ClassMetadata */
         $children = array();
         foreach ($meta->childrenMappings as $mapping) {
