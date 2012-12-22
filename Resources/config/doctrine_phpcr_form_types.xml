@@ -7,6 +7,9 @@
     <services>
         <service id="sonata.admin.doctrine_phpcr.form.type.tree_model" class="Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeModelType">
             <tag name="form.type" alias="doctrine_phpcr_type_tree_model" />
+            <call method="setDefaults">
+                <argument>%sonata_admin_doctrine_phpcr.tree_block.defaults%</argument>
+            </call>
         </service>
     </services>
 

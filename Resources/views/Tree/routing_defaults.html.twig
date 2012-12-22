@@ -1,0 +1,11 @@
+{% set routing_default_values = {} %}
+{% for default in routing_defaults %}
+    {% if 'locale' == default %}
+        {% set routing_default_values = routing_default_values|merge({'_locale': app.request.locale}) %}
+    {% elseif 'format' == default %}
+        {% set routing_default_values = routing_default_values|merge({'_format': app.request.format}) %}
+    {% else %}
+        {% set routing_default_values = routing_default_values|merge({default: app.request.attributes.get(default)}) %}
+    {% endif %}
+{% endfor %}
+{{ routing_default_values|json_encode|raw }}
