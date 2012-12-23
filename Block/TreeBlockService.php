@@ -14,15 +14,18 @@ class TreeBlockService extends BaseBlockService
 {
     protected $templating;
 
-    public function __construct($name, EngineInterface $templating)
+    protected $defaults;
+
+    public function __construct($name, EngineInterface $templating, array $defaults = array())
     {
         parent::__construct($name, $templating);
-        $this->templating = $templating;
+        $this->defaults = $defaults;
     }
 
     /**
      * @param \Sonata\AdminBundle\Form\FormMapper $form
      * @param \Sonata\BlockBundle\Model\BlockInterface $block
+     *
      * @return void
      */
     public function buildEditForm(FormMapper $form, BlockInterface $block)
@@ -33,11 +36,12 @@ class TreeBlockService extends BaseBlockService
     /**
      * @param \Sonata\BlockBundle\Model\BlockInterface $block
      * @param null|\Symfony\Component\HttpFoundation\Response $response
-     * @return void
+     *
+     * @return Response
      */
     public function execute(BlockInterface $block, Response $response = null)
     {
-        $options = array('id' => '/', 'selected' => null);
+        $options = array_merge(array('id' => '/', 'selected' => null), array('routing_defaults' => $this->defaults));
         if (null !== $block->getSettings()) {
             $options = array_merge($options, $block->getSettings());
         }
