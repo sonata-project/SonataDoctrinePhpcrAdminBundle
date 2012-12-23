@@ -3,7 +3,6 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -17,21 +16,23 @@ class TreeController extends Controller
      * @var array
      */
     private $types;
-    /**
-     * Symfony template identifier string
-     *
-     * @var string
-     */
-    private $template;
+
+    private $template = 'SonataDoctrinePHPCRAdminBundle:Tree:tree.html.twig';
+
+    private $defaults;
 
     /**
      * @param array $types array of document class names to valid_children list
      * @param string $template the template to render the tree, defaults to Tree:tree.html.twig
+     * @param array $defaults an array of values that should be included in the tree routes
      */
-    public function __construct(array $types, $template = 'SonataDoctrinePHPCRAdminBundle:Tree:tree.html.twig')
+    public function __construct(array $types, $template = null, array $defaults = array())
     {
         $this->types = $types;
-        $this->template = $template;
+        if ($template) {
+            $this->template = $template;
+        }
+        $this->defaults = $defaults;
     }
 
     /**
@@ -79,6 +80,7 @@ class TreeController extends Controller
             'admin_pool'    => $this->container->get('sonata.admin.pool'),
             'handlers'      => $adminClasses,
             'types'         => $this->types,
+            'routing_defaults' => $this->defaults,
         ));
     }
 }

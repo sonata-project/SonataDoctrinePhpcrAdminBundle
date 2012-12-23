@@ -13,7 +13,6 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -21,14 +20,18 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\Options;
 
-use Sonata\AdminBundle\Form\EventListener\MergeCollectionListener;
 use Sonata\AdminBundle\Form\ChoiceList\ModelChoiceList;
-use Sonata\AdminBundle\Form\DataTransformer\ModelsToArrayTransformer;
 use Sonata\AdminBundle\Form\DataTransformer\ModelToIdTransformer;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
 
 class TreeModelType extends AbstractType
 {
+    protected $defaults = array();
+
+    public function setDefaults(array $defaults)
+    {
+        $this->defaults = $defaults;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->prependClientTransformer(new ModelToIdTransformer($options['model_manager'], $options['class']));
@@ -41,6 +44,7 @@ class TreeModelType extends AbstractType
         parent::buildView($view, $form, $options);
         $view->vars['root_node'] = $form->getAttribute('root_node');
         $view->vars['select_root_node'] = $form->getAttribute('select_root_node');
+        $view->vars['routing_defaults'] = $this->defaults;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

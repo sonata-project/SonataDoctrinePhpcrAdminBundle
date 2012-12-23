@@ -14,6 +14,7 @@ file that was distributed with this source code.
 <script type="text/javascript">
     $(document).ready(function() {
         var treeState = AdminTree.generateTreeStateArray("{{ selected }}");
+        var defaults = {% include 'SonataDoctrinePHPCRAdminBundle:Tree:routing_defaults.html.twig' %};
 
         AdminTree.initTree({
             "selector": "#tree",
@@ -21,8 +22,8 @@ file that was distributed with this source code.
             "selected": "{{ selected }}",
             "contentselector": ".sonata-ba-content",
             "ajax": {
-                "children_url": Routing.generate('sonata.admin.doctrine_phpcr.phpcrodm_children'),
-                "move_url": Routing.generate('sonata.admin.doctrine_phpcr.phpcrodm_move')
+                "children_url": Routing.generate('sonata.admin.doctrine_phpcr.phpcrodm_children', defaults),
+                "move_url": Routing.generate('sonata.admin.doctrine_phpcr.phpcrodm_move', defaults)
             },
             "path": {
                 "expanded":     treeState,
@@ -72,7 +73,8 @@ file that was distributed with this source code.
                         }
                     },
                 {% endfor %}
-            }
+            },
+            "routing_defaults": defaults
         });
     });
 </script>

@@ -9,6 +9,8 @@
         <service id="sonata.admin.doctrine_phpcr.tree_controller"
                  class="Sonata\DoctrinePHPCRAdminBundle\Controller\TreeController">
             <argument/>
+            <argument/>
+            <argument>%sonata_admin_doctrine_phpcr.tree_block.defaults%</argument>
             <call method="setContainer"><argument type="service" id="service_container"/></call>
         </service>
 
