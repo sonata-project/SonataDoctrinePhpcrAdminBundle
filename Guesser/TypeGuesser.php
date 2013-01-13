@@ -58,11 +58,7 @@ class TypeGuesser implements TypeGuesserInterface
                 case ClassMetadata::MANY_TO_MANY:
                     return new TypeGuess('phpcr_many_to_many', array(), Guess::HIGH_CONFIDENCE);
 
-                case ClassMetadata::MANY_TO_ONE:
-                    return new TypeGuess('phpcr_many_to_one', array(), Guess::HIGH_CONFIDENCE);
 
-                case ClassMetadata::ONE_TO_ONE:
-                    return new TypeGuess('phpcr_one_to_one', array(), Guess::HIGH_CONFIDENCE);
             }
         }
 

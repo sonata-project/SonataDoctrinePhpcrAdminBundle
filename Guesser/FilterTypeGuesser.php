@@ -58,8 +58,6 @@ class FilterTypeGuesser implements TypeGuesserInterface
             $mapping = $metadata->getAssociationMapping($property);
 
             switch ($mapping['type']) {
-                case ClassMetadata::ONE_TO_ONE:
-                case ClassMetadata::ONE_TO_MANY:
                 case ClassMetadata::MANY_TO_ONE:
                 case ClassMetadata::MANY_TO_MANY:
 

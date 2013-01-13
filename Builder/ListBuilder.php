@@ -139,28 +139,12 @@ class ListBuilder implements ListBuilderInterface
                 $fieldDescription->setTemplate('SonataAdminBundle:CRUD:list_orm_many_to_one.html.twig');
             }
 
-            if ($fieldDescription->getMappingType() == ClassMetadata::ONE_TO_ONE) {
-                $fieldDescription->setTemplate('SonataAdminBundle:CRUD:list_orm_one_to_one.html.twig');
-            }
-
-            if ($fieldDescription->getMappingType() == ClassMetadata::ONE_TO_MANY) {
-                $fieldDescription->setTemplate('SonataAdminBundle:CRUD:list_orm_one_to_many.html.twig');
-            }
-
             if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_MANY) {
                 $fieldDescription->setTemplate('SonataAdminBundle:CRUD:list_orm_many_to_many.html.twig');
             }
         }
 
         if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {
-            $admin->attachAdminClass($fieldDescription);
-        }
-
-        if ($fieldDescription->getMappingType() == ClassMetadata::ONE_TO_ONE) {
-            $admin->attachAdminClass($fieldDescription);
-        }
-
-        if ($fieldDescription->getMappingType() == ClassMetadata::ONE_TO_MANY) {
             $admin->attachAdminClass($fieldDescription);
         }
 

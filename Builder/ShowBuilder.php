@@ -49,8 +49,6 @@ class ShowBuilder implements ShowBuilderInterface
         switch($fieldDescription->getMappingType()) {
             case ClassMetadata::MANY_TO_ONE:
             case ClassMetadata::MANY_TO_MANY:
-            case ClassMetadata::ONE_TO_MANY:
-            case ClassMetadata::ONE_TO_ONE:
                 // todo
                 return;
             default:
@@ -99,28 +97,12 @@ class ShowBuilder implements ShowBuilderInterface
                 $fieldDescription->setTemplate('SonataAdminBundle:CRUD:show_orm_many_to_one.html.twig');
             }
 
-            if ($fieldDescription->getMappingType() == ClassMetadata::ONE_TO_ONE) {
-                $fieldDescription->setTemplate('SonataAdminBundle:CRUD:show_orm_one_to_one.html.twig');
-            }
-
-            if ($fieldDescription->getMappingType() == ClassMetadata::ONE_TO_MANY) {
-                $fieldDescription->setTemplate('SonataAdminBundle:CRUD:show_orm_one_to_many.html.twig');
-            }
-
             if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_MANY) {
                 $fieldDescription->setTemplate('SonataAdminBundle:CRUD:show_orm_many_to_many.html.twig');
             }
         }
 
         if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {
-            $admin->attachAdminClass($fieldDescription);
-        }
-
-        if ($fieldDescription->getMappingType() == ClassMetadata::ONE_TO_ONE) {
-            $admin->attachAdminClass($fieldDescription);
-        }
-
-        if ($fieldDescription->getMappingType() == ClassMetadata::ONE_TO_MANY) {
             $admin->attachAdminClass($fieldDescription);
         }
 

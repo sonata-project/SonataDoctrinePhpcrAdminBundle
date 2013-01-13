@@ -67,10 +67,6 @@ class FormContractor implements FormContractorInterface
         $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'standard'));
         
         $mappingTypes = array(
-            ClassMetadata::TO_ONE,
-            ClassMetadata::TO_MANY,
-            ClassMetadata::ONE_TO_ONE,
-            ClassMetadata::ONE_TO_MANY,
             ClassMetadata::MANY_TO_ONE,
             ClassMetadata::MANY_TO_MANY
         );
@@ -119,14 +115,12 @@ class FormContractor implements FormContractorInterface
             $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
 
             switch ($fieldDescription->getMappingType()) {
-                case ClassMetadata::ONE_TO_MANY:
                 case ClassMetadata::MANY_TO_MANY:
                     $options['multiple']            = true;
                     $options['parent']              = 'choice';
                     break;
 
                 case ClassMetadata::MANY_TO_ONE:
-                case ClassMetadata::ONE_TO_ONE:
                     break;
             }
 
