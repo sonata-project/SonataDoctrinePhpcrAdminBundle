@@ -41,30 +41,27 @@ class TypeGuesser implements TypeGuesserInterface
      */
     public function guessType($class, $property, ModelManagerInterface $modelManager)
     {
-        if (!$ret = $this->getMetadata($class)) {
+        if (!$metadata = $this->getMetadata($class)) {
             return new TypeGuess('text', array(), Guess::LOW_CONFIDENCE);
         }
 
-        list($metadata, $name) = $ret;
-
         if ($metadata->hasAssociation($property)) {
-            $multiple = $metadata->isCollectionValuedAssociation($property);
-            $mapping = $metadata->getAssociationMapping($property);
+            // TODO add support for children, child, referrers and parentDocument associations
+            $mapping = $metadata->mappings[$property];
 
             switch ($mapping['type']) {
-                case ClassMetadata::ONE_TO_MANY:
-                    return new TypeGuess('phpcr_one_to_many', array(), Guess::HIGH_CONFIDENCE);
-
                 case ClassMetadata::MANY_TO_MANY:
-                    return new TypeGuess('phpcr_many_to_many', array(), Guess::HIGH_CONFIDENCE);
+                    return new TypeGuess('doctrine_phpcr_many_to_many', array(), Guess::HIGH_CONFIDENCE);
 
-
+                case ClassMetadata::MANY_TO_ONE:
+                    return new TypeGuess('doctrine_phpcr_many_to_one', array(), Guess::HIGH_CONFIDENCE);
             }
         }
 
+        // TODO add support for node, nodename, version created, version name
+
+        // TODO: missing multi value support
         switch ($metadata->getTypeOfField($property)) {
-            //case 'array':
-            //  return new TypeGuess('Collection', array(), Guess::HIGH_CONFIDENCE);
             case 'boolean':
                 return new TypeGuess('checkbox', array(), Guess::HIGH_CONFIDENCE);
             case 'date':
@@ -77,17 +74,13 @@ class TypeGuesser implements TypeGuesserInterface
             case 'long':
                 return new TypeGuess('integer', array(), Guess::MEDIUM_CONFIDENCE);
             case 'string':
-                return new TypeGuess('integer', array(), Guess::HIGH_CONFIDENCE);
+                return new TypeGuess('string', array(), Guess::HIGH_CONFIDENCE);
             case 'binary':
             case 'uri':
-                return new TypeGuess('integer', array(), Guess::MEDIUM_CONFIDENCE);
-            case 'node':
-                return new TypeGuess('node', array(), Guess::MEDIUM_CONFIDENCE);
-            case 'reference':
-            case 'weakreference':
-            default:
-                return new TypeGuess('text', array(), Guess::LOW_CONFIDENCE);
+                return new TypeGuess('string', array(), Guess::MEDIUM_CONFIDENCE);
         }
+
+        return new TypeGuess('text', array(), Guess::LOW_CONFIDENCE);
     }
 
     protected function getMetadata($class)
@@ -97,9 +90,9 @@ class TypeGuesser implements TypeGuesserInterface
         }
 
         $this->cache[$class] = null;
-        foreach ($this->registry->getManagers() as $name => $dm) {
+        foreach ($this->registry->getManagers() as $dm) {
             try {
-                return $this->cache[$class] = array($dm->getClassMetadata($class), $name);
+                return $this->cache[$class] = $dm->getClassMetadata($class);
             } catch (MappingException $e) {
                 // not an entity or mapped super class
             }
