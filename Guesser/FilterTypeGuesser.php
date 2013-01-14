@@ -41,7 +41,7 @@ class FilterTypeGuesser implements TypeGuesserInterface
      */
     public function guessType($class, $property, ModelManagerInterface $modelManager)
     {
-        if (!$ret = $this->getMetadata($class)) {
+        if (!$metadata = $this->getMetadata($class)) {
             return false;
         }
 
@@ -51,67 +51,59 @@ class FilterTypeGuesser implements TypeGuesserInterface
             'options'        => array(),
         );
 
-        list($metadata, $name) = $ret;
-
         if ($metadata->hasAssociation($property)) {
-            $multiple = $metadata->isCollectionValuedAssociation($property);
-            $mapping = $metadata->getAssociationMapping($property);
+            // TODO add support for children, child, referrers and parentDocument associations
+            $mapping = $metadata->mappings[$property];
+
+            $options['operator_type'] = 'sonata_type_boolean';
+            $options['operator_options'] = array();
+
+            $options['field_type'] = 'document';
+            if (!empty($mapping['targetDocument'])) {
+                $options['field_options'] = array(
+                    'class' => $mapping['targetDocument']
+                );
+            }
+            $options['field_name'] = $mapping['fieldName'];
+            $options['mapping_type'] = $mapping['type'];
 
             switch ($mapping['type']) {
-                case ClassMetadata::MANY_TO_ONE:
                 case ClassMetadata::MANY_TO_MANY:
+                    return new TypeGuess('doctrine_phpcr_many_to_many', $options, Guess::HIGH_CONFIDENCE);
 
-                    $options['operator_type'] = 'sonata_type_boolean';
-                    $options['operator_options'] = array();
-
-                    $options['field_type'] = 'entity';
-                    $options['field_options'] = array(
-                        'class' => $mapping['targetEntity']
-                    );
-                    $options['field_name'] = $mapping['fieldName'];
-                    $options['mapping_type'] = $mapping['type'];
-
-                    return new TypeGuess('doctrine_phpcr_model', $options, Guess::HIGH_CONFIDENCE);
+                case ClassMetadata::MANY_TO_ONE:
+                    return new TypeGuess('doctrine_phpcr_many_to_one', $options, Guess::HIGH_CONFIDENCE);
             }
         }
 
-        $options['field_name'] = $metadata->fieldMappings[$property]['fieldName'];
+        // TODO add support for node, nodename, version created, version name
 
-        //TODO: but $metadata->getTypeOfField is not yet implemented in phpcr-odm
-        //switch ($metadata->getTypeOfField($property)) {
-//            case 'boolean':
-//                $options['field_type'] = 'sonata_type_boolean';
-//                $options['field_options'] = array();
-//
-//                return new TypeGuess('doctrine_orm_boolean', $options, Guess::HIGH_CONFIDENCE);
-////            case 'datetime':
-////            case 'vardatetime':
-////            case 'datetimetz':
-////                return new TypeGuess('doctrine_orm_datetime', $options, Guess::HIGH_CONFIDENCE);
-////            case 'date':
-////                return new TypeGuess('doctrine_orm_date', $options, Guess::HIGH_CONFIDENCE);
-//            case 'decimal':
-//            case 'float':
-//                return new TypeGuess('doctrine_orm_number', $options, Guess::MEDIUM_CONFIDENCE);
-//            case 'integer':
-//            case 'bigint':
-//            case 'smallint':
-//                $options['field_type'] = 'number';
-//                $options['field_options'] = array(
-//                    'csrf_protection' => false
-//                );
-//
-//                return new TypeGuess('doctrine_orm_number', $options, Guess::MEDIUM_CONFIDENCE);
-//            case 'string':
-//            case 'text':
-//                $options['field_type'] = 'text';
-//
-//                return new TypeGuess('doctrine_orm_string', $options, Guess::MEDIUM_CONFIDENCE);
-//            case 'time':
-//                return new TypeGuess('doctrine_orm_time', $options, Guess::HIGH_CONFIDENCE);
-//            default:
-                return new TypeGuess('doctrine_phpcr_string', $options, Guess::LOW_CONFIDENCE);
-//        }
+        $options['field_name'] = $property;
+        switch ($metadata->getTypeOfField($property)) {
+            case 'boolean':
+                $options['field_type'] = 'sonata_type_boolean';
+                $options['field_options'] = array();
+
+                return new TypeGuess('checkbox', $options, Guess::HIGH_CONFIDENCE);
+            case 'date':
+                return new TypeGuess('date', $options, Guess::HIGH_CONFIDENCE);
+            case 'decimal':
+            case 'float':
+                return new TypeGuess('number', $options, Guess::HIGH_CONFIDENCE);
+            case 'integer':
+                $options['field_type'] = 'number';
+                $options['field_options'] = array(
+                    'csrf_protection' => false
+                );
+
+                return new TypeGuess('integer', $options, Guess::HIGH_CONFIDENCE);
+            case 'text':
+                $options['field_type'] = 'text';
+            case 'string':
+                return new TypeGuess('string', $options, Guess::HIGH_CONFIDENCE);
+        }
+
+        return new TypeGuess('string', $options, Guess::LOW_CONFIDENCE);
     }
 
     protected function getMetadata($class)
@@ -121,9 +113,9 @@ class FilterTypeGuesser implements TypeGuesserInterface
         }
 
         $this->cache[$class] = null;
-        foreach ($this->registry->getManagers() as $name => $em) {
+        foreach ($this->registry->getManagers() as $dm) {
             try {
-                return $this->cache[$class] = array($em->getClassMetadata($class), $name);
+                return $this->cache[$class] = $dm->getClassMetadata($class);
             } catch (MappingException $e) {
                 // not an entity or mapped super class
             }
