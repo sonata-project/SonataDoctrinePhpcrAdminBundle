@@ -194,8 +194,8 @@ class PhpcrOdmTree implements TreeInterface
         $meta = $manager->getMetadata(ClassUtils::getClass($document));
         /** @var $meta \Doctrine\ODM\PHPCR\Mapping\ClassMetadata */
         $children = array();
-        foreach ($meta->childrenMappings as $mapping) {
-            $prop = $meta->getReflectionProperty($mapping['name'])->getValue($document);
+        foreach ($meta->childrenMappings as $fieldName) {
+            $prop = $meta->getReflectionProperty($fieldName)->getValue($document);
             if (is_null($prop)) {
                 continue;
             }
@@ -204,10 +204,10 @@ class PhpcrOdmTree implements TreeInterface
             }
             $children = array_merge($children, $prop);
         }
-        foreach ($meta->childMappings as $mapping) {
-            $prop = $meta->getReflectionProperty($mapping['name'])->getValue($document);
+        foreach ($meta->childMappings as $fieldName) {
+            $prop = $meta->getReflectionProperty($fieldName)->getValue($document);
             if (! is_null($prop)) {
-                $children[$mapping['fieldName']] = $prop;
+                $children[$fieldName] = $prop;
             }
         }
 
