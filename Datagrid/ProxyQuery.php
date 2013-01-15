@@ -13,9 +13,7 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Datagrid;
 use PHPCR\Query\QOM\QueryObjectModelFactoryInterface;
 use Doctrine\ODM\PHPCR\DocumentManager;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use PHPCR\Query\QOM\QueryObjectModelConstantsInterface as Constants;
-use PHPCR\Util\QOM\QueryBuilder;
-use PHPCR\Query\QOM\ConstraintInterface;
+use Doctrine\ODM\PHPCR\Query\QueryBuilder;
 
 /**
  * This class is used to abstract the Admin Bundle from the different QueryBuilder implementations
@@ -23,16 +21,9 @@ use PHPCR\Query\QOM\ConstraintInterface;
 class ProxyQuery implements ProxyQueryInterface
 {
     /**
-     * QOM factory used to get access to the QueryBuilder and its parameters
-     *
-     * @var \PHPCR\Query\QOM\QueryObjectModelFactoryInterface
-     */
-    protected $qomFactory;
-
-    /**
      * Query Builder Fluent interface for the QOM
      *
-     * @var \PHPCR\Util\QOM\QueryBuilder
+     * @var \Doctrine\ODM\PHPCR\Query\QueryBuilder
      */
     protected $qb;
 
@@ -70,9 +61,8 @@ class ProxyQuery implements ProxyQueryInterface
      * @param \PHPCR\Query\QOM\QueryObjectModelFactoryInterface $qomFactory
      * @param \PHPCR\Util\QOM\QueryBuilder $queryBuilder
      */
-    public function __construct(QueryObjectModelFactoryInterface $qomFactory, QueryBuilder $queryBuilder)
+    public function __construct(QueryBuilder $queryBuilder)
     {
-        $this->qomFactory = $qomFactory;
         $this->qb = $queryBuilder;
     }
 
@@ -86,39 +76,11 @@ class ProxyQuery implements ProxyQueryInterface
      */
     public function execute(array $params = array(), $hydrationMode = null)
     {
-        // get nodes
-        $nodes = $this->executeRaw();
-
-        $documents = array();
-
-        foreach ($nodes as $node) {
-            $documents[$node->getPath()] = $this->documentManager->getunitOfWork()->createDocument($this->documentName, $node);
-        }
-
-        return $documents;
-    }
-
-    /**
-     * Executes the query and returns the raw nodes.
-     * 
-     * @return array with nodes
-     */
-    public function executeRaw()
-    {
-        $qf = $this->qomFactory;
-        $qb = $this->qb;
-
-        $qb->from($qf->selector($this->getNodeType()));
-
-        //constraint
-        $qb->andWhere($qf->comparison($qf->propertyValue('phpcr:class'), Constants::JCR_OPERATOR_EQUAL_TO, $qf->literal($this->documentName)));
-
-        //ordering
         if ($this->getSortBy()) {
-            $qb->orderBy($qf->propertyValue($this->sortBy), $this->sortOrder);
+            $this->qb->orderBy($this->sortBy, $this->sortOrder);
         }
 
-        return $qb->execute()->getNodes();
+        return $this->qb->getQuery()->execute();
     }
 
     /**
@@ -258,52 +220,13 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * Sets the document name (Class of the document)
-     *
-     * @param string $documentName
-     */
-    public function setDocumentName($documentName)
-    {
-        $this->documentName = $documentName;
-    }
-
-    /**
-     * Gets the document name (Class of the document)
-     *
-     * @return string $documentName
-     */
-    public function getDocumentName()
-    {
-        return $this->documentName;
-    }
-    /**
-     * Gets the QueryObjectModelFactory
-     *
-     * @return \PHPCR\Query\QOM\QueryobjectModelFactory
-     */
-    public function getQueryObjectModelFactory()
-    {
-      return $this->qomFactory;
-    }
-
-    /**
-     * Adds a constraint to the query
-     *
-     * @param ConstraintInterface $constraint
-     * @return void
-     */
-    public function andWhere(ConstraintInterface $constraint)
-    {
-        $this->qb->andWhere($constraint);
-    }
-
-    /**
      * Gets a string with the type of the node
      *
      * @return string type of the node
      */
     public function getNodeType()
     {
+        throw new \Exception('Used by what??');
         $classMD = $this->documentManager->getClassMetadata($this->documentName);
         return $classMD->nodeType;
     }

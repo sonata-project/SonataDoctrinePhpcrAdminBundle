@@ -41,25 +41,24 @@ class StringFilter extends Filter
             return;
         }
 
-        $qf = $queryBuilder->getQueryObjectModelFactory();
+        $eb = $queryBuilder->expr();
 
         switch ($data['type']) {
-        case ChoiceType::TYPE_EQUAL:
-            $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_EQUAL_TO, $qf->literal($data['value']));
-            break;
-        case ChoiceType::TYPE_NOT_CONTAINS:
-            $constraint = $qf->fulltextSearch($field, "* -".$data['value'], '['.$queryBuilder->getNodeType().']');
-            break;
-        case ChoiceType::TYPE_CONTAINS:
-            $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LIKE, $qf->literal('%'.$data['value'].'%'));
-            break;
-        case ChoiceType::TYPE_CONTAINS_WORDS:
-        default:
-            $constraint = $qf->fulltextSearch($field, $data['value'], '['.$queryBuilder->getNodeType().']');
-
+            case ChoiceType::TYPE_EQUAL:
+                $expr = $eb->eq($field, $data['value']);
+                break;
+            case ChoiceType::TYPE_NOT_CONTAINS:
+                $expr = $eb->textSearch($field, '* -'.$data['value']);
+                break;
+            case ChoiceType::TYPE_CONTAINS:
+                $expr = $eb->like($field, '%'.$data['value']);
+                break;
+            case ChoiceType::TYPE_CONTAINS_WORDS:
+            default:
+                $expr = $eb->textSearch($field, $data['value']);
         }
-        $queryBuilder->andWhere($constraint);
 
+        $queryBuilder->andWhere($expr);
     }
 
     /**

@@ -12,6 +12,7 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Datagrid;
 
 use Sonata\AdminBundle\Datagrid\Pager as BasePager;
+use Doctrine\ODM\PHPCR\Query\Query as PHPCRQuery;
 
 /**
  * Doctrine pager class.
@@ -29,7 +30,7 @@ class Pager extends BasePager
      */
     public function computeNbResult()
     {
-        return count($this->getQuery()->executeRaw());
+        return count($this->getQuery()->execute(array(), PHPCRQuery::HYDRATE_PHPCR));
     }
 
     /**
@@ -38,7 +39,7 @@ class Pager extends BasePager
      * @param mixed $hydrationMode A hydration mode identifier
      * @return array
      */
-    public function getResults($hydrationMode = "null")
+    public function getResults($hydrationMode = null)
     {
         return $this->getQuery()->execute(array(), $hydrationMode);
     }
