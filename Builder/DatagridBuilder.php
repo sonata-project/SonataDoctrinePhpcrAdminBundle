@@ -24,8 +24,6 @@ use Sonata\DoctrinePHPCRAdminBundle\Datagrid\Pager;
 
 use Symfony\Component\Form\FormFactory;
 
-use PHPCR\Util\QOM\QueryBuilder;
-
 class DatagridBuilder implements DatagridBuilderInterface
 {
     protected $filterFactory;

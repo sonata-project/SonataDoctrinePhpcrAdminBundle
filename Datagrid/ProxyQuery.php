@@ -10,7 +10,6 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Datagrid;
 
-use PHPCR\Query\QOM\QueryObjectModelFactoryInterface;
 use Doctrine\ODM\PHPCR\DocumentManager;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Doctrine\ODM\PHPCR\Query\QueryBuilder;

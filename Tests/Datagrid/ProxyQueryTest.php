@@ -12,8 +12,6 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Datagrid;
 
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
-use PHPCR\NodeInterface;
-use PHPCR\Query\QueryResultInterface;
 
 class ProxyQueryTest extends \PHPUnit_Framework_TestCase
 {

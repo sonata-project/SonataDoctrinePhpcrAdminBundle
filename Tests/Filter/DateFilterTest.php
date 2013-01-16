@@ -13,7 +13,6 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 
 use Sonata\DoctrinePHPCRAdminBundle\Filter\DateFilter;
 use Sonata\AdminBundle\Form\Type\Filter\DateType;
-use PHPCR\Query\QOM\QueryObjectModelConstantsInterface as Constants;
 
 class DateFilterTest extends \PHPUnit_Framework_TestCase
 {

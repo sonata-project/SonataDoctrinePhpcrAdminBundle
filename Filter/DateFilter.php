@@ -16,8 +16,6 @@ use Sonata\AdminBundle\Filter\FilterInterface;
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
-use PHPCR\Query\QOM\QueryObjectModelConstantsInterface as Constants;
-
 class DateFilter extends Filter
 {
     /**

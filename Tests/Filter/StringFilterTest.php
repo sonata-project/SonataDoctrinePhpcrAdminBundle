@@ -13,7 +13,6 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 
 use Sonata\DoctrinePHPCRAdminBundle\Filter\StringFilter;
 use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
-use PHPCR\Query\QOM\QueryObjectModelConstantsInterface as Constants;
 
 class StringFilterTest extends \PHPUnit_Framework_TestCase
 {
