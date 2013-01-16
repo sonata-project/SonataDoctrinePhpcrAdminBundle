@@ -152,7 +152,7 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * Gets the QueryBuilder
      *
-     * @return \PHPCR\Util\QOM\QueryBuilder
+     * @return \Doctrine\ODM\PHPCR\Query\QueryBuilder
      */
     public function getQueryBuilder()
     {

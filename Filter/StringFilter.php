@@ -22,13 +22,13 @@ class StringFilter extends Filter
     /**
      * Applies a constraint to the query
      *
-     * @param ProxyQueryInterface $queryBuilder
+     * @param ProxyQueryInterface $proxyQuery
      * @param string $alias has no effect
      * @param string $field field uhere to apply the constraint
      * @param array $data determines the constraint
      * @return
      */
-    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
         if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
             return;
@@ -41,7 +41,7 @@ class StringFilter extends Filter
             return;
         }
 
-        $eb = $queryBuilder->expr();
+        $eb = $proxyQuery->getQueryBuilder()->expr();
 
         switch ($data['type']) {
             case ChoiceType::TYPE_EQUAL:
@@ -58,7 +58,7 @@ class StringFilter extends Filter
                 $expr = $eb->textSearch($field, $data['value']);
         }
 
-        $queryBuilder->andWhere($expr);
+        $proxyQuery->andWhere($expr);
     }
 
     /**
