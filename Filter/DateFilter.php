@@ -23,54 +23,54 @@ class DateFilter extends Filter
     /**
      * Applies a constraint to the query
      *
-     * @param ProxyQueryInterface $queryBuilder
+     * @param ProxyQueryInterface $proxyQuery
      * @param string $alias has no effect
      * @param string $field field where to apply the constraint
      * @param array $data determines the date constraint [value => [year => Y, month => m, day => d], type => DateType::TYPE_GREATER_EQUAL|DateType::TYPE_GREATER_THAN|DateType::TYPE_LESS_EQUAL|DateType::TYPE_LESS_THAN|DateType::TYPE_NULL|DateType::TYPE_NOT_NULL|DateType::TYPE_EQUAL]
      * @return
      */
-    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
-        if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
+        if (!$data || !is_array($data) || !isset($data['value'])) {
             return;
         }
 
-        if (isset($data['value'])) {
+        $data['type'] = isset($data['type']) ? $data['type'] : DateType::TYPE_EQUAL;
 
-            $data['type'] = isset($data['type']) ? $data['type'] : DateType::TYPE_EQUAL;
+        $qb = $proxyQuery->getQueryBuilder();
+        $eb = $qb->expr();
 
-            $qf = $queryBuilder->getQueryObjectModelFactory();
+        $from = $data['value'];
+        $to = new \DateTime($from->format('Y-m-d') . ' +86399 seconds'); // 23 hours 59 minutes 59 seconds
 
-            $from = $data['value'];
-            $to = new \DateTime($from->format('Y-m-d') . ' +86399 seconds'); // 23 hours 59 minutes 59 seconds
-
-            switch ($data['type']) {
-                case DateType::TYPE_GREATER_EQUAL:
-                    $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_GREATER_THAN_OR_EQUAL_TO, $qf->literal($from));
-                    break;
-                case DateType::TYPE_GREATER_THAN:
-                    $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_GREATER_THAN, $qf->literal($to));
-                    break;
-                case DateType::TYPE_LESS_EQUAL:
-                    $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LESS_THAN_OR_EQUAL_TO, $qf->literal($to));
-                    break;
-                case DateType::TYPE_LESS_THAN:
-                    $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LESS_THAN, $qf->literal($from));
-                    break;
-                case DateType::TYPE_NULL:
-                    $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_EQUAL_TO, $qf->literal(null));
-                    break;
-                case DateType::TYPE_NOT_NULL:
-                    $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_NOT_EQUAL_TO, $qf->literal(null));
-                    break;
-                case DateType::TYPE_EQUAL:
-                default:
-                    $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LESS_THAN_OR_EQUAL_TO, $qf->literal($to));
-                    $queryBuilder->andWhere($constraint);
-                    $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_GREATER_THAN_OR_EQUAL_TO, $qf->literal($from));
-            }
-            $queryBuilder->andWhere($constraint);
+        switch ($data['type']) {
+            case DateType::TYPE_GREATER_EQUAL:
+                $expr = $eb->gte($field, $from);
+                break;
+            case DateType::TYPE_GREATER_THAN:
+                $expr = $eb->gt($field, $from);
+                break;
+            case DateType::TYPE_LESS_EQUAL:
+                $expr = $eb->lte($field, $from);
+                break;
+            case DateType::TYPE_LESS_THAN:
+                $expr = $eb->lt($field, $from);
+                break;
+            case DateType::TYPE_NULL:
+                $expr = $eb->eq($field, null);
+                break;
+            case DateType::TYPE_NOT_NULL:
+                $expr = $eb->neq($field, null);
+                break;
+            case DateType::TYPE_EQUAL:
+            default:
+                $expr = $eb->andX(
+                    $expr = $eb->gte($field, $from),
+                    $expr = $eb->lte($field, $to)
+                );
         }
+
+        $qb->andWhere($expr);
     }
 
     public function getDefaultOptions()
