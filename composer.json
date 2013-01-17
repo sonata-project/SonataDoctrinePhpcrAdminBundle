@@ -24,8 +24,7 @@
         "symfony/twig-bundle":"2.1.*",
         "doctrine/phpcr-odm":"1.0.*",
         "doctrine/phpcr-bundle":"1.0.*",
-        "symfony-cmf/tree-browser-bundle": "dev-master",
-        "jackalope/jackalope-jackrabbit": "dev-master"
+        "symfony-cmf/tree-browser-bundle": "1.0.*"
     },
     "autoload": {
         "psr-0": { "Sonata\\DoctrinePHPCRAdminBundle": "" }
