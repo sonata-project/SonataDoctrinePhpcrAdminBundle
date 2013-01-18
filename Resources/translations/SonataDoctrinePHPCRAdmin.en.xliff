@@ -10,6 +10,14 @@
                 <source>reset_tree</source>
                 <target>Reset</target>
             </trans-unit>
+            <trans-unit id="tree_create_item">
+                <source>create_item</source>
+                <target>Create</target>
+            </trans-unit>
+            <trans-unit id="tree_delete_item">
+                <source>delete_item</source>
+                <target>Delete</target>
+            </trans-unit>
         </body>
      </file>
 </xliff>

@@ -13,68 +13,26 @@ file that was distributed with this source code.
 {% include 'SymfonyCmfTreeBrowserBundle:Base:tree.html.twig' %}
 <script type="text/javascript">
     $(document).ready(function() {
-        var treeState = AdminTree.generateTreeStateArray("{{ selected }}");
+        var treeState = AdminTree.generateTreeStateArray("{{ tree.selectedNode }}");
         var defaults = {% include 'SonataDoctrinePHPCRAdminBundle:Tree:routing_defaults.html.twig' %};
 
         AdminTree.initTree({
             "selector": "#tree",
-            "rootNode": "{{ id }}",
-            "selected": "{{ selected }}",
-            "contentselector": ".sonata-ba-content",
+            "rootNode": "{{ tree.rootNode }}",
+            "selected": "{{ tree.selectedNode }}",
+            "labels": {{ tree.labels | json_encode() | raw}},
             "ajax": {
-                "children_url": Routing.generate('sonata.admin.doctrine_phpcr.phpcrodm_children', defaults),
-                "move_url": Routing.generate('sonata.admin.doctrine_phpcr.phpcrodm_move', defaults)
+                "children_url": Routing.generate("_symfony_cmf_tree_{{ tree.alias }}_children", defaults),
+                "move_url": Routing.generate("_symfony_cmf_tree_{{ tree.alias }}_move", defaults),
+                "reorder_url": Routing.generate("_symfony_cmf_tree_{{ tree.alias }}_reorder", defaults)
             },
             "path": {
                 "expanded":     treeState,
                 "preloaded":    treeState
             },
-            "icon": {
-                "document": "{{ asset('bundles/symfonycmftree/images/document.png') }}",
-                "folder":   "{{ asset('bundles/symfonycmftree/images/folder.png') }}"
-            },
-            "route": {
-                "edit":     'admin_sandbox_main_editablestaticcontent_edit',
-                "erase":    'admin_sandbox_main_editablestaticcontent_delete'
-            },
-            "routecollection": {
-                {% for handler in handlers %}
-                    "{{handler.className}}" :{
-                        "label" : "{{ handler.label }}",
-                        "routes" : {
-                            {% for code, path in handler.routes %}
-                                "{{ code }}" : "{{ path }}",
-                            {% endfor%}
-                        }
-                    },
-                {% endfor%}
-            },
-            {# TODO: this is just used for creating new documents. bad naming #}
-            "doctypes": {
-                {% for handler in handlers %}
-                    "{{ handler.label }}": {
-                        "label": "{{handler.label}}",
-                        "action": function (node) {
-                            window.location = Routing.generate('{{handler.routes.create}}', { "parent": node.attr("id") });
-                        }
-                    },
-                {% endfor %}
-            },
-            "types": {
-                {% for class, info in types %}
-                    "{{ class }}": {
-                        "valid_children": [
-                            {% for child in info.valid_children %}
-                                "{{ child }}",
-                            {% endfor %}
-                        ],
-                        "icon": {
-                            "image": "{{ info.image }}"
-                        }
-                    },
-                {% endfor %}
-            },
-            "routing_defaults": defaults
+            "types": {{ tree.nodeTypes | json_encode() | raw}},
+
+            "routing_defaults": {}
         });
     });
 </script>
