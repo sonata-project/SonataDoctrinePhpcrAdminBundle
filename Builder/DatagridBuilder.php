@@ -24,8 +24,6 @@ use Sonata\DoctrinePHPCRAdminBundle\Datagrid\Pager;
 
 use Symfony\Component\Form\FormFactory;
 
-use PHPCR\Util\QOM\QueryBuilder;
-
 class DatagridBuilder implements DatagridBuilderInterface
 {
     protected $filterFactory;
@@ -84,7 +82,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     public function addFilter(DatagridInterface $datagrid, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         if ($type == null) {
-            $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName());
+            $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
 
             $type = $guessType->getType();
 
