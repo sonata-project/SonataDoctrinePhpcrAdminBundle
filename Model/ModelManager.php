@@ -206,8 +206,9 @@ class ModelManager implements ModelManagerInterface
      */
     public function createQuery($class, $alias = 'o', $root = null)
     {
-        $queryBuilder = $this->getDocumentManager()->createQueryBuilder();
-        $qomFactory = $queryBuilder->getQOMFactory();
+        $documentManager = $this->getDocumentManager();
+        $queryBuilder = $documentManager->createPhpcrQueryBuilder();
+        $qomFactory = $documentManager->getPhpcrSession()->getWorkspace()->getQueryManager()->getQOMFactory();
         $query = new ProxyQuery($qomFactory, $queryBuilder);
         $query->setDocumentName($class);
         $query->setDocumentManager($this->getDocumentManager());
