@@ -15,20 +15,19 @@ use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
-use PHPCR\Query\QOM\QueryObjectModelConstantsInterface as Constants;
 
 class StringFilter extends Filter
 {
     /**
      * Applies a constraint to the query
      *
-     * @param ProxyQueryInterface $queryBuilder
+     * @param ProxyQueryInterface $proxyQuery
      * @param string $alias has no effect
      * @param string $field field uhere to apply the constraint
      * @param array $data determines the constraint
      * @return
      */
-    public function filter(ProxyQueryInterface $queryBuilder, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
         if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
             return;
@@ -41,25 +40,24 @@ class StringFilter extends Filter
             return;
         }
 
-        $qf = $queryBuilder->getQueryObjectModelFactory();
+        $eb = $proxyQuery->getQueryBuilder()->expr();
 
         switch ($data['type']) {
-        case ChoiceType::TYPE_EQUAL:
-            $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_EQUAL_TO, $qf->literal($data['value']));
-            break;
-        case ChoiceType::TYPE_NOT_CONTAINS:
-            $constraint = $qf->fulltextSearch($field, "* -".$data['value'], '['.$queryBuilder->getNodeType().']');
-            break;
-        case ChoiceType::TYPE_CONTAINS:
-            $constraint = $qf->comparison($qf->propertyValue($field), Constants::JCR_OPERATOR_LIKE, $qf->literal('%'.$data['value'].'%'));
-            break;
-        case ChoiceType::TYPE_CONTAINS_WORDS:
-        default:
-            $constraint = $qf->fulltextSearch($field, $data['value'], '['.$queryBuilder->getNodeType().']');
-
+            case ChoiceType::TYPE_EQUAL:
+                $expr = $eb->eq($field, $data['value']);
+                break;
+            case ChoiceType::TYPE_NOT_CONTAINS:
+                $expr = $eb->textSearch($field, '* -'.$data['value']);
+                break;
+            case ChoiceType::TYPE_CONTAINS:
+                $expr = $eb->like($field, '%'.$data['value']);
+                break;
+            case ChoiceType::TYPE_CONTAINS_WORDS:
+            default:
+                $expr = $eb->textSearch($field, $data['value']);
         }
-        $queryBuilder->andWhere($constraint);
 
+        $proxyQuery->andWhere($expr);
     }
 
     /**
