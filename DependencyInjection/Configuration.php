@@ -74,6 +74,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                  ->end()
+                 ->booleanNode('confirm_move')->defaultFalse()->end()
             ->end()
         ;
 

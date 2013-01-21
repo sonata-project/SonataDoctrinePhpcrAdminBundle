@@ -2,85 +2,57 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
 
 /**
  * A controller to render the tree block
  */
 class TreeController extends Controller
 {
-    /**
-     * array indexed by class names pointing to info records.
-     * the info contains the valid_children key pointing to an array of allowed child class names for this document type.
-     * @var array
-     */
-    private $types;
+    /** @var TreeInterface */
+    private $tree;
 
     private $template = 'SonataDoctrinePHPCRAdminBundle:Tree:tree.html.twig';
 
     private $defaults;
 
+    /** @var bool */
+    private $confirmMove = false;
+
     /**
-     * @param array $types array of document class names to valid_children list
+     * @param TreeInterface $tree
      * @param string $template the template to render the tree, defaults to Tree:tree.html.twig
      * @param array $defaults an array of values that should be included in the tree routes
+     * @param bool $confirmMove
      */
-    public function __construct(array $types, $template = null, array $defaults = array())
+    public function __construct(TreeInterface $tree, $template = null, array $defaults = array(), $confirmMove = false)
     {
-        $this->types = $types;
+        $this->tree = $tree;
         if ($template) {
             $this->template = $template;
         }
         $this->defaults = $defaults;
+        $this->confirmMove = $confirmMove;
     }
 
     /**
      * Renders a tree, passing the routes for each of the admin types (document types)
      * to the view
      *
-     * @param string $id path to the tree root
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param string $root path to the tree root
+     * @param null|string $selected
+     * @return Response
      */
-    public function treeAction($id, $selected = null)
+    public function treeAction($root, $selected = null)
     {
-        //Obtain the routes for each document
-        /** @var $pool \Sonata\AdminBundle\Admin\Pool */
-        $pool = $this->get('sonata.admin.pool');
-
-        // TODO: this is somewhat inconsistent:
-        // for editing new documents, we build the info here
-        // but the info about moving documents is configured and injected
-        // the two types do not fully map, i.e. you might configure move for
-        // documents that have no admin
-        $classes = $pool->getAdminClasses();
-        $adminClasses = array();
-
-        foreach ($classes as $class) {
-            /** @var $instance \Sonata\AdminBundle\Admin\AdminInterface */
-            // TODO: the AdminInterface seems to be incomplete, we rely on
-            // methods provided only by the abstract Admin base class
-            $instance = $this->get($class);
-            $routeCollection = array();
-            foreach ($instance->getRoutes()->getElements() as $code => $route) {
-                $action = explode('.', $code);
-                $routeCollection[end($action)] = sprintf('%s_%s', $instance->getBaseRouteName(), end($action));
-            }
-            array_push($adminClasses, array(
-                'label'     => $instance->trans($instance->getLabel()),
-                'className' => $instance->getClass(),
-                'baseRoute' => $instance->getBaseRoutePattern(),
-                'routes'    => $routeCollection));
-        }
-
+        $this->tree->setRootNode($root);
+        $this->tree->setSelectedNode($selected ?: $root);
         return $this->render($this->template, array(
-            'id'            => $id,
-            'selected'      => $selected ?: $id,
-            'admin_pool'    => $this->container->get('sonata.admin.pool'),
-            'handlers'      => $adminClasses,
-            'types'         => $this->types,
+            'tree' => $this->tree,
             'routing_defaults' => $this->defaults,
+            'confirm_move' => $this->confirmMove
         ));
     }
 }

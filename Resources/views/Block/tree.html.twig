@@ -1,2 +1,2 @@
 <fieldset><legend>{{ 'content_tree' | trans({}, 'SonataDoctrinePHPCRAdmin') }}</fieldset></legend>
-{% render 'sonata.admin.doctrine_phpcr.tree_controller:treeAction' with { 'id': id, 'selected': selected } %}
+{% render 'sonata.admin.doctrine_phpcr.tree_controller:treeAction' with { 'root': id, 'selected': selected } %}
