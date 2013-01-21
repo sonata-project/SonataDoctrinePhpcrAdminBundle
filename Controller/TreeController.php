@@ -27,7 +27,7 @@ class TreeController extends Controller
      * @param array $defaults an array of values that should be included in the tree routes
      * @param bool $confirmMove
      */
-    public function __construct(TreeInterface $tree, $template = null, array $defaults = array(), $confirmMove)
+    public function __construct(TreeInterface $tree, $template = null, array $defaults = array(), $confirmMove = false)
     {
         $this->tree = $tree;
         if ($template) {
