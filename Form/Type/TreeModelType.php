@@ -20,16 +20,24 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\Options;
 
+use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
+
 use Sonata\AdminBundle\Form\ChoiceList\ModelChoiceList;
 use Sonata\AdminBundle\Form\DataTransformer\ModelToIdTransformer;
 
 class TreeModelType extends AbstractType
 {
     protected $defaults = array();
+    protected $tree;
 
     public function setDefaults(array $defaults)
     {
         $this->defaults = $defaults;
+    }
+
+    public function setTree(TreeInterface $tree)
+    {
+        $this->tree = $tree;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -42,7 +50,8 @@ class TreeModelType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         parent::buildView($view, $form, $options);
-        $view->vars['root_node'] = $form->getAttribute('root_node');
+        $this->tree->setRootNode($form->getAttribute('root_node'));
+        $view->vars['tree'] = $this->tree;
         $view->vars['select_root_node'] = $form->getAttribute('select_root_node');
         $view->vars['routing_defaults'] = $this->defaults;
     }
