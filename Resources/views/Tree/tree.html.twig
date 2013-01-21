@@ -32,7 +32,7 @@ file that was distributed with this source code.
             },
             "types": {{ tree.nodeTypes | json_encode() | raw}},
 
-            "routing_defaults": {}
+            "routing_defaults": defaults
         });
 
         {% if confirm_move is defined and confirm_move %}
