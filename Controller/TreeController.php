@@ -18,18 +18,23 @@ class TreeController extends Controller
 
     private $defaults;
 
+    /** @var bool */
+    private $confirmMove = false;
+
     /**
      * @param TreeInterface $tree
      * @param string $template the template to render the tree, defaults to Tree:tree.html.twig
      * @param array $defaults an array of values that should be included in the tree routes
+     * @param bool $confirmMove
      */
-    public function __construct(TreeInterface $tree, $template = null, array $defaults = array())
+    public function __construct(TreeInterface $tree, $template = null, array $defaults = array(), $confirmMove)
     {
         $this->tree = $tree;
         if ($template) {
             $this->template = $template;
         }
         $this->defaults = $defaults;
+        $this->confirmMove = $confirmMove;
     }
 
     /**
@@ -46,7 +51,8 @@ class TreeController extends Controller
         $this->tree->setSelectedNode($selected ?: $root);
         return $this->render($this->template, array(
             'tree' => $this->tree,
-            'routing_defaults' => $this->defaults
+            'routing_defaults' => $this->defaults,
+            'confirm_move' => $this->confirmMove
         ));
     }
 }

@@ -11,6 +11,7 @@
             <argument type="service" id="sonata.admin.doctrine_phpcr.phpcrodm_tree" />
             <argument/>
             <argument>%sonata_admin_doctrine_phpcr.tree_block.defaults%</argument>
+            <argument>%sonata_admin_doctrine_phpcr.tree_confirm_move%</argument>
             <call method="setContainer"><argument type="service" id="service_container"/></call>
         </service>
 

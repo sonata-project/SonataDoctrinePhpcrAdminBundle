@@ -35,11 +35,13 @@ file that was distributed with this source code.
             "routing_defaults": {}
         });
 
+        {% if confirm_move is defined and confirm_move %}
         $('#tree').on('symfony_cmf_tree.move', function(e) {
             if (!confirm('{{ 'confirm_move_node' | trans({}, 'SonataDoctrinePHPCRAdmin') }}')) {
                 e.preventDefault();
             }
         });
+        {% endif %}
     });
 </script>
 
