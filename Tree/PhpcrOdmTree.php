@@ -4,8 +4,8 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tree;
 
 use PHPCR\Util\NodeHelper;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Templating\Helper\CoreAssetsHelper;
 use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
 
 use Doctrine\ODM\PHPCR\DocumentManager;
@@ -47,7 +47,7 @@ class PhpcrOdmTree implements TreeInterface
     private $translator;
 
     /**
-     * @var \Symfony\Component\Templating\Helper\CoreAssetsHelper
+     * @var CoreAssetsHelper
      */
     private $assetHelper;
 
@@ -74,17 +74,16 @@ class PhpcrOdmTree implements TreeInterface
     private $rootNode;
 
     /**
-     * Inject container due to scope of asset helper!
-     *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param DocumentManager $dm
      * @param ModelManager $defaultModelManager to use with documents that
      *      have no manager
      * @param Pool $pool to get admin classes for documents from
+     * @param TranslatorInterface $translator
+     * @param $assetHelper
      * @param array $validClasses list of the valid class names that may be
      *      used as tree "ref" fields
      */
-    public function __construct(DocumentManager $dm, ModelManager $defaultModelManager, Pool $pool, TranslatorInterface $translator, $assetHelper, array $validClasses)
+    public function __construct(DocumentManager $dm, ModelManager $defaultModelManager, Pool $pool, TranslatorInterface $translator, CoreAssetsHelper $assetHelper, array $validClasses)
     {
         $this->dm = $dm;
         $this->defaultModelManager = $defaultModelManager;
