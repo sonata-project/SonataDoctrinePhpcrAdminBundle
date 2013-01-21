@@ -24,6 +24,9 @@
         "doctrine/phpcr-bundle":"1.0.*",
         "symfony-cmf/tree-browser-bundle": "1.0.*"
     },
+    "require-dev": {
+        "jackalope/jackalope-jackrabbit": "dev-master"
+    },
     "autoload": {
         "psr-0": { "Sonata\\DoctrinePHPCRAdminBundle": "" }
     },
