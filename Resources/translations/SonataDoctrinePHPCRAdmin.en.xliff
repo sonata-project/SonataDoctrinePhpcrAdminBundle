@@ -18,6 +18,10 @@
                 <source>delete_item</source>
                 <target>Delete</target>
             </trans-unit>
+            <trans-unit id="confirm_move_node">
+                <source>confirm_move_node</source>
+                <target>Really move that node?</target>
+            </trans-unit>
         </body>
      </file>
 </xliff>

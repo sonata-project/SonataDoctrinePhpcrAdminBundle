@@ -111,7 +111,7 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
 
         $container->setParameter('sonata_admin_doctrine_phpcr.tree_block.defaults', $config['document_tree_defaults']);
         $container->getDefinition('sonata.admin.doctrine_phpcr.phpcrodm_tree')
-            ->replaceArgument(4, $config['document_tree']);
+            ->replaceArgument(5, $config['document_tree']);
     }
 }
 

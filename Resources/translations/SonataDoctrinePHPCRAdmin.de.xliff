@@ -18,6 +18,10 @@
                 <source>delete_item</source>
                 <target>Löschen</target>
             </trans-unit>
+            <trans-unit id="confirm_move_node">
+                <source>confirm_move_node</source>
+                <target>Soll das Element wirklich verschoben werden?</target>
+            </trans-unit>
         </body>
      </file>
 </xliff>

@@ -84,13 +84,13 @@ class PhpcrOdmTree implements TreeInterface
      * @param array $validClasses list of the valid class names that may be
      *      used as tree "ref" fields
      */
-    public function __construct(ContainerInterface $container, DocumentManager $dm, ModelManager $defaultModelManager, Pool $pool, array $validClasses)
+    public function __construct(DocumentManager $dm, ModelManager $defaultModelManager, Pool $pool, TranslatorInterface $translator, $assetHelper, array $validClasses)
     {
         $this->dm = $dm;
         $this->defaultModelManager = $defaultModelManager;
         $this->pool = $pool;
-        $this->translator = $container->get('translator');
-        $this->assetHelper = $container->get('templating.helper.assets');
+        $this->translator = $translator;
+        $this->assetHelper = $assetHelper;
         $this->validClasses = $validClasses;
     }
 
@@ -311,7 +311,7 @@ class PhpcrOdmTree implements TreeInterface
     public function getNodeTypes()
     {
         $result = array('undefined' => array(
-            'icon' => array('image' => $this->assetHelper->getUrl('bundles/symfonycmftree/images/folder.png')),
+            'icon' => array('image' => $this->assetHelper->getUrl('bundles/symfonycmftreebrowser/images/folder.png')),
             'valid_children' => 'all',
             'routes' => array()
         ));
@@ -323,7 +323,7 @@ class PhpcrOdmTree implements TreeInterface
             foreach ($children['valid_children'] as $child) {
                 $validChildren[] = $this->normalizeClassname($child);
             }
-            $icon = 'bundles/symfonycmftree/images/folder.png';
+            $icon = 'bundles/symfonycmftreebrowser/images/folder.png';
             if (!empty($children['image'])) {
                 $icon = $children['image'];
             }
