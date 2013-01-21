@@ -22,7 +22,8 @@
         "symfony/framework-bundle": ">=2.1,<2.3-dev",
         "doctrine/phpcr-odm":"1.0.*",
         "doctrine/phpcr-bundle":"1.0.*",
-        "symfony-cmf/tree-browser-bundle": "1.0.*"
+        "symfony-cmf/tree-browser-bundle": "1.0.*",
+        "jackalope/jackalope-jackrabbit": "dev-master"
     },
     "autoload": {
         "psr-0": { "Sonata\\DoctrinePHPCRAdminBundle": "" }
