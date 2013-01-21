@@ -166,7 +166,7 @@ file that was distributed with this source code.
 
 <div id="{{id}}-tree-selector"></div>
 {% if value is empty %}
-<input name="{{full_name}}" id="{{id}}-tree-selector-output" value="{{ select_root_node ? root_node : ''}}" readonly="readonly">
+<input name="{{full_name}}" id="{{id}}-tree-selector-output" value="{{ select_root_node ? tree.rootNode : ''}}" readonly="readonly">
 {% else %}
 <input name="{{full_name}}" id="{{id}}-tree-selector-output" value="{{value}}" readonly="readonly">
 {% endif %}
