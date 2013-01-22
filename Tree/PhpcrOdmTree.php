@@ -64,16 +64,6 @@ class PhpcrOdmTree implements TreeInterface
     private $validClasses;
 
     /**
-     * @var string id of the selected node
-     */
-    private $selectedNode;
-
-    /**
-     * @var string id of the root node
-     */
-    private $rootNode;
-
-    /**
      * @param DocumentManager $dm
      * @param ModelManager $defaultModelManager to use with documents that
      *      have no manager
@@ -257,36 +247,6 @@ class PhpcrOdmTree implements TreeInterface
         $parentDocument = $this->dm->find(null, $parent);
         $this->dm->reorder($parentDocument, basename($moved), basename($target), $before);
         $this->dm->flush();
-    }
-
-    public function setSelectedNode($selectedNode)
-    {
-        $this->selectedNode = $selectedNode;
-    }
-
-    /**
-     * Get the id of the initially selected node
-     *
-     * @return string
-     */
-    public function getSelectedNode()
-    {
-        return $this->selectedNode;
-    }
-
-    public function setRootNode($rootNode)
-    {
-        $this->rootNode = $rootNode;
-    }
-
-    /**
-     * Get the id of the root node
-     *
-     * @return string
-     */
-    public function getRootNode()
-    {
-        return $this->rootNode;
     }
 
     /**

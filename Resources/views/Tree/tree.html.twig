@@ -13,13 +13,13 @@ file that was distributed with this source code.
 {% include 'SymfonyCmfTreeBrowserBundle:Base:tree.html.twig' %}
 <script type="text/javascript">
     $(document).ready(function() {
-        var treeState = AdminTree.generateTreeStateArray("{{ tree.selectedNode }}");
+        var treeState = AdminTree.generateTreeStateArray("{{ selected_node }}");
         var defaults = {% include 'SonataDoctrinePHPCRAdminBundle:Tree:routing_defaults.html.twig' %};
 
         AdminTree.initTree({
             "selector": "#tree",
-            "rootNode": "{{ tree.rootNode }}",
-            "selected": "{{ tree.selectedNode }}",
+            "rootNode": "{{ root_node }}",
+            "selected": "{{ selected_node }}",
             "labels": {{ tree.labels | json_encode() | raw}},
             "ajax": {
                 "children_url": Routing.generate("_symfony_cmf_tree_{{ tree.alias }}_children", defaults),
