@@ -47,10 +47,10 @@ class TreeController extends Controller
      */
     public function treeAction($root, $selected = null)
     {
-        $this->tree->setRootNode($root);
-        $this->tree->setSelectedNode($selected ?: $root);
         return $this->render($this->template, array(
             'tree' => $this->tree,
+            'root_node' => $root,
+            'selected_node' => $selected ?: $root,
             'routing_defaults' => $this->defaults,
             'confirm_move' => $this->confirmMove
         ));
