@@ -59,8 +59,9 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
             )
         );
 
-        // let's add some magic
-        if (class_exists('Sonata\IntlBundle\SonataIntlBundle', true)) {
+        // let's add some magic, only overwrite template if the SonataIntlBundle is enabled
+        $bundles = $container->getParameter('kernel.bundles');
+        if (isset($bundles['SonataIntlBundle'])) {
             $defaultConfig['templates']['types']['list'] = array_merge($defaultConfig['templates']['types']['list'], array(
                 'date'         => 'SonataIntlBundle:CRUD:list_date.html.twig',
                 'datetime'     => 'SonataIntlBundle:CRUD:list_datetime.html.twig',
