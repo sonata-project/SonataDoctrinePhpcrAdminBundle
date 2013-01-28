@@ -47,15 +47,15 @@ class FormContractor implements FormContractorInterface
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
             /** @var Doctrine\ODM\PHPCR\Mapping\ClassMetadata $metadata */
             $metadata = $admin->getModelManager()->getMetadata($admin->getClass());
-            
+
             // set the default field mapping
             if (isset($metadata->mappings[$fieldDescription->getName()])) {
                 $fieldDescription->setFieldMapping($metadata->mappings[$fieldDescription->getName()]);
             }
 
             // set the default association mapping
-            if (isset($metadata->referrersMappings[$fieldDescription->getName()])) {
-                $fieldDescription->setAssociationMapping($metadata->referrersMappings[$fieldDescription->getName()]);
+            if ($metadata->hasAssociation($fieldDescription->getName())) {
+                $fieldDescription->setAssociationMapping($metadata->getAssociation($fieldDescription->getName()));
             }
         }
 
@@ -68,11 +68,12 @@ class FormContractor implements FormContractorInterface
         
         $mappingTypes = array(
             ClassMetadata::MANY_TO_ONE,
-            ClassMetadata::MANY_TO_MANY
+            ClassMetadata::MANY_TO_MANY,
+            'children',
+            'child', 'parent'
         );
 
-
-        if ($metadata && isset($metadata->referrersMappings[$fieldDescription->getName()]) && in_array($fieldDescription->getMappingType(), $mappingTypes)) {
+        if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && in_array($fieldDescription->getMappingType(), $mappingTypes)) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
@@ -116,11 +117,14 @@ class FormContractor implements FormContractorInterface
 
             switch ($fieldDescription->getMappingType()) {
                 case ClassMetadata::MANY_TO_MANY:
+                case 'children':
                     $options['multiple']            = true;
                     $options['parent']              = 'choice';
                     break;
 
                 case ClassMetadata::MANY_TO_ONE:
+                case 'child':
+                case 'parent':
                     break;
             }
 
@@ -134,10 +138,38 @@ class FormContractor implements FormContractorInterface
 
         } else if ($type == 'sonata_type_admin') {
 
-            // nothing here ...
-            $options['edit'] = 'inline';
+            if (!$fieldDescription->getAssociationAdmin()) {
+                $msg = sprintf('The current field `%s` is not linked to an admin. Please create one', $fieldDescription->getName());
+                if (in_array($fieldDescription->getMappingType(), array(ClassMetadata::MANY_TO_ONE, ClassMetadata::MANY_TO_MANY))
+                    && $fieldDescription->getTargetEntity()
+                ) {
+                    $msg .= " for the target document: `{$fieldDescription->getTargetEntity()}`, specify the `targetDocument` in the
+                            Reference or use the option `admin_code` to link it.";
+                } else {
+                    $msg .= ' and use the option `admin_code` to link it.';
+                }
+
+                throw new \RuntimeException($msg);
+            }
+
+            $options['data_class'] = $fieldDescription->getAssociationAdmin()->getClass();
+            $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'admin'));
 
         } else if ($type == 'sonata_type_collection') {
+
+            if (!$fieldDescription->getAssociationAdmin()) {
+                $msg = sprintf('The current field `%s` is not linked to an admin. Please create one', $fieldDescription->getName());
+                if (in_array($fieldDescription->getMappingType(), array(ClassMetadata::MANY_TO_ONE, ClassMetadata::MANY_TO_MANY))
+                    && $fieldDescription->getTargetEntity()
+                ) {
+                    $msg .= " for the target document: `{$fieldDescription->getTargetEntity()}`, specify the `targetDocument` in the
+                            Reference or use the option `admin_code` to link it.";
+                } else {
+                    $msg .= ' and use the option `admin_code` to link it.';
+                }
+
+                throw new \RuntimeException($msg);
+            }
 
             $options['type']         = 'sonata_type_admin';
             $options['modifiable']   = true;
