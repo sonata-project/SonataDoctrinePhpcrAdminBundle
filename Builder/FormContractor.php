@@ -111,45 +111,19 @@ class FormContractor implements FormContractorInterface
             $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
         }
 
-        if ($type == 'sonata_type_model') {
-            $options['class']         = $fieldDescription->getTargetEntity();
-            $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
-
-            switch ($fieldDescription->getMappingType()) {
-                case ClassMetadata::MANY_TO_MANY:
-                case 'children':
-                    $options['multiple']            = true;
-                    $options['parent']              = 'choice';
-                    break;
-
-                case ClassMetadata::MANY_TO_ONE:
-                case 'child':
-                case 'parent':
-                    break;
-            }
+        if ($type == 'sonata_type_model' || $type == 'sonata_type_model_list') {
 
             if ($fieldDescription->getOption('edit') == 'list') {
-                $options['parent'] = 'text';
-
-                if (!array_key_exists('required', $options)) {
-                    $options['required'] = false;
-                }
+                throw new \LogicException('The ``sonata_type_model`` type does not accept an ``edit`` option anymore, please review the UPGRADE-2.1.md file from the SonataAdminBundle');
             }
+
+            $options['class']         = $fieldDescription->getTargetEntity();
+            $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
 
         } else if ($type == 'sonata_type_admin') {
 
             if (!$fieldDescription->getAssociationAdmin()) {
-                $msg = sprintf('The current field `%s` is not linked to an admin. Please create one', $fieldDescription->getName());
-                if (in_array($fieldDescription->getMappingType(), array(ClassMetadata::MANY_TO_ONE, ClassMetadata::MANY_TO_MANY))
-                    && $fieldDescription->getTargetEntity()
-                ) {
-                    $msg .= " for the target document: `{$fieldDescription->getTargetEntity()}`, specify the `targetDocument` in the
-                            Reference or use the option `admin_code` to link it.";
-                } else {
-                    $msg .= ' and use the option `admin_code` to link it.';
-                }
-
-                throw new \RuntimeException($msg);
+                throw $this->getAssociationAdminException($fieldDescription);
             }
 
             $options['data_class'] = $fieldDescription->getAssociationAdmin()->getClass();
@@ -158,17 +132,7 @@ class FormContractor implements FormContractorInterface
         } else if ($type == 'sonata_type_collection') {
 
             if (!$fieldDescription->getAssociationAdmin()) {
-                $msg = sprintf('The current field `%s` is not linked to an admin. Please create one', $fieldDescription->getName());
-                if (in_array($fieldDescription->getMappingType(), array(ClassMetadata::MANY_TO_ONE, ClassMetadata::MANY_TO_MANY))
-                    && $fieldDescription->getTargetEntity()
-                ) {
-                    $msg .= " for the target document: `{$fieldDescription->getTargetEntity()}`, specify the `targetDocument` in the
-                            Reference or use the option `admin_code` to link it.";
-                } else {
-                    $msg .= ' and use the option `admin_code` to link it.';
-                }
-
-                throw new \RuntimeException($msg);
+                throw $this->getAssociationAdminException($fieldDescription);
             }
 
             $options['type']         = 'sonata_type_admin';
@@ -181,5 +145,24 @@ class FormContractor implements FormContractorInterface
         }
 
         return $options;
+    }
+
+    /**
+     * @param FieldDescriptionInterface $fieldDescription
+     * @return \LogicException
+     */
+    protected function getAssociationAdminException(FieldDescriptionInterface $fieldDescription)
+    {
+        $msg = sprintf('The current field `%s` is not linked to an admin. Please create one', $fieldDescription->getName());
+        if (in_array($fieldDescription->getMappingType(), array(ClassMetadata::MANY_TO_ONE, ClassMetadata::MANY_TO_MANY))
+            && $fieldDescription->getTargetEntity()
+        ) {
+            $msg .= " for the target document: `{$fieldDescription->getTargetEntity()}`, specify the `targetDocument` in the
+                            Reference or use the option `admin_code` to link it.";
+        } else {
+            $msg .= ' and use the option `admin_code` to link it.';
+        }
+
+        return new \LogicException($msg);
     }
 }
