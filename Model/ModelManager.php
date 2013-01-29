@@ -144,6 +144,10 @@ class ModelManager implements ModelManagerInterface
      */
     public function find($class, $id)
     {
+        if (!isset($id)) {
+            return null;
+        }
+
         if (null === $class) {
             return $this->documentManager->find(null, $id);
         }
