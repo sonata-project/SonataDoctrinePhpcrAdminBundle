@@ -131,7 +131,10 @@ file that was distributed with this source code.
 {% endblock %}
 
 {% block sonata_type_collection_widget %}
-    {% if sonata_admin.field_description.mappingtype == 4 or sonata_admin.field_description.mappingtype == 'children' %}
+    {% if sonata_admin.field_description.mappingtype == 4
+        or sonata_admin.field_description.mappingtype == 'children'
+        or sonata_admin.field_description.mappingtype == 'referrers'
+    %}
         {{ block('sonata_admin_orm_one_to_many_widget') }}
     {% else %}
         INVALID MODE : {{ id }} - type : sonata_type_collection - mapping : {{ sonata_admin.field_description.mappingtype }}
