@@ -46,15 +46,29 @@ class Admin extends BaseAdmin
         return $query;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function generateObjectUrl($name, $object, array $parameters = array(), $absolute = false)
     {
         $parameters['id'] = $this->getUrlsafeIdentifier($object);
         return $this->generateUrl($name, $parameters, $absolute);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getUrlsafeIdentifier($object)
     {
         return $this->modelManager->getUrlsafeIdentifier($object);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function id($object)
+    {
+        return $this->getUrlsafeIdentifier($object);
     }
 }
 
