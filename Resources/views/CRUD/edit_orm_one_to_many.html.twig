@@ -13,24 +13,23 @@ file that was distributed with this source code.
         {{ element|render_relation_element(sonata_admin.field_description) }}
     {% endfor %}
 {% else %}
-    <div id="field_container_{{ id }}">
+
+    <div id="field_container_{{ id }}" class="field-container">
         <span id="field_widget_{{ id }}" >
             {% if sonata_admin.edit == 'inline' %}
                 {% if sonata_admin.inline == 'table' %}
-                    {% if form.children %}
-                        <table>
+                    {% if form.children|length > 0 %}
+                        <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    {% for field_name, nested_field in form.children[0].children %}
-                                        {% if field_name == '_delete' %}
-                                            <th>{% trans from 'SonataAdminBundle' %}action_delete{% endtrans %}</th>
-                                        {% else %}
-                                            {% if nested_field.get('sonata_admin').field_description.options.name is defined %}
-                                                <th>{{ nested_field.get('sonata_admin').field_description.options.name }}</th>
+                                    {% for first_form_child in form.children[:1] %}
+                                        {% for field_name, nested_field in first_form_child.children %}
+                                            {% if field_name == '_delete' %}
+                                                <th>{{ 'action_delete'|trans({}, 'SonataAdminBundle') }}</th>
                                             {% else %}
-                                                <th>{{ field_name|trans }}</th>
+                                                <th>{{ nested_field.vars['sonata_admin'].admin.trans(nested_field.vars.label) }}</th>
                                             {% endif %}
-                                        {% endif %}
+                                        {% endfor %}
                                     {% endfor %}
                                 </tr>
                             </thead>
@@ -38,13 +37,18 @@ file that was distributed with this source code.
                                 {% for nested_group_field_name, nested_group_field in form.children %}
                                     <tr>
                                         {% for field_name, nested_field in nested_group_field.children %}
-                                            <td class="sonata-ba-td-{{ id }}-{{ field_name  }}">
+                                            <td class="sonata-ba-td-{{ id }}-{{ field_name  }}{% if nested_field.vars.errors|length > 0 %} error{% endif %}">
                                                 {% if sonata_admin.field_description.associationadmin.formfielddescriptions[field_name] is defined %}
                                                     {{ form_widget(nested_field) }}
 
                                                     {% set dummy = nested_group_field.setrendered %}
                                                 {% else %}
                                                     {{ form_widget(nested_field) }}
+                                                {% endif %}
+                                                {% if nested_field.vars.errors|length > 0 %}
+                                                    <div class="sonata-ba-field-error-messages">
+                                                        {{ form_errors(nested_field) }}
+                                                    </div>
                                                 {% endif %}
                                             </td>
                                         {% endfor %}
@@ -53,24 +57,22 @@ file that was distributed with this source code.
                             </tbody>
                         </table>
                     {% endif %}
-                {% else %}
-                    {% if form.children %}
-                        <div>
-                            {% for nested_group_field_name, nested_group_field in form.children %}
-                                {% for field_name, nested_field in nested_group_field.children %}
-                                    {% if sonata_admin.field_description.associationadmin.formfielddescriptions[field_name] is defined %}
-                                        {{ form_widget(nested_field, {
-                                            'inline': 'natural',
-                                            'edit'  : 'inline'
-                                        }) }}
-                                        {% set dummy = nested_group_field.setrendered %}
-                                    {% else %}
-                                        {{ form_widget(nested_field) }}
-                                    {% endif %}
-                                {% endfor %}
+                {% elseif form.children|length > 0 %}
+                    <div>
+                        {% for nested_group_field_name, nested_group_field in form.children %}
+                            {% for field_name, nested_field in nested_group_field.children %}
+                                {% if sonata_admin.field_description.associationadmin.formfielddescriptions[field_name] is defined %}
+                                    {{ form_widget(nested_field, {
+                                        'inline': 'natural',
+                                        'edit'  : 'inline'
+                                    }) }}
+                                    {% set dummy = nested_group_field.setrendered %}
+                                {% else %}
+                                    {{ form_widget(nested_field) }}
+                                {% endif %}
                             {% endfor %}
-                        </div>
-                    {% endif %}
+                        {% endfor %}
+                    </div>
                 {% endif %}
             {% else %}
                 {{ form_widget(form) }}
@@ -84,8 +86,9 @@ file that was distributed with this source code.
                 <span id="field_actions_{{ id }}" >
                     <a
                         href="{{ sonata_admin.field_description.associationadmin.generateUrl('create') }}"
-                        onclick="start_field_retrieve_{{ id }}(event)"
+                        onclick="return start_field_retrieve_{{ id }}(this);"
                         class="btn sonata-ba-action"
+                        title="{{ 'link_add'|trans({}, 'SonataAdminBundle') }}"
                         >
                         <i class="icon-plus"></i>
                         {{ 'link_add'|trans({}, 'SonataAdminBundle') }}
@@ -95,7 +98,7 @@ file that was distributed with this source code.
 
             {# add code for the sortable options #}
             {% if sonata_admin.field_description.options.sortable is defined %}
-                <script>
+                <script type="text/javascript">
                     jQuery('div#field_container_{{ id }} tbody.sonata-ba-tbody').sortable({
                         axis: 'y',
                         opacity: 0.6,
@@ -105,14 +108,14 @@ file that was distributed with this source code.
 
                     function apply_position_value_{{ id }}() {
                         // update the input value position
-                        jQuery('div#field_container_{{ id }} tbody.sonata-ba-tbody td.sonata-ba-td-{{ id }}-position').each(function(index, element) {
+                        jQuery('div#field_container_{{ id }} tbody.sonata-ba-tbody td.sonata-ba-td-{{ id }}-{{ sonata_admin.field_description.options.sortable }}').each(function(index, element) {
                             // remove the sortable handler and put it back
                             jQuery('span.sonata-ba-sortable-handler', element).remove();
                             jQuery(element).append('<span class="sonata-ba-sortable-handler ui-icon ui-icon-grip-solid-horizontal"></span>');
                             jQuery('input', element).hide();
                         });
 
-                        jQuery('div#field_container_{{ id }} tbody.sonata-ba-tbody td.sonata-ba-td-{{ id }}-position input').each(function(index, value) {
+                        jQuery('div#field_container_{{ id }} tbody.sonata-ba-tbody td.sonata-ba-td-{{ id }}-{{ sonata_admin.field_description.options.sortable }} input').each(function(index, value) {
                             jQuery(value).val(index + 1);
                         });
                     }
@@ -136,8 +139,9 @@ file that was distributed with this source code.
                 {% if sonata_admin.field_description.associationadmin.hasroute('create') and sonata_admin.field_description.associationadmin.isGranted('CREATE') %}
                     <a
                         href="{{ sonata_admin.field_description.associationadmin.generateUrl('create') }}"
-                        onclick="start_field_dialog_form_add_{{ id }}(event)"
+                        onclick="return start_field_dialog_form_add_{{ id }}(this);"
                         class="btn sonata-ba-action"
+                        title="{{ 'link_add'|trans({}, 'SonataAdminBundle') }}"
                         >
                         <i class="icon-plus"></i>
                         {{ 'link_add'|trans({}, 'SonataAdminBundle') }}

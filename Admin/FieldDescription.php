@@ -40,9 +40,6 @@ class FieldDescription extends BaseFieldDescription
         if(isset($associationMapping['type'])){
             $this->type         = $this->type ?: $associationMapping['type'];
             $this->mappingType  = $this->mappingType ?: $associationMapping['type'];
-        } else if(array_key_exists('referenceType', $associationMapping)){
-            $this->type         = $this->type ?: \Doctrine\ODM\PHPCR\Mapping\ClassMetadata::MANY_TO_ONE;
-            $this->mappingType  = $this->mappingType ?: \Doctrine\ODM\PHPCR\Mapping\ClassMetadata::MANY_TO_ONE;
         } else {
             throw new \RuntimeException('Unknown association mapping type');
         }
@@ -56,7 +53,7 @@ class FieldDescription extends BaseFieldDescription
      */
     public function getTargetEntity()
     {
-        if ($this->associationMapping) {
+        if (isset($this->associationMapping['targetDocument'])) {
             return $this->associationMapping['targetDocument'];
         }
 
