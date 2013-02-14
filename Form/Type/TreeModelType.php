@@ -59,7 +59,7 @@ class TreeModelType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'template'          => 'doctrine_phpcr_odm_type_tree_model',
+            'template'          => 'doctrine_phpcr_odm_tree',
             'compound'          => false,
             'model_manager'     => null,
             'class'             => null,
@@ -89,6 +89,6 @@ class TreeModelType extends AbstractType
 
     public function getName()
     {
-        return 'doctrine_phpcr_odm_type_tree_model';
+        return 'doctrine_phpcr_odm_tree';
     }
 }
