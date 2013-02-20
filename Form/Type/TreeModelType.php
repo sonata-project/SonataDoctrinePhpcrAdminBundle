@@ -66,7 +66,7 @@ class TreeModelType extends AbstractType
             'property'          => null,
             'query'             => null,
             'choices'           => null,
-            'root_node'          => '/',
+            'root_node'         => '/',
             'select_root_node'  => false,
             'parent'            => 'choice',
             'preferred_choices' => array(),

@@ -45,7 +45,7 @@ class FormContractor implements FormContractorInterface
     {
         $metadata = null;
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
-            /** @var Doctrine\ODM\PHPCR\Mapping\ClassMetadata $metadata */
+            /** @var \Doctrine\ODM\PHPCR\Mapping\ClassMetadata $metadata */
             $metadata = $admin->getModelManager()->getMetadata($admin->getClass());
 
             // set the default field mapping
@@ -119,8 +119,8 @@ class FormContractor implements FormContractorInterface
             }
 
             if (!$fieldDescription->getTargetEntity()) {
-                throw new \LogicException('The current field `%s` does not have a target model defined. Please specify the `targetDocument`
-                    in the Reference.', $fieldDescription->getName());
+                throw new \LogicException(sprintf('The current field `%s` does not have a target model defined. Please specify the `targetDocument`
+                    in the Reference.', $fieldDescription->getName()));
             }
 
             $options['class']         = $fieldDescription->getTargetEntity();
