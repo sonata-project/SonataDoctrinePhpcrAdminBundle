@@ -84,26 +84,27 @@ class FilterTypeGuesser implements TypeGuesserInterface
                 $options['field_type'] = 'sonata_type_boolean';
                 $options['field_options'] = array();
 
-                return new TypeGuess('checkbox', $options, Guess::HIGH_CONFIDENCE);
+                return new TypeGuess('doctrine_phpcr_checkbox', $options, Guess::HIGH_CONFIDENCE);
             case 'date':
-                return new TypeGuess('date', $options, Guess::HIGH_CONFIDENCE);
+                return new TypeGuess('doctrine_phpcr_date', $options, Guess::HIGH_CONFIDENCE);
             case 'decimal':
             case 'float':
-                return new TypeGuess('number', $options, Guess::HIGH_CONFIDENCE);
+                return new TypeGuess('doctrine_phpcr_number', $options, Guess::HIGH_CONFIDENCE);
             case 'integer':
                 $options['field_type'] = 'number';
                 $options['field_options'] = array(
                     'csrf_protection' => false
                 );
 
-                return new TypeGuess('integer', $options, Guess::HIGH_CONFIDENCE);
+                return new TypeGuess('doctrine_phpcr_integer', $options, Guess::HIGH_CONFIDENCE);
             case 'text':
                 $options['field_type'] = 'text';
             case 'string':
-                return new TypeGuess('string', $options, Guess::HIGH_CONFIDENCE);
+                $options['field_type'] = 'text';
+                return new TypeGuess('doctrine_phpcr_string', $options, Guess::HIGH_CONFIDENCE);
         }
 
-        return new TypeGuess('string', $options, Guess::LOW_CONFIDENCE);
+        return new TypeGuess('doctrine_phpcr_string', $options, Guess::LOW_CONFIDENCE);
     }
 
     protected function getMetadata($class)
