@@ -37,10 +37,7 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * Returns an empty field description collection
-     *
-     * @param array $options
-     * @return FieldDescriptionCollection
+     * {@inheritdoc}
      */
     public function getBaseList(array $options = array())
     {
@@ -48,32 +45,7 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * Adds a field to the Field description collection and sets its type.
-     * If not type provided, will try to guess it.
-     *
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionCollection $list
-     * @param string|null $type
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
-     * @param \Sonata\AdminBundle\Admin\AdminInterface $admin
-     * @return FieldDescriptionCollection
-     */
-    public function addField(FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
-    {
-        $this->buildField($type, $fieldDescription, $admin);
-        $admin->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
-
-        return $list->add($fieldDescription);
-    }
-
-    /**
-     * Sets the Field description type.
-     * If not type provided, will try to guess it.
-     *
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionCollection $list
-     * @param string|null $type
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
-     * @param \Sonata\AdminBundle\Admin\AdminInterface $admin
-     * @return FieldDescriptionCollection
+     * {@inheritdoc}
      */
     public function buildField($type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
@@ -88,12 +60,32 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * The method defines the correct default settings for the provided
-     * FieldDescription
+     * {@inheritdoc}
+     */
+    public function addField(FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
+    {
+        $this->buildField($type, $fieldDescription, $admin);
+        $admin->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
+
+        return $list->add($fieldDescription);
+    }
+
+    /**
+     * @param string $type
      *
-     * @param \Sonata\AdminBundle\Admin\AdminInterface $admin
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
-     * @return void
+     * @return string
+     */
+    private function getTemplate($type)
+    {
+        if (!isset($this->templates[$type])) {
+            return null;
+        }
+
+        return $this->templates[$type];
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
@@ -107,10 +99,10 @@ class ListBuilder implements ListBuilderInterface
             $metadata = $admin->getModelManager()->getMetadata($admin->getClass());
 
             // set the default field mapping
-            if (isset($metadata->fieldMappings[$fieldDescription->getName()])) {
-                $fieldDescription->setFieldMapping($metadata->fieldMappings[$fieldDescription->getName()]);
+            if (isset($metadata->mappings[$fieldDescription->getName()])) {
+                $fieldDescription->setFieldMapping($metadata->mappings[$fieldDescription->getName()]);
                 if ($fieldDescription->getOption('sortable') !== false) {
-                    $fieldDescription->setOption('sortable', $fieldDescription->getOption('sortable', $fieldDescription->getName()));
+                    $fieldDescription->setOption('sortable', $fieldDescription->getOption('sortable', true));
                     $fieldDescription->setOption('sort_parent_association_mappings', $fieldDescription->getOption('sort_parent_association_mappings', $fieldDescription->getParentAssociationMappings()));
                     $fieldDescription->setOption('sort_field_mapping', $fieldDescription->getOption('sort_field_mapping', $fieldDescription->getFieldMapping()));
                 }
@@ -155,6 +147,7 @@ class ListBuilder implements ListBuilderInterface
 
     /**
      * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     *
      * @return \Sonata\AdminBundle\Admin\FieldDescriptionInterface
      */
     public function buildActionFieldDescription(FieldDescriptionInterface $fieldDescription)
@@ -187,18 +180,5 @@ class ListBuilder implements ListBuilderInterface
         }
 
         return $fieldDescription;
-    }
-
-    /**
-     * @param $type
-     * @return string
-     */
-    private function getTemplate($type)
-    {
-        if (!isset($this->templates[$type])) {
-            return null;
-        }
-
-        return $this->templates[$type];
     }
 }
