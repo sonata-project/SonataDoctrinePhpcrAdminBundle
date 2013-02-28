@@ -63,7 +63,7 @@ class TypeGuesser implements TypeGuesserInterface
         // TODO: missing multi value support
         switch ($metadata->getTypeOfField($property)) {
             case 'boolean':
-                return new TypeGuess('checkbox', array(), Guess::HIGH_CONFIDENCE);
+                return new TypeGuess('boolean', array(), Guess::HIGH_CONFIDENCE);
             case 'date':
                 return new TypeGuess('date', array(), Guess::HIGH_CONFIDENCE);
 
