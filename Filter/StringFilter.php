@@ -55,7 +55,7 @@ class StringFilter extends Filter
                 $expr = $eb->textSearch($field, $data['value']);
         }
 
-        $proxyQuery->andWhere($expr);
+        $this->applyWhere($proxyQuery->getQueryBuilder(), $expr);
     }
 
     /**
