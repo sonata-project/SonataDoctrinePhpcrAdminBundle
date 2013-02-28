@@ -84,7 +84,7 @@ class FilterTypeGuesser implements TypeGuesserInterface
                 $options['field_type'] = 'sonata_type_boolean';
                 $options['field_options'] = array();
 
-                return new TypeGuess('doctrine_phpcr_checkbox', $options, Guess::HIGH_CONFIDENCE);
+                return new TypeGuess('doctrine_phpcr_boolean', $options, Guess::HIGH_CONFIDENCE);
             case 'date':
                 return new TypeGuess('doctrine_phpcr_date', $options, Guess::HIGH_CONFIDENCE);
             case 'decimal':
@@ -98,9 +98,9 @@ class FilterTypeGuesser implements TypeGuesserInterface
 
                 return new TypeGuess('doctrine_phpcr_integer', $options, Guess::HIGH_CONFIDENCE);
             case 'text':
-                $options['field_type'] = 'text';
             case 'string':
                 $options['field_type'] = 'text';
+
                 return new TypeGuess('doctrine_phpcr_string', $options, Guess::HIGH_CONFIDENCE);
         }
 
