@@ -97,6 +97,8 @@ class ListBuilder implements ListBuilderInterface
 
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
             $metadata = $admin->getModelManager()->getMetadata($admin->getClass());
+            // TODO get and set parent association mappings
+            //$fieldDescription->setParentAssociationMappings($parentAssociationMappings);
 
             // set the default field mapping
             if (isset($metadata->mappings[$fieldDescription->getName()])) {
@@ -128,19 +130,31 @@ class ListBuilder implements ListBuilderInterface
             $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
 
             if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {
-                $fieldDescription->setTemplate('SonataAdminBundle:CRUD:list_orm_many_to_one.html.twig');
+                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_orm_many_to_one.html.twig');
             }
 
             if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_MANY) {
-                $fieldDescription->setTemplate('SonataAdminBundle:CRUD:list_orm_many_to_many.html.twig');
+                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_orm_many_to_many.html.twig');
+            }
+
+            if ($fieldDescription->getMappingType() == 'child' || $fieldDescription->getMappingType() == 'parent') {
+                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_orm_one_to_one.html.twig');
+            }
+
+            if ($fieldDescription->getMappingType() == 'children' || $fieldDescription->getMappingType() == 'referrers') {
+                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_orm_one_to_many.html.twig');
             }
         }
 
-        if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {
-            $admin->attachAdminClass($fieldDescription);
-        }
+        $mappingTypes = array(
+            ClassMetadata::MANY_TO_ONE,
+            ClassMetadata::MANY_TO_MANY,
+            'children',
+            'child', 'parent',
+            'referrers',
+        );
 
-        if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_MANY) {
+        if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && in_array($fieldDescription->getMappingType(), $mappingTypes)) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
