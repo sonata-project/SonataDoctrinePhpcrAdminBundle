@@ -26,8 +26,11 @@ abstract class Filter extends BaseFilter
 
     protected function applyWhere($queryBuilder, $parameter)
     {
-        $queryBuilder->andWhere($parameter);
-
+        if ($this->getCondition() == self::CONDITION_OR) {
+            $queryBuilder->orWhere($parameter);
+        } else {
+            $queryBuilder->andWhere($parameter);
+        }
 
         // filter is active since it's added to the queryBuilder
         $this->active = true;

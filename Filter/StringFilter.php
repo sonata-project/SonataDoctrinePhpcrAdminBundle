@@ -21,7 +21,7 @@ class StringFilter extends Filter
      *
      * @param ProxyQueryInterface $proxyQuery
      * @param string $alias has no effect
-     * @param string $field field uhere to apply the constraint
+     * @param string $field field where to apply the constraint
      * @param array $data determines the constraint
      * @return
      */
@@ -59,7 +59,7 @@ class StringFilter extends Filter
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getDefaultOptions()
     {
@@ -68,6 +68,9 @@ class StringFilter extends Filter
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRenderSettings()
     {
         return array('doctrine_phpcr_type_filter_choice', array(
