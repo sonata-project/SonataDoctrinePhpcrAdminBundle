@@ -1,2 +1,3 @@
-<fieldset><legend>{{ 'content_tree' | trans({}, 'SonataDoctrinePHPCRAdmin') }}</fieldset></legend>
-{% render 'sonata.admin.doctrine_phpcr.tree_controller:treeAction' with { 'root': id, 'selected': selected } %}
+<fieldset><legend>{{ 'content_tree' | trans({}, 'SonataDoctrinePHPCRAdmin') }}</legend></fieldset>
+{# TODO: url is only used for Symfony2.1 compat https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/issues/86 #}
+{% render url('sonata.admin.doctrine_phpcr.phpcrodm_tree', { 'root': id, 'selected': selected }) %}
