@@ -3,6 +3,7 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
 
@@ -41,16 +42,17 @@ class TreeController extends Controller
      * Renders a tree, passing the routes for each of the admin types (document types)
      * to the view
      *
-     * @param string $root path to the tree root
-     * @param null|string $selected
+     * @param Request $request
      * @return Response
      */
-    public function treeAction($root, $selected = null)
+    public function treeAction(Request $request)
     {
+        $root = $request->query->get('root');
+        $selected = $request->query->get('selected') ?: $root;
         return $this->render($this->template, array(
             'tree' => $this->tree,
             'root_node' => $root,
-            'selected_node' => $selected ?: $root,
+            'selected_node' => $selected,
             'routing_defaults' => $this->defaults,
             'confirm_move' => $this->confirmMove
         ));
