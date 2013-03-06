@@ -175,3 +175,7 @@ file that was distributed with this source code.
 {% endif %}
 <button class="btn btn-mini" id={{id}}-tree-reset>{{ 'reset_tree' | trans({}, 'SonataDoctrinePHPCRAdmin') }}</button>
 {% endblock %}
+
+{% block doctrine_phpcr_odm_tree_manager_widget %}
+    {% render 'sonata.admin.doctrine_phpcr.tree_controller:treeAction' with { 'root': form.vars.root, 'selected': false } %}
+{% endblock %}
