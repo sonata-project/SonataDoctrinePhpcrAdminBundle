@@ -30,6 +30,7 @@ file that was distributed with this source code.
 {% endblock %}
 
 {% block sonata_type_model_widget %}
+
     {#
         This is not the best way to do if
         TODO : improve this part
@@ -177,5 +178,10 @@ file that was distributed with this source code.
 {% endblock %}
 
 {% block doctrine_phpcr_odm_tree_manager_widget %}
-    {% render url('sonata.admin.doctrine_phpcr.phpcrodm_tree', { 'root': form.vars.root, 'selected': false }) %}
+    {% render url('sonata.admin.doctrine_phpcr.phpcrodm_tree', {
+        'root': form.vars.root,
+        'selected': false,
+        'create_in_overlay': form.vars.create_in_overlay,
+        'edit_in_overlay': form.vars.edit_in_overlay
+    }) %}
 {% endblock %}
