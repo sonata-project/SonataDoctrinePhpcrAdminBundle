@@ -32,7 +32,9 @@ file that was distributed with this source code.
             },
             "types": {{ tree.nodeTypes | json_encode() | raw}},
 
-            "routing_defaults": defaults
+            "routing_defaults": defaults,
+            "createInOverlay": "{{ create_in_overlay }}",
+            "editInOverlay": "{{ edit_in_overlay }}"
         });
 
         {% if confirm_move is defined and confirm_move %}
