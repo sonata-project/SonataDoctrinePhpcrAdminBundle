@@ -94,19 +94,21 @@ class PhpcrOdmTree implements TreeInterface
 
         $children = array();
 
-        foreach ($this->getDocumentChildren($root) as $document) {
-            if ($document instanceof \Doctrine\ODM\PHPCR\Document\Generic &&
-                NodeHelper::isSystemItem($document->getNode())) {
-                continue;
+        if ($root) {
+            foreach ($this->getDocumentChildren($root) as $document) {
+                if ($document instanceof \Doctrine\ODM\PHPCR\Document\Generic &&
+                    NodeHelper::isSystemItem($document->getNode())) {
+                    continue;
+                }
+
+                $child = $this->documentToArray($document);
+
+                foreach ($this->getDocumentChildren($document) as $grandchild) {
+                    $child['children'][] = $this->documentToArray($grandchild);
+                }
+
+                $children[] = $child;
             }
-
-            $child = $this->documentToArray($document);
-
-            foreach ($this->getDocumentChildren($document) as $grandchild) {
-                $child['children'][] = $this->documentToArray($grandchild);
-            }
-
-            $children[] = $child;
         }
 
         return $children;
