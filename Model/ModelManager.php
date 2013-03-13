@@ -27,10 +27,13 @@ use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
 
 class ModelManager implements ModelManagerInterface
 {
+    /**
+     * @var DocumentManager
+     */
     protected $documentManager;
 
     /**
-     * @param \Doctrine\ODM\PHPCR\DocumentManager $documentManager
+     * @param DocumentManager $documentManager
      */
     public function __construct(DocumentManager $documentManager)
     {
@@ -68,7 +71,7 @@ class ModelManager implements ModelManagerInterface
      * @param $class
      * @param $name
      * @param array $options
-     * @return \Sonata\AdminBundle\Admin\ODM\PHPCR\FieldDescription
+     * @return FieldDescription
      */
     public function getNewFieldDescriptionInstance($class, $name, array $options = array())
     {
@@ -95,7 +98,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param mixed $object
-     * @throws \Sonata\AdminBundle\Exception\ModelManagerException
+     * @throws ModelManagerException
      */
     public function create($object)
     {
@@ -109,7 +112,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param mixed $object
-     * @throws \Sonata\AdminBundle\Exception\ModelManagerException
+     * @throws ModelManagerException
      */
     public function update($object)
     {
@@ -123,7 +126,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param object $object
-     * @throws \Sonata\AdminBundle\Exception\ModelManagerException
+     * @throws ModelManagerException
      */
     public function delete($object)
     {
@@ -176,7 +179,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @return \Doctrine\ODM\PHPCR\DocumentManager
+     * @return DocumentManager
      */
     public function getDocumentManager()
     {
@@ -233,9 +236,9 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function getModelIdentifier($class)
+    public function getModelIdentifier($classname)
     {
-        return $this->getMetadata($class)->identifier;
+        return $this->getMetadata($classname)->identifier;
     }
 
     /**
@@ -415,7 +418,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param sring $class
+     * @param string $class
      * @return array
      */
     public function getDefaultSortValues($class)
