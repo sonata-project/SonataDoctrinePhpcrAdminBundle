@@ -34,6 +34,10 @@
         <service id="sonata.admin.doctrine_phpcr.filter.type.date" class="Sonata\DoctrinePHPCRAdminBundle\Filter\DateFilter">
             <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_date" />
         </service>
+
+        <service id="sonata.admin.doctrine_phpcr.filter.type.nodename" class="Sonata\DoctrinePHPCRAdminBundle\Filter\NodeNameFilter">
+            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_nodename" />
+        </service>
     </services>
 
 </container>
