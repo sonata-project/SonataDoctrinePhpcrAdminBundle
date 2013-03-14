@@ -59,7 +59,7 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
         return array(
             array('eq', ChoiceType::TYPE_EQUAL),
             array('textSearch', ChoiceType::TYPE_NOT_CONTAINS, '* -somevalue'),
-            array('like', ChoiceType::TYPE_CONTAINS, '%somevalue'),
+            array('like', ChoiceType::TYPE_CONTAINS, '%somevalue%'),
             array('textSearch', ChoiceType::TYPE_CONTAINS_WORDS),
         );
     }
