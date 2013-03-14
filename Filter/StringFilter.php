@@ -12,9 +12,7 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
-use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-
 
 class StringFilter extends Filter
 {
@@ -34,7 +32,7 @@ class StringFilter extends Filter
         }
 
         $data['value'] = trim($data['value']);
-        $data['type'] = !isset($data['type']) ?  ChoiceType::TYPE_CONTAINS : $data['type'];
+        $data['type'] = empty($data['type']) ? ChoiceType::TYPE_CONTAINS : $data['type'];
 
         if (strlen($data['value']) == 0) {
             return;
@@ -50,7 +48,7 @@ class StringFilter extends Filter
                 $expr = $eb->textSearch($field, '* -'.$data['value']);
                 break;
             case ChoiceType::TYPE_CONTAINS:
-                $expr = $eb->like($field, '%'.$data['value']);
+                $expr = $eb->like($field, '%'.$data['value'].'%');
                 break;
             case ChoiceType::TYPE_CONTAINS_WORDS:
             default:
