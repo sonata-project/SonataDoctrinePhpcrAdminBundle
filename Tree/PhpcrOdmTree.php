@@ -26,6 +26,8 @@ use Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager;
  */
 class PhpcrOdmTree implements TreeInterface
 {
+    const VALID_CLASS_ALL = 'all';
+
     /**
      * @var ModelManager
      */
@@ -223,16 +225,55 @@ class PhpcrOdmTree implements TreeInterface
             if (! is_array($prop)) {
                 $prop = $prop->toArray();
             }
-            $children = array_merge($children, $prop);
+            $children = array_merge($children, $this->filterDocumentChildren($document, $prop));
         }
         foreach ($meta->childMappings as $fieldName) {
             $prop = $meta->getReflectionProperty($fieldName)->getValue($document);
-            if (! is_null($prop)) {
+            if (! is_null($prop) && $this->isValidDocumentChild($document, $prop)) {
                 $children[$fieldName] = $prop;
             }
         }
 
         return $children;
+    }
+
+    /**
+     * @param $document
+     * @param array $children
+     *
+     * @return array of valid children for the document
+     */
+    protected function filterDocumentChildren($document, array $children)
+    {
+        $me = $this;
+
+        return array_filter($children, function ($child) use ($me, $document) {
+            return $me->isValidDocumentChild($document, $child);
+        });
+    }
+
+    /**
+     * @param $document
+     * @param $child
+     * @return bool TRUE if valid, FALSE if not vaild
+     */
+    public function isValidDocumentChild($document, $child)
+    {
+        $className = ClassUtils::getClass($document);
+        $childClassName = ClassUtils::getClass($child);
+
+        if (!isset($this->validClasses[$className])) {
+            // no mapping means no valid children
+            return false;
+        }
+
+        if ((isset($this->validClasses[$className]['valid_children'][0]) && $this->validClasses[$className]['valid_children'][0] === self::VALID_CLASS_ALL)
+            || in_array($childClassName, $this->validClasses[$className]['valid_children'])
+        ) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
