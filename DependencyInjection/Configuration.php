@@ -67,6 +67,7 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->arrayNode('valid_children')
                                 ->prototype('scalar')->end()
+                                ->info('class names of valid children, manage tree operations for them and hide other children')
                             ->end()
                             ->scalarNode('image')
                                 ->defaultValue('')
