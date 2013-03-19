@@ -23,7 +23,7 @@ to get a tree view of your PHPCR content:
 
 You have to manually configure what types of documents should be handled in the
 tree and which class may accept what classes as children to manage the move
-operations.
+operations. Documents that are not configured as valid child will be hidden in the tree.
 
     sonata_doctrine_phpcr_admin:
         document_tree:
