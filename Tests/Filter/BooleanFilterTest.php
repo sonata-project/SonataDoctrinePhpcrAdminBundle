@@ -11,10 +11,10 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 
-use Sonata\DoctrinePHPCRAdminBundle\Filter\StringFilter;
-use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
+use Sonata\AdminBundle\Form\Type\BooleanType;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\BooleanFilter;
 
-class StringFilterTest extends \PHPUnit_Framework_TestCase
+class BooleanFilterTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -26,7 +26,7 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->exprBuilder = $this->getMock('Doctrine\ODM\PHPCR\Query\ExpressionBuilder');
         $this->expr = $this->getMock('Doctrine\Common\Collections\Expr\Expression');
-        $this->filter = new StringFilter();
+        $this->filter = new BooleanFilter();
     }
 
     public function testFilterNullData()
@@ -45,7 +45,7 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
 
     public function testFilterEmptyArrayDataSpecifiedType()
     {
-        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => ChoiceType::TYPE_EQUAL));
+        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => BooleanType::TYPE_YES));
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
@@ -58,26 +58,24 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
         $this->qb->expects($this->never())
             ->method('andWhere');
 
-        $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => ChoiceType::TYPE_EQUAL, 'value' => ' '));
+        $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => BooleanType::TYPE_YES, 'value' => 'someValue'));
         $this->assertFalse($this->filter->isActive());
     }
 
     public function getFilters()
     {
         return array(
-            array('eq', ChoiceType::TYPE_EQUAL),
-            array('textSearch', ChoiceType::TYPE_NOT_CONTAINS, '* -somevalue'),
-            array('like', ChoiceType::TYPE_CONTAINS, '%somevalue%'),
-            array('textSearch', ChoiceType::TYPE_CONTAINS_WORDS),
+            array('eq', BooleanType::TYPE_YES, 1),
+            array('eq', BooleanType::TYPE_NO, 0),
         );
     }
 
     /**
      * @dataProvider getFilters
      */
-    public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue')
+    public function testFilterSwitch($operatorMethod, $value, $expectedValue)
     {
-        $this->proxyQuery->expects($this->exactly(2))
+        $this->proxyQuery->expects($this->once())
             ->method('getQueryBuilder')
             ->will($this->returnValue($this->qb));
         $this->qb->expects($this->once())
@@ -92,10 +90,10 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->expr));
 
         $this->filter->filter(
-            $this->proxyQuery, 
-            null, 
-            'somefield', 
-            array('type' => $choiceType, 'value' => 'somevalue')
+            $this->proxyQuery,
+            null,
+            'somefield',
+            array('type' => '', 'value' => $value)
         );
         $this->assertTrue($this->filter->isActive());
     }

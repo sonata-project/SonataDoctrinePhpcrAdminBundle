@@ -28,39 +28,12 @@ class BooleanFilter extends BaseFilter
 
         $queryBuilder = $proxyQuery->getQueryBuilder();
 
-        if (is_array($data['value'])) {
-            $values = array();
-            foreach ($data['value'] as $v) {
-                if (!in_array($v, array(BooleanType::TYPE_NO, BooleanType::TYPE_YES))) {
-                    continue;
-                }
-
-                $values[] = ($v == BooleanType::TYPE_YES) ? 1 : 0;
-            }
-
-            if (count($values) == 0) {
-                return;
-            }
-
-            if (count($values) > 1) {
-                $constraints = array();
-                foreach ($values as $value) {
-                    $constraints[] = $queryBuilder->expr()->eq($field, $value);
-                }
-
-                $this->applyWhere($queryBuilder, call_user_func_array(array($queryBuilder->expr(), 'orX'), $constraints));
-            } else {
-                $this->applyWhere($queryBuilder, $queryBuilder->expr()->eq($field, $values[0]));
-            }
-        } else {
-
-            if (!in_array($data['value'], array(BooleanType::TYPE_NO, BooleanType::TYPE_YES))) {
-                return;
-            }
-
-            $expr = $queryBuilder->expr()->eq($field, ($data['value'] == BooleanType::TYPE_YES) ? 1 : 0);
-            $this->applyWhere($queryBuilder, $expr);
+        if (is_array($data['value']) || !in_array($data['value'], array(BooleanType::TYPE_NO, BooleanType::TYPE_YES))) {
+            return;
         }
+
+        $expr = $queryBuilder->expr()->eq($field, ($data['value'] == BooleanType::TYPE_YES) ? 1 : 0);
+        $this->applyWhere($queryBuilder, $expr);
     }
 
     /**

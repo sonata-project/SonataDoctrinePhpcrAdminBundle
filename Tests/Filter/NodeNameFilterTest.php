@@ -11,10 +11,10 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 
-use Sonata\DoctrinePHPCRAdminBundle\Filter\StringFilter;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\NodeNameFilter;
 use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 
-class StringFilterTest extends \PHPUnit_Framework_TestCase
+class NodeNameFilterTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -26,7 +26,7 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->exprBuilder = $this->getMock('Doctrine\ODM\PHPCR\Query\ExpressionBuilder');
         $this->expr = $this->getMock('Doctrine\Common\Collections\Expr\Expression');
-        $this->filter = new StringFilter();
+        $this->filter = new NodeNameFilter();
     }
 
     public function testFilterNullData()
@@ -65,10 +65,10 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
     public function getFilters()
     {
         return array(
-            array('eq', ChoiceType::TYPE_EQUAL),
-            array('textSearch', ChoiceType::TYPE_NOT_CONTAINS, '* -somevalue'),
-            array('like', ChoiceType::TYPE_CONTAINS, '%somevalue%'),
-            array('textSearch', ChoiceType::TYPE_CONTAINS_WORDS),
+            array('eqNodeName', ChoiceType::TYPE_EQUAL),
+            array('likeNodeName', ChoiceType::TYPE_NOT_CONTAINS, '%somevalue%'),
+            array('likeNodeName', ChoiceType::TYPE_CONTAINS, '%somevalue%'),
+            array('likeNodeName', ChoiceType::TYPE_CONTAINS_WORDS, '%somevalue%'),
         );
     }
 
@@ -88,13 +88,13 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->qb));
         $this->exprBuilder->expects($this->once())
             ->method($operatorMethod)
-            ->with('somefield', $expectedValue)
+            ->with($expectedValue)
             ->will($this->returnValue($this->expr));
 
         $this->filter->filter(
-            $this->proxyQuery, 
-            null, 
-            'somefield', 
+            $this->proxyQuery,
+            null,
+            'somefield',
             array('type' => $choiceType, 'value' => 'somevalue')
         );
         $this->assertTrue($this->filter->isActive());
