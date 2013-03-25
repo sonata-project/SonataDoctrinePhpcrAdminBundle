@@ -68,9 +68,12 @@ class DateFilter extends Filter
                 );
         }
 
-        $qb->andWhere($expr);
+        $this->applyWhere($qb, $expr);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getDefaultOptions()
     {
         return array(
@@ -78,6 +81,9 @@ class DateFilter extends Filter
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRenderSettings()
     {
         return array('sonata_type_filter_date', array(
