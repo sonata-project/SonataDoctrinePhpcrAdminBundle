@@ -14,7 +14,7 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\CallbackFilter;
 
-class CallBackFilterTest extends \PHPUnit_Framework_TestCase
+class CallbackFilterTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
