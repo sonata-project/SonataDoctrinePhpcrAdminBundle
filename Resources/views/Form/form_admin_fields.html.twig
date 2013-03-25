@@ -118,7 +118,7 @@ file that was distributed with this source code.
 
 {% block sonata_type_admin_widget %}
     {#admin {{ sonata_admin.field_description.mappingtype }}#}
-    {% if sonata_admin.field_description.mappingtype == 1 %}
+    {% if sonata_admin.field_description.mappingtype == 1 or sonata_admin.field_description.mappingtype == 'child' %}
         {{ block('sonata_admin_orm_one_to_one_widget') }}
     {% elseif sonata_admin.field_description.mappingtype == 2 %}
         {{ block('sonata_admin_orm_many_to_one_widget') }}
