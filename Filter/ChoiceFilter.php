@@ -63,7 +63,9 @@ class ChoiceFilter extends Filter
             }
 
         } else {
-            if ($data['value'] === '' || $data['value'] === null || $data['value'] === false || $data['value'] === 'all') {
+            $data['value'] = trim($data['value']);
+
+            if (strlen($data['value']) == 0 || $data['value'] === 'all') {
                 return;
             }
 
