@@ -11,8 +11,8 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 
-use Sonata\DoctrinePHPCRAdminBundle\Filter\DateFilter;
 use Sonata\AdminBundle\Form\Type\Filter\DateType;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\DateFilter;
 
 class DateFilterTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,12 +38,14 @@ class DateFilterTest extends \PHPUnit_Framework_TestCase
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', null);
         $this->assertNull($res);
+        $this->assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayData()
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', array());
         $this->assertNull($res);
+        $this->assertFalse($this->filter->isActive());
     }
 
     public function getFilters()
@@ -89,6 +91,7 @@ class DateFilterTest extends \PHPUnit_Framework_TestCase
             'somefield', 
             array('type' => $choiceType, 'value' => $value)
         );
+        $this->assertTrue($this->filter->isActive());
     }
 
     public function testFilterEquals()
@@ -125,5 +128,6 @@ class DateFilterTest extends \PHPUnit_Framework_TestCase
             'somefield', 
             array('type' => DateType::TYPE_EQUAL, 'value' => $from)
         );
+        $this->assertTrue($this->filter->isActive());
     }
 }

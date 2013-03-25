@@ -49,7 +49,7 @@ class NodeNameFilter extends Filter
                 $expr = $eb->likeNodeName('%'.$data['value'].'%');
         }
 
-        $proxyQuery->andWhere($expr);
+        $this->applyWhere($proxyQuery->getQueryBuilder(), $expr);
     }
 
     /**
