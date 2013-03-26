@@ -97,14 +97,26 @@ class ListBuilder implements ListBuilderInterface
 
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
             $metadata = $admin->getModelManager()->getMetadata($admin->getClass());
-            // TODO get and set parent association mappings
+
+            // TODO sort on multilang documents, see http://www.doctrine-project.org/jira/browse/PHPCR-84
+            // TODO sort on parent associations
+            $defaultSortable = true;
+            if (in_array($fieldDescription->getName(), $metadata->translatableFields)
+                || $metadata->hasAssociation($fieldDescription->getName())
+                || $metadata->nodename === $fieldDescription->getName()
+            ) {
+                $defaultSortable = false;
+            }
+
+            // TODO get and set parent association mappings, see
+            // https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/issues/106
             //$fieldDescription->setParentAssociationMappings($parentAssociationMappings);
 
             // set the default field mapping
             if (isset($metadata->mappings[$fieldDescription->getName()])) {
                 $fieldDescription->setFieldMapping($metadata->mappings[$fieldDescription->getName()]);
                 if ($fieldDescription->getOption('sortable') !== false) {
-                    $fieldDescription->setOption('sortable', $fieldDescription->getOption('sortable', true));
+                    $fieldDescription->setOption('sortable', $fieldDescription->getOption('sortable', $defaultSortable));
                     $fieldDescription->setOption('sort_parent_association_mappings', $fieldDescription->getOption('sort_parent_association_mappings', $fieldDescription->getParentAssociationMappings()));
                     $fieldDescription->setOption('sort_field_mapping', $fieldDescription->getOption('sort_field_mapping', $fieldDescription->getFieldMapping()));
                 }
