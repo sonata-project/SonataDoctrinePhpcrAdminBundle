@@ -24,12 +24,14 @@ use Sonata\DoctrinePHPCRAdminBundle\Form\Listener\CollectionOrderListener;
  */
 class CollectionTypeExtension extends AbstractTypeExtension
 {
-
     /**
      * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if (! isset($options['sortable'])) {
+            return;
+        }
         $listener = new CollectionOrderListener($options['sonata_field_description']->getName());
         $builder->getParent()->addEventListener(FormEvents::BIND, array($listener, 'onPostBind'));
     }

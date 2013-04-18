@@ -11,9 +11,12 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Form\Listener;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Util\Debug;
 use Doctrine\ODM\PHPCR\ChildrenCollection;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 /**
  * A listener for the parent form object to reorder a children collection based
@@ -41,10 +44,19 @@ class CollectionOrderListener
      */
     public function onPostBind(FormEvent $event)
     {
-        /** @var $newCollection ChildrenCollection */
-        $newCollection = $event->getData()->getChildren();
+        $data = $event->getData();
+        if (! is_object($data)) {
+            return;
+        }
+        $accessor = new PropertyAccessor();
+        $newCollection = $accessor->getValue($data, $this->name);
+        if (! $newCollection instanceof Collection) {
+            return;
+        }
+        /** @var $newCollection Collection */
 
         $newCollection->clear();
+        /** @var $item FormBuilder */
         foreach ($event->getForm()->get($this->name) as $item) {
             if ($item->get('_delete')->getData()) {
                 // do not re-add a deleted child
