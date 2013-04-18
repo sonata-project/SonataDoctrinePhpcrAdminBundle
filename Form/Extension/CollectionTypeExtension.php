@@ -29,7 +29,7 @@ class CollectionTypeExtension extends AbstractTypeExtension
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (! isset($options['sortable'])) {
+        if (! $options['sonata_field_description']->getOption('sortable')) {
             return;
         }
         $listener = new CollectionOrderListener($options['sonata_field_description']->getName());

@@ -12,8 +12,6 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Form\Listener;
 
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Util\Debug;
-use Doctrine\ODM\PHPCR\ChildrenCollection;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
