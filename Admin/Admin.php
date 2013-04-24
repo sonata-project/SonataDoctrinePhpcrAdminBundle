@@ -10,6 +10,7 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin as BaseAdmin;
+use Sonata\AdminBundle\Route\RouteCollection;
 
 /**
  * Extend the Admin class to incorporate phpcr changes.
@@ -69,6 +70,15 @@ class Admin extends BaseAdmin
     public function id($object)
     {
         return $this->getUrlsafeIdentifier($object);
+    }
+
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        foreach (array('edit', 'create', 'delete') as $name) {
+            if ($collection->has($name)) {
+                $collection->get($name)->addOptions(array('expose' => true));
+            }
+        }
     }
 }
 
