@@ -312,17 +312,15 @@ class ModelManager implements ModelManagerInterface
      */
     public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx)
     {
-
-        /** @var \PHPCR\Util\QOM\QueryBuilder $qb  */
         $qb = $queryProxy->getQueryBuilder();
-        $qmf = $qb->getQOMFactory();
 
         $constraint = null;
+
         foreach ($idx as $id) {
             $path = $this->getBackendId($id);
-            $condition = $qmf->sameNode($path);
+            $condition = $qb->expr()->eqPath($path);
             if ($constraint) {
-                $constraint = $qmf->orConstraint($constraint, $condition);
+                $constraint = $qb->expr()->orx($constraint, $condition);
             } else {
                 $constraint = $condition;
             }
@@ -354,8 +352,9 @@ class ModelManager implements ModelManagerInterface
     {
         try {
             $i = 0;
-            foreach ($queryProxy->getQuery()->execute()->getNodes() as $object) {
-                $object->remove();
+            $res = $queryProxy->getQuery()->execute();
+            foreach ($res as $object) {
+                $this->documentManager->remove($object);
 
                 if ((++$i % 20) == 0) {
                     $this->documentManager->flush();
