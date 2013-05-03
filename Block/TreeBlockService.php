@@ -12,8 +12,6 @@ use Sonata\BlockBundle\Model\BlockInterface;
 
 class TreeBlockService extends BaseBlockService
 {
-    protected $templating;
-
     protected $defaults;
 
     public function __construct($name, EngineInterface $templating, array $defaults = array())
