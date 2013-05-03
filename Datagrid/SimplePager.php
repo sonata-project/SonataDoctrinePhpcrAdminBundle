@@ -11,17 +11,12 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Datagrid;
 
-use Sonata\AdminBundle\Datagrid\Pager as BasePager;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\PHPCR\Query\Query as PHPCRQuery;
 
-/**
- * Doctrine pager class.
- *
- * @author     Jonathan H. Wage <jonwage@gmail.com>
- * @author     Nacho Martin <nitram.ohcan@gmail.com>
- */
-class Pager extends BasePager
+class SimplePager extends Pager
 {
+    protected $haveToPaginate;
 
     /**
      * Returns a query for counting the total results.
@@ -30,7 +25,7 @@ class Pager extends BasePager
      */
     public function computeNbResult()
     {
-        return count($this->getQuery()->execute(array(), PHPCRQuery::HYDRATE_PHPCR));
+        return null;
     }
 
     /**
@@ -41,17 +36,33 @@ class Pager extends BasePager
      */
     public function getResults($hydrationMode = null)
     {
-        return $this->getQuery()->execute(array(), $hydrationMode);
+        if (!$this->results) {
+            $this->results = $this->getQuery()->execute(array(), $hydrationMode);
+            if (count($this->results) > $this->getMaxPerPage()) {
+                $this->haveToPaginate = true;
+                $this->results = new ArrayCollection($this->results->slice(0, $this->getMaxPerPage()));
+            } else {
+                $this->haveToPaginate = false;
+            }
+        }
+
+        return $this->results;
     }
 
     /**
-     * Get the query for the pager.
+     * Returns true if the current query requires pagination.
      *
-     * @return \Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery
+     * @return boolean
      */
-    public function getQuery()
+    public function haveToPaginate()
     {
-        return $this->query;
+        return $this->haveToPaginate || $this->getPage() > 1;
+    }
+
+    protected function resetIterator()
+    {
+        parent::resetIterator();
+        $this->haveToPaginate = false;
     }
 
     /**
@@ -67,21 +78,21 @@ class Pager extends BasePager
             throw new \RuntimeException("Uninitialized QueryBuilder");
         }
         $this->resetIterator();
-        $this->setNbResults($this->computeNbResult());
 
         //if (count($this->getParameters()) > 0) {
         //    $this->getQuery()->setParameters($this->getParameters());
         //}
 
-        if (0 == $this->getPage() || 0 == $this->getMaxPerPage() || 0 == $this->getNbResults()) {
+        if (0 == $this->getPage() || 0 == $this->getMaxPerPage()) {
             $this->setLastPage(0);
             $this->getQuery()->setFirstResult(0);
             $this->getQuery()->setMaxResults(0);
         } else {
             $offset = ($this->getPage() - 1) * $this->getMaxPerPage();
-            $this->setLastPage(ceil($this->getNbResults() / $this->getMaxPerPage()));
             $this->getQuery()->setFirstResult($offset);
-            $this->getQuery()->setMaxResults($this->getMaxPerPage());
+            $this->getQuery()->setMaxResults($this->getMaxPerPage()+1);
+            $this->initializeIterator();
+            $this->setLastPage($this->getPage() + (int) $this->haveToPaginate);
         }
     }
 }
