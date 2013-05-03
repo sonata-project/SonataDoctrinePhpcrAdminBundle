@@ -12,6 +12,7 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Builder;
 
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
+use Sonata\AdminBundle\Datagrid\PagerInterface;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
@@ -20,7 +21,7 @@ use Sonata\AdminBundle\Builder\DatagridBuilderInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
 
-use Sonata\DoctrinePHPCRAdminBundle\Datagrid\Pager;
+use Sonata\DoctrinePHPCRAdminBundle\Datagrid\SimplePager;
 
 use Symfony\Component\Form\FormFactory;
 
@@ -32,6 +33,8 @@ class DatagridBuilder implements DatagridBuilderInterface
 
     protected $guesser;
 
+    protected $pager;
+
     /**
      * @param \Symfony\Component\Form\FormFactory $formFactory
      * @param \Sonata\AdminBundle\Filter\FilterFactoryInterface $filterFactory
@@ -42,6 +45,27 @@ class DatagridBuilder implements DatagridBuilderInterface
         $this->formFactory   = $formFactory;
         $this->filterFactory = $filterFactory;
         $this->guesser       = $guesser;
+    }
+
+    /**
+     * @param \Sonata\AdminBundle\Datagrid\PagerInterface $pager
+     * @return void
+     */
+    public function setPager(PagerInterface $pager)
+    {
+        $this->pager = $pager;
+    }
+
+    /**
+     * @return \Sonata\AdminBundle\Datagrid\PagerInterface
+     */
+    public function getPager()
+    {
+        if (null === $this->pager) {
+            $this->pager = new SimplePager();
+        }
+
+        return $this->pager;
     }
 
     /**
@@ -121,9 +145,8 @@ class DatagridBuilder implements DatagridBuilderInterface
      */
     public function getBaseDatagrid(AdminInterface $admin, array $values = array())
     {   
-        $pager = new Pager;
         $formBuilder = $this->formFactory->createNamedBuilder('filter', 'form', array(), array('csrf_protection' => false));
 
-        return new Datagrid($admin->createQuery(), $admin->getList(), $pager, $formBuilder, $values);
+        return new Datagrid($admin->createQuery(), $admin->getList(), $this->getPager(), $formBuilder, $values);
     }
 }
