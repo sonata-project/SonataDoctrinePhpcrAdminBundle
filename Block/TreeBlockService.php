@@ -2,13 +2,14 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Block;
 
+use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Validator\ErrorElement;
+use Sonata\BlockBundle\Block\BaseBlockService;
+use Sonata\BlockBundle\Block\BlockContextInterface;
+use Sonata\BlockBundle\Model\BlockInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
-
-use Sonata\AdminBundle\Validator\ErrorElement;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\BlockBundle\Block\BaseBlockService;
-use Sonata\BlockBundle\Model\BlockInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TreeBlockService extends BaseBlockService
 {
@@ -32,18 +33,24 @@ class TreeBlockService extends BaseBlockService
     }
 
     /**
-     * @param \Sonata\BlockBundle\Model\BlockInterface $block
-     * @param null|\Symfony\Component\HttpFoundation\Response $response
-     *
-     * @return Response
+     * {@inheritdoc}
      */
-    public function execute(BlockInterface $block, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
-        $options = array_merge(array('id' => '/', 'selected' => null), array('routing_defaults' => $this->defaults));
-        if (null !== $block->getSettings()) {
-            $options = array_merge($options, $block->getSettings());
-        }
-        return $this->templating->renderResponse('SonataDoctrinePHPCRAdminBundle:Block:tree.html.twig', $options, $response);
+        return $this->templating->renderResponse($blockContext->getTemplate(), $blockContext->getSettings(), $response);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDefaultSettings(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'template'         => 'SonataDoctrinePHPCRAdminBundle:Block:tree.html.twig',
+            'id'               => '/',
+            'selected'         => null,
+            'routing_defaults' => $this->defaults,
+        ));
     }
 
     /**
