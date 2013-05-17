@@ -10,7 +10,7 @@ file that was distributed with this source code.
 #}
 
 
-{% include 'SymfonyCmfTreeBrowserBundle:Base:tree.html.twig' %}
+{% include 'CmfTreeBrowserBundle:Base:tree.html.twig' %}
 <script type="text/javascript">
     $(document).ready(function() {
         var treeState = AdminTree.generateTreeStateArray("{{ selected_node }}");
@@ -22,9 +22,9 @@ file that was distributed with this source code.
             "selected": "{{ selected_node }}",
             "labels": {{ tree.labels | json_encode() | raw}},
             "ajax": {
-                "children_url": Routing.generate("_symfony_cmf_tree_{{ tree.alias }}_children", defaults),
-                "move_url": Routing.generate("_symfony_cmf_tree_{{ tree.alias }}_move", defaults),
-                "reorder_url": Routing.generate("_symfony_cmf_tree_{{ tree.alias }}_reorder", defaults)
+                "children_url": Routing.generate("_cmf_tree_{{ tree.alias }}_children", defaults),
+                "move_url": Routing.generate("_cmf_tree_{{ tree.alias }}_move", defaults),
+                "reorder_url": Routing.generate("_cmf_tree_{{ tree.alias }}_reorder", defaults)
             },
             "path": {
                 "expanded":     treeState,
@@ -38,7 +38,7 @@ file that was distributed with this source code.
         });
 
         {% if confirm_move is defined and confirm_move %}
-        $('#tree').on('symfony_cmf_tree.move', function(e) {
+        $('#tree').on('cmf_tree.move', function(e) {
             if (!confirm('{{ 'confirm_move_node' | trans({}, 'SonataDoctrinePHPCRAdmin') }}')) {
                 e.preventDefault();
             }
