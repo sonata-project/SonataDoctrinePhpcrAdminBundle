@@ -141,7 +141,7 @@ file that was distributed with this source code.
 {% endblock %}
 
 {% block doctrine_phpcr_odm_tree_widget %}
-{% include 'SymfonyCmfTreeBrowserBundle:Base:tree.html.twig' %}
+{% include 'CmfTreeBrowserBundle:Base:tree.html.twig' %}
 <script type="text/javascript">
     $(document).ready(function() {
         var treeState = AdminTree.generateTreeStateArray("{{ value }}");
@@ -151,7 +151,7 @@ file that was distributed with this source code.
             "selector": "#{{id}}-tree-selector",
             "rootNode": "{{ root_node }}",
             "ajax": {
-                "children_url": Routing.generate("_symfony_cmf_tree_{{ tree.alias }}_children", defaults),
+                "children_url": Routing.generate("_cmf_tree_{{ tree.alias }}_children", defaults),
             },
             "output": "#{{id}}-tree-selector-output",
             "reset": "#{{id}}-tree-reset",
