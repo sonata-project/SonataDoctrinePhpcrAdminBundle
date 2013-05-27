@@ -18,14 +18,21 @@ class SimplePager extends Pager
 {
     protected $haveToPaginate;
 
-    /**
-     * Returns a query for counting the total results.
-     *
-     * @return integer
-     */
-    public function computeNbResult()
+    protected $threshold;
+    protected $thresholdCount;
+
+    public function __construct($threshold = 2)
     {
-        return null;
+        $this->threshold = (int) $threshold;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNbResults()
+    {
+        $n = ceil(($this->getLastPage()-1) * $this->getMaxPerPage());
+        return "more then $n ";
     }
 
     /**
@@ -38,6 +45,7 @@ class SimplePager extends Pager
     {
         if (!$this->results) {
             $this->results = $this->getQuery()->execute(array(), $hydrationMode);
+            $this->thresholdCount = count($this->results);
             if (count($this->results) > $this->getMaxPerPage()) {
                 $this->haveToPaginate = true;
                 $this->results = new ArrayCollection($this->results->slice(0, $this->getMaxPerPage()));
@@ -90,9 +98,14 @@ class SimplePager extends Pager
         } else {
             $offset = ($this->getPage() - 1) * $this->getMaxPerPage();
             $this->getQuery()->setFirstResult($offset);
-            $this->getQuery()->setMaxResults($this->getMaxPerPage()+1);
+            $maxOffset = $this->threshold > 1 ? ($this->getMaxPerPage() * $this->threshold) : 1;
+            $this->getQuery()->setMaxResults($this->getMaxPerPage()+$maxOffset);
+
             $this->initializeIterator();
-            $this->setLastPage($this->getPage() + (int) $this->haveToPaginate);
+
+            $t = $this->thresholdCount + ($this->getMaxPerPage() * ($this->getPage()-1));
+            $last = $t / $this->getMaxPerPage();
+            $this->setLastPage(ceil($last));
         }
     }
 }
