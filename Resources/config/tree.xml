@@ -16,7 +16,7 @@
         </service>
 
         <service id="sonata.admin.doctrine_phpcr.phpcrodm_tree" class="Sonata\DoctrinePHPCRAdminBundle\Tree\PhpcrOdmTree">
-            <tag name="symfony_cmf.tree" alias="phpcr_odm_tree" />
+            <tag name="cmf.tree" alias="phpcr_odm_tree" />
             <argument type="service" id="doctrine_phpcr.odm.default_document_manager" />
             <argument type="service" id="sonata.admin.manager.doctrine_phpcr"/>
             <argument type="service" id="sonata.admin.pool"/>
