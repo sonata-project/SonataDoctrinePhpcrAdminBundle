@@ -16,14 +16,23 @@ use Doctrine\ODM\PHPCR\Query\Query as PHPCRQuery;
 
 class SimplePager extends Pager
 {
+    /** @var  bool $haveToPaginate */
     protected $haveToPaginate;
 
+    /** @var int $threshold */
     protected $threshold;
+
+    /** @var  int $thresholdCount */
     protected $thresholdCount;
 
-    public function __construct($threshold = 2)
+    /**
+     * @param integer $maxPerPage Number of records to display per page
+     * @param int $threshold
+     */
+    public function __construct($maxPerPage = 10, $threshold = 2)
     {
-        $this->threshold = (int) $threshold;
+        $this->setMaxPerPage($maxPerPage);
+        $this->setThreshold($threshold);
     }
 
     /**
@@ -98,14 +107,34 @@ class SimplePager extends Pager
         } else {
             $offset = ($this->getPage() - 1) * $this->getMaxPerPage();
             $this->getQuery()->setFirstResult($offset);
-            $maxOffset = $this->threshold > 1 ? ($this->getMaxPerPage() * $this->threshold) : 1;
-            $this->getQuery()->setMaxResults($this->getMaxPerPage()+$maxOffset);
 
+            if($this->getThreshold() > 0){
+                $maxOffset = $this->getMaxPerPage() * $this->threshold + 1;
+            } else {
+                $maxOffset = $this->getMaxPerPage() + 1;
+            }
+
+            $this->getQuery()->setMaxResults($maxOffset);
             $this->initializeIterator();
 
-            $t = $this->thresholdCount + ($this->getMaxPerPage() * ($this->getPage()-1));
-            $last = $t / $this->getMaxPerPage();
-            $this->setLastPage(ceil($last));
+            $t = (int) ceil($this->thresholdCount / $this->getMaxPerPage()) + $this->getPage() - 1;
+            $this->setLastPage($t);
         }
+    }
+
+    /**
+     * @param int $threshold
+     */
+    public function setThreshold($threshold)
+    {
+        $this->threshold = (int) $threshold;
+    }
+
+    /**
+     * @return int
+     */
+    public function getThreshold()
+    {
+        return $this->threshold;
     }
 }
