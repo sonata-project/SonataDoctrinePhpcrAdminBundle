@@ -120,11 +120,8 @@ class SimplePager extends Pager
             $offset = ($this->getPage() - 1) * $this->getMaxPerPage();
             $this->getQuery()->setFirstResult($offset);
 
-            if ($this->getThreshold() > 0) {
-                $maxOffset = $this->getMaxPerPage() * $this->threshold + 1;
-            } else {
-                $maxOffset = $this->getMaxPerPage() + 1;
-            }
+            $maxOffset = $this->getThreshold() > 0
+                ? $this->getMaxPerPage() * $this->threshold + 1 : $this->getMaxPerPage() + 1;
 
             $this->getQuery()->setMaxResults($maxOffset);
             $this->initializeIterator();
