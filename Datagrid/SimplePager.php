@@ -26,6 +26,14 @@ class SimplePager extends Pager
     protected $thresholdCount;
 
     /**
+     * The threshold parameter can be used to determine how far ahead
+     * the pager should fetch results.
+     *
+     * If set to 1 which is the minimal value the pager will generate a link to the next page
+     * If set to 2 the pager will generate links to the next two pages
+     * If set to 3 the pager will generate links to the next three pages
+     * etc.
+     *
      * @param integer $maxPerPage Number of records to display per page
      * @param int $threshold
      */
@@ -40,8 +48,12 @@ class SimplePager extends Pager
      */
     public function getNbResults()
     {
-        $n = ceil(($this->getLastPage()-1) * $this->getMaxPerPage());
-        return "more then $n ";
+        if ($this->getLastPage() == 1) {
+            return $this->thresholdCount;
+        } else {
+            $n = ceil(($this->getLastPage() -1) * $this->getMaxPerPage());
+            return "more then $n ";
+        }
     }
 
     /**
@@ -108,7 +120,7 @@ class SimplePager extends Pager
             $offset = ($this->getPage() - 1) * $this->getMaxPerPage();
             $this->getQuery()->setFirstResult($offset);
 
-            if($this->getThreshold() > 0){
+            if ($this->getThreshold() > 0) {
                 $maxOffset = $this->getMaxPerPage() * $this->threshold + 1;
             } else {
                 $maxOffset = $this->getMaxPerPage() + 1;
