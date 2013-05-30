@@ -313,7 +313,7 @@ class PhpcrOdmTree implements TreeInterface
     public function getNodeTypes()
     {
         $result = array('undefined' => array(
-            'icon' => array('image' => $this->assetHelper->getUrl('bundles/symfonycmftreebrowser/images/folder.png')),
+            'icon' => array('image' => $this->assetHelper->getUrl('bundles/cmftreebrowser/images/folder.png')),
             'valid_children' => 'all',
             'routes' => array()
         ));
@@ -325,7 +325,7 @@ class PhpcrOdmTree implements TreeInterface
             foreach ($children['valid_children'] as $child) {
                 $validChildren[] = $this->normalizeClassname($child);
             }
-            $icon = 'bundles/symfonycmftreebrowser/images/folder.png';
+            $icon = 'bundles/cmftreebrowser/images/folder.png';
             if (!empty($children['image'])) {
                 $icon = $children['image'];
             }
