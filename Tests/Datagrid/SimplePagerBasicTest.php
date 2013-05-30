@@ -15,7 +15,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Datagrid\SimplePager;
 use Doctrine\ODM\PHPCR\Query\Query as PHPCRQuery;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class SimplePagerBasicTest extends PagerTest
+class SimplePagerBasicTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -30,7 +30,7 @@ class SimplePagerBasicTest extends PagerTest
     {
         $this->proxyQuery->expects($this->once())
             ->method('execute')
-            ->with(array(), null) // @todo why the difference in hydration param with PagerTest class
+            ->with(array(), null)
             ->will($this->returnValue(new ArrayCollection(range(0, 12))));
 
         $this->proxyQuery->expects($this->once())
@@ -44,7 +44,7 @@ class SimplePagerBasicTest extends PagerTest
         $this->pager->setQuery($this->proxyQuery);
         $this->pager->init();
 
-        $this->assertEquals(2, $this->pager->getLastPage()); // @todo why does this fail
+        $this->assertEquals(2, $this->pager->getLastPage());
     }
 
     public function testInitOffset()
@@ -67,7 +67,7 @@ class SimplePagerBasicTest extends PagerTest
         $this->pager->setPage(2);
         $this->pager->init();
 
-        $this->assertEquals(2, $this->pager->getLastPage());
+        $this->assertEquals(3, $this->pager->getLastPage());
     }
 
     public function testNoPagesPerConfig()
