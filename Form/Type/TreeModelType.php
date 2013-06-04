@@ -51,8 +51,8 @@ class TreeModelType extends AbstractType
     {
         parent::buildView($view, $form, $options);
         $view->vars['tree'] = $this->tree;
-        $view->vars['root_node'] = $form->getAttribute('root_node');
-        $view->vars['select_root_node'] = $form->getAttribute('select_root_node');
+        $view->vars['root_node'] = $form->getConfig()->getAttribute('root_node');
+        $view->vars['select_root_node'] = $form->getConfig()->getAttribute('select_root_node');
         $view->vars['routing_defaults'] = $this->defaults;
     }
 
