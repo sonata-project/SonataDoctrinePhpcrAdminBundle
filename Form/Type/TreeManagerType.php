@@ -33,11 +33,6 @@ class TreeManagerType extends AbstractType
         ));
     }
 
-    public function getParent()
-    {
-        return 'field';
-    }
-
     public function getName()
     {
         return 'doctrine_phpcr_odm_tree_manager';
