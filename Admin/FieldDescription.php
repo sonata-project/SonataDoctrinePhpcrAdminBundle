@@ -34,9 +34,9 @@ class FieldDescription extends BaseFieldDescription
         if (!is_array($associationMapping)) {
            throw new \RuntimeException('The association mapping must be an array');
         }
-        
+
         $this->associationMapping = $associationMapping;
-        
+
         if(isset($associationMapping['type'])){
             $this->type         = $this->type ?: $associationMapping['type'];
             $this->mappingType  = $this->mappingType ?: $associationMapping['type'];
@@ -55,6 +55,9 @@ class FieldDescription extends BaseFieldDescription
     {
         if (isset($this->associationMapping['targetDocument'])) {
             return $this->associationMapping['targetDocument'];
+        }
+        if (isset($this->associationMapping['referringDocument'])) {
+            return $this->associationMapping['referringDocument'];
         }
 
         return null;
