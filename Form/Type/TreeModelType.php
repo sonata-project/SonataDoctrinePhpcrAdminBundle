@@ -42,7 +42,7 @@ class TreeModelType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->prependClientTransformer(new ModelToIdTransformer($options['model_manager'], $options['class']));
+        $builder->addViewTransformer(new ModelToIdTransformer($options['model_manager'], $options['class']), true);
         $builder->setAttribute('root_node', $options['root_node']);
         $builder->setAttribute('select_root_node', $options['select_root_node']);
     }
