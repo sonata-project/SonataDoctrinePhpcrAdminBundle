@@ -19,8 +19,8 @@
     "require": {
         "php": ">=5.3.3",
         "sonata-project/admin-bundle": "~2.2.2",
-        "symfony/framework-bundle": "~2.1",
-        "symfony/property-access": "~2.1",
+        "symfony/framework-bundle": "~2.2",
+        "symfony/property-access": "~2.2",
         "doctrine/phpcr-odm":"1.0.*",
         "doctrine/phpcr-bundle":"1.0.*",
         "symfony-cmf/tree-browser-bundle": "1.0.*"
