@@ -24,7 +24,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Admin\FieldDescription;
 
 class FormContractor implements FormContractorInterface
 {
-    protected $fieldFactory;
+    protected $formFactory;
 
     /**
      * @param \Symfony\Component\Form\FormFactoryInterface $formFactory
