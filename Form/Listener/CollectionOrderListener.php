@@ -36,16 +36,23 @@ class CollectionOrderListener
     }
 
     /**
-     * Reorder the children at $this->name
+     * Reorder the children of the parent form data at $this->name
+     *
+     * For whatever reason we have to go through the parent object, just
+     * getting the collection from the form event and reordering it does
+     * not update the stored order.
      *
      * @param FormEvent $event
      */
     public function onPostBind(FormEvent $event)
     {
-        $data = $event->getData();
+        $form = $event->getForm()->getParent();
+        $data = $form->getData();
+
         if (! is_object($data)) {
             return;
         }
+
         $accessor = new PropertyAccessor();
         $newCollection = $accessor->getValue($data, $this->name);
         if (! $newCollection instanceof Collection) {
@@ -54,8 +61,9 @@ class CollectionOrderListener
         /** @var $newCollection Collection */
 
         $newCollection->clear();
+
         /** @var $item FormBuilder */
-        foreach ($event->getForm()->get($this->name) as $item) {
+        foreach ($form->get($this->name) as $key => $item) {
             if ($item->get('_delete')->getData()) {
                 // do not re-add a deleted child
                 continue;
