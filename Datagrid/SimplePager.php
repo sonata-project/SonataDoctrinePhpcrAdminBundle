@@ -39,20 +39,25 @@ class SimplePager extends Pager
      */
     public function __construct($maxPerPage = 10, $threshold = 2)
     {
-        $this->setMaxPerPage($maxPerPage);
+        parent::__construct($maxPerPage);
         $this->setThreshold($threshold);
+        $this->setTemplate('results', 'SonataDoctrinePHPCRAdminBundle:Pager:simple_pager_results.html.twig');
     }
 
     /**
-     * @return string
+     * Returns the exact count when there is only one page or
+     * when the current equals the last page.
+     * In all other cases an estimate of the total count is returned.
+     *
+     * @return integer
      */
     public function getNbResults()
     {
-        if ($this->getLastPage() == 1) {
-            return $this->thresholdCount;
+        $n = ceil(($this->getLastPage() -1) * $this->getMaxPerPage());
+        if($this->getLastPage() == $this->getPage()) {
+            return $n + $this->thresholdCount;
         } else {
-            $n = ceil(($this->getLastPage() -1) * $this->getMaxPerPage());
-            return "more then $n ";
+            return $n;
         }
     }
 
@@ -107,10 +112,6 @@ class SimplePager extends Pager
             throw new \RuntimeException("Uninitialized QueryBuilder");
         }
         $this->resetIterator();
-
-        //if (count($this->getParameters()) > 0) {
-        //    $this->getQuery()->setParameters($this->getParameters());
-        //}
 
         if (0 == $this->getPage() || 0 == $this->getMaxPerPage()) {
             $this->setLastPage(0);
