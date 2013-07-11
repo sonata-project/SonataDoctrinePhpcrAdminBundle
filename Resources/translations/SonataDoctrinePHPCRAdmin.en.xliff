@@ -24,7 +24,7 @@
             </trans-unit>
             <trans-unit id="list_results_count_prefix">
                 <source>list_results_count_prefix</source>
-                <target>more then</target>
+                <target>at least</target>
             </trans-unit>
         </body>
      </file>
