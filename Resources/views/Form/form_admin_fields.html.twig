@@ -183,3 +183,45 @@ file that was distributed with this source code.
         'edit_in_overlay': form.vars.edit_in_overlay
     }) %}
 {% endblock %}
+
+{% block choice_field_mask_widget %}
+    {{ block('choice_widget') }}
+    {% set main_form_name = form.parent.vars.name %}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var allFields = {{ all_fields|json_encode|raw }};
+            var map = {{ map|json_encode|raw }};
+
+            showMaskChoiceEl = $('#{{ main_form_name }}_{{ name }}');
+            showMaskChoiceEl.on('change', function () {
+                choice_field_mask_show($(this).val());
+            });
+
+            function choice_field_mask_show(val)
+            {
+                var controlGroupIdFunc = function (field) {
+                    return '#sonata-ba-field-container-{{ main_form_name }}_' + field;
+                };
+
+                if (map[val] == undefined) {
+                    $.each(allFields, function (i, field) {
+                        $(controlGroupIdFunc(field)).show();
+                    });
+
+                    return;
+                }
+
+                $.each(allFields, function (i, field) {
+                    $(controlGroupIdFunc(field)).hide();
+                });
+
+                $.each(map[val], function (i, field) {
+                    $(controlGroupIdFunc(field)).show();
+                });
+            }
+
+            choice_field_mask_show(showMaskChoiceEl.val());
+        });
+    </script>
+{% endblock %}
