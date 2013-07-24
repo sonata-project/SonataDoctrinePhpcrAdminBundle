@@ -59,6 +59,7 @@ class Configuration implements ConfigurationInterface
                                 ->end()
                             ->end()
                         ->end()
+                        ->scalarNode('pager_results')->defaultValue('SonataDoctrinePHPCRAdminBundle:Pager:simple_pager_results.html.twig')->cannotBeEmpty()->end()
                     ->end()
                 ->end()
                 ->arrayNode('document_tree')

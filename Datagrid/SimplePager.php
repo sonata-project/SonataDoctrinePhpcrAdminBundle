@@ -41,7 +41,6 @@ class SimplePager extends Pager
     {
         parent::__construct($maxPerPage);
         $this->setThreshold($threshold);
-        $this->setTemplate('results', 'SonataDoctrinePHPCRAdminBundle:Pager:simple_pager_results.html.twig');
     }
 
     /**
