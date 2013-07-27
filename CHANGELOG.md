@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2013-07-27
+----------
+
+- Changed show URL from `/<doc-path>` to `<doc-path>/show` as this agrees with the Sonata path.
+
 2013-02-14
 ----------
 
