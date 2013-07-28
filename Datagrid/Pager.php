@@ -47,7 +47,7 @@ class Pager extends BasePager
     /**
      * Get the query for the pager.
      *
-     * @return \AdminBundle\Datagrid\ORM\ProxyQuery
+     * @return \Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery
      */
     public function getQuery()
     {
