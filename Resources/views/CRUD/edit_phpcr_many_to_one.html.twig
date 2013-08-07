@@ -13,13 +13,13 @@ file that was distributed with this source code.
     {{ value|render_relation_element(sonata_admin.field_description) }}
 {% elseif sonata_admin.edit == 'inline' %}
     {% for field_description in sonata_admin.field_description.associationadmin.formfielddescriptions %}
-        {{ form_row(form.getChild(field_description.name)) }}
+        {{ form_row(form.getChild(field_description.name))}}
     {% endfor %}
 {% else %}
     <div id="field_container_{{ id }}">
         {% if sonata_admin.edit == 'list' %}
             <span id="field_widget_{{ id }}" >
-                {% if sonata_admin.field_description.associationadmin.id(sonata_admin.value) %}
+                {% if sonata_admin.admin.id(sonata_admin.value) %}
                     {% render 'SonataAdminBundle:Helper:getShortObjectDescription' with {}, {
                         'query': {
                             'code':     sonata_admin.field_description.associationadmin.code,
@@ -37,20 +37,20 @@ file that was distributed with this source code.
                 {{ form_widget(form) }}
             </span>
         {% endif %}
+
         <span id="field_actions_{{ id }}" >
 
-            {% if sonata_admin.edit == 'list' and sonata_admin.field_description.associationadmin.hasroute('list') and sonata_admin.field_description.associationadmin.isGranted('LIST') %}
-
+            {% if sonata_admin.edit == 'list' and sonata_admin.field_description.associationadmin.hasRoute('list') and sonata_admin.field_description.associationadmin.isGranted('LIST') %}
                 <a  href="{{ sonata_admin.field_description.associationadmin.generateUrl('list') }}"
                     onclick="start_field_dialog_form_list_{{ id }}(event)"
                     class="btn sonata-ba-action"
                     >
-                    <i class="icon-list"></i>
-                    {{ 'link_list'|trans({}, 'SonataAdminBundle') }}
+                    <i class="icon-plus"></i>
+                    {{ 'link_add'|trans({}, 'SonataAdminBundle') }}
                 </a>
             {% endif %}
 
-            {% if sonata_admin.field_description.associationadmin.hasroute('create') and sonata_admin.field_description.associationadmin.isGranted('CREATE') %}
+            {% if sonata_admin.field_description.associationadmin.hasRoute('create') and sonata_admin.field_description.associationadmin.isGranted('CREATE') %}
                 <a  href="{{ sonata_admin.field_description.associationadmin.generateUrl('create') }}"
                     onclick="start_field_dialog_form_add_{{ id }}(event)"
                     class="btn sonata-ba-action"
@@ -69,6 +69,7 @@ file that was distributed with this source code.
                     {{ 'link_cancel'|trans({}, 'SonataAdminBundle') }}
                 </a>
             {% endif %}
+
         </span>
 
         <div class="container sonata-ba-modal sonata-ba-modal-edit-one-to-one" style="display: none" id="field_dialog_{{ id }}">
@@ -76,5 +77,5 @@ file that was distributed with this source code.
         </div>
     </div>
 
-    {% include 'SonataDoctrinePHPCRAdminBundle:CRUD:edit_orm_many_association_script.html.twig' %}
+    {% include 'SonataDoctrinePHPCRAdminBundle:CRUD:edit_phpcr_many_association_script.html.twig' %}
 {% endif %}
