@@ -76,8 +76,8 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('doctrine_phpcr.xml');
-        $loader->load('doctrine_phpcr_odm_filter_types.xml');
-        $loader->load('doctrine_phpcr_odm_form_types.xml');
+        $loader->load('doctrine_phpcr_filter_types.xml');
+        $loader->load('doctrine_phpcr_form_types.xml');
         $loader->load('form.xml');
         $loader->load('route.xml');
         $loader->load('twig.xml');
