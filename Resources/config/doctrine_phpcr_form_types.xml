@@ -5,18 +5,18 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="sonata.admin.doctrine_phpcr.form.type.tree_model" class="Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeModelType">
-            <tag name="form.type" alias="doctrine_phpcr_tree" />
+        <service id="sonata.admin.doctrine_phpcr.form.type.phpcr_odm_tree" class="Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeModelType">
+            <tag name="form.type" alias="doctrine_phpcr_odm_tree" />
             <call method="setDefaults">
                 <argument>%sonata_admin_doctrine_phpcr.tree_block.defaults%</argument>
             </call>
             <call method="setTree">
-                <argument type="service" id="sonata.admin.doctrine_phpcr.phpcr_tree" />
+                <argument type="service" id="sonata.admin.doctrine_phpcr.phpcr_odm_tree" />
             </call>
         </service>
 
-        <service id="sonata.admin.doctrine_phpcr.form.type.tree_manager" class="Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeManagerType">
-            <tag name="form.type" alias="doctrine_phpcr_tree_manager" />
+        <service id="sonata.admin.doctrine_phpcr.form.type.phpcr_odm_tree_manager" class="Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeManagerType">
+            <tag name="form.type" alias="doctrine_phpcr_odm_tree_manager" />
         </service>
 
         <service id="sonata.admin.doctrine_phpcr.form.collection_type_extension" class="Sonata\DoctrinePHPCRAdminBundle\Form\Extension\CollectionTypeExtension"
