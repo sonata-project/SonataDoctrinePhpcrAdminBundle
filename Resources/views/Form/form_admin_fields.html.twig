@@ -13,20 +13,20 @@ file that was distributed with this source code.
 
 
 {# Custom Sonata Admin Extension #}
-{% block sonata_admin_orm_one_to_one_widget %}
-    {% include 'SonataDoctrinePHPCRAdminBundle:CRUD:edit_orm_one_to_one.html.twig' %}
+{% block sonata_admin_phpcr_one_to_one_widget %}
+    {% include 'SonataDoctrinePHPCRAdminBundle:CRUD:edit_phpcr_one_to_one.html.twig' %}
 {% endblock %}
 
-{% block sonata_admin_orm_many_to_many_widget %}
-    {% include 'SonataDoctrinePHPCRAdminBundle:CRUD:edit_orm_many_to_many.html.twig' %}
+{% block sonata_admin_phpcr_many_to_many_widget %}
+    {% include 'SonataDoctrinePHPCRAdminBundle:CRUD:edit_phpcr_many_to_many.html.twig' %}
 {% endblock %}
 
-{% block sonata_admin_orm_many_to_one_widget %}
-    {% include 'SonataDoctrinePHPCRAdminBundle:CRUD:edit_orm_many_to_one.html.twig' %}
+{% block sonata_admin_phpcr_many_to_one_widget %}
+    {% include 'SonataDoctrinePHPCRAdminBundle:CRUD:edit_phpcr_many_to_one.html.twig' %}
 {% endblock %}
 
-{% block sonata_admin_orm_one_to_many_widget %}
-    {% include 'SonataDoctrinePHPCRAdminBundle:CRUD:edit_orm_one_to_many.html.twig' %}
+{% block sonata_admin_phpcr_one_to_many_widget %}
+    {% include 'SonataDoctrinePHPCRAdminBundle:CRUD:edit_phpcr_one_to_many.html.twig' %}
 {% endblock %}
 
 {% block sonata_type_model_widget %}
@@ -41,13 +41,13 @@ file that was distributed with this source code.
     {% if sonata_admin.field_description is empty %}
         {{ block('choice_widget') }}
     {% elseif sonata_admin.field_description.mappingtype == 'child' %}
-        {{ block('sonata_admin_orm_one_to_one_widget') }}
+        {{ block('sonata_admin_phpcr_one_to_one_widget') }}
     {% elseif sonata_admin.field_description.mappingtype == 2 %}
-        {{ block('sonata_admin_orm_many_to_one_widget') }}
+        {{ block('sonata_admin_phpcr_many_to_one_widget') }}
     {% elseif sonata_admin.field_description.mappingtype == 8 %}
-        {{ block('sonata_admin_orm_many_to_many_widget') }}
+        {{ block('sonata_admin_phpcr_many_to_many_widget') }}
     {% elseif sonata_admin.field_description.mappingtype == 4 or sonata_admin.field_description.mappingtype == 'children' %}
-        {{ block('sonata_admin_orm_one_to_many_widget') }}
+        {{ block('sonata_admin_phpcr_one_to_many_widget') }}
     {% else %}
         {#INVALID MODE : {{ id }}#}
         {{ block('choice_widget') }}
@@ -111,19 +111,19 @@ file that was distributed with this source code.
         </div>
     </div>
 
-    {% include 'SonataDoctrinePHPCRAdminBundle:CRUD:edit_orm_many_association_script.html.twig' %}
+    {% include 'SonataDoctrinePHPCRAdminBundle:CRUD:edit_phpcr_many_association_script.html.twig' %}
 {% endblock %}
 
 {% block sonata_type_admin_widget %}
     {#admin {{ sonata_admin.field_description.mappingtype }}#}
     {% if sonata_admin.field_description.mappingtype == 1 or sonata_admin.field_description.mappingtype == 'child' %}
-        {{ block('sonata_admin_orm_one_to_one_widget') }}
+        {{ block('sonata_admin_phpcr_one_to_one_widget') }}
     {% elseif sonata_admin.field_description.mappingtype == 2 %}
-        {{ block('sonata_admin_orm_many_to_one_widget') }}
+        {{ block('sonata_admin_phpcr_many_to_one_widget') }}
     {% elseif sonata_admin.field_description.mappingtype == 8 %}
-        {{ block('sonata_admin_orm_many_to_many_widget') }}
+        {{ block('sonata_admin_phpcr_many_to_many_widget') }}
     {% elseif sonata_admin.field_description.mappingtype == 4 or sonata_admin.field_description.mappingtype == 'children' %}
-        {{ block('sonata_admin_orm_one_to_many_widget') }}
+        {{ block('sonata_admin_phpcr_one_to_many_widget') }}
     {% else %}
         INVALID MODE : {{ id }}
     {% endif %}
@@ -134,7 +134,7 @@ file that was distributed with this source code.
         or sonata_admin.field_description.mappingtype == 'children'
         or sonata_admin.field_description.mappingtype == 'referrers'
     %}
-        {{ block('sonata_admin_orm_one_to_many_widget') }}
+        {{ block('sonata_admin_phpcr_one_to_many_widget') }}
     {% else %}
         INVALID MODE : {{ id }} - type : sonata_type_collection - mapping : {{ sonata_admin.field_description.mappingtype }}
     {% endif %}
@@ -176,7 +176,7 @@ file that was distributed with this source code.
 {% endblock %}
 
 {% block doctrine_phpcr_odm_tree_manager_widget %}
-    {% render url('sonata.admin.doctrine_phpcr.phpcrodm_tree', {
+    {% render url('sonata.admin.doctrine_phpcr.phpcr_odm_tree', {
         'root': form.vars.root,
         'selected': false,
         'create_in_overlay': form.vars.create_in_overlay,

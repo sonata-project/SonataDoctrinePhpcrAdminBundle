@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <!-- TODO: route only exists for Symfony2.1 compat https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/issues/86 -->
-    <route id="sonata.admin.doctrine_phpcr.phpcrodm_tree" pattern="/odm-tree">
+    <route id="sonata.admin.doctrine_phpcr.phpcr_odm_tree" pattern="/odm-tree">
         <default key="_controller">sonata.admin.doctrine_phpcr.tree_controller:treeAction</default>
         <requirement key="_method">GET</requirement>
     </route>

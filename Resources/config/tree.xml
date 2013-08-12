@@ -8,14 +8,14 @@
 
         <service id="sonata.admin.doctrine_phpcr.tree_controller"
                  class="Sonata\DoctrinePHPCRAdminBundle\Controller\TreeController">
-            <argument type="service" id="sonata.admin.doctrine_phpcr.phpcrodm_tree" />
+            <argument type="service" id="sonata.admin.doctrine_phpcr.phpcr_odm_tree" />
             <argument/>
             <argument>%sonata_admin_doctrine_phpcr.tree_block.defaults%</argument>
             <argument>%sonata_admin_doctrine_phpcr.tree_confirm_move%</argument>
             <call method="setContainer"><argument type="service" id="service_container"/></call>
         </service>
 
-        <service id="sonata.admin.doctrine_phpcr.phpcrodm_tree" class="Sonata\DoctrinePHPCRAdminBundle\Tree\PhpcrOdmTree">
+        <service id="sonata.admin.doctrine_phpcr.phpcr_odm_tree" class="Sonata\DoctrinePHPCRAdminBundle\Tree\PhpcrOdmTree">
             <tag name="cmf.tree" alias="phpcr_odm_tree" />
             <argument type="service" id="doctrine_phpcr.odm.default_document_manager" />
             <argument type="service" id="sonata.admin.manager.doctrine_phpcr"/>
