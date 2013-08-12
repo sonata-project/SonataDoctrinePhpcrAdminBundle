@@ -1,54 +1,52 @@
 Installation
 ============
 
-First install the Sonata Admin Bundle
+SonataDoctrinePhpcrAdminBundle is part of a set of bundles aimed at abstracting 
+storage connectivity for SonataAdminBundle. As such, SonataDoctrinePhpcrAdminBundle
+depends on SonataAdminBundle, and will not work without it. 
 
-With cmf-sandbox
-----------------
-
-This bundle is under development. Currently, the best way to try it and see what is going on is to install a [cmf-sandbox](https://github.com/symfony-cmf/cmf-sandbox/).
-
-Follow the README of the sandbox for how to install it and load the fixtures to see some content.
+.. note::
+    These installation instructions are meant to be used only as part of SonataAdminBundle's
+    installation process, which is documented `here <http://sonata-project.org/bundles/admin/master/doc/reference/installation.html>`_.
 
 
-Without cmf-sandbox
+Download the bundle
 -------------------
 
-The PHPCR Admin Bundle depends on PHPCR-ODM and on the SonataAdminBundle which in turn depends on SonatajQueryBundle.
-For PHPCR-ODM, follow the instructions at [DoctrinePHPCRBundle](https://github.com/doctrine/DoctrinePHPCRBundle).
+Use composer:
 
-Then for the admin bundle, add the following lines to the file ``deps``:
+.. code-block:: bash
 
-    [SonatajQueryBundle]
-        git=http://github.com/sonata-project/SonatajQueryBundle.git
-        target=/bundles/Sonata/jQueryBundle
+    php composer.phar require sonata-project/doctrine-phpcr-admin-bundle
 
-    [SonataAdminBundle]
-        git=https://github.com/sonata-project/SonataAdminBundle.git
-        target=/bundles/Sonata/AdminBundle
+You'll be asked to type in a version constraint. 'dev-master' will get you the latest, bleeding edge version. Check `packagist <https://packagist.org/packages/sonata-project/doctrine-phpcr-admin-bundle>`_
+for stable and legacy versions:
 
-    [SonataDoctrinePHPCRAdminBundle]
-        git=http://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle.git
-        target=/bundles/Sonata/DoctrinePHPCRAdminBundle
+.. code-block:: bash
 
-and run::
+    Please provide a version constraint for the sonata-project/doctrine-phpcr-admin-bundle requirement: dev-master
 
-  bin/vendors install
 
-Next, be sure to enable the bundles in your autoload.php and AppKernel.php
-files:
+Enable the bundle
+-----------------
+
+Next, be sure to enable the bundle in your AppKernel.php file:
 
 .. code-block:: php
 
-  <?php
-  // app/AppKernel.php
-  public function registerBundles()
-  {
-      return array(
-          // ...
-          new Sonata\jQueryBundle\SonatajQueryBundle(),
-          new Sonata\AdminBundle\SonataAdminBundle(),
-          new Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle(),
-          // ...
-      );
-  }
+    <?php
+    // app/AppKernel.php
+    public function registerBundles()
+    {
+        return array(
+            // ...
+            // set up basic sonata requirements
+            // ...
+            new Sonata\DoctrinePhpcrAdminBundle\SonataDoctrinePhpcrAdminBundle(),
+            // ...
+        );
+    }
+
+.. note::
+    Don't forget that, as part of `SonataAdminBundle's installation instructions <http://sonata-project.org/bundles/admin/master/doc/reference/installation.html>`_,
+    you need to enable additional bundles on AppKernel.php
