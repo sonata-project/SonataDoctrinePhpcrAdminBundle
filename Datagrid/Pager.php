@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of the symfony package.
- * (c) Fabien Potencier <fabien.potencier@symfony-project.com>
- * (c) Jonathan H. Wage <jonwage@gmail.com>
+ * This file is part of the Sonata package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -22,7 +22,6 @@ use Doctrine\ODM\PHPCR\Query\Query as PHPCRQuery;
  */
 class Pager extends BasePager
 {
-
     /**
      * Returns a query for counting the total results.
      *
@@ -45,16 +44,6 @@ class Pager extends BasePager
     }
 
     /**
-     * Get the query for the pager.
-     *
-     * @return \Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery
-     */
-    public function getQuery()
-    {
-        return $this->query;
-    }
-
-    /**
      * Initializes the pager setting the offset and maxResults in ProxyQuery
      * and obtaining the total number of pages.
      *
@@ -66,12 +55,9 @@ class Pager extends BasePager
         if (!$this->getQuery()) {
             throw new \RuntimeException("Uninitialized QueryBuilder");
         }
+
         $this->resetIterator();
         $this->setNbResults($this->computeNbResult());
-
-        //if (count($this->getParameters()) > 0) {
-        //    $this->getQuery()->setParameters($this->getParameters());
-        //}
 
         if (0 == $this->getPage() || 0 == $this->getMaxPerPage() || 0 == $this->getNbResults()) {
             $this->setLastPage(0);

@@ -12,11 +12,7 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Twig\Extension;
 
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\AdminBundle\Exception\NoValueException;
-use Sonata\AdminBundle\Filter\FilterInterface;
 use PHPCR\NodeInterface;
-
-use Symfony\Component\Form\FormView;
 
 class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
 {
@@ -26,7 +22,7 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     protected $environment;
 
     /**
-     * {@inheritdoc}
+     * @param \Twig_Environment $environment
      */
     public function initRuntime(\Twig_Environment $environment)
     {
@@ -48,7 +44,7 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
      * render a list element from the FieldDescription
      *
      * @param $object
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     * @param FieldDescriptionInterface $fieldDescription
      * @param array $params
      * @return string
      */
@@ -81,7 +77,7 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     /**
      * Renders a property of a node
      *
-     * @param \PHPCR\NodeInterface $node
+     * @param NodeInterface $node
      * @param string $property
      * @return string String representation of the property
      */
@@ -93,7 +89,7 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     /**
      * Renders a path of a node
      *
-     * @param \PHPCR\NodeInterface $node
+     * @param NodeInterface $node
      * @return string Node path
      */
     public function renderNodePath(NodeInterface $node)

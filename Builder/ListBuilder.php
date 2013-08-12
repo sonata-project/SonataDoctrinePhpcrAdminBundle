@@ -12,7 +12,6 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Builder;
 
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Builder\ListBuilderInterface;
@@ -22,15 +21,21 @@ use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 
 class ListBuilder implements ListBuilderInterface
 {
+    /**
+     * @var TypeGuesserInterface $guesser
+     */
     protected $guesser;
 
-    protected $templates = array();
+    /**
+     * @var array $templates
+     */
+    protected $templates;
 
     /**
-     * @param \Sonata\AdminBundle\Guesser\TypeGuesserInterface $guesser
+     * @param TypeGuesserInterface $guesser
      * @param array $templates
      */
-    public function __construct(TypeGuesserInterface $guesser, $templates = array())
+    public function __construct(TypeGuesserInterface $guesser, array $templates = array())
     {
         $this->guesser = $guesser;
         $this->templates = $templates;
@@ -41,7 +46,7 @@ class ListBuilder implements ListBuilderInterface
      */
     public function getBaseList(array $options = array())
     {
-        return new FieldDescriptionCollection;
+        return new FieldDescriptionCollection();
     }
 
     /**
@@ -67,12 +72,11 @@ class ListBuilder implements ListBuilderInterface
         $this->buildField($type, $fieldDescription, $admin);
         $admin->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
 
-        return $list->add($fieldDescription);
+        $list->add($fieldDescription);
     }
 
     /**
      * @param string $type
-     *
      * @return string
      */
     private function getTemplate($type)
@@ -172,9 +176,8 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
-     *
-     * @return \Sonata\AdminBundle\Admin\FieldDescriptionInterface
+     * @param FieldDescriptionInterface $fieldDescription
+     * @return FieldDescriptionInterface
      */
     public function buildActionFieldDescription(FieldDescriptionInterface $fieldDescription)
     {

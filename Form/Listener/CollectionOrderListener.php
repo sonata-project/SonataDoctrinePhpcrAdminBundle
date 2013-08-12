@@ -25,6 +25,9 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
  */
 class CollectionOrderListener
 {
+    /**
+     * @var string $name
+     */
     private $name;
 
     /**

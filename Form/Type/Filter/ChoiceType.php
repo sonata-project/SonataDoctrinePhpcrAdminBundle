@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -12,12 +13,7 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter;
 
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType as BaseChoiceType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormViewInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 
 class ChoiceType extends BaseChoiceType
 {
@@ -33,6 +29,10 @@ class ChoiceType extends BaseChoiceType
         return 'doctrine_phpcr_type_filter_choice';
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $choices = array(
@@ -47,5 +47,4 @@ class ChoiceType extends BaseChoiceType
             ->add('value', $options['field_type'], array_merge(array('required' => false), $options['field_options']))
         ;
     }
-
 }

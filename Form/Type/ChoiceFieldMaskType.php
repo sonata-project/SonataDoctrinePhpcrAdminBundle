@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of the Sonata package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ */
+
 namespace Sonata\DoctrinePHPCRAdminBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -9,6 +19,11 @@ use Symfony\Component\Form\FormView;
 
 class ChoiceFieldMaskType extends AbstractType
 {
+    /**
+     * @param FormView $view
+     * @param FormInterface $form
+     * @param array $options
+     */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $allFieldNames = array();
@@ -25,7 +40,7 @@ class ChoiceFieldMaskType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -36,11 +51,17 @@ class ChoiceFieldMaskType extends AbstractType
         ));
     }
 
+    /**
+     * @return string
+     */
     public function getParent()
     {
         return 'choice';
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'choice_field_mask';

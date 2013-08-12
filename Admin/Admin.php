@@ -28,6 +28,9 @@ class Admin extends BaseAdmin
      */
     protected $root;
 
+    /**
+     * @param string $root
+     */
     public function setRoot($root)
     {
         $this->root = $root;
@@ -59,19 +62,14 @@ class Admin extends BaseAdmin
     /**
      * {@inheritdoc}
      */
-    public function getUrlsafeIdentifier($object)
-    {
-        return $this->modelManager->getUrlsafeIdentifier($object);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function id($object)
     {
         return $this->getUrlsafeIdentifier($object);
     }
 
+    /**
+     * @param RouteCollection $collection
+     */
     protected function configureRoutes(RouteCollection $collection)
     {
         foreach (array('edit', 'create', 'delete') as $name) {

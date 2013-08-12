@@ -11,7 +11,6 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 

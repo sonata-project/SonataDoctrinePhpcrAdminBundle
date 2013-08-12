@@ -11,14 +11,12 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/*
- *
+/**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  * @author Nacho Martín <nitram.ohcan@gmail.com>
  */
@@ -29,7 +27,6 @@ class AddGuesserCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-
         // ListBuilder
         $definition = $container->getDefinition('sonata.admin.guesser.doctrine_phpcr_list_chain');
         $services = array();

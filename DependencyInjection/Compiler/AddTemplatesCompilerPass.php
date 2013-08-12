@@ -11,14 +11,11 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/*
- *
+/**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  * @author Nacho Martín <nitram.ohcan@gmail.com>
  */
@@ -50,11 +47,15 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
         }
     }
 
-    public function fixSettings($container)
+    /**
+     * @param ContainerBuilder $container
+     * @return bool
+     */
+    protected function fixSettings(ContainerBuilder $container)
     {
         $pool = $container->getDefinition('sonata.admin.manager.doctrine_phpcr');
 
-        // not very clean but don't know how to do that for now
+        // @todo not very clean but don't know how to do that for now
         $settings = false;
         $methods  = $pool->getMethodCalls();
         foreach ($methods as $pos => $calls) {
@@ -72,6 +73,5 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
 
         return $settings;
     }
-
 }
 

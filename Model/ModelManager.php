@@ -18,12 +18,11 @@ use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 
 use Doctrine\ODM\PHPCR\DocumentManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\ClassUtils;
-
-use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
 
 class ModelManager implements ModelManagerInterface
 {
@@ -43,10 +42,8 @@ class ModelManager implements ModelManagerInterface
     /**
      * Returns the related model's metadata
      *
-     * @abstract
      * @param string $class
-     *
-     * @return \Doctrine\ODM\PHPCR\Mapping\ClassMetadata
+     * @return ClassMetadata
      */
     public function getMetadata($class)
     {
@@ -62,38 +59,6 @@ class ModelManager implements ModelManagerInterface
     public function hasMetadata($class)
     {
         return $this->documentManager->getMetadataFactory()->hasMetadataFor($class);
-    }
-
-    /**
-     * Returns a new FieldDescription
-     *
-     * @throws \RunTimeException
-     * @param $class
-     * @param $name
-     * @param array $options
-     * @return FieldDescription
-     */
-    public function getNewFieldDescriptionInstance($class, $name, array $options = array())
-    {
-        if (!is_string($name)) {
-            throw new \RunTimeException('The name argument must be a string');
-        }
-
-        $metadata = $this->getMetadata($class);
-
-        $fieldDescription = new FieldDescription;
-        $fieldDescription->setName($name);
-        $fieldDescription->setOptions($options);
-
-        if (isset($metadata->associationMappings[$name])) {
-            $fieldDescription->setAssociationMapping($metadata->associationMappings[$name]);
-        }
-
-        if (isset($metadata->fieldMappings[$name])) {
-            $fieldDescription->setFieldMapping($metadata->fieldMappings[$name]);
-        }
-
-        return $fieldDescription;
     }
 
     /**
@@ -159,6 +124,38 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
+     * Returns a new FieldDescription
+     *
+     * @param $class
+     * @param $name
+     * @param array $options
+     * @return FieldDescription
+     * @throws \RunTimeException
+     */
+    public function getNewFieldDescriptionInstance($class, $name, array $options = array())
+    {
+        if (!is_string($name)) {
+            throw new \RunTimeException('The name argument must be a string');
+        }
+
+        $metadata = $this->getMetadata($class);
+
+        $fieldDescription = new FieldDescription;
+        $fieldDescription->setName($name);
+        $fieldDescription->setOptions($options);
+
+        if (isset($metadata->associationMappings[$name])) {
+            $fieldDescription->setAssociationMapping($metadata->associationMappings[$name]);
+        }
+
+        if (isset($metadata->fieldMappings[$name])) {
+            $fieldDescription->setFieldMapping($metadata->fieldMappings[$name]);
+        }
+
+        return $fieldDescription;
+    }
+
+    /**
      * @param $class
      * @param array $criteria
      * @return array
@@ -207,9 +204,10 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param $class
+     * @param string $class
      * @param string $alias (provided only for compatibility with the interface TODO: remove)
-     * @return \PHPCR\Query\QueryManagerInterface
+     * @param null $root
+     * @return ProxyQueryInterface|ProxyQuery
      */
     public function createQuery($class, $alias = 'o', $root = null)
     {
@@ -234,7 +232,8 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @param string $classname
+     * @return string
      */
     public function getModelIdentifier($classname)
     {
@@ -249,7 +248,8 @@ class ModelManager implements ModelManagerInterface
      * several columns. We only ever have one, but return that wrapped into an
      * array to adhere to the interface.
      *
-     * {@inheritDoc}
+     * @param object $document
+     * @return array
      */
     public function getIdentifierValues($document)
     {
@@ -268,9 +268,11 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * This is just taking the id out of the array again.
+     *
+     * @param object $document
+     * @return null|string
+     * @throws \RunTimeException
      */
     public function getNormalizedIdentifier($document)
     {
@@ -289,11 +291,11 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * Currently only the leading slash is removed.
-     * TODO: do we also have to encode certain characters like spaces or does
-     * that happen automatically?
+     * TODO: do we also have to encode certain characters like spaces or does that happen automatically?
+     *
+     * @param object $document
+     * @return null|string
      */
     public function getUrlsafeIdentifier($document)
     {
@@ -370,7 +372,8 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @param string $class
+     * @return mixed
      */
     public function getModelInstance($class)
     {
@@ -380,8 +383,8 @@ class ModelManager implements ModelManagerInterface
     /**
      * Returns the parameters used in the columns header
      *
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
-     * @param \Sonata\AdminBundle\Datagrid\DatagridInterface $datagrid
+     * @param FieldDescriptionInterface $fieldDescription
+     * @param DatagridInterface $datagrid
      * @return array
      */
     public function getSortParameters(FieldDescriptionInterface $fieldDescription, DatagridInterface $datagrid)
@@ -405,7 +408,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param \Sonata\AdminBundle\Datagrid\DatagridInterface $datagrid
+     * @param DatagridInterface $datagrid
      * @param $page
      * @return array
      */
@@ -446,7 +449,7 @@ class ModelManager implements ModelManagerInterface
      * @param string $class
      * @param array $array
      * @return mixed|void
-     * @throws \Symfony\Component\Form\Exception\PropertyAccessDeniedException
+     * @throws \RuntimeException
      */
     public function modelReverseTransform($class, array $array = array())
     {
@@ -473,7 +476,7 @@ class ModelManager implements ModelManagerInterface
 
             if ($reflClass->hasMethod($setter)) {
                 if (!$reflClass->getMethod($setter)->isPublic()) {
-                    throw new PropertyAccessDeniedException(sprintf('Method "%s()" is not public in class "%s"', $setter, $reflClass->getName()));
+                    throw new \RuntimeException(sprintf('Method "%s()" is not public in class "%s"', $setter, $reflClass->getName()));
                 }
 
                 $instance->$setter($value);
@@ -482,7 +485,7 @@ class ModelManager implements ModelManagerInterface
                 $instance->$property = $value;
             } else if ($reflClass->hasProperty($property)) {
                 if (!$reflClass->getProperty($property)->isPublic()) {
-                    throw new PropertyAccessDeniedException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "set%s()"?', $property, $reflClass->getName(), ucfirst($property)));
+                    throw new \RuntimeException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "set%s()"?', $property, $reflClass->getName(), ucfirst($property)));
                 }
 
                 $instance->$property = $value;
@@ -507,7 +510,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param string $class
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return ArrayCollection
      */
     public function getModelCollectionInstance($class)
     {
@@ -554,7 +557,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param \Sonata\AdminBundle\Datagrid\DatagridInterface $datagrid
+     * @param DatagridInterface $datagrid
      * @param array $fields
      * @param null $firstResult
      * @param null $maxResult

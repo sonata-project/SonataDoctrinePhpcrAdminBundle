@@ -27,7 +27,7 @@ class FieldDescription extends BaseFieldDescription
      * Define the association mapping definition
      *
      * @param array $associationMapping
-     * @return void
+     * @throws \RuntimeException
      */
     public function setAssociationMapping($associationMapping)
     {
@@ -67,7 +67,7 @@ class FieldDescription extends BaseFieldDescription
      * set the field mapping information
      *
      * @param array $fieldMapping
-     * @return void
+     * @throws \RuntimeException
      */
     public function setFieldMapping($fieldMapping)
     {
@@ -96,7 +96,6 @@ class FieldDescription extends BaseFieldDescription
      * return the value linked to the description
      *
      * @param mixed $object
-     *
      * @return bool|mixed
      */
     public function getValue($object)
@@ -112,8 +111,7 @@ class FieldDescription extends BaseFieldDescription
      * set the parent association mappings information
      *
      * @param array $parentAssociationMappings
-     *
-     * @return void
+     * @throws \RuntimeException
      */
     public function setParentAssociationMappings(array $parentAssociationMappings)
     {

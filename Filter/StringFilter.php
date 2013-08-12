@@ -17,13 +17,7 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 class StringFilter extends Filter
 {
     /**
-     * Applies a constraint to the query
-     *
-     * @param ProxyQueryInterface $proxyQuery
-     * @param string $alias has no effect
-     * @param string $field field where to apply the constraint
-     * @param array $data determines the constraint
-     * @return
+     * {@inheritdoc}
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {

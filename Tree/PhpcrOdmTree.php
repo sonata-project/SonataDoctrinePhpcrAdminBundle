@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sonata package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Sonata\DoctrinePHPCRAdminBundle\Tree;
 
 use PHPCR\Util\NodeHelper;
@@ -67,15 +76,21 @@ class PhpcrOdmTree implements TreeInterface
 
     /**
      * @param DocumentManager $dm
-     * @param ModelManager $defaultModelManager to use with documents that
-     *      have no manager
+     * @param ModelManager $defaultModelManager to use with documents that have no manager
      * @param Pool $pool to get admin classes for documents from
      * @param TranslatorInterface $translator
      * @param $assetHelper
      * @param array $validClasses list of the valid class names that may be
      *      used as tree "ref" fields
      */
-    public function __construct(DocumentManager $dm, ModelManager $defaultModelManager, Pool $pool, TranslatorInterface $translator, CoreAssetsHelper $assetHelper, array $validClasses)
+    public function __construct(
+        DocumentManager $dm,
+        ModelManager $defaultModelManager,
+        Pool $pool,
+        TranslatorInterface $translator,
+        CoreAssetsHelper $assetHelper,
+        array $validClasses
+    )
     {
         $this->dm = $dm;
         $this->defaultModelManager = $defaultModelManager;
@@ -86,9 +101,10 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * Get the children of the document at this path by looking at the Child and Children mappings.
+     *
+     * @param string $path
+     * @return array
      */
     public function getChildren($path)
     {
@@ -117,7 +133,9 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @param string $moved_path
+     * @param string $target_path
+     * @return array|string
      */
     public function move($moved_path, $target_path)
     {
@@ -138,7 +156,6 @@ class PhpcrOdmTree implements TreeInterface
      * Returns an array representation of the document
      *
      * @param object $document
-     *
      * @return array
      */
     private function documentToArray($document)
@@ -183,7 +200,6 @@ class PhpcrOdmTree implements TreeInterface
 
     /**
      * @param object $document the PHPCR-ODM document to get the sonata admin for
-     *
      * @return \Sonata\AdminBundle\Admin\AdminInterface
      */
     private function getAdmin($document)
@@ -207,7 +223,6 @@ class PhpcrOdmTree implements TreeInterface
 
     /**
      * @param object $document the PHPCR-ODM document to get the children of
-     *
      * @return array of children indexed by child nodename pointing to the child documents
      */
     private function getDocumentChildren($document)
@@ -240,7 +255,6 @@ class PhpcrOdmTree implements TreeInterface
     /**
      * @param $document
      * @param array $children
-     *
      * @return array of valid children for the document
      */
     protected function filterDocumentChildren($document, array $children)
@@ -283,7 +297,6 @@ class PhpcrOdmTree implements TreeInterface
      * @param string $moved the id of the child being moved
      * @param string $target the id of the target node
      * @param bool $before insert before or after the target
-     * @return void
      */
     public function reorder($parent, $moved, $target, $before)
     {
@@ -304,9 +317,6 @@ class PhpcrOdmTree implements TreeInterface
 
     /**
      * Get an array describing the available node types
-     *
-     * Example:
-     *
      *
      * @return array
      */
@@ -369,7 +379,8 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * @param string $action
+     * @param $action
+     * @return null|string
      */
     private function mapAction($action)
     {
