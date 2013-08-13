@@ -23,7 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class TreeBlockService extends BaseBlockService
 {
     /**
-     * @var array $defaults
+     * @var array
      */
     protected $defaults;
 
@@ -48,7 +48,10 @@ class TreeBlockService extends BaseBlockService
     }
 
     /**
-     * {@inheritdoc}
+     * @param BlockContextInterface $blockContext
+     * @param Response $response
+     *
+     * @return Response
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
@@ -56,7 +59,7 @@ class TreeBlockService extends BaseBlockService
     }
 
     /**
-     * {@inheritdoc}
+     * @param OptionsResolverInterface $resolver
      */
     public function setDefaultSettings(OptionsResolverInterface $resolver)
     {
@@ -76,6 +79,4 @@ class TreeBlockService extends BaseBlockService
     {
         // there is nothing to validate here
     }
-
-
 }

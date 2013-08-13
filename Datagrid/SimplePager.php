@@ -17,17 +17,17 @@ use Doctrine\ODM\PHPCR\Query\Query as PHPCRQuery;
 class SimplePager extends Pager
 {
     /**
-     * @var  bool $haveToPaginate
+     * @var  bool
      */
     protected $haveToPaginate;
 
     /**
-     * @var int $threshold
+     * @var int
      */
     protected $threshold;
 
     /**
-     * @var int $thresholdCount
+     * @var int
      */
     protected $thresholdCount;
 
@@ -69,6 +69,7 @@ class SimplePager extends Pager
      * Get all the results for the pager instance
      *
      * @param mixed $hydrationMode A hydration mode identifier
+     *
      * @return array
      */
     public function getResults($hydrationMode = null)

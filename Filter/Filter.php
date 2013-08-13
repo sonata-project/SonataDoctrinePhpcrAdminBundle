@@ -16,12 +16,13 @@ use Sonata\AdminBundle\Filter\Filter as BaseFilter;
 abstract class Filter extends BaseFilter
 {
     /**
-     * @var bool $active
+     * @var bool
      */
     protected $active = false;
 
     /**
-     * {@inheritdoc}
+     * @param mixed $queryBuilder
+     * @param mixed $value
      */
     public function apply($queryBuilder, $value)
     {
@@ -46,7 +47,7 @@ abstract class Filter extends BaseFilter
     }
 
     /**
-     * {@inheritdoc}
+     * @return bool
      */
     public function isActive()
     {

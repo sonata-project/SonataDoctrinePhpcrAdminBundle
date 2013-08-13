@@ -27,12 +27,12 @@ use Sonata\AdminBundle\Form\DataTransformer\ModelToIdTransformer;
 class TreeModelType extends AbstractType
 {
     /**
-     * @var array $defaults
+     * @var array
      */
     protected $defaults = array();
 
     /**
-     * @var TreeInterface $tree
+     * @var TreeInterface
      */
     protected $tree;
 

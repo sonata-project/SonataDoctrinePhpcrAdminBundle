@@ -18,11 +18,13 @@ use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Doctrine\ODM\PHPCR\DocumentManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\ClassUtils;
+
+use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 
 class ModelManager implements ModelManagerInterface
 {
@@ -43,6 +45,7 @@ class ModelManager implements ModelManagerInterface
      * Returns the related model's metadata
      *
      * @param string $class
+     *
      * @return ClassMetadata
      */
     public function getMetadata($class)
@@ -54,6 +57,7 @@ class ModelManager implements ModelManagerInterface
      * Returns true is the model has some metadata
      *
      * @param $class
+     *
      * @return boolean
      */
     public function hasMetadata($class)
@@ -63,6 +67,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param mixed $object
+     *
      * @throws ModelManagerException
      */
     public function create($object)
@@ -77,6 +82,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param mixed $object
+     *
      * @throws ModelManagerException
      */
     public function update($object)
@@ -91,6 +97,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param object $object
+     *
      * @throws ModelManagerException
      */
     public function delete($object)
@@ -108,6 +115,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @param string $class Class name
      * @param string|int $id Identifier. Can be a string with several IDs concatenated, separated by '-'.
+     *
      * @return Object
      */
     public function find($class, $id)
@@ -129,6 +137,7 @@ class ModelManager implements ModelManagerInterface
      * @param $class
      * @param $name
      * @param array $options
+     *
      * @return FieldDescription
      * @throws \RunTimeException
      */
@@ -158,6 +167,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param $class
      * @param array $criteria
+     *
      * @return array
      */
     public function findBy($class, array $criteria = array())
@@ -168,6 +178,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param $class
      * @param array $criteria
+     *
      * @return array
      */
     public function findOneBy($class, array $criteria = array())
@@ -186,6 +197,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param string $parentAssociationMapping
      * @param string $class
+     *
      * @return FieldDescriptionInterface
      */
     public function getParentFieldDescription($parentAssociationMapping, $class)
@@ -207,7 +219,8 @@ class ModelManager implements ModelManagerInterface
      * @param string $class
      * @param string $alias (provided only for compatibility with the interface TODO: remove)
      * @param null $root
-     * @return ProxyQueryInterface|ProxyQuery
+     *
+     * @return ProxyQueryInterface
      */
     public function createQuery($class, $alias = 'o', $root = null)
     {
@@ -224,6 +237,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param $query
+     *
      * @return mixed
      */
     public function executeQuery($query)
@@ -249,6 +263,7 @@ class ModelManager implements ModelManagerInterface
      * array to adhere to the interface.
      *
      * @param object $document
+     *
      * @return array
      */
     public function getIdentifierValues($document)
@@ -260,7 +275,8 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param $class
-     * @return mixed
+     *
+     * @return array
      */
     public function getIdentifierFieldNames($class)
     {
@@ -271,6 +287,7 @@ class ModelManager implements ModelManagerInterface
      * This is just taking the id out of the array again.
      *
      * @param object $document
+     *
      * @return null|string
      * @throws \RunTimeException
      */
@@ -308,9 +325,8 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param $class
-     * @param \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryProxy
+     * @param ProxyQueryInterface $queryProxy
      * @param array $idx
-     * @return void
      */
     public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx)
     {
@@ -337,7 +353,8 @@ class ModelManager implements ModelManagerInterface
      * because SonataAdmin uses object id´s for constructing URL´s it has to use id´s without the
      * leading slash.
      *
-     * @param $id
+     * @param string $id
+     *
      * @return string
      */
     public function getBackendId($id)
@@ -347,8 +364,9 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param string $class
-     * @param \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryProxy
-     * @throws \Sonata\AdminBundle\Exception\ModelManagerException
+     * @param ProxyQueryInterface $queryProxy
+     *
+     * @throws ModelManagerException
      */
     public function batchDelete($class, ProxyQueryInterface $queryProxy)
     {
@@ -373,7 +391,8 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param string $class
-     * @return mixed
+     *
+     * @return object
      */
     public function getModelInstance($class)
     {
@@ -385,6 +404,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @param FieldDescriptionInterface $fieldDescription
      * @param DatagridInterface $datagrid
+     *
      * @return array
      */
     public function getSortParameters(FieldDescriptionInterface $fieldDescription, DatagridInterface $datagrid)
@@ -410,6 +430,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param DatagridInterface $datagrid
      * @param $page
+     *
      * @return array
      */
     public function getPaginationParameters(DatagridInterface $datagrid, $page)
@@ -424,6 +445,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param string $class
+     *
      * @return array
      */
     public function getDefaultSortValues($class)
@@ -438,7 +460,8 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param string $class
      * @param object $instance
-     * @return mixed
+     *
+     * @return object
      */
     public function modelTransform($class, $instance)
     {
@@ -448,8 +471,9 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param string $class
      * @param array $array
-     * @return mixed|void
-     * @throws \RuntimeException
+     *
+     * @return object
+     * @throws NoSuchPropertyException
      */
     public function modelReverseTransform($class, array $array = array())
     {
@@ -476,7 +500,7 @@ class ModelManager implements ModelManagerInterface
 
             if ($reflClass->hasMethod($setter)) {
                 if (!$reflClass->getMethod($setter)->isPublic()) {
-                    throw new \RuntimeException(sprintf('Method "%s()" is not public in class "%s"', $setter, $reflClass->getName()));
+                    throw new NoSuchPropertyException(sprintf('Method "%s()" is not public in class "%s"', $setter, $reflClass->getName()));
                 }
 
                 $instance->$setter($value);
@@ -485,7 +509,7 @@ class ModelManager implements ModelManagerInterface
                 $instance->$property = $value;
             } else if ($reflClass->hasProperty($property)) {
                 if (!$reflClass->getProperty($property)->isPublic()) {
-                    throw new \RuntimeException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "set%s()"?', $property, $reflClass->getName(), ucfirst($property)));
+                    throw new NoSuchPropertyException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "set%s()"?', $property, $reflClass->getName(), ucfirst($property)));
                 }
 
                 $instance->$property = $value;
@@ -501,7 +525,8 @@ class ModelManager implements ModelManagerInterface
      * method taken from PropertyPath
      *
      * @param  $property
-     * @return mixed
+     *
+     * @return string
      */
     protected function camelize($property)
     {
@@ -510,6 +535,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param string $class
+     *
      * @return ArrayCollection
      */
     public function getModelCollectionInstance($class)
@@ -519,6 +545,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param mixed $collection
+     *
      * @return mixed
      */
     public function collectionClear(&$collection)
@@ -529,7 +556,8 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param mixed $collection
      * @param mixed $element
-     * @return mixed
+     *
+     * @return bool
      */
     public function collectionHasElement(&$collection, &$element)
     {
@@ -539,6 +567,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param mixed $collection
      * @param mixed $element
+     *
      * @return mixed
      */
     public function collectionAddElement(&$collection, &$element)
@@ -549,6 +578,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param mixed $collection
      * @param mixed $element
+     *
      * @return mixed
      */
     public function collectionRemoveElement(&$collection, &$element)
@@ -561,6 +591,7 @@ class ModelManager implements ModelManagerInterface
      * @param array $fields
      * @param null $firstResult
      * @param null $maxResult
+     *
      * @return null
      */
     public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null)
@@ -570,6 +601,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param string $class
+     *
      * @return null
      */
     public function getExportFields($class)

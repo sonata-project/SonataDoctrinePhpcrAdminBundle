@@ -23,7 +23,7 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * Query Builder Fluent interface for the QOM
      *
-     * @var \Doctrine\ODM\PHPCR\Query\QueryBuilder
+     * @var QueryBuilder
      */
     protected $qb;
 
@@ -44,7 +44,7 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * PHPCR ODM Document Manager
      *
-     * @var \Doctrine\ODM\PHPCR\DocumentManager;
+     * @var DocumentManager;
      */
     protected $documentManager;
 
@@ -71,6 +71,7 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * @param array $params doesn't have any effect
      * @param mixed $hydrationMode doesn't have any effect
+     *
      * @return array of documents
      */
     public function execute(array $params = array(), $hydrationMode = null)
@@ -87,7 +88,6 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * @param string $name name of the method
      * @param array $args arguments of the call
-     * @return void
      *
      * @codeCoverageIgnore
      */
@@ -101,7 +101,6 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * @param array $parentAssociationMappings
      * @param array $fieldMapping
-     * @return mixed
      */
     public function setSortBy($parentAssociationMappings, $fieldMapping)
     {
@@ -140,6 +139,7 @@ class ProxyQuery implements ProxyQueryInterface
 
     /**
      * @codeCoverageIgnore
+     *
      * @throws \Exception
      */
     public function getSingleScalarResult()
@@ -229,16 +229,12 @@ class ProxyQuery implements ProxyQueryInterface
         return $classMD->nodeType;
     }
 
-    /**
-     * @return mixed
-     */
     public function getUniqueParameterId()
     {
     }
 
     /**
      * @param array $associationMappings
-     * @return mixed
      */
     public function entityJoin(array $associationMappings)
     {

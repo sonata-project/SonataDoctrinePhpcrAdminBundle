@@ -15,9 +15,6 @@ use Sonata\AdminBundle\Admin\BaseFieldDescription;
 
 class FieldDescription extends BaseFieldDescription
 {
-    /**
-     * {@inheritdoc}
-     */
     public function __construct()
     {
         $this->parentAssociationMappings = array();
@@ -67,6 +64,7 @@ class FieldDescription extends BaseFieldDescription
      * set the field mapping information
      *
      * @param array $fieldMapping
+     *
      * @throws \RuntimeException
      */
     public function setFieldMapping($fieldMapping)

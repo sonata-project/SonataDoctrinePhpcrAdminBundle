@@ -17,7 +17,10 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 class StringFilter extends Filter
 {
     /**
-     * {@inheritdoc}
+     * @param ProxyQueryInterface $proxyQuery
+     * @param string $alias
+     * @param string $field
+     * @param string $data
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
@@ -53,7 +56,7 @@ class StringFilter extends Filter
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public function getDefaultOptions()
     {
@@ -63,7 +66,7 @@ class StringFilter extends Filter
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public function getRenderSettings()
     {

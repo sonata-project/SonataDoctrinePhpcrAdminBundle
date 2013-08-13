@@ -22,12 +22,12 @@ use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 class ListBuilder implements ListBuilderInterface
 {
     /**
-     * @var TypeGuesserInterface $guesser
+     * @var TypeGuesserInterface
      */
     protected $guesser;
 
     /**
-     * @var array $templates
+     * @var array
      */
     protected $templates;
 
@@ -42,7 +42,9 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param array $options
+     *
+     * @return FieldDescriptionCollection
      */
     public function getBaseList(array $options = array())
     {
@@ -50,7 +52,9 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param null $type
+     * @param FieldDescriptionInterface $fieldDescription
+     * @param AdminInterface $admin
      */
     public function buildField($type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
@@ -65,7 +69,10 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param FieldDescriptionCollection $list
+     * @param null $type
+     * @param FieldDescriptionInterface $fieldDescription
+     * @param AdminInterface $admin
      */
     public function addField(FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
@@ -77,6 +84,7 @@ class ListBuilder implements ListBuilderInterface
 
     /**
      * @param string $type
+     *
      * @return string
      */
     private function getTemplate($type)
@@ -89,7 +97,10 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param AdminInterface $admin
+     * @param FieldDescriptionInterface $fieldDescription
+     *
+     * @throws \RuntimeException
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
@@ -177,6 +188,7 @@ class ListBuilder implements ListBuilderInterface
 
     /**
      * @param FieldDescriptionInterface $fieldDescription
+     *
      * @return FieldDescriptionInterface
      */
     public function buildActionFieldDescription(FieldDescriptionInterface $fieldDescription)

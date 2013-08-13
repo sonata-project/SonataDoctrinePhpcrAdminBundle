@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class AddGuesserCompilerPass implements CompilerPassInterface
 {
     /**
-     * {@inheritDoc}
+     * @param ContainerBuilder $container
      */
     public function process(ContainerBuilder $container)
     {

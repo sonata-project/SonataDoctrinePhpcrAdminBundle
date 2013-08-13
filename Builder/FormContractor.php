@@ -23,7 +23,7 @@ use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 class FormContractor implements FormContractorInterface
 {
     /**
-     * @var FormFactoryInterface $formFactory
+     * @var FormFactoryInterface
      */
     protected $formFactory;
 
@@ -40,6 +40,7 @@ class FormContractor implements FormContractorInterface
      *
      * @param AdminInterface $admin
      * @param FieldDescriptionInterface $fieldDescription
+     *
      * @throws \RuntimeException
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
@@ -91,6 +92,7 @@ class FormContractor implements FormContractorInterface
     /**
      * @param string $name
      * @param array $options
+     *
      * @return FormBuilder
      */
     public function getFormBuilder($name, array $options = array())
@@ -101,6 +103,7 @@ class FormContractor implements FormContractorInterface
     /**
      * @param $type
      * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     *
      * @return array
      * @throws \LogicException
      */
@@ -157,6 +160,7 @@ class FormContractor implements FormContractorInterface
 
     /**
      * @param FieldDescriptionInterface $fieldDescription
+     *
      * @return \LogicException
      */
     protected function getAssociationAdminException(FieldDescriptionInterface $fieldDescription)

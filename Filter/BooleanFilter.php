@@ -18,7 +18,10 @@ use Sonata\DoctrinePHPCRAdminBundle\Filter\Filter as BaseFilter;
 class BooleanFilter extends BaseFilter
 {
     /**
-     * {@inheritdoc}
+     * @param ProxyQueryInterface $proxyQuery
+     * @param string $alias
+     * @param string $field
+     * @param string $data
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
@@ -37,7 +40,7 @@ class BooleanFilter extends BaseFilter
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public function getDefaultOptions()
     {
@@ -45,7 +48,7 @@ class BooleanFilter extends BaseFilter
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public function getRenderSettings()
     {

@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class AddTemplatesCompilerPass implements CompilerPassInterface
 {
     /**
-     * {@inheritDoc}
+     * @param ContainerBuilder $container
      */
     public function process(ContainerBuilder $container)
     {
@@ -49,6 +49,7 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
 
     /**
      * @param ContainerBuilder $container
+     *
      * @return bool
      */
     protected function fixSettings(ContainerBuilder $container)

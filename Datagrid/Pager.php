@@ -36,6 +36,7 @@ class Pager extends BasePager
      * Get all the results for the pager instance
      *
      * @param mixed $hydrationMode A hydration mode identifier
+     *
      * @return array
      */
     public function getResults($hydrationMode = null)
@@ -47,7 +48,6 @@ class Pager extends BasePager
      * Initializes the pager setting the offset and maxResults in ProxyQuery
      * and obtaining the total number of pages.
      *
-     * @return void
      * @throws \RuntimeException the QueryBuilder is uninitialized.
      */
     public function init()

@@ -24,12 +24,12 @@ use Symfony\Component\Form\Guess\TypeGuess;
 class TypeGuesser implements TypeGuesserInterface
 {
     /**
-     * @var ManagerRegistry $registry
+     * @var ManagerRegistry
      */
     protected $registry;
 
     /**
-     * @var array $cache
+     * @var array
      */
     private $cache;
 
@@ -46,6 +46,7 @@ class TypeGuesser implements TypeGuesserInterface
      * @param string $class
      * @param string $property
      * @param ModelManagerInterface $modelManager
+     *
      * @return TypeGuess
      */
     public function guessType($class, $property, ModelManagerInterface $modelManager)
@@ -94,6 +95,7 @@ class TypeGuesser implements TypeGuesserInterface
 
     /**
      * @param string $class
+     *
      * @return mixed
      */
     protected function getMetadata($class)

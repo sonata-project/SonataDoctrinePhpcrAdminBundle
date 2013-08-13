@@ -22,7 +22,7 @@ use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 class ShowBuilder implements ShowBuilderInterface
 {
     /**
-     * @var TypeGuesserInterface $guesser
+     * @var TypeGuesserInterface
      */
     protected $guesser;
 
@@ -36,6 +36,7 @@ class ShowBuilder implements ShowBuilderInterface
 
     /**
      * @param array $options
+     *
      * @return FieldDescriptionCollection
      */
     public function getBaseList(array $options = array())
@@ -75,6 +76,7 @@ class ShowBuilder implements ShowBuilderInterface
      *
      * @param AdminInterface $admin
      * @param FieldDescriptionInterface $fieldDescription
+     *
      * @throws \RuntimeException
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)

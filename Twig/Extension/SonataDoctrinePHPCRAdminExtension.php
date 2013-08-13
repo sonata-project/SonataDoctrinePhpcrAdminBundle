@@ -43,9 +43,10 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     /**
      * render a list element from the FieldDescription
      *
-     * @param $object
+     * @param object $object
      * @param FieldDescriptionInterface $fieldDescription
      * @param array $params
+     *
      * @return string
      */
     public function renderListElement($object, FieldDescriptionInterface $fieldDescription, $params = array())
@@ -79,6 +80,7 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
      *
      * @param NodeInterface $node
      * @param string $property
+     *
      * @return string String representation of the property
      */
     public function renderNodeProperty(NodeInterface $node, $property)
@@ -90,6 +92,7 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
      * Renders a path of a node
      *
      * @param NodeInterface $node
+     *
      * @return string Node path
      */
     public function renderNodePath(NodeInterface $node)

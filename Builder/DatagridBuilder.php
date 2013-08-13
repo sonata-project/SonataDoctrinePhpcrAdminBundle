@@ -28,22 +28,22 @@ use Symfony\Component\Form\FormFactory;
 class DatagridBuilder implements DatagridBuilderInterface
 {
     /**
-     * @var FilterFactoryInterface $filterFactory
+     * @var FilterFactoryInterface
      */
     protected $filterFactory;
 
     /**
-     * @var FormFactory $formFactory
+     * @var FormFactory
      */
     protected $formFactory;
 
     /**
-     * @var TypeGuesserInterface $guesser
+     * @var TypeGuesserInterface
      */
     protected $guesser;
 
     /**
-     * @var PagerInterface $pager
+     * @var PagerInterface
      */
     protected $pager;
 
@@ -111,6 +111,7 @@ class DatagridBuilder implements DatagridBuilderInterface
      * @param null $type
      * @param FieldDescriptionInterface $fieldDescription
      * @param AdminInterface $admin
+     *
      * @return FilterInterface
      */
     public function addFilter(DatagridInterface $datagrid, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
@@ -148,6 +149,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     /**
      * @param AdminInterface $admin
      * @param array $values
+     *
      * @return DatagridInterface
      */
     public function getBaseDatagrid(AdminInterface $admin, array $values = array())

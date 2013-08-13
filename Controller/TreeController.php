@@ -22,22 +22,22 @@ use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
 class TreeController extends Controller
 {
     /**
-     * @var TreeInterface $tree
+     * @var TreeInterface
      */
     private $tree;
 
     /**
-     * @var string $template
+     * @var string
      */
     private $template = 'SonataDoctrinePHPCRAdminBundle:Tree:tree.html.twig';
 
     /**
-     * @var array $defaults
+     * @var array
      */
     private $defaults;
 
     /**
-     * @var bool $confirmMove
+     * @var bool
      */
     private $confirmMove = false;
 
@@ -62,6 +62,7 @@ class TreeController extends Controller
      * to the view
      *
      * @param Request $request
+     *
      * @return Response
      */
     public function treeAction(Request $request)
