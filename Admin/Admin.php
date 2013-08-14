@@ -73,7 +73,7 @@ class Admin extends BaseAdmin
     /**
      * @param object $object
      *
-     * @return mixed|string
+     * @return string
      */
     public function id($object)
     {

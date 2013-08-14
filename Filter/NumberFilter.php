@@ -12,6 +12,7 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Doctrine\ODM\PHPCR\Query\ExpressionBuilder;
+use Doctrine\ODM\PHPCR\Query\Expression\Comparison;
 use Sonata\AdminBundle\Form\Type\Filter\NumberType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 

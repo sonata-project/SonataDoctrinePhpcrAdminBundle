@@ -247,6 +247,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param string $classname
+     *
      * @return string
      */
     public function getModelIdentifier($classname)
@@ -312,6 +313,7 @@ class ModelManager implements ModelManagerInterface
      * TODO: do we also have to encode certain characters like spaces or does that happen automatically?
      *
      * @param object $document
+     *
      * @return null|string
      */
     public function getUrlsafeIdentifier($document)
