@@ -23,10 +23,19 @@ use Symfony\Component\Form\Guess\TypeGuess;
 
 class FilterTypeGuesser implements TypeGuesserInterface
 {
+    /**
+     * @var ManagerRegistry
+     */
     protected $registry;
 
+    /**
+     * @var array
+     */
     private $cache;
 
+    /**
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
@@ -36,7 +45,8 @@ class FilterTypeGuesser implements TypeGuesserInterface
     /**
      * @param string $class
      * @param string $property
-     * @param \Sonata\AdminBundle\Model\ModelManagerInterface $modelManager
+     * @param ModelManagerInterface $modelManager
+     *
      * @return TypeGuess
      */
     public function guessType($class, $property, ModelManagerInterface $modelManager)
@@ -107,6 +117,11 @@ class FilterTypeGuesser implements TypeGuesserInterface
         return new TypeGuess('doctrine_phpcr_string', $options, Guess::LOW_CONFIDENCE);
     }
 
+    /**
+     * @param string $class
+     *
+     * @return mixed
+     */
     protected function getMetadata($class)
     {
         if (array_key_exists($class, $this->cache)) {

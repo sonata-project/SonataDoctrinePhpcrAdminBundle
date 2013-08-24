@@ -16,7 +16,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\Options;
 
@@ -27,19 +26,36 @@ use Sonata\AdminBundle\Form\DataTransformer\ModelToIdTransformer;
 
 class TreeModelType extends AbstractType
 {
+    /**
+     * @var array
+     */
     protected $defaults = array();
+
+    /**
+     * @var TreeInterface
+     */
     protected $tree;
 
+    /**
+     * @param array $defaults
+     */
     public function setDefaults(array $defaults)
     {
         $this->defaults = $defaults;
     }
 
+    /**
+     * @param TreeInterface $tree
+     */
     public function setTree(TreeInterface $tree)
     {
         $this->tree = $tree;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addViewTransformer(new ModelToIdTransformer($options['model_manager'], $options['class']), true);
@@ -47,6 +63,11 @@ class TreeModelType extends AbstractType
         $builder->setAttribute('select_root_node', $options['select_root_node']);
     }
 
+    /**
+     * @param FormView $view
+     * @param FormInterface $form
+     * @param array $options
+     */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         parent::buildView($view, $form, $options);
@@ -56,6 +77,9 @@ class TreeModelType extends AbstractType
         $view->vars['routing_defaults'] = $this->defaults;
     }
 
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -82,6 +106,9 @@ class TreeModelType extends AbstractType
         ));
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'doctrine_phpcr_odm_tree';

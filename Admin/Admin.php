@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -7,10 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Sonata\DoctrinePHPCRAdminBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin as BaseAdmin;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 /**
  * Extend the Admin class to incorporate phpcr changes.
@@ -22,19 +25,25 @@ use Sonata\AdminBundle\Route\RouteCollection;
 class Admin extends BaseAdmin
 {
     /**
-     * Path to the root node of simple pages.
+     * Path to the root node in the repository
+     * under which documents of this admin should be created.
      *
      * @var string
      */
     protected $root;
 
+    /**
+     * @param string $root
+     */
     public function setRoot($root)
     {
         $this->root = $root;
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $context
+     *
+     * @return ProxyQueryInterface
      */
     public function createQuery($context = 'list')
     {
@@ -48,7 +57,12 @@ class Admin extends BaseAdmin
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $name
+     * @param mixed $object
+     * @param array $parameters
+     * @param bool $absolute
+     *
+     * @return string
      */
     public function generateObjectUrl($name, $object, array $parameters = array(), $absolute = false)
     {
@@ -57,21 +71,18 @@ class Admin extends BaseAdmin
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getUrlsafeIdentifier($object)
-    {
-        return $this->modelManager->getUrlsafeIdentifier($object);
-    }
-
-    /**
-     * {@inheritdoc}
+     * @param object $object
+     *
+     * @return string
      */
     public function id($object)
     {
         return $this->getUrlsafeIdentifier($object);
     }
 
+    /**
+     * @param RouteCollection $collection
+     */
     protected function configureRoutes(RouteCollection $collection)
     {
         foreach (array('edit', 'create', 'delete') as $name) {

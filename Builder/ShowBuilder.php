@@ -12,7 +12,6 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Builder;
 
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Builder\ShowBuilderInterface;
@@ -22,18 +21,35 @@ use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 
 class ShowBuilder implements ShowBuilderInterface
 {
+    /**
+     * @var TypeGuesserInterface
+     */
     protected $guesser;
 
+    /**
+     * @param TypeGuesserInterface $guesser
+     */
     public function __construct(TypeGuesserInterface $guesser)
     {
         $this->guesser = $guesser;
     }
 
+    /**
+     * @param array $options
+     *
+     * @return FieldDescriptionCollection
+     */
     public function getBaseList(array $options = array())
     {
-        return new FieldDescriptionCollection;
+        return new FieldDescriptionCollection();
     }
 
+    /**
+     * @param FieldDescriptionCollection $list
+     * @param null $type
+     * @param FieldDescriptionInterface $fieldDescription
+     * @param AdminInterface $admin
+     */
     public function addField(FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         if ($type == null) {
@@ -49,20 +65,19 @@ class ShowBuilder implements ShowBuilderInterface
         switch($fieldDescription->getMappingType()) {
             case ClassMetadata::MANY_TO_ONE:
             case ClassMetadata::MANY_TO_MANY:
-                // todo
                 return;
             default:
                 $list->add($fieldDescription);
         }
-
     }
 
     /**
      * The method defines the correct default settings for the provided FieldDescription
      *
-     * @param \Sonata\AdminBundle\Admin\AdminInterface $admin
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
-     * @return void
+     * @param AdminInterface $admin
+     * @param FieldDescriptionInterface $fieldDescription
+     *
+     * @throws \RuntimeException
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
@@ -90,7 +105,6 @@ class ShowBuilder implements ShowBuilderInterface
         $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
 
         if (!$fieldDescription->getTemplate()) {
-
             $fieldDescription->setTemplate(sprintf('SonataAdminBundle:CRUD:show_%s.html.twig', $fieldDescription->getType()));
 
             if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {

@@ -17,13 +17,10 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 class NodeNameFilter extends Filter
 {
     /**
-     * Applies a constraint to the query
-     *
      * @param ProxyQueryInterface $proxyQuery
-     * @param string $alias has no effect
-     * @param string $field field uhere to apply the constraint
-     * @param array $data determines the constraint
-     * @return
+     * @param string $alias
+     * @param string $field
+     * @param string $data
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
@@ -62,6 +59,9 @@ class NodeNameFilter extends Filter
         );
     }
 
+    /**
+     * @return array
+     */
     public function getRenderSettings()
     {
         return array('doctrine_phpcr_type_filter_choice', array(

@@ -15,15 +15,25 @@ use Sonata\AdminBundle\Filter\Filter as BaseFilter;
 
 abstract class Filter extends BaseFilter
 {
+    /**
+     * @var bool
+     */
     protected $active = false;
 
+    /**
+     * @param mixed $queryBuilder
+     * @param mixed $value
+     */
     public function apply($queryBuilder, $value)
     {
         $this->value = $value;
-
         $this->filter($queryBuilder, null, $this->getFieldName(), $value);
     }
 
+    /**
+     * @param $queryBuilder
+     * @param $parameter
+     */
     protected function applyWhere($queryBuilder, $parameter)
     {
         if ($this->getCondition() == self::CONDITION_OR) {
@@ -37,7 +47,7 @@ abstract class Filter extends BaseFilter
     }
 
     /**
-     * {@inheritdoc}
+     * @return bool
      */
     public function isActive()
     {

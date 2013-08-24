@@ -11,14 +11,16 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
-use Doctrine\ORM\QueryBuilder;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 class ChoiceFilter extends Filter
 {
     /**
-     * {@inheritdoc}
+     * @param ProxyQueryInterface $proxyQuery
+     * @param string $alias
+     * @param string $field
+     * @param string $data
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
@@ -80,7 +82,7 @@ class ChoiceFilter extends Filter
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public function getDefaultOptions()
     {
@@ -88,7 +90,7 @@ class ChoiceFilter extends Filter
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public function getRenderSettings()
     {

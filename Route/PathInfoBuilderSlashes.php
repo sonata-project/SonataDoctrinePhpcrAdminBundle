@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -8,6 +9,7 @@
  * file that was distributed with this source code.
  *
  */
+
 namespace Sonata\DoctrinePHPCRAdminBundle\Route;
 
 use Sonata\AdminBundle\Builder\RouteBuilderInterface;

@@ -15,9 +15,6 @@ use Sonata\AdminBundle\Admin\BaseFieldDescription;
 
 class FieldDescription extends BaseFieldDescription
 {
-    /**
-     * {@inheritdoc}
-     */
     public function __construct()
     {
         $this->parentAssociationMappings = array();
@@ -27,7 +24,8 @@ class FieldDescription extends BaseFieldDescription
      * Define the association mapping definition
      *
      * @param array $associationMapping
-     * @return void
+     *
+     * @throws \RuntimeException
      */
     public function setAssociationMapping($associationMapping)
     {
@@ -67,7 +65,8 @@ class FieldDescription extends BaseFieldDescription
      * set the field mapping information
      *
      * @param array $fieldMapping
-     * @return void
+     *
+     * @throws \RuntimeException
      */
     public function setFieldMapping($fieldMapping)
     {
@@ -95,9 +94,9 @@ class FieldDescription extends BaseFieldDescription
     /**
      * return the value linked to the description
      *
-     * @param mixed $object
+     * @param object $object
      *
-     * @return bool|mixed
+     * @return mixed
      */
     public function getValue($object)
     {
@@ -113,7 +112,7 @@ class FieldDescription extends BaseFieldDescription
      *
      * @param array $parentAssociationMappings
      *
-     * @return void
+     * @throws \RuntimeException
      */
     public function setParentAssociationMappings(array $parentAssociationMappings)
     {

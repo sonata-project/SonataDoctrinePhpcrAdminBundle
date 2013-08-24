@@ -12,20 +12,15 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\AdminBundle\Form\Type\Filter\DateType;
-use Sonata\AdminBundle\Filter\FilterInterface;
-use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 class DateFilter extends Filter
 {
     /**
-     * Applies a constraint to the query
-     *
      * @param ProxyQueryInterface $proxyQuery
-     * @param string $alias has no effect
-     * @param string $field field where to apply the constraint
-     * @param array $data determines the date constraint [value => [year => Y, month => m, day => d], type => DateType::TYPE_GREATER_EQUAL|DateType::TYPE_GREATER_THAN|DateType::TYPE_LESS_EQUAL|DateType::TYPE_LESS_THAN|DateType::TYPE_NULL|DateType::TYPE_NOT_NULL|DateType::TYPE_EQUAL]
-     * @return
+     * @param string $alias
+     * @param string $field
+     * @param string $data
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
@@ -72,7 +67,7 @@ class DateFilter extends Filter
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public function getDefaultOptions()
     {
@@ -82,7 +77,7 @@ class DateFilter extends Filter
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public function getRenderSettings()
     {
