@@ -23,21 +23,21 @@ use Doctrine\ODM\PHPCR\DocumentManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\ClassUtils;
 
-use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
+use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 
 class ModelManager implements ModelManagerInterface
 {
     /**
      * @var DocumentManager
      */
-    protected $documentManager;
+    protected $dm;
 
     /**
-     * @param DocumentManager $documentManager
+     * @param DocumentManager $dm
      */
-    public function __construct(DocumentManager $documentManager)
+    public function __construct(DocumentManager $dm)
     {
-        $this->documentManager = $documentManager;
+        $this->dm = $dm;
     }
 
     /**
@@ -50,7 +50,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getMetadata($class)
     {
-        return $this->documentManager->getMetadataFactory()->getMetadataFor($class);
+        return $this->dm->getMetadataFactory()->getMetadataFor($class);
     }
 
     /**
@@ -61,7 +61,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function hasMetadata($class)
     {
-        return $this->documentManager->getMetadataFactory()->hasMetadataFor($class);
+        return $this->dm->getMetadataFactory()->hasMetadataFor($class);
     }
 
     /**
@@ -103,8 +103,8 @@ class ModelManager implements ModelManagerInterface
     public function create($object)
     {
         try {
-            $this->documentManager->persist($object);
-            $this->documentManager->flush();
+            $this->dm->persist($object);
+            $this->dm->flush();
         } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
@@ -117,8 +117,8 @@ class ModelManager implements ModelManagerInterface
     public function update($object)
     {
         try {
-            $this->documentManager->persist($object);
-            $this->documentManager->flush();
+            $this->dm->persist($object);
+            $this->dm->flush();
         } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
@@ -131,8 +131,8 @@ class ModelManager implements ModelManagerInterface
     public function delete($object)
     {
         try {
-            $this->documentManager->remove($object);
-            $this->documentManager->flush();
+            $this->dm->remove($object);
+            $this->dm->flush();
         } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
@@ -152,10 +152,10 @@ class ModelManager implements ModelManagerInterface
         }
 
         if (null === $class) {
-            return $this->documentManager->find(null, $id);
+            return $this->dm->find(null, $id);
         }
 
-        return $this->documentManager->getRepository($class)->find($id);
+        return $this->dm->getRepository($class)->find($id);
     }
 
     /**
@@ -165,7 +165,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function findBy($class, array $criteria = array())
     {
-        return $this->documentManager->getRepository($class)->findBy($criteria);
+        return $this->dm->getRepository($class)->findBy($criteria);
     }
 
     /**
@@ -175,7 +175,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function findOneBy($class, array $criteria = array())
     {
-        return $this->documentManager->getRepository($class)->findOneBy($criteria);
+        return $this->dm->getRepository($class)->findOneBy($criteria);
     }
 
     /**
@@ -183,7 +183,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getDocumentManager()
     {
-        return $this->documentManager;
+        return $this->dm;
     }
 
     /**
@@ -209,6 +209,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param $class
      * @param string $alias (provided only for compatibility with the interface TODO: remove)
+     * @param string $root
      * @return \PHPCR\Query\QueryManagerInterface
      */
     public function createQuery($class, $alias = 'o', $root = null)
@@ -292,8 +293,8 @@ class ModelManager implements ModelManagerInterface
      * {@inheritDoc}
      *
      * Currently only the leading slash is removed.
-     * TODO: do we also have to encode certain characters like spaces or does
-     * that happen automatically?
+     *
+     * TODO: do we also have to encode certain characters like spaces or does that happen automatically?
      */
     public function getUrlsafeIdentifier($document)
     {
@@ -354,16 +355,16 @@ class ModelManager implements ModelManagerInterface
             $i = 0;
             $res = $queryProxy->getQuery()->execute();
             foreach ($res as $object) {
-                $this->documentManager->remove($object);
+                $this->dm->remove($object);
 
                 if ((++$i % 20) == 0) {
-                    $this->documentManager->flush();
-                    $this->documentManager->clear();
+                    $this->dm->flush();
+                    $this->dm->clear();
                 }
             }
 
-            $this->documentManager->flush();
-            $this->documentManager->clear();
+            $this->dm->flush();
+            $this->dm->clear();
         } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
@@ -446,7 +447,7 @@ class ModelManager implements ModelManagerInterface
      * @param string $class
      * @param array $array
      * @return mixed|void
-     * @throws \Symfony\Component\Form\Exception\PropertyAccessDeniedException
+     * @throws \Symfony\Component\Form\Exception\NoSuchPropertyException
      */
     public function modelReverseTransform($class, array $array = array())
     {
@@ -473,7 +474,7 @@ class ModelManager implements ModelManagerInterface
 
             if ($reflClass->hasMethod($setter)) {
                 if (!$reflClass->getMethod($setter)->isPublic()) {
-                    throw new PropertyAccessDeniedException(sprintf('Method "%s()" is not public in class "%s"', $setter, $reflClass->getName()));
+                    throw new NoSuchPropertyException(sprintf('Method "%s()" is not public in class "%s"', $setter, $reflClass->getName()));
                 }
 
                 $instance->$setter($value);
@@ -482,7 +483,7 @@ class ModelManager implements ModelManagerInterface
                 $instance->$property = $value;
             } else if ($reflClass->hasProperty($property)) {
                 if (!$reflClass->getProperty($property)->isPublic()) {
-                    throw new PropertyAccessDeniedException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "set%s()"?', $property, $reflClass->getName(), ucfirst($property)));
+                    throw new NoSuchPropertyException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "set%s()"?', $property, $reflClass->getName(), ucfirst($property)));
                 }
 
                 $instance->$property = $value;
