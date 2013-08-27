@@ -4,6 +4,7 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tree;
 
 use PHPCR\Util\NodeHelper;
 
+use PHPCR\Util\PathHelper;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Templating\Helper\CoreAssetsHelper;
 use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
@@ -154,21 +155,25 @@ class PhpcrOdmTree implements TreeInterface
             $id = $admin->getNormalizedIdentifier($document);
             $urlSafeId = $admin->getUrlsafeIdentifier($document);
         } else {
-            $label = '';
-            if (method_exists($document, '__toString')) {
-                $label = (string)$document;
-            }
-            if (strlen($label) > 18) {
-                // TODO: tooltip with full name?
-                $label = substr($label, 0, 17) . '...';
-            }
-            $label .= ' <not editable>';
+            $label = method_exists($document, '__toString') ? (string) $document : get_class($document);
             $id = $this->defaultModelManager->getNormalizedIdentifier($document);
             $urlSafeId = $this->defaultModelManager->getUrlsafeIdentifier($document);
         }
 
+        if (substr($label, 0, 1) === '/') {
+            $label = PathHelper::getNodeName($label);
+        }
+
+        // TODO: this is really the responsibility of the UI
+        if (strlen($label) > 18) {
+            $label = substr($label, 0, 17) . '...';
+        }
+
+        // TODO: ideally the tree should simply not make the node clickable
+        $label .= $admin ? '' : ' (not editable)';
+
         // TODO: this is not an efficient way to determine if there are children. should ask the phpcr node
-        $has_children = (bool)count($this->getDocumentChildren($document));
+        $hasChildren = (bool)count($this->getDocumentChildren($document));
 
         return array(
             'data'  => $label,
@@ -177,7 +182,7 @@ class PhpcrOdmTree implements TreeInterface
                 'url_safe_id' => $urlSafeId,
                 'rel' => $rel
             ),
-            'state' => $has_children ? 'closed' : null,
+            'state' => $hasChildren ? 'closed' : null,
         );
     }
 
@@ -194,6 +199,7 @@ class PhpcrOdmTree implements TreeInterface
 
     /**
      * @param string $className
+     *
      * @return \Sonata\AdminBundle\Admin\AdminInterface
      */
     private function getAdminByClass($className)
@@ -213,23 +219,26 @@ class PhpcrOdmTree implements TreeInterface
     private function getDocumentChildren($document)
     {
         $admin = $this->getAdmin($document);
-        $manager = (null !== $admin) ? $admin->getModelManager() : $this->defaultModelManager;
-        $meta = $manager->getMetadata(ClassUtils::getClass($document));
+        $manager = null !== $admin ? $admin->getModelManager() : $this->defaultModelManager;
+
         /** @var $meta \Doctrine\ODM\PHPCR\Mapping\ClassMetadata */
+        $meta = $manager->getMetadata(ClassUtils::getClass($document));
+
         $children = array();
         foreach ($meta->childrenMappings as $fieldName) {
             $prop = $meta->getReflectionProperty($fieldName)->getValue($document);
-            if (is_null($prop)) {
+            if (null === $prop) {
                 continue;
             }
-            if (! is_array($prop)) {
+            if (!is_array($prop)) {
                 $prop = $prop->toArray();
             }
             $children = array_merge($children, $this->filterDocumentChildren($document, $prop));
         }
+
         foreach ($meta->childMappings as $fieldName) {
             $prop = $meta->getReflectionProperty($fieldName)->getValue($document);
-            if (! is_null($prop) && $this->isValidDocumentChild($document, $prop)) {
+            if (null !== $prop && $this->isValidDocumentChild($document, $prop)) {
                 $children[$fieldName] = $prop;
             }
         }
@@ -255,6 +264,7 @@ class PhpcrOdmTree implements TreeInterface
     /**
      * @param $document
      * @param $child
+     *
      * @return bool TRUE if valid, FALSE if not vaild
      */
     public function isValidDocumentChild($document, $child)
@@ -267,23 +277,17 @@ class PhpcrOdmTree implements TreeInterface
             return false;
         }
 
-        if ((isset($this->validClasses[$className]['valid_children'][0]) && $this->validClasses[$className]['valid_children'][0] === self::VALID_CLASS_ALL)
-            || in_array($childClassName, $this->validClasses[$className]['valid_children'])
+        if (isset($this->validClasses[$className]['valid_children'][0])
+            && $this->validClasses[$className]['valid_children'][0] === self::VALID_CLASS_ALL
         ) {
             return true;
         }
 
-        return false;
+        return in_array($childClassName, $this->validClasses[$className]['valid_children']);
     }
 
     /**
-     * Reorder $moved (child of $parent) before or after $target
-     *
-     * @param string $parent the id of the parent
-     * @param string $moved the id of the child being moved
-     * @param string $target the id of the target node
-     * @param bool $before insert before or after the target
-     * @return void
+     * {@inheritDoc}
      */
     public function reorder($parent, $moved, $target, $before)
     {
@@ -293,9 +297,7 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * Get the alias for this tree
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getAlias()
     {
@@ -303,12 +305,7 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * Get an array describing the available node types
-     *
-     * Example:
-     *
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function getNodeTypes()
     {
@@ -351,9 +348,7 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * Get an array for labels.
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function getLabels()
     {
@@ -363,6 +358,11 @@ class PhpcrOdmTree implements TreeInterface
         );
     }
 
+    /**
+     * @param string $className
+     *
+     * @return string
+     */
     private function normalizeClassname($className)
     {
         return str_replace('\\', '_', $className);
@@ -370,6 +370,8 @@ class PhpcrOdmTree implements TreeInterface
 
     /**
      * @param string $action
+     *
+     * @return string|null
      */
     private function mapAction($action)
     {
@@ -377,7 +379,8 @@ class PhpcrOdmTree implements TreeInterface
             case 'edit': return 'select_route';
             case 'create': return 'create_route';
             case 'delete': return 'delete_route';
-            default: return null;
         }
+
+        return null;
     }
 }
