@@ -113,11 +113,6 @@ class FormContractor implements FormContractorInterface
         }
 
         if ($type == 'sonata_type_model' || $type == 'sonata_type_model_list') {
-
-            if ($fieldDescription->getOption('edit') == 'list') {
-                throw new \LogicException('The ``sonata_type_model`` type does not accept an ``edit`` option anymore, please review the UPGRADE-2.1.md file from the SonataAdminBundle');
-            }
-
             if (!$fieldDescription->getTargetEntity()) {
                 throw new \LogicException(sprintf('The current field `%s` does not have a target model defined. Please specify the `targetDocument`
                     in the Reference.', $fieldDescription->getName()));
