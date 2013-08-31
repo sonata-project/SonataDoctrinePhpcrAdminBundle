@@ -24,7 +24,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager;
  *
  * @author David Buchmann <david@liip.ch>
  * @author Uwe Jäger <uwej711@googlemail.com>
- */``
+ */
 class PhpcrOdmTree implements TreeInterface
 {
     const VALID_CLASS_ALL = 'all';
