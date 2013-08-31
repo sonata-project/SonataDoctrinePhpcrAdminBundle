@@ -9,6 +9,7 @@
  */
 namespace Sonata\DoctrinePHPCRAdminBundle\Admin;
 
+use PHPCR\Util\PathHelper;
 use Sonata\AdminBundle\Admin\Admin as BaseAdmin;
 use Sonata\AdminBundle\Route\RouteCollection;
 
@@ -93,6 +94,27 @@ class Admin extends BaseAdmin
                 $collection->get($name)->addOptions(array('expose' => true));
             }
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toString($object)
+    {
+        if (!is_object($object)) {
+            return parent::toString($object);
+        }
+
+        if (method_exists($object, '__toString') && null !== $object->__toString()) {
+            return (string) $object;
+        }
+
+        $dm = $this->getModelManager()->getDocumentManager();
+        if ($dm->contains($object)) {
+            return PathHelper::getNodeName($dm->getUnitOfWork()->getDocumentId($object));
+        }
+
+        return parent::toString($object);
     }
 }
 
