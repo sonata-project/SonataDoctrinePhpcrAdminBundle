@@ -22,15 +22,29 @@ use Sonata\AdminBundle\Route\RouteCollection;
 class Admin extends BaseAdmin
 {
     /**
-     * Path to the root node of simple pages.
+     * Path to the root node of documents for this admin.
      *
      * @var string
      */
-    protected $root;
+    private $rootPath;
 
-    public function setRoot($root)
+    /**
+     * Set the root path in the repository. To be able to create new items,
+     * this path must already exist.
+     *
+     * @param string $rootPath
+     */
+    public function setRootPath($rootPath)
     {
-        $this->root = $root;
+        $this->rootPath = $rootPath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRootPath()
+    {
+        return $this->rootPath;
     }
 
     /**
@@ -38,7 +52,7 @@ class Admin extends BaseAdmin
      */
     public function createQuery($context = 'list')
     {
-        $query = $this->getModelManager()->createQuery($this->getClass(), '', $this->root);
+        $query = $this->getModelManager()->createQuery($this->getClass(), '', $this->getRootPath());
 
         foreach ($this->extensions as $extension) {
             $extension->configureQuery($this, $query, $context);
