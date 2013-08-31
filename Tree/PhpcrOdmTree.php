@@ -24,7 +24,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager;
  *
  * @author David Buchmann <david@liip.ch>
  * @author Uwe Jäger <uwej711@googlemail.com>
- */
+ */``
 class PhpcrOdmTree implements TreeInterface
 {
     const VALID_CLASS_ALL = 'all';
@@ -155,7 +155,7 @@ class PhpcrOdmTree implements TreeInterface
             $id = $admin->getNormalizedIdentifier($document);
             $urlSafeId = $admin->getUrlsafeIdentifier($document);
         } else {
-            $label = method_exists($document, '__toString') ? (string) $document : get_class($document);
+            $label = method_exists($document, '__toString') ? (string) $document : ClassUtils::getClass($document);
             $id = $this->defaultModelManager->getNormalizedIdentifier($document);
             $urlSafeId = $this->defaultModelManager->getUrlsafeIdentifier($document);
         }
