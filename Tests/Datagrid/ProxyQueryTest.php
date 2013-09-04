@@ -17,7 +17,7 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->qb = $this->getMockBuilder('Doctrine\ODM\PHPCR\Query\QueryBuilder')
+        $this->qb = $this->getMockBuilder('Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder')
             ->disableOriginalConstructor()
             ->getMock();
         $this->query = $this->getMockBuilder('Doctrine\ODM\PHPCR\Query\Query')
@@ -29,7 +29,7 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $this->assertInstanceOf('Doctrine\ODM\PHPCR\Query\QueryBuilder', $this->pq->getQueryBuilder());
+        $this->assertInstanceOf('Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder', $this->pq->getQueryBuilder());
     }
 
     public function testSetSortBy()

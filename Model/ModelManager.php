@@ -215,14 +215,12 @@ class ModelManager implements ModelManagerInterface
     public function createQuery($class, $alias = 'o', $root = null)
     {
         $qb = $this->getDocumentManager()->createQueryBuilder();
-        $qb->from($class);
-        $query = new ProxyQuery($qb);
-
+        $qb->from()->document($class, 'a');
         if ($root) {
-            $query->where($qb->expr()->descendant($root));
+            $qb->where()->descendant($root, 'a');
         }
 
-        return $query;
+        return new ProxyQuery($qb);
     }
 
     /**
