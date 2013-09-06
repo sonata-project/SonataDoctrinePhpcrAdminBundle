@@ -14,7 +14,7 @@ file that was distributed with this source code.
 <script type="text/javascript">
     $(document).ready(function() {
         var treeState = AdminTree.generateTreeStateArray("{{ selected_node }}");
-        var defaults = {% include 'SonataDoctrinePHPCRAdminBundle:Tree:routing_defaults.html.twig' %};
+        var defaults = {% include 'SonataDoctrinePHPCRAdminBundle:Tree:routing_defaults.html.twig' with {'routing_defaults': routing_defaults} %};
 
         AdminTree.initTree({
             "selector": "#tree",
