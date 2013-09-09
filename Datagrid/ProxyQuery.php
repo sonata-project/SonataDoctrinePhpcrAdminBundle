@@ -71,7 +71,7 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * @param array $params doesn't have any effect
      * @param mixed $hydrationMode doesn't have any effect
-     * @return aray of documents
+     * @return array of documents
      */
     public function execute(array $params = array(), $hydrationMode = null)
     {
