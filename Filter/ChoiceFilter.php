@@ -26,8 +26,6 @@ class ChoiceFilter extends Filter
             return;
         }
 
-        $queryBuilder = $proxyQuery->getQueryBuilder();
-
         if (is_array($data['value'])) {
             if (count($data['value']) == 0) {
                 return;
@@ -39,26 +37,38 @@ class ChoiceFilter extends Filter
 
             if ($data['type'] == ChoiceType::TYPE_NOT_CONTAINS) {
                 if (count($data['value']) > 1) {
-                    $constraints = array();
-                    foreach ($data['value'] as $value) {
-                        $constraints[] = $queryBuilder->expr()->textSearch($field, '* -'.$value);
-                    }
+                    $values = $data['value'];
+                    $where = $this->getWhere();
+                    $where->andX()
+                        ->fullTextSearch('a.'.$field, '*-'.array_pop($values))
+                        ->fullTextSearch('a.'.$field, '*-'.array_pop($values));
 
-                    $this->applyWhere($queryBuilder, call_user_func_array(array($queryBuilder->expr(), 'andX'), $constraints));
+                    foreach ($values as $value) {
+                        $and = $where->getChild(QBConstants::NT_CONSTRAINT);
+                        $where->removeChildrenOfType(QBConstants::NT_CONSTRAINT);
+                        $andX = $where->andX()->fullTextSearch('a.'.$field, '*-'.$value);
+                        $andX->addChild($and);
+                    }
                 } else {
-                    $this->applyWhere($queryBuilder, $queryBuilder->expr()->textSearch($field, '* -'.$data['value'][0]));
+                    $where->fullTextSearch('a.'.$field, '*-'.$data['value']);
                 }
             } else {
                 // contains
                 if (count($data['value']) > 1) {
-                    $constraints = array();
-                    foreach ($data['value'] as $value) {
-                        $constraints[] = $queryBuilder->expr()->like($field, '%'.$value.'%');
-                    }
+                    $values = $data['value'];
+                    $where = $this->getWhere();
+                    $where->andX()
+                        ->like('a.'.$field)->literal('%'.array_pop($values).'%')
+                        ->like('a.'.$field)->literal('%'.array_pop($values).'%');
 
-                    $this->applyWhere($queryBuilder, call_user_func_array(array($queryBuilder->expr(), 'orX'), $constraints));
+                    foreach ($values as $value) {
+                        $and = $where->getChild(QBConstants::NT_CONSTRAINT);
+                        $where->removeChildrenOfType(QBConstants::NT_CONSTRAINT);
+                        $andX = $where->andX()->like('a.'.$field)->literal('%'.$value.'%');
+                        $andX->addChild($and);
+                    }
                 } else {
-                    $this->applyWhere($queryBuilder, $queryBuilder->expr()->like($field, '%'.$data['value'][0].'%'));
+                    $where->like('a.'.$field, '%'.$data['value'].'%');
                 }
             }
 
@@ -70,13 +80,17 @@ class ChoiceFilter extends Filter
             }
 
             if ($data['type'] == ChoiceType::TYPE_NOT_CONTAINS) {
-                $this->applyWhere($queryBuilder, $queryBuilder->expr()->textSearch($field, '* -'.$data['value']));
+                $this->getWhere()->fullTextSearch('a.'.$field, $data['value']);
             } elseif ($data['type'] == ChoiceType::TYPE_CONTAINS) {
-                $this->applyWhere($queryBuilder, $queryBuilder->expr()->like($field, '%'.$data['value'].'%'));
+                $this->getWhere()->like('a.'.$field)->litreal('%'.$data['value'].'%');
             } else {
-                $this->applyWhere($queryBuilder, $queryBuilder->expr()->eq($field, $data['value']));
+                $this->getWhere()->like('a.'.$field)->literal('value');
             }
+
         }
+
+        // filter is active as we have now modified the query
+        $this->active = true;
     }
 
     /**

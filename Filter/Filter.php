@@ -24,16 +24,13 @@ abstract class Filter extends BaseFilter
         $this->filter($queryBuilder, null, $this->getFieldName(), $value);
     }
 
-    protected function applyWhere($queryBuilder, $parameter)
+    protected function getWhere($queryBuilder)
     {
         if ($this->getCondition() == self::CONDITION_OR) {
-            $queryBuilder->orWhere($parameter);
+            return $queryBuilder->orWhere();
         } else {
-            $queryBuilder->andWhere($parameter);
+            return $queryBuilder->andWhere();
         }
-
-        // filter is active since it's added to the queryBuilder
-        $this->active = true;
     }
 
     /**
