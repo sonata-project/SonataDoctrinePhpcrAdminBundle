@@ -14,18 +14,11 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\ChoiceFilter;
 
-class ChoiceFilterTest extends \PHPUnit_Framework_TestCase
+class ChoiceFilterTest extends BaseTestCase
 {
     public function setUp()
     {
-        $this->proxyQuery = $this->getMockBuilder('Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->qb = $this->getMockBuilder('Doctrine\ODM\PHPCR\Query\QueryBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->exprBuilder = $this->getMock('Doctrine\ODM\PHPCR\Query\ExpressionBuilder');
-        $this->expr = $this->getMock('Doctrine\Common\Collections\Expr\Expression');
+        parent::setUp();
         $this->filter = new ChoiceFilter();
     }
 
@@ -70,9 +63,6 @@ class ChoiceFilterTest extends \PHPUnit_Framework_TestCase
         $this->proxyQuery->expects($this->never())
             ->method('andWhere');
 
-        $this->qb->expects($this->never())
-            ->method('andWhere');
-
         $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => ChoiceType::TYPE_EQUAL, 'value' => $value));
         $this->assertFalse($this->filter->isActive());
     }
@@ -94,16 +84,6 @@ class ChoiceFilterTest extends \PHPUnit_Framework_TestCase
         $this->proxyQuery->expects($this->once())
             ->method('getQueryBuilder')
             ->will($this->returnValue($this->qb));
-        $this->qb->expects($this->once())
-            ->method('expr')
-            ->will($this->returnValue($this->exprBuilder));
-        $this->qb->expects($this->once())
-            ->method('andWhere')
-            ->will($this->returnValue($this->qb));
-        $this->exprBuilder->expects($this->once())
-            ->method($operatorMethod)
-            ->with('somefield', $expectedValue)
-            ->will($this->returnValue($this->expr));
 
         $this->filter->filter(
             $this->proxyQuery,
@@ -117,52 +97,23 @@ class ChoiceFilterTest extends \PHPUnit_Framework_TestCase
     public function getFiltersMultiple()
     {
         return array(
-            array('textSearch', ChoiceType::TYPE_NOT_CONTAINS, array('somevalue'), '* -somevalue'),
-            array('textSearch', ChoiceType::TYPE_NOT_CONTAINS, array('somevalue', 'somevalue'), '* -somevalue'),
-            array('like', ChoiceType::TYPE_CONTAINS, array('somevalue'), '%somevalue%'),
-            array('like', ChoiceType::TYPE_CONTAINS, array('somevalue', 'somevalue'), '%somevalue%'),
-            array('like', ChoiceType::TYPE_EQUAL, array('somevalue'), '%somevalue%'),
-            array('like', ChoiceType::TYPE_EQUAL, array('somevalue', 'somevalue'), '%somevalue%'),
+            array(ChoiceType::TYPE_NOT_CONTAINS, array('somevalue'), '* -somevalue'),
+            array(ChoiceType::TYPE_NOT_CONTAINS, array('somevalue', 'somevalue'), '* -somevalue'),
+            array(ChoiceType::TYPE_CONTAINS, array('somevalue'), '%somevalue%'),
+            array(ChoiceType::TYPE_CONTAINS, array('somevalue', 'somevalue'), '%somevalue%'),
+            array(ChoiceType::TYPE_EQUAL, array('somevalue'), '%somevalue%'),
+            array(ChoiceType::TYPE_EQUAL, array('somevalue', 'somevalue'), '%somevalue%'),
         );
     }
 
     /**
      * @dataProvider getFiltersMultiple
      */
-    public function testFilterMultipleSwitch($operatorMethod, $choiceType, $value, $expectedValue)
+    public function testFilterMultipleSwitch($choiceType, $value, $expectedValue)
     {
         $this->proxyQuery->expects($this->once())
             ->method('getQueryBuilder')
             ->will($this->returnValue($this->qb));
-        $this->qb->expects($this->once())
-            ->method('andWhere')
-            ->will($this->returnValue($this->qb));
-        $this->exprBuilder->expects($this->exactly(count($value)))
-            ->method($operatorMethod)
-            ->with('somefield', $expectedValue)
-            ->will($this->returnValue($this->expr));
-
-        if (count($value) > 1) {
-            $this->qb->expects($this->exactly(count($value) + 1))
-                ->method('expr')
-                ->will($this->returnValue($this->exprBuilder));
-
-            if ($choiceType === ChoiceType::TYPE_NOT_CONTAINS) {
-                $this->exprBuilder->expects($this->once())
-                    ->method('andX')
-                    ->with($this->isInstanceOf('Doctrine\Common\Collections\Expr\Expression'))
-                    ->will($this->returnValue($this->expr));
-            } else {
-                $this->exprBuilder->expects($this->once())
-                    ->method('orX')
-                    ->with($this->isInstanceOf('Doctrine\Common\Collections\Expr\Expression'))
-                    ->will($this->returnValue($this->expr));
-            }
-        } else {
-            $this->qb->expects($this->exactly(count($value)))
-                ->method('expr')
-                ->will($this->returnValue($this->exprBuilder));
-        }
 
         $this->filter->filter(
             $this->proxyQuery,
@@ -170,6 +121,9 @@ class ChoiceFilterTest extends \PHPUnit_Framework_TestCase
             'somefield',
             array('type' => $choiceType, 'value' => $value)
         );
+
+        $this->qb->getNodeByPath('where[0].constraint[0].constraint[0].operand[0]');
+
         $this->assertTrue($this->filter->isActive());
     }
 }

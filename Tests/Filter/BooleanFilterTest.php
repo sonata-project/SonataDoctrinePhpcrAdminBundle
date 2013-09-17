@@ -13,19 +13,13 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 
 use Sonata\AdminBundle\Form\Type\BooleanType;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\BooleanFilter;
+use Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder;
 
-class BooleanFilterTest extends \PHPUnit_Framework_TestCase
+class BooleanFilterTest extends BaseTestCase
 {
     public function setUp()
     {
-        $this->proxyQuery = $this->getMockBuilder('Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->qb = $this->getMockBuilder('Doctrine\ODM\PHPCR\Query\QueryBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->exprBuilder = $this->getMock('Doctrine\ODM\PHPCR\Query\ExpressionBuilder');
-        $this->expr = $this->getMock('Doctrine\Common\Collections\Expr\Expression');
+        parent::setUp();
         $this->filter = new BooleanFilter();
     }
 
@@ -79,15 +73,19 @@ class BooleanFilterTest extends \PHPUnit_Framework_TestCase
             ->method('getQueryBuilder')
             ->will($this->returnValue($this->qb));
         $this->qb->expects($this->once())
-            ->method('expr')
-            ->will($this->returnValue($this->exprBuilder));
-        $this->qb->expects($this->once())
             ->method('andWhere')
-            ->will($this->returnValue($this->qb));
-        $this->exprBuilder->expects($this->once())
-            ->method($operatorMethod)
-            ->with('somefield', $expectedValue)
-            ->will($this->returnValue($this->expr));
+            ->will($this->returnValue($this->qbConstraintFactory));
+        $this->qbConstraintFactory->expects($this->once())
+            ->method('eq')
+            ->will($this->returnValue($this->qbOperandFactory));
+        $this->qbOperandFactory->expects($this->once())
+            ->method('field')
+            ->with('a.somefield')
+            ->will($this->returnValue($this->qbOperandFactory));
+        $this->qbOperandFactory->expects($this->once())
+            ->method('literal')
+            ->with($expectedValue)
+            ->will($this->returnValue($this->qbOperandFactory));
 
         $this->filter->filter(
             $this->proxyQuery,
