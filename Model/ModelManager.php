@@ -444,8 +444,10 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param string $class
      * @param array $array
+     *
      * @return mixed|void
-     * @throws \Symfony\Component\Form\Exception\NoSuchPropertyException
+     *
+     * @throws NoSuchPropertyException
      */
     public function modelReverseTransform($class, array $array = array())
     {
