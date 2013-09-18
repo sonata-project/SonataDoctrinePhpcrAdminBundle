@@ -100,7 +100,8 @@ class PhpcrOdmTree implements TreeInterface
         $children = array();
 
         if ($root) {
-            foreach ($this->getDocumentChildren($root) as $document) {
+            $rootManager = $this->getModelManager($root);
+            foreach ($this->getDocumentChildren($rootManager, $root) as $document) {
                 if ($document instanceof Generic &&
                     (NodeHelper::isSystemItem($document->getNode())
                         || !strncmp('phpcr_locale:', $document->getNode()->getName(), 13)
@@ -108,11 +109,12 @@ class PhpcrOdmTree implements TreeInterface
                 ) {
                     continue;
                 }
+                $manager = $this->getModelManager($document);
 
-                $child = $this->documentToArray($document);
+                $child = $this->documentToArray($manager, $document);
 
-                foreach ($this->getDocumentChildren($document) as $grandchild) {
-                    $child['children'][] = $this->documentToArray($grandchild);
+                foreach ($this->getDocumentChildren($manager, $document) as $grandchild) {
+                    $child['children'][] = $this->documentToArray($manager, $grandchild);
                 }
 
                 $children[] = $child;
@@ -143,11 +145,12 @@ class PhpcrOdmTree implements TreeInterface
     /**
      * Returns an array representation of the document
      *
-     * @param object $document
+     * @param ModelManager $manager the manager to use with this document
+     * @param object       $document
      *
      * @return array
      */
-    private function documentToArray($document)
+    private function documentToArray(ModelManager $manager, $document)
     {
         $className = ClassUtils::getClass($document);
 
@@ -161,8 +164,8 @@ class PhpcrOdmTree implements TreeInterface
             $urlSafeId = $admin->getUrlsafeIdentifier($document);
         } else {
             $label = method_exists($document, '__toString') ? (string) $document : ClassUtils::getClass($document);
-            $id = $this->defaultModelManager->getNormalizedIdentifier($document);
-            $urlSafeId = $this->defaultModelManager->getUrlsafeIdentifier($document);
+            $id = $manager->getNormalizedIdentifier($document);
+            $urlSafeId = $manager->getUrlsafeIdentifier($document);
         }
 
         if (substr($label, 0, 1) === '/') {
@@ -177,8 +180,9 @@ class PhpcrOdmTree implements TreeInterface
         // TODO: ideally the tree should simply not make the node clickable
         $label .= $admin ? '' : ' (not editable)';
 
-        // TODO: this is not an efficient way to determine if there are children. should ask the phpcr node
-        $hasChildren = (bool)count($this->getDocumentChildren($document));
+        // as long as we filter out invalid documents, we need to pass through this logic as a PHPCR node might have children but only invalid ones.
+        // this is quite costly, using the PHPCR node would be a lot more efficient
+        $hasChildren = (bool)count($this->getDocumentChildren($manager, $document));
 
         return array(
             'data'  => $label,
@@ -217,15 +221,14 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * @param object $document the PHPCR-ODM document to get the children of
+     * @param ModelManager $manager the manager to use with this document
+     * @param object $document      the PHPCR-ODM document to get the children of
      *
      * @return array of children indexed by child nodename pointing to the child documents
      */
-    private function getDocumentChildren($document)
+    private function getDocumentChildren(ModelManager $manager, $document)
     {
         $accessor = PropertyAccess::getPropertyAccessor(); // use deprecated BC method to support symfony 2.2
-        $admin = $this->getAdmin($document);
-        $manager = null !== $admin ? $admin->getModelManager() : $this->defaultModelManager;
 
         /** @var $meta \Doctrine\ODM\PHPCR\Mapping\ClassMetadata */
         $meta = $manager->getMetadata(ClassUtils::getClass($document));
@@ -397,5 +400,17 @@ class PhpcrOdmTree implements TreeInterface
         }
 
         return null;
+    }
+
+    /**
+     * @param object $document
+     *
+     * @return ModelManager the modelmanager for $document or the default manager
+     */
+    private function getModelManager($document)
+    {
+        $admin = $this->getAdmin($document);
+
+        return $admin ? $admin->getModelManager() : $this->defaultModelManager;
     }
 }
