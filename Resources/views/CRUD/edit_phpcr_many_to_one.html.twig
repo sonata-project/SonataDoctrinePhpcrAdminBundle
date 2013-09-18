@@ -64,7 +64,7 @@ file that was distributed with this source code.
                 </a>
             {% endif %}
 
-            {% if sonata_admin.edit == 'list' and sonata_admin.field_description.associationadmin.hasRoute('list') and sonata_admin.field_description.associationadmin.isGranted('LIST') %}
+            {% if sonata_admin.field_description.associationadmin.hasRoute('delete') and sonata_admin.field_description.associationadmin.isGranted('DELETE') %}
                 <a  href=""
                     onclick="remove_selected_element_{{ id }}(event)"
                     class="btn sonata-ba-action"
