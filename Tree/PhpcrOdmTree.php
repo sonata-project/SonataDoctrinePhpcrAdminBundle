@@ -2,6 +2,7 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tree;
 
+use Doctrine\ODM\PHPCR\Document\Generic;
 use PHPCR\Util\NodeHelper;
 
 use PHPCR\Util\PathHelper;
@@ -99,8 +100,11 @@ class PhpcrOdmTree implements TreeInterface
 
         if ($root) {
             foreach ($this->getDocumentChildren($root) as $document) {
-                if ($document instanceof \Doctrine\ODM\PHPCR\Document\Generic &&
-                    NodeHelper::isSystemItem($document->getNode())) {
+                if ($document instanceof Generic &&
+                    (NodeHelper::isSystemItem($document->getNode())
+                        || !strncmp('phpcr_locale:', $document->getNode()->getName(), 13)
+                    )
+                ) {
                     continue;
                 }
 
