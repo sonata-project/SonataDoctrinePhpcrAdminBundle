@@ -6,6 +6,7 @@ use Doctrine\ODM\PHPCR\Document\Generic;
 use PHPCR\Util\NodeHelper;
 
 use PHPCR\Util\PathHelper;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Templating\Helper\CoreAssetsHelper;
 use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
@@ -222,6 +223,7 @@ class PhpcrOdmTree implements TreeInterface
      */
     private function getDocumentChildren($document)
     {
+        $accessor = PropertyAccess::getPropertyAccessor(); // use deprecated BC method to support symfony 2.2
         $admin = $this->getAdmin($document);
         $manager = null !== $admin ? $admin->getModelManager() : $this->defaultModelManager;
 
@@ -230,18 +232,27 @@ class PhpcrOdmTree implements TreeInterface
 
         $children = array();
         foreach ($meta->childrenMappings as $fieldName) {
-            $prop = $meta->getReflectionProperty($fieldName)->getValue($document);
+            $prop = $accessor->getValue($document, $fieldName);
+            if (null === $prop) {
+                // if there was no method, try reflection as a last resort
+                $prop = $meta->getReflectionProperty($fieldName)->getValue($document);
+            }
             if (null === $prop) {
                 continue;
             }
             if (!is_array($prop)) {
                 $prop = $prop->toArray();
             }
+
             $children = array_merge($children, $this->filterDocumentChildren($document, $prop));
         }
 
         foreach ($meta->childMappings as $fieldName) {
-            $prop = $meta->getReflectionProperty($fieldName)->getValue($document);
+            $prop = $accessor->getValue($document, $fieldName);
+            if (null === $prop) {
+                // if there was no method, try reflection as a last resort
+                $prop = $meta->getReflectionProperty($fieldName)->getValue($document);
+            }
             if (null !== $prop && $this->isValidDocumentChild($document, $prop)) {
                 $children[$fieldName] = $prop;
             }
