@@ -7,6 +7,7 @@ use PHPCR\Util\NodeHelper;
 
 use PHPCR\Util\PathHelper;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Templating\Helper\CoreAssetsHelper;
 use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
@@ -235,9 +236,9 @@ class PhpcrOdmTree implements TreeInterface
 
         $children = array();
         foreach ($meta->childrenMappings as $fieldName) {
-            $prop = $accessor->getValue($document, $fieldName);
-            if (null === $prop) {
-                // if there was no method, try reflection as a last resort
+            try {
+                $prop = $accessor->getValue($document, $fieldName);
+            } catch (NoSuchPropertyException $e) {
                 $prop = $meta->getReflectionProperty($fieldName)->getValue($document);
             }
             if (null === $prop) {
