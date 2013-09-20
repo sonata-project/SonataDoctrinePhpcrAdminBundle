@@ -49,9 +49,6 @@ class BooleanFilterTest extends BaseTestCase
         $this->proxyQuery->expects($this->never())
             ->method('andWhere');
 
-        $this->qb->expects($this->never())
-            ->method('andWhere');
-
         $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => BooleanType::TYPE_YES, 'value' => 'someValue'));
         $this->assertFalse($this->filter->isActive());
     }
@@ -72,20 +69,6 @@ class BooleanFilterTest extends BaseTestCase
         $this->proxyQuery->expects($this->once())
             ->method('getQueryBuilder')
             ->will($this->returnValue($this->qb));
-        $this->qb->expects($this->once())
-            ->method('andWhere')
-            ->will($this->returnValue($this->qbConstraintFactory));
-        $this->qbConstraintFactory->expects($this->once())
-            ->method('eq')
-            ->will($this->returnValue($this->qbOperandFactory));
-        $this->qbOperandFactory->expects($this->once())
-            ->method('field')
-            ->with('a.somefield')
-            ->will($this->returnValue($this->qbOperandFactory));
-        $this->qbOperandFactory->expects($this->once())
-            ->method('literal')
-            ->with($expectedValue)
-            ->will($this->returnValue($this->qbOperandFactory));
 
         $this->filter->filter(
             $this->proxyQuery,
@@ -93,6 +76,14 @@ class BooleanFilterTest extends BaseTestCase
             'somefield',
             array('type' => '', 'value' => $value)
         );
+
+        $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
+        $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
+
+        $this->assertEquals('a', $opDynamic->getSelectorName());
+        $this->assertEquals('somefield', $opDynamic->getPropertyName());
+        $this->assertEquals($expectedValue, $opStatic->getValue());
+
         $this->assertTrue($this->filter->isActive());
     }
 }

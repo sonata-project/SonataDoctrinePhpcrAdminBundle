@@ -212,12 +212,12 @@ class ModelManager implements ModelManagerInterface
      * @param string $root
      * @return \PHPCR\Query\QueryManagerInterface
      */
-    public function createQuery($class, $alias = 'o', $root = null)
+    public function createQuery($class, $alias = 'a', $root = null)
     {
         $qb = $this->getDocumentManager()->createQueryBuilder();
-        $qb->from()->document($class, 'a');
+        $qb->from()->document($class, $alias);
         if ($root) {
-            $qb->where()->descendant($root, 'a');
+            $qb->where()->descendant($root, $alias);
         }
 
         return new ProxyQuery($qb);

@@ -35,35 +35,35 @@ class DateFilter extends Filter
 
         $data['type'] = isset($data['type']) ? $data['type'] : DateType::TYPE_EQUAL;
 
-        $where = $this->getWhere();
+        $where = $this->getWhere($proxyQuery);
 
         $from = $data['value'];
         $to = new \DateTime($from->format('Y-m-d') . ' +86399 seconds'); // 23 hours 59 minutes 59 seconds
 
         switch ($data['type']) {
             case DateType::TYPE_GREATER_EQUAL:
-                $where->gte('a.'.$field)->literal($from);
+                $where->gte()->field('a.'.$field)->literal($from);
                 break;
             case DateType::TYPE_GREATER_THAN:
-                $where->gt('a.'.$field)->literal($from);
+                $where->gt()->field('a.'.$field)->literal($from);
                 break;
             case DateType::TYPE_LESS_EQUAL:
-                $where->lte('a.'.$field)->literal($from);
+                $where->lte()->field('a.'.$field)->literal($from);
                 break;
             case DateType::TYPE_LESS_THAN:
-                $where->lt('a.'.$field)->literal($from);
+                $where->lt()->field('a.'.$field)->literal($from);
                 break;
             case DateType::TYPE_NULL:
-                $where->eq($field, null);
+                $where->eq()->field('a.'.$field)->literal(null);
                 break;
             case DateType::TYPE_NOT_NULL:
-                $where->neq($field, null);
+                $where->neq()->field('a.'.$field)->literal(null);
                 break;
             case DateType::TYPE_EQUAL:
             default:
                 $where->andX()
                     ->gte()->field('a.'.$field)->literal($from)->end()
-                    ->lte()->field('a.'.$field)->litreal($to)->end();
+                    ->lte()->field('a.'.$field)->literal($to)->end();
         }
 
         // filter is active as we have now modified the query
