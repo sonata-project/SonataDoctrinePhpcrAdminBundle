@@ -30,8 +30,6 @@ use Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager;
  */
 class PhpcrOdmTree implements TreeInterface
 {
-    const VALID_CLASS_ALL = 'all';
-
     /**
      * @var ModelManager
      */
@@ -296,12 +294,6 @@ class PhpcrOdmTree implements TreeInterface
             return false;
         }
 
-        if (isset($this->validClasses[$className]['valid_children'][0])
-            && $this->validClasses[$className]['valid_children'][0] === self::VALID_CLASS_ALL
-        ) {
-            return true;
-        }
-
         return in_array($childClassName, $this->validClasses[$className]['valid_children']);
     }
 
@@ -328,12 +320,6 @@ class PhpcrOdmTree implements TreeInterface
      */
     public function getNodeTypes()
     {
-        $result = array('undefined' => array(
-            'icon' => array('image' => $this->assetHelper->getUrl('bundles/cmftreebrowser/images/folder.png')),
-            'valid_children' => 'all',
-            'routes' => array()
-        ));
-
         foreach ($this->validClasses as $className => $children) {
             $rel = $this->normalizeClassname($className);
             $admin = $this->getAdminByClass($className);
