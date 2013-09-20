@@ -26,14 +26,15 @@ class BooleanFilter extends BaseFilter
             return;
         }
 
-        $queryBuilder = $proxyQuery->getQueryBuilder();
-
         if (is_array($data['value']) || !in_array($data['value'], array(BooleanType::TYPE_NO, BooleanType::TYPE_YES))) {
             return;
         }
 
-        $expr = $queryBuilder->expr()->eq($field, ($data['value'] == BooleanType::TYPE_YES) ? 1 : 0);
-        $this->applyWhere($queryBuilder, $expr);
+        $where = $this->getWhere($proxyQuery);
+        $where->eq()->field('a.'.$field)->literal($data['value'] == BooleanType::TYPE_YES ? 1 : 0);
+
+        // filter is active as we have now modified the query
+        $this->active = true;
     }
 
     /**

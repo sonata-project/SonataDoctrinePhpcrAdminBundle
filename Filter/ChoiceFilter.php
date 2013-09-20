@@ -26,57 +26,38 @@ class ChoiceFilter extends Filter
             return;
         }
 
-        $queryBuilder = $proxyQuery->getQueryBuilder();
+        $values = (array) $data['value'];
+        $type = $data['type'];
 
-        if (is_array($data['value'])) {
-            if (count($data['value']) == 0) {
-                return;
-            }
-
-            if (in_array('all', $data['value'], true)) {
-                return;
-            }
-
-            if ($data['type'] == ChoiceType::TYPE_NOT_CONTAINS) {
-                if (count($data['value']) > 1) {
-                    $constraints = array();
-                    foreach ($data['value'] as $value) {
-                        $constraints[] = $queryBuilder->expr()->textSearch($field, '* -'.$value);
-                    }
-
-                    $this->applyWhere($queryBuilder, call_user_func_array(array($queryBuilder->expr(), 'andX'), $constraints));
-                } else {
-                    $this->applyWhere($queryBuilder, $queryBuilder->expr()->textSearch($field, '* -'.$data['value'][0]));
-                }
+        // clean values
+        foreach ($values as $key => $value) {
+            $value = trim($value);
+            if (!$value) {
+                unset($values[$key]);
             } else {
-                // contains
-                if (count($data['value']) > 1) {
-                    $constraints = array();
-                    foreach ($data['value'] as $value) {
-                        $constraints[] = $queryBuilder->expr()->like($field, '%'.$value.'%');
-                    }
-
-                    $this->applyWhere($queryBuilder, call_user_func_array(array($queryBuilder->expr(), 'orX'), $constraints));
-                } else {
-                    $this->applyWhere($queryBuilder, $queryBuilder->expr()->like($field, '%'.$data['value'][0].'%'));
-                }
-            }
-
-        } else {
-            $data['value'] = trim($data['value']);
-
-            if (strlen($data['value']) == 0 || $data['value'] === 'all') {
-                return;
-            }
-
-            if ($data['type'] == ChoiceType::TYPE_NOT_CONTAINS) {
-                $this->applyWhere($queryBuilder, $queryBuilder->expr()->textSearch($field, '* -'.$data['value']));
-            } elseif ($data['type'] == ChoiceType::TYPE_CONTAINS) {
-                $this->applyWhere($queryBuilder, $queryBuilder->expr()->like($field, '%'.$data['value'].'%'));
-            } else {
-                $this->applyWhere($queryBuilder, $queryBuilder->expr()->eq($field, $data['value']));
+                $values[$key] = $value;
             }
         }
+
+        // if values not set or "all" sepcified, do not do this filter
+        if (!$values || in_array('all', $values, true)) {
+            return;
+        }
+
+        $andX = $this->getWhere($proxyQuery)->andX();
+
+        foreach ($values as $value) {
+            if ($type == ChoiceType::TYPE_NOT_CONTAINS) {
+                $andX->not()->like()->field('a.'.$field)->literal('%'.$value.'%');
+            } elseif ($type == ChoiceType::TYPE_CONTAINS) {
+                $andX->like()->field('a.'.$field)->literal('%'.$value.'%');
+            } elseif ($type == ChoiceType::TYPE_EQUAL) {
+                $andX->like()->field('a.'.$field)->literal($value);
+            }
+        }
+
+        // filter is active as we have now modified the query
+        $this->active = true;
     }
 
     /**
