@@ -66,10 +66,6 @@ class BooleanFilterTest extends BaseTestCase
      */
     public function testFilterSwitch($operatorMethod, $value, $expectedValue)
     {
-        $this->proxyQuery->expects($this->once())
-            ->method('getQueryBuilder')
-            ->will($this->returnValue($this->qb));
-
         $this->filter->filter(
             $this->proxyQuery,
             null,

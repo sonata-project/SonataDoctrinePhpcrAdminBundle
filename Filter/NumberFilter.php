@@ -29,7 +29,9 @@ class NumberFilter extends Filter
         $queryBuilder = $proxyQuery->getQueryBuilder();
 
         $type = isset($data['type']) ? $data['type'] : false;
-        $where = $this->getWhere();
+        $where = $this->getWhere($proxyQuery);
+
+        $value = $data['value'];
 
         switch ($type) {
             case NumberType::TYPE_GREATER_EQUAL:

@@ -38,21 +38,21 @@ class StringFilter extends Filter
             return;
         }
 
-        $where = $this->getWhere();
+        $where = $this->getWhere($proxyQuery);
 
         switch ($data['type']) {
             case ChoiceType::TYPE_EQUAL:
                 $where->eq()->field('a.'.$field)->literal($data['value']);
                 break;
             case ChoiceType::TYPE_NOT_CONTAINS:
-                $where->eq()->fullTextSearch('a.'.$field, '* -'.$data['value']);
+                $where->fullTextSearch('a.'.$field, '* -'.$data['value']);
                 break;
             case ChoiceType::TYPE_CONTAINS:
                 $where->like()->field('a.'.$field)->literal('%'.$data['value'].'%');
                 break;
             case ChoiceType::TYPE_CONTAINS_WORDS:
             default:
-                $where->eq()->fullTextSearch('a.'.$field, $data['value']);
+                $where->fullTextSearch('a.'.$field, $data['value']);
         }
 
         // filter is active as we have now modified the query

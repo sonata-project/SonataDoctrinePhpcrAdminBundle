@@ -14,18 +14,11 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 use Sonata\AdminBundle\Form\Type\Filter\NumberType;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\NumberFilter;
 
-class NumberFilterTest extends \PHPUnit_Framework_TestCase
+class NumberFilterTest extends BaseTestCase
 {
     public function setUp()
     {
-        $this->proxyQuery = $this->getMockBuilder('Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->qb = $this->getMockBuilder('Doctrine\ODM\PHPCR\Query\QueryBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->exprBuilder = $this->getMock('Doctrine\ODM\PHPCR\Query\ExpressionBuilder');
-        $this->expr = $this->getMock('Doctrine\Common\Collections\Expr\Expression');
+        parent::setUp();
         $this->filter = new NumberFilter();
     }
 
@@ -53,10 +46,7 @@ class NumberFilterTest extends \PHPUnit_Framework_TestCase
     public function testFilterEmptyArrayDataWithMeaninglessValue()
     {
         $this->proxyQuery->expects($this->never())
-            ->method('andWhere');
-
-        $this->qb->expects($this->never())
-            ->method('andWhere');
+            ->method('getQueryBuilder');
 
         $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => NumberType::TYPE_EQUAL, 'value' => ' '));
         $this->assertFalse($this->filter->isActive());
@@ -79,26 +69,20 @@ class NumberFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue')
     {
-        $this->proxyQuery->expects($this->once())
-            ->method('getQueryBuilder')
-            ->will($this->returnValue($this->qb));
-        $this->qb->expects($this->once())
-            ->method('expr')
-            ->will($this->returnValue($this->exprBuilder));
-        $this->qb->expects($this->once())
-            ->method('andWhere')
-            ->will($this->returnValue($this->qb));
-        $this->exprBuilder->expects($this->once())
-            ->method($operatorMethod)
-            ->with('somefield', $expectedValue)
-            ->will($this->returnValue($this->expr));
-
         $this->filter->filter(
             $this->proxyQuery,
             null,
             'somefield',
             array('type' => $choiceType, 'value' => $expectedValue)
         );
+
+        $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
+        $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
+
+        $this->assertEquals('a', $opDynamic->getSelectorName());
+        $this->assertEquals('somefield', $opDynamic->getPropertyName());
+        $this->assertEquals($expectedValue, $opStatic->getValue());
+
         $this->assertTrue($this->filter->isActive());
     }
 }
