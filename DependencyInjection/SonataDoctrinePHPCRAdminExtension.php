@@ -108,7 +108,29 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
         $container->setParameter('sonata_admin_doctrine_phpcr.tree_block.defaults', $config['document_tree_defaults']);
         $container->setParameter('sonata_admin_doctrine_phpcr.tree_confirm_move', $config['confirm_move']);
         $container->getDefinition('sonata.admin.doctrine_phpcr.phpcr_odm_tree')
-            ->replaceArgument(5, $config['document_tree']);
+            ->replaceArgument(5, $this->normalizeDocumentTree($config['document_tree']));
     }
+
+    /**
+     * Normalize the document tree config, replacing references to 'all' with an array of all registered types
+     * 
+     * @param array $documentTree 
+     */
+    private function normalizeDocumentTree(array $documentTree)
+    {
+        $docTypes = array_keys($documentTree);
+
+        $normalized = array();
+        foreach ($documentTree as $docType => $config) {
+            if (count($config['valid_children']) === 1 && $config['valid_children'][0] === 'all') {
+                $config['valid_children'] = $docTypes;
+            }
+            $normalized[$docType] = $config;
+        }
+
+        return $normalized;
+    }
+}
+
 }
 
