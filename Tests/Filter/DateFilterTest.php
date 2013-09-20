@@ -14,21 +14,12 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 use Sonata\AdminBundle\Form\Type\Filter\DateType;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\DateFilter;
 
-class DateFilterTest extends \PHPUnit_Framework_TestCase
+class DateFilterTest extends BaseTestCase
 {
     public function setUp()
     {
-        $this->proxyQuery = $this->getMockBuilder('Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->qb = $this->getMockBuilder('Doctrine\ODM\PHPCR\Query\QueryBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->exprBuilder = $this->getMock('Doctrine\ODM\PHPCR\Query\ExpressionBuilder');
-        $this->expr1 = $this->getMock('Doctrine\Common\Collections\Expr\Expression');
-        $this->expr2 = $this->getMock('Doctrine\Common\Collections\Expr\Expression');
-        $this->compositeExpr = $this->getMock('Doctrine\Common\Collections\Expr\Expression');
-        $this->filter = new DateFilter();
+        parent::setUp();
+        $this->filter = new DateFilter;
     }
 
     // @todo: Can problaby factor the following 4 test cases into a common class
@@ -71,19 +62,6 @@ class DateFilterTest extends \PHPUnit_Framework_TestCase
         if ($expectedValue == '__null__') {
             $expectedValue = new \DateTime('2013/01/16 00:00:00');
         }
-        $this->proxyQuery->expects($this->once())
-            ->method('getQueryBuilder')
-            ->will($this->returnValue($this->qb));
-        $this->qb->expects($this->once())
-            ->method('expr')
-            ->will($this->returnValue($this->exprBuilder));
-        $this->exprBuilder->expects($this->once())
-            ->method($operatorMethod)
-            ->with('somefield', $expectedValue)
-            ->will($this->returnValue($this->expr1));
-        $this->qb->expects($this->once())
-            ->method('andWhere')
-            ->with($this->expr1);
 
         $this->filter->filter(
             $this->proxyQuery, 
@@ -91,6 +69,14 @@ class DateFilterTest extends \PHPUnit_Framework_TestCase
             'somefield', 
             array('type' => $choiceType, 'value' => $value)
         );
+
+        $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
+        $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
+
+        $this->assertEquals('a', $opDynamic->getSelectorName());
+        $this->assertEquals('somefield', $opDynamic->getPropertyName());
+        $this->assertEquals($expectedValue, $opStatic->getValue());
+
         $this->assertTrue($this->filter->isActive());
     }
 
@@ -99,35 +85,33 @@ class DateFilterTest extends \PHPUnit_Framework_TestCase
         $from = new \DateTime('2013/01/16 00:00:00');
         $to = new \DateTime('2013/01/16 23:59:59');
 
-        $this->proxyQuery->expects($this->once())
-            ->method('getQueryBuilder')
-            ->will($this->returnValue($this->qb));
-        $this->qb->expects($this->once())
-            ->method('expr')
-            ->will($this->returnValue($this->exprBuilder));
-
-        $this->exprBuilder->expects($this->at(2))
-            ->method('andX')
-            ->with($this->expr1, $this->expr2)
-            ->will($this->returnValue($this->compositeExpr));
-        $this->exprBuilder->expects($this->at(0))
-            ->method('gte')
-            ->with('somefield', $from)
-            ->will($this->returnValue($this->expr2));
-        $this->exprBuilder->expects($this->at(1))
-            ->method('lte')
-            ->with('somefield', $to)
-            ->will($this->returnValue($this->expr1));
-        $this->qb->expects($this->once())
-            ->method('andWhere')
-            ->with($this->expr1);
-
         $this->filter->filter(
             $this->proxyQuery, 
             null, 
             'somefield', 
             array('type' => DateType::TYPE_EQUAL, 'value' => $from)
         );
+
+        // FROM
+        $opDynamic = $this->qbTester->getNode(
+            'where.constraint.constraint.operand_dynamic');
+        $opStatic = $this->qbTester->getNode(
+            'where.constraint.constraint.operand_static');
+
+        $this->assertEquals('a', $opDynamic->getSelectorName());
+        $this->assertEquals('somefield', $opDynamic->getPropertyName());
+        $this->assertEquals($from, $opStatic->getValue());
+
+        // TO
+        $opDynamic = $this->qbTester->getNode(
+            'where.constraint.constraint[1].operand_dynamic');
+        $opStatic = $this->qbTester->getNode(
+            'where.constraint.constraint[1].operand_static');
+
+        $this->assertEquals('a', $opDynamic->getSelectorName());
+        $this->assertEquals('somefield', $opDynamic->getPropertyName());
+        $this->assertEquals($to, $opStatic->getValue());
+
         $this->assertTrue($this->filter->isActive());
     }
 }

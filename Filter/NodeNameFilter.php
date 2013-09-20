@@ -38,18 +38,19 @@ class NodeNameFilter extends Filter
             return;
         }
 
-        $eb = $proxyQuery->getQueryBuilder()->expr();
+        $where = $this->getWhere($proxyQuery);
 
         switch ($data['type']) {
             case ChoiceType::TYPE_EQUAL:
-                $expr = $eb->eqNodeName($data['value']);
+                $where->eq()->localName('a')->literal($data['value']);
                 break;
             case ChoiceType::TYPE_CONTAINS:
             default:
-                $expr = $eb->likeNodeName('%'.$data['value'].'%');
+                $where->like()->localName('a')->literal('%'.$data['value'].'%');
         }
 
-        $this->applyWhere($proxyQuery->getQueryBuilder(), $expr);
+        // filter is active as we have now modified the query
+        $this->active = true;
     }
 
     /**
