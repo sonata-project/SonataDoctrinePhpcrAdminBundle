@@ -252,9 +252,9 @@ class PhpcrOdmTree implements TreeInterface
         }
 
         foreach ($meta->childMappings as $fieldName) {
-            $prop = $accessor->getValue($document, $fieldName);
-            if (null === $prop) {
-                // if there was no method, try reflection as a last resort
+            try {
+                $prop = $accessor->getValue($document, $fieldName);
+            } catch (NoSuchPropertyException $e) {
                 $prop = $meta->getReflectionProperty($fieldName)->getValue($document);
             }
             if (null !== $prop && $this->isValidDocumentChild($document, $prop)) {
