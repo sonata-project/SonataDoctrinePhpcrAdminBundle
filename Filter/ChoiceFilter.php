@@ -29,11 +29,6 @@ class ChoiceFilter extends Filter
         $values = (array) $data['value'];
         $type = $data['type'];
 
-        // if values not set or "all" sepcified, do not do this filter
-        if (!$values || in_array('all', $values, true)) {
-            return;
-        }
-
         // clean values
         foreach ($values as $key => $value) {
             $value = trim($value);
@@ -44,19 +39,20 @@ class ChoiceFilter extends Filter
             }
         }
 
+        // if values not set or "all" sepcified, do not do this filter
+        if (!$values || in_array('all', $values, true)) {
+            return;
+        }
+
         $andX = $this->getWhere($proxyQuery)->andX();
 
-        if ($type == ChoiceType::TYPE_NOT_CONTAINS) {
-            foreach ($values as $value) {
+        foreach ($values as $value) {
+            if ($type == ChoiceType::TYPE_NOT_CONTAINS) {
                 $andX->not()->like()->field('a.'.$field)->literal('%'.$value.'%');
-            }
-        } elseif ($type == ChoiceType::TYPE_CONTAINS) {
-            foreach ($values as $value) {
-                $andX->like('a.'.$field)->literal('%'.$value.'%');
-            }
-        } else {
-            foreach ($values as $value) {
-                $andX->like('a.'.$field)->literal($value);
+            } elseif ($type == ChoiceType::TYPE_CONTAINS) {
+                $andX->like()->field('a.'.$field)->literal('%'.$value.'%');
+            } elseif ($type == ChoiceType::TYPE_EQUAL) {
+                $andX->like()->field('a.'.$field)->literal($value);
             }
         }
 

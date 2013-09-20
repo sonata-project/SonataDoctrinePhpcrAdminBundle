@@ -12,15 +12,20 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 
 use Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder;
+use Doctrine\ODM\PHPCR\Tools\Test\QueryBuilderTester;
 
 class BaseTestCase extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
+        $this->qb = new QueryBuilder;
+        $this->qbTester = new QueryBuilderTester($this->qb);
+
         $this->proxyQuery = $this->getMockBuilder('Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery')
             ->disableOriginalConstructor()
             ->getMock();
-
-        $this->qb = new QueryBuilder;
+        $this->proxyQuery->expects($this->any())
+            ->method('getQueryBuilder')
+            ->will($this->returnValue($this->qb));
     }
 }
