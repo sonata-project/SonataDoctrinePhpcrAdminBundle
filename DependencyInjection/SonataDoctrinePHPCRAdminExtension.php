@@ -112,7 +112,8 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
     }
 
     /**
-     * Normalize the document tree config, replacing references to 'all' with an array of all registered types
+     * Normalize the document tree config, replacing references to 'all' 
+     * with an array of all registered types
      * 
      * @param array $documentTree 
      */
@@ -122,7 +123,7 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
 
         $normalized = array();
         foreach ($documentTree as $docType => $config) {
-            if (count($config['valid_children']) === 1 && $config['valid_children'][0] === 'all') {
+            if (false !== array_search('all', $config['valid_children'])) {
                 $config['valid_children'] = $docTypes;
             }
             $normalized[$docType] = $config;
@@ -130,4 +131,5 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
 
         return $normalized;
     }
+
 }
