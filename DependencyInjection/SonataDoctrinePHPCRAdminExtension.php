@@ -120,48 +120,74 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
      */
     private function processDocumentTreeConfig(array $documentTree)
     {
-        $docTypes = array_keys($documentTree);
+        $docClasses = $this->findAllDocumentClasses($documentTree);
 
-        $normalized = array();
-        $invalidChildren = array();
-        foreach ($documentTree as $docType => $config) {
+        $processed = array();
+        $invalidClasses = array();
+        foreach ($documentTree as $docClass => $config) {
+            // Validate top level document classes
+            if (false === $this->isValidDocumentClass($docClass)) {
+                $invalidClasses[] = $docClass;
+            }
+
+            // Expand 'all'
             if (false !== array_search('all', $config['valid_children'])) {
-                $config['valid_children'] = $docTypes;
+                $config['valid_children'] = $docClasses;
+
+            // Validate child classes
             } else {
                 foreach ($config['valid_children'] as $childDocType) {
-                    if (false === $this->isValidDocumentType($childDocType, $docTypes)) {
-                        $invalidChildren[] = $childDocType;
+                    if (false === $this->isValidDocumentClass($childDocType)) {
+                        $invalidClasses[] = $childDocType;
                     }
                 }
             }
-            $normalized[$docType] = $config;
+
+            $processed[$docClass] = $config;
         }
 
-        if (empty($invalidChildren)) {
-            return $normalized;
+        if (empty($invalidClasses)) {
+            return $processed;
         }
 
         throw new \InvalidArgumentException(sprintf(
             'The following document types provided in valid_children are invalid: %s '.
             'The class names provided could not be loaded or there was no matching '.
             'entry in the document tree config.',
-            implode(', ', array_unique($invalidChildren))
+            implode(', ', array_unique($invalidClasses))
         ));
     }
 
     /**
-     * Check if a document type is a valid document type
+     * Check if the class of a document is valid
      * 
      * @param string $documentType FQN of the document class
-     * @param array $allowedDocumentTypes Array of allowed document types
      */
-    private function isValidDocumentType($documentType, array $allowedDocumentTypes)
+    private function isValidDocumentClass($documentType)
     {
-        if (false === class_exists($documentType)) {
-            return false;
+        return class_exists($documentType);
+    }
+
+    /**
+     * Find all document classes within a document tree
+     * 
+     * @param array $documentTree
+     */
+    private function findAllDocumentClasses(array $documentTree)
+    {
+        $documentClasses = array_reduce(
+            $documentTree,
+            function ($result, $config) {
+                return array_merge($result, $config['valid_children']);
+            },
+            array_keys($documentTree)
+        );
+
+        if (false !== ($allIndex = array_search('all', $documentClasses))) {
+            unset($documentClasses[$allIndex]);
         }
 
-        return in_array($documentType, $allowedDocumentTypes);
+        return array_unique($documentClasses);
     }
 
 }
