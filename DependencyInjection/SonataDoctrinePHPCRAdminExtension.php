@@ -108,28 +108,60 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
         $container->setParameter('sonata_admin_doctrine_phpcr.tree_block.defaults', $config['document_tree_defaults']);
         $container->setParameter('sonata_admin_doctrine_phpcr.tree_confirm_move', $config['confirm_move']);
         $container->getDefinition('sonata.admin.doctrine_phpcr.phpcr_odm_tree')
-            ->replaceArgument(5, $this->normalizeDocumentTree($config['document_tree']));
+            ->replaceArgument(5, $this->processDocumentTreeConfig($config['document_tree']));
     }
 
     /**
-     * Normalize the document tree config, replacing references to 'all' 
-     * with an array of all registered types
+     * Process the document tree config
+     * Expand references to 'all' to an array of all types
+     * Validate document types
      * 
      * @param array $documentTree 
      */
-    private function normalizeDocumentTree(array $documentTree)
+    private function processDocumentTreeConfig(array $documentTree)
     {
         $docTypes = array_keys($documentTree);
 
         $normalized = array();
+        $invalidChildren = array();
         foreach ($documentTree as $docType => $config) {
             if (false !== array_search('all', $config['valid_children'])) {
                 $config['valid_children'] = $docTypes;
+            } else {
+                foreach ($config['valid_children'] as $childDocType) {
+                    if (false === $this->isValidDocumentType($childDocType, $docTypes)) {
+                        $invalidChildren[] = $childDocType;
+                    }
+                }
             }
             $normalized[$docType] = $config;
         }
 
-        return $normalized;
+        if (empty($invalidChildren)) {
+            return $normalized;
+        }
+
+        throw new \InvalidArgumentException(sprintf(
+            'The following document types provided in valid_children are invalid: %s '.
+            'The class names provided could not be loaded or there was no matching '.
+            'entry in the document tree config.',
+            implode(', ', array_unique($invalidChildren))
+        ));
+    }
+
+    /**
+     * Check if a document type is a valid document type
+     * 
+     * @param string $documentType FQN of the document class
+     * @param array $allowedDocumentTypes Array of allowed document types
+     */
+    private function isValidDocumentType($documentType, array $allowedDocumentTypes)
+    {
+        if (false === class_exists($documentType)) {
+            return false;
+        }
+
+        return in_array($documentType, $allowedDocumentTypes);
     }
 
 }
