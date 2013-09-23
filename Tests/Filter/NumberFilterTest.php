@@ -79,8 +79,8 @@ class NumberFilterTest extends BaseTestCase
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
 
-        $this->assertEquals('a', $opDynamic->getSelectorName());
-        $this->assertEquals('somefield', $opDynamic->getPropertyName());
+        $this->assertEquals('a', $opDynamic->getAlias());
+        $this->assertEquals('somefield', $opDynamic->getField());
         $this->assertEquals($expectedValue, $opStatic->getValue());
 
         $this->assertTrue($this->filter->isActive());

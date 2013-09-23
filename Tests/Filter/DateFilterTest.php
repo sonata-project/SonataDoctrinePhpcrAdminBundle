@@ -73,8 +73,8 @@ class DateFilterTest extends BaseTestCase
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
 
-        $this->assertEquals('a', $opDynamic->getSelectorName());
-        $this->assertEquals('somefield', $opDynamic->getPropertyName());
+        $this->assertEquals('a', $opDynamic->getAlias());
+        $this->assertEquals('somefield', $opDynamic->getField());
         $this->assertEquals($expectedValue, $opStatic->getValue());
 
         $this->assertTrue($this->filter->isActive());
@@ -98,8 +98,8 @@ class DateFilterTest extends BaseTestCase
         $opStatic = $this->qbTester->getNode(
             'where.constraint.constraint.operand_static');
 
-        $this->assertEquals('a', $opDynamic->getSelectorName());
-        $this->assertEquals('somefield', $opDynamic->getPropertyName());
+        $this->assertEquals('a', $opDynamic->getAlias());
+        $this->assertEquals('somefield', $opDynamic->getField());
         $this->assertEquals($from, $opStatic->getValue());
 
         // TO
@@ -108,8 +108,8 @@ class DateFilterTest extends BaseTestCase
         $opStatic = $this->qbTester->getNode(
             'where.constraint.constraint[1].operand_static');
 
-        $this->assertEquals('a', $opDynamic->getSelectorName());
-        $this->assertEquals('somefield', $opDynamic->getPropertyName());
+        $this->assertEquals('a', $opDynamic->getAlias());
+        $this->assertEquals('somefield', $opDynamic->getField());
         $this->assertEquals($to, $opStatic->getValue());
 
         $this->assertTrue($this->filter->isActive());
