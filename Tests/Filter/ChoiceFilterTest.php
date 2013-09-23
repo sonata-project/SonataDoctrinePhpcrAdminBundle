@@ -100,8 +100,8 @@ class ChoiceFilterTest extends BaseTestCase
                 'qbNodeCount' => 6,
                 'assertPaths' => array(
                     'where.constraint.constraint[0].constraint.operand_dynamic' => array(
-                        'getSelectorName' => 'a',
-                        'getPropertyName' => 'somefield',
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
                     ),
                     'where.constraint.constraint[0].constraint.operand_static' => array(
                         'getValue' => '%somevalue%',
@@ -114,15 +114,15 @@ class ChoiceFilterTest extends BaseTestCase
                 'qbNodeCount' => 10,
                 'assertPaths' => array(
                     'where.constraint.constraint.constraint.operand_dynamic' => array(
-                        'getSelectorName' => 'a',
-                        'getPropertyName' => 'somefield',
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
                     ),
                     'where.constraint.constraint.constraint.operand_static' => array(
                         'getValue' => '%somevalue%',
                     ),
                     'where.constraint.constraint[1].constraint.operand_dynamic' => array(
-                        'getSelectorName' => 'a',
-                        'getPropertyName' => 'somefield',
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
                     ),
                     'where.constraint.constraint[1].constraint.operand_static' => array(
                         'getValue' => '%somevalue%',
@@ -135,8 +135,8 @@ class ChoiceFilterTest extends BaseTestCase
                 'qbNodeCount' => 5,
                 'assertPaths' => array(
                     'where.constraint.constraint.operand_dynamic' => array(
-                        'getSelectorName' => 'a',
-                        'getPropertyName' => 'somefield',
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
                     ),
                     'where.constraint.constraint.operand_static' => array(
                         'getValue' => '%somevalue%',
@@ -152,15 +152,15 @@ class ChoiceFilterTest extends BaseTestCase
                 'qbNodeCount' => 8,
                 'assertPaths' => array(
                     'where.constraint.constraint.operand_dynamic' => array(
-                        'getSelectorName' => 'a',
-                        'getPropertyName' => 'somefield',
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
                     ),
                     'where.constraint.constraint.operand_static' => array(
                         'getValue' => '%somevalue%',
                     ),
                     'where.constraint.constraint[1].operand_dynamic' => array(
-                        'getSelectorName' => 'a',
-                        'getPropertyName' => 'somefield',
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
                     ),
                     'where.constraint.constraint[1].operand_static' => array(
                         'getValue' => '%somevalue%',
@@ -173,8 +173,8 @@ class ChoiceFilterTest extends BaseTestCase
                 'qbNodeCount' => 5,
                 'assertPaths' => array(
                     'where.constraint.constraint.operand_dynamic' => array(
-                        'getSelectorName' => 'a',
-                        'getPropertyName' => 'somefield',
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
                     ),
                     'where.constraint.constraint.operand_static' => array(
                         'getValue' => '%somevalue%',
@@ -190,15 +190,15 @@ class ChoiceFilterTest extends BaseTestCase
                 'qbNodeCount' => 8,
                 'assertPaths' => array(
                     'where.constraint.constraint.operand_dynamic' => array(
-                        'getSelectorName' => 'a',
-                        'getPropertyName' => 'somefield',
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
                     ),
                     'where.constraint.constraint.operand_static' => array(
                         'getValue' => '%somevalue%',
                     ),
                     'where.constraint.constraint[1].operand_dynamic' => array(
-                        'getSelectorName' => 'a',
-                        'getPropertyName' => 'somefield',
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
                     ),
                     'where.constraint.constraint[1].operand_static' => array(
                         'getValue' => '%somevalue%',
@@ -211,8 +211,8 @@ class ChoiceFilterTest extends BaseTestCase
                 'qbNodeCount' => 5,
                 'assertPaths' => array(
                     'where.constraint.constraint.operand_dynamic' => array(
-                        'getSelectorName' => 'a',
-                        'getPropertyName' => 'somefield',
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
                     ),
                     'where.constraint.constraint.operand_static' => array(
                         'getValue' => 'somevalue',
@@ -228,15 +228,15 @@ class ChoiceFilterTest extends BaseTestCase
                 'qbNodeCount' => 8,
                 'assertPaths' => array(
                     'where.constraint.constraint.operand_dynamic' => array(
-                        'getSelectorName' => 'a',
-                        'getPropertyName' => 'somefield',
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
                     ),
                     'where.constraint.constraint.operand_static' => array(
                         'getValue' => 'somevalue',
                     ),
                     'where.constraint.constraint[1].operand_dynamic' => array(
-                        'getSelectorName' => 'a',
-                        'getPropertyName' => 'somefield',
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
                     ),
                     'where.constraint.constraint[1].operand_static' => array(
                         'getValue' => 'somevalue',
