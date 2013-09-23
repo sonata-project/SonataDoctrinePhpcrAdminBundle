@@ -211,9 +211,15 @@ class ModelManager implements ModelManagerInterface
      * @param string $alias (provided only for compatibility with the interface TODO: remove)
      * @param string $root
      * @return \PHPCR\Query\QueryManagerInterface
+     *
+     * @throws \InvalidArgumentException if alias is not a string or an empty string
      */
     public function createQuery($class, $alias = 'a', $root = null)
     {
+        if (!is_string($alias) || '' === $alias) {
+            throw new \InvalidArgumentException('$alias must be a non empty string');
+        }
+
         $qb = $this->getDocumentManager()->createQueryBuilder();
         $qb->from()->document($class, $alias);
         if ($root) {
