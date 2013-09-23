@@ -43,11 +43,7 @@ class TypeGuesser implements TypeGuesserInterface
     }
 
     /**
-     * @param string $class
-     * @param string $property
-     * @param ModelManagerInterface $modelManager
-     *
-     * @return TypeGuess
+     * {@inheritDoc}
      */
     public function guessType($class, $property, ModelManagerInterface $modelManager)
     {

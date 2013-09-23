@@ -20,9 +20,7 @@ use Symfony\Component\Form\FormView;
 class TreeManagerType extends AbstractType
 {
     /**
-     * @param FormView $view
-     * @param FormInterface $form
-     * @param array $options
+     * {@inheritDoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
@@ -33,7 +31,7 @@ class TreeManagerType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * {@inheritDoc}
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -49,7 +47,7 @@ class TreeManagerType extends AbstractType
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getName()
     {

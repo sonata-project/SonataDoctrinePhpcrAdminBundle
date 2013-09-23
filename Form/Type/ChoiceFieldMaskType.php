@@ -20,9 +20,7 @@ use Symfony\Component\Form\FormView;
 class ChoiceFieldMaskType extends AbstractType
 {
     /**
-     * @param FormView $view
-     * @param FormInterface $form
-     * @param array $options
+     * {@inheritDoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
@@ -40,7 +38,7 @@ class ChoiceFieldMaskType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * {@inheritDoc}
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -52,7 +50,7 @@ class ChoiceFieldMaskType extends AbstractType
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getParent()
     {
@@ -60,7 +58,7 @@ class ChoiceFieldMaskType extends AbstractType
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getName()
     {

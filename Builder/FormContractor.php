@@ -38,10 +38,9 @@ class FormContractor implements FormContractorInterface
     /**
      * The method defines the correct default settings for the provided FieldDescription
      *
-     * @param AdminInterface $admin
-     * @param FieldDescriptionInterface $fieldDescription
+     * {@inheritDoc}
      *
-     * @throws \RuntimeException
+     * @throws \RuntimeException if the $fieldDescription does not specify a type.
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
@@ -90,10 +89,7 @@ class FormContractor implements FormContractorInterface
     }
 
     /**
-     * @param string $name
-     * @param array $options
-     *
-     * @return FormBuilder
+     * {@inheritDoc}
      */
     public function getFormBuilder($name, array $options = array())
     {
@@ -101,11 +97,10 @@ class FormContractor implements FormContractorInterface
     }
 
     /**
-     * @param $type
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     * {@inheritDoc}
      *
-     * @return array
-     * @throws \LogicException
+     * @throws \LogicException if a sonata_type_model field does not have a
+     *                         target model configured.
      */
     public function getDefaultOptions($type, FieldDescriptionInterface $fieldDescription)
     {

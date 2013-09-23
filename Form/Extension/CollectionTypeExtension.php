@@ -25,8 +25,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Form\Listener\CollectionOrderListener;
 class CollectionTypeExtension extends AbstractTypeExtension
 {
     /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -38,7 +37,7 @@ class CollectionTypeExtension extends AbstractTypeExtension
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getExtendedType()
     {

@@ -26,8 +26,8 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 class Admin extends BaseAdmin
 {
     /**
-     * Path to the root node in the repository
-     * under which documents of this admin should be created.
+     * Path to the root node in the repository under which documents of this
+     * admin should be created.
      *
      * @var string
      */
@@ -72,7 +72,7 @@ class Admin extends BaseAdmin
      * @param string $name
      * @param mixed $object
      * @param array $parameters
-     * @param bool $absolute
+     * @param boolean $absolute
      *
      * @return string
      */

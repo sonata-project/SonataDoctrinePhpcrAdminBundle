@@ -23,7 +23,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class AddGuesserCompilerPass implements CompilerPassInterface
 {
     /**
-     * @param ContainerBuilder $container
+     * {@inheritDoc}
+     *
+     * Add tagged sonata guessers to their respective builders.
      */
     public function process(ContainerBuilder $container)
     {
@@ -36,7 +38,7 @@ class AddGuesserCompilerPass implements CompilerPassInterface
 
         $definition->replaceArgument(0, $services);
 
-        // ListBuilder
+        // DatagridBuilder
         $definition = $container->getDefinition('sonata.admin.guesser.doctrine_phpcr_datagrid_chain');
         $services = array();
         foreach($container->findTaggedServiceIds('sonata.admin.guesser.doctrine_phpcr_datagrid') as $id => $attributes) {

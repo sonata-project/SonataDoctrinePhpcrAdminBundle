@@ -54,9 +54,9 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * Returns true is the model has some metadata
+     * Returns true is the model has some metadata.
      *
-     * @param $class
+     * @param string $class
      *
      * @return boolean
      */
@@ -66,9 +66,9 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param mixed $object
+     * {@inheritDoc}
      *
-     * @throws ModelManagerException
+     * @throws ModelManagerException if the document manager throws any exception
      */
     public function create($object)
     {
@@ -81,9 +81,9 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param mixed $object
+     * {@inheritDoc}
      *
-     * @throws ModelManagerException
+     * @throws ModelManagerException if the document manager throws any exception
      */
     public function update($object)
     {
@@ -96,9 +96,9 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param object $object
+     * {@inheritDoc}
      *
-     * @throws ModelManagerException
+     * @throws ModelManagerException if the document manager throws any exception
      */
     public function delete($object)
     {
@@ -113,10 +113,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * Find one object from the given class repository.
      *
-     * @param string $class Class name
-     * @param string|int $id Identifier. Can be a string with several IDs concatenated, separated by '-'.
-     *
-     * @return Object
+     * {@inheritDoc}
      */
     public function find($class, $id)
     {
@@ -132,14 +129,11 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * Returns a new FieldDescription
-     *
-     * @param $class
-     * @param $name
-     * @param array $options
+     * {@inheritDoc}
      *
      * @return FieldDescription
-     * @throws \RunTimeException
+     *
+     * @throws \RunTimeException if $name is not a string.
      */
     public function getNewFieldDescriptionInstance($class, $name, array $options = array())
     {
@@ -165,10 +159,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param $class
-     * @param array $criteria
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function findBy($class, array $criteria = array())
     {
@@ -176,10 +167,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param $class
-     * @param array $criteria
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function findOneBy($class, array $criteria = array())
     {
@@ -187,7 +175,8 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @return DocumentManager
+     * @return DocumentManager The PHPCR-ODM document manager responsible for
+     *                         this model.
      */
     public function getDocumentManager()
     {
@@ -240,7 +229,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param $query
+     * @param ProxyQuery $query
      *
      * @return mixed
      */
@@ -250,9 +239,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $classname
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getModelIdentifier($classname)
     {
@@ -267,21 +254,18 @@ class ModelManager implements ModelManagerInterface
      * several columns. We only ever have one, but return that wrapped into an
      * array to adhere to the interface.
      *
-     * @param object $document
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function getIdentifierValues($document)
     {
         $class = $this->getMetadata(ClassUtils::getClass($document));
         $path = $class->reflFields[$class->identifier]->getValue($document);
+
         return array($path);
     }
 
     /**
-     * @param $class
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function getIdentifierFieldNames($class)
     {
@@ -291,15 +275,14 @@ class ModelManager implements ModelManagerInterface
     /**
      * This is just taking the id out of the array again.
      *
-     * @param object $document
+     * {@inheritDoc}
      *
-     * @return null|string
-     * @throws \RunTimeException
+     * @throws \InvalidArgumentException if $document is not an object or null
      */
     public function getNormalizedIdentifier($document)
     {
         if (is_scalar($document)) {
-            throw new \RunTimeException('Invalid argument, object or null required');
+            throw new \InvalidArgumentException('Invalid argument, object or null required');
         }
 
         // the document is not managed
@@ -395,7 +378,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
+     * {@inheritDoc}
      *
      * @return object
      */
@@ -405,12 +388,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * Returns the parameters used in the columns header
-     *
-     * @param FieldDescriptionInterface $fieldDescription
-     * @param DatagridInterface $datagrid
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function getSortParameters(FieldDescriptionInterface $fieldDescription, DatagridInterface $datagrid)
     {
@@ -433,10 +411,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param DatagridInterface $datagrid
-     * @param $page
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function getPaginationParameters(DatagridInterface $datagrid, $page)
     {
@@ -449,9 +424,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function getDefaultSortValues($class)
     {
@@ -463,8 +436,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
-     * @param object $instance
+     * {@inheritDoc}
      *
      * @return object
      */
@@ -474,8 +446,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
-     * @param array $array
+     * {@inheritDoc}
      *
      * @return object
      *

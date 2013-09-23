@@ -126,12 +126,13 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * Set the property to be sorted by
      *
-     * @param array $parentAssociationMappings
-     * @param array $fieldMapping
+     * {@inheritDoc}
      */
     public function setSortBy($parentAssociationMappings, $fieldMapping)
     {
         $this->sortBy = $fieldMapping['fieldName'];
+
+        return $this;
     }
 
     /**
@@ -145,7 +146,9 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * Sets the ordering
+     * Set the sort ordering.
+     *
+     * {@inheritDoc}
      *
      * @param string $sortOrder (ASC|DESC)
      *
@@ -157,12 +160,14 @@ class ProxyQuery implements ProxyQueryInterface
             throw new \InvalidArgumentException(sprintf('The parameter $sortOrder must be one of "ASC" or "DESC", got "%s"', $sortOrder));
         }
         $this->sortOrder = $sortOrder;
+
+        return $this;
     }
 
     /**
-     * Gets the ordering
+     * Get the ordering.
      *
-     * @return string (ASC|DESC)
+     * @return string ASC or DESC
      */
     public function getSortOrder()
     {
@@ -194,11 +199,13 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * Sets the first result (offset)
      *
-     * @param integer $firstResult
+     * {@inheritDoc}
      */
     public function setFirstResult($firstResult)
     {
         $this->qb->setFirstResult($firstResult);
+
+        return $this;
     }
 
     /**
@@ -214,11 +221,13 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * Set maximum number of results to retrieve
      *
-     * @param integer $maxResults
+     * {@inheritDoc}
      */
     public function setMaxResults($maxResults)
     {
         $this->qb->setMaxResults($maxResults);
+
+        return $this;
     }
 
     /**
@@ -239,6 +248,8 @@ class ProxyQuery implements ProxyQueryInterface
     public function setDocumentManager(DocumentManager $documentManager)
     {
         $this->documentManager = $documentManager;
+
+        return $this;
     }
 
     /**

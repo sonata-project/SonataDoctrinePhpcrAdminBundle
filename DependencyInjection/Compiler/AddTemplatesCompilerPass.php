@@ -50,7 +50,7 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
     /**
      * @param ContainerBuilder $container
      *
-     * @return bool
+     * @return boolean
      */
     protected function fixSettings(ContainerBuilder $container)
     {

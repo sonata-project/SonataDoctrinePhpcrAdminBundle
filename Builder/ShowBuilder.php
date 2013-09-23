@@ -35,9 +35,7 @@ class ShowBuilder implements ShowBuilderInterface
     }
 
     /**
-     * @param array $options
-     *
-     * @return FieldDescriptionCollection
+     * {@inheritDoc}
      */
     public function getBaseList(array $options = array())
     {
@@ -45,10 +43,7 @@ class ShowBuilder implements ShowBuilderInterface
     }
 
     /**
-     * @param FieldDescriptionCollection $list
-     * @param null $type
-     * @param FieldDescriptionInterface $fieldDescription
-     * @param AdminInterface $admin
+     * {@inheritDoc}
      */
     public function addField(FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
@@ -74,10 +69,9 @@ class ShowBuilder implements ShowBuilderInterface
     /**
      * The method defines the correct default settings for the provided FieldDescription
      *
-     * @param AdminInterface $admin
-     * @param FieldDescriptionInterface $fieldDescription
+     * {@inheritDoc}
      *
-     * @throws \RuntimeException
+     * @throws \RuntimeException if the $fieldDescription does not have a type.
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {

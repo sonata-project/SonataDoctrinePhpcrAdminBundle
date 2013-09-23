@@ -80,8 +80,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * @param AdminInterface $admin
-     * @param FieldDescriptionInterface $fieldDescription
+     * {@inheritDoc}
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
@@ -107,10 +106,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * @param DatagridInterface $datagrid
-     * @param null $type
-     * @param FieldDescriptionInterface $fieldDescription
-     * @param AdminInterface $admin
+     * {@inheritDoc}
      *
      * @return FilterInterface
      */
@@ -147,10 +143,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * @param AdminInterface $admin
-     * @param array $values
-     *
-     * @return DatagridInterface
+     * {@inheritDoc}
      */
     public function getBaseDatagrid(AdminInterface $admin, array $values = array())
     {

@@ -37,7 +37,7 @@ class TreeController extends Controller
     private $defaults;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $confirmMove = false;
 
@@ -45,7 +45,7 @@ class TreeController extends Controller
      * @param TreeInterface $tree
      * @param string $template
      * @param array $defaults
-     * @param bool $confirmMove
+     * @param boolean $confirmMove
      */
     public function __construct(TreeInterface $tree, $template = null, array $defaults = array(), $confirmMove = false)
     {

@@ -13,6 +13,9 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Admin;
 
 use Sonata\AdminBundle\Admin\BaseFieldDescription;
 
+/**
+ * {@inheritDoc}
+ */
 class FieldDescription extends BaseFieldDescription
 {
     public function __construct()
@@ -21,16 +24,15 @@ class FieldDescription extends BaseFieldDescription
     }
 
     /**
-     * Define the association mapping definition
+     * {@inheritDoc}
      *
-     * @param array $associationMapping
-     *
-     * @throws \RuntimeException
+     * @throws \InvalidArgumentException if the mapping is no array or of an
+     *                                   unknown type.
      */
     public function setAssociationMapping($associationMapping)
     {
         if (!is_array($associationMapping)) {
-           throw new \RuntimeException('The association mapping must be an array');
+           throw new \InvalidArgumentException('The association mapping must be an array');
         }
 
         $this->associationMapping = $associationMapping;
@@ -39,15 +41,13 @@ class FieldDescription extends BaseFieldDescription
             $this->type         = $this->type ?: $associationMapping['type'];
             $this->mappingType  = $this->mappingType ?: $associationMapping['type'];
         } else {
-            throw new \RuntimeException('Unknown association mapping type');
+            throw new \InvalidArgumentException('Unknown association mapping type');
         }
         $this->fieldName    = $associationMapping['fieldName'];
     }
 
     /**
-     * return the related Target Entity
-     *
-     * @return string|null
+     * {@inheritDoc}
      */
     public function getTargetEntity()
     {
@@ -62,16 +62,14 @@ class FieldDescription extends BaseFieldDescription
     }
 
     /**
-     * set the field mapping information
+     * {@inheritDoc}
      *
-     * @param array $fieldMapping
-     *
-     * @throws \RuntimeException
+     * @throws \InvalidArgumentException if the mapping information is not an array.
      */
     public function setFieldMapping($fieldMapping)
     {
         if (!is_array($fieldMapping)) {
-            throw new \RuntimeException('The field mapping must be an array');
+            throw new \InvalidArgumentException('The field mapping must be an array');
         }
 
         $this->fieldMapping = $fieldMapping;
@@ -82,9 +80,7 @@ class FieldDescription extends BaseFieldDescription
     }
 
     /**
-     * return true if the FieldDescription is linked to an identifier field
-     *
-     * @return bool
+     * {@inheritDoc}
      */
     public function isIdentifier()
     {
@@ -92,11 +88,7 @@ class FieldDescription extends BaseFieldDescription
     }
 
     /**
-     * return the value linked to the description
-     *
-     * @param object $object
-     *
-     * @return mixed
+     * {@inheritDoc}
      */
     public function getValue($object)
     {
@@ -108,11 +100,10 @@ class FieldDescription extends BaseFieldDescription
     }
 
     /**
-     * set the parent association mappings information
+     * {@inheritDoc}
      *
-     * @param array $parentAssociationMappings
-     *
-     * @throws \RuntimeException
+     * @throws \InvalidArgumentException if the list of mappings does contain
+     *                                   something else than arrays.
      */
     public function setParentAssociationMappings(array $parentAssociationMappings)
     {

@@ -42,9 +42,7 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * @param array $options
-     *
-     * @return FieldDescriptionCollection
+     * {@inheritDoc}
      */
     public function getBaseList(array $options = array())
     {
@@ -52,9 +50,7 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * @param null $type
-     * @param FieldDescriptionInterface $fieldDescription
-     * @param AdminInterface $admin
+     * {@inheritDoc}
      */
     public function buildField($type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
@@ -69,10 +65,7 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * @param FieldDescriptionCollection $list
-     * @param null $type
-     * @param FieldDescriptionInterface $fieldDescription
-     * @param AdminInterface $admin
+     * {@inheritDoc}
      */
     public function addField(FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
@@ -97,10 +90,9 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * @param AdminInterface $admin
-     * @param FieldDescriptionInterface $fieldDescription
+     * {@inheritDoc}
      *
-     * @throws \RuntimeException
+     * @throws \RuntimeException if the $fielDescription does not have a type.
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {

@@ -84,7 +84,7 @@ class PhpcrOdmTree implements TreeInterface
      * @param ModelManager $defaultModelManager to use with documents that have no manager
      * @param Pool $pool to get admin classes for documents from
      * @param TranslatorInterface $translator
-     * @param $assetHelper
+     * @param CoreAssetsHelper $assetHelper
      * @param array $validClasses list of the valid class names that may be
      *      used as tree "ref" fields
      */
@@ -108,9 +108,7 @@ class PhpcrOdmTree implements TreeInterface
     /**
      * Get the children of the document at this path by looking at the Child and Children mappings.
      *
-     * @param string $path
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function getChildren($path)
     {
@@ -144,10 +142,7 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * @param string $movedPath
-     * @param string $targetPath
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function move($movedPath, $targetPath)
     {

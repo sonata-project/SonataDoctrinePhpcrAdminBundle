@@ -39,8 +39,9 @@ class TreeBlockService extends BaseBlockService
     }
 
     /**
-     * @param FormMapper $form
-     * @param BlockInterface $block
+     * {@inheritDoc}
+     *
+     * NOOP as there is nothing to edit.
      */
     public function buildEditForm(FormMapper $form, BlockInterface $block)
     {
@@ -48,10 +49,7 @@ class TreeBlockService extends BaseBlockService
     }
 
     /**
-     * @param BlockContextInterface $blockContext
-     * @param Response $response
-     *
-     * @return Response
+     * {@inheritDoc}
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
@@ -59,7 +57,7 @@ class TreeBlockService extends BaseBlockService
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * {@inheritDoc}
      */
     public function setDefaultSettings(OptionsResolverInterface $resolver)
     {
@@ -72,8 +70,9 @@ class TreeBlockService extends BaseBlockService
     }
 
     /**
-     * @param ErrorElement $errorElement
-     * @param BlockInterface $block
+     * {@inheritDoc}
+     *
+     * NOOP as we do not edit and hence have nothing to validate.
      */
     public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
     {

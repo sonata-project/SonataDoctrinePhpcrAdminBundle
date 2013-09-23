@@ -20,9 +20,7 @@ class ChoiceType extends BaseChoiceType
     const TYPE_CONTAINS_WORDS = 4;
 
     /**
-     * Returns the name of this type.
-     *
-     * @return string The name of this type
+     * {@inheritDoc}
      */
     public function getName()
     {
@@ -30,8 +28,7 @@ class ChoiceType extends BaseChoiceType
     }
 
     /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

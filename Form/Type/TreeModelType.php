@@ -53,8 +53,7 @@ class TreeModelType extends AbstractType
     }
 
     /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -64,9 +63,7 @@ class TreeModelType extends AbstractType
     }
 
     /**
-     * @param FormView $view
-     * @param FormInterface $form
-     * @param array $options
+     * {@inheritDoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
@@ -78,7 +75,7 @@ class TreeModelType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * {@inheritDoc}
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -107,7 +104,7 @@ class TreeModelType extends AbstractType
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getName()
     {
