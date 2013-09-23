@@ -57,8 +57,8 @@ class StringFilterTest extends BaseTestCase
         return array(
             array(ChoiceType::TYPE_EQUAL, array(
                 'where.constraint.operand_dynamic' => array(
-                    'getSelectorName' => 'a',
-                    'getPropertyName' => 'somefield',
+                    'getAlias' => 'a',
+                    'getField' => 'somefield',
                 ),
                 'where.constraint.operand_static' => array(
                     'getValue' => 'somevalue',
@@ -66,13 +66,13 @@ class StringFilterTest extends BaseTestCase
             )),
             array(ChoiceType::TYPE_NOT_CONTAINS, array(
                 'where.constraint' => array(
-                    'getPropertyName' => 'somefield',
+                    'getField' => 'somefield',
                     'getFullTextSearchExpression' => '* -somevalue'),
             )),
             array(ChoiceType::TYPE_CONTAINS, array(
                 'where.constraint.operand_dynamic' => array(
-                    'getSelectorName' => 'a',
-                    'getPropertyName' => 'somefield',
+                    'getAlias' => 'a',
+                    'getField' => 'somefield',
                 ),
                 'where.constraint.operand_static' => array(
                     'getValue' => '%somevalue%',
@@ -80,7 +80,7 @@ class StringFilterTest extends BaseTestCase
             )),
             array(ChoiceType::TYPE_CONTAINS_WORDS, array(
                 'where.constraint' => array(
-                    'getPropertyName' => 'somefield',
+                    'getField' => 'somefield',
                     'getFullTextSearchExpression' => 'somevalue'),
             )),
         );

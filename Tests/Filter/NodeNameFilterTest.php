@@ -86,7 +86,7 @@ class NodeNameFilterTest extends BaseTestCase
         $localName = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $literal = $this->qbTester->getNode('where.constraint.operand_static');
 
-        $this->assertEquals('a', $localName->getSelectorName());
+        $this->assertEquals('a', $localName->getAlias());
         $this->assertEquals($expectedValue, $literal->getValue());
 
         $this->assertTrue($this->filter->isActive());
