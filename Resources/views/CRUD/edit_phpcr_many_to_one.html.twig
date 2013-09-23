@@ -13,7 +13,7 @@ file that was distributed with this source code.
     {{ value|render_relation_element(sonata_admin.field_description) }}
 {% elseif sonata_admin.edit == 'inline' %}
     {% for field_description in sonata_admin.field_description.associationadmin.formfielddescriptions %}
-        {{ form_row(form.getChild(field_description.name))}}
+        {{ form_row(form.children[field_description.name]) }}
     {% endfor %}
 {% else %}
     <div id="field_container_{{ id }}">
@@ -27,6 +27,10 @@ file that was distributed with this source code.
                             'uniqid':   sonata_admin.field_description.associationadmin.uniqid
                         }
                     }%}
+                {% elseif sonata_admin.field_description.options.placeholder is defined and sonata_admin.field_description.options.placeholder %}
+                    <span class="inner-field-short-description">
+                        {{ sonata_admin.field_description.options.placeholder|trans({}, 'SonataAdminBundle') }}
+                    </span>
                 {% endif %}
             </span>
             <span style="display: none" >
@@ -60,7 +64,7 @@ file that was distributed with this source code.
                 </a>
             {% endif %}
 
-            {% if sonata_admin.edit == 'list' and sonata_admin.field_description.associationadmin.hasRoute('list') and sonata_admin.field_description.associationadmin.isGranted('LIST') %}
+            {% if sonata_admin.field_description.associationadmin.hasRoute('delete') and sonata_admin.field_description.associationadmin.isGranted('DELETE') %}
                 <a  href=""
                     onclick="remove_selected_element_{{ id }}(event)"
                     class="btn sonata-ba-action"

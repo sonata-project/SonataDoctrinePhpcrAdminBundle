@@ -67,11 +67,11 @@ class TreeController extends Controller
      */
     public function treeAction(Request $request)
     {
-        $createInOverlay = $request->query->get('create_in_overlay');
-        $editInOverlay = $request->query->get('edit_in_overlay');
+        $createInOverlay = $request->attributes->get('create_in_overlay');
+        $editInOverlay = $request->attributes->get('edit_in_overlay');
 
-        $root = $request->query->get('root');
-        $selected = $request->query->get('selected') ?: $root;
+        $root = $request->attributes->get('root');
+        $selected = $request->attributes->get('selected') ?: $root;
         return $this->render($this->template, array(
             'tree' => $this->tree,
             'root_node' => $root,

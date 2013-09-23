@@ -30,42 +30,31 @@ class NumberFilter extends Filter
             return;
         }
 
-        $queryBuilder = $proxyQuery->getQueryBuilder();
-
         $type = isset($data['type']) ? $data['type'] : false;
+        $where = $this->getWhere($proxyQuery);
 
-        $this->applyWhere($queryBuilder, $this->getExpression($queryBuilder->expr(), $type, $field, $data['value']));
-    }
+        $value = $data['value'];
 
-    /**
-     * @param ExpressionBuilder $eb
-     * @param string $type
-     * @param string $field
-     * @param string $value
-     *
-     * @return Comparison
-     */
-    private function getExpression(ExpressionBuilder $eb, $type, $field, $value)
-    {
         switch ($type) {
             case NumberType::TYPE_GREATER_EQUAL:
-                $expr = $eb->gte($field, $value);
+                $where->gte()->field('a.'.$field)->literal($value);
                 break;
             case NumberType::TYPE_GREATER_THAN:
-                $expr = $eb->gt($field, $value);
+                $where->gt()->field('a.'.$field)->literal($value);
                 break;
             case NumberType::TYPE_LESS_EQUAL:
-                $expr = $eb->lte($field, $value);
+                $where->lte()->field('a.'.$field)->literal($value);
                 break;
             case NumberType::TYPE_LESS_THAN:
-                $expr = $eb->lt($field, $value);
+                $where->lt()->field('a.'.$field)->literal($value);
                 break;
             case NumberType::TYPE_EQUAL:
             default:
-                $expr = $eb->eq($field, $value);
+                $where->eq()->field('a.'.$field)->literal($value);
         }
 
-        return $expr;
+        // filter is active as we have now modified the query
+        $this->active = true;
     }
 
     /**

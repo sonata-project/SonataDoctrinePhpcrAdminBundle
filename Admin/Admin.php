@@ -11,6 +11,7 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Admin;
 
+use PHPCR\Util\PathHelper;
 use Sonata\AdminBundle\Admin\Admin as BaseAdmin;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -30,14 +31,25 @@ class Admin extends BaseAdmin
      *
      * @var string
      */
-    protected $root;
+    private $rootPath;
 
     /**
-     * @param string $root
+     * Set the root path in the repository. To be able to create new items,
+     * this path must already exist.
+     *
+     * @param string $rootPath
      */
-    public function setRoot($root)
+    public function setRootPath($rootPath)
     {
-        $this->root = $root;
+        $this->rootPath = $rootPath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRootPath()
+    {
+        return $this->rootPath;
     }
 
     /**
@@ -47,7 +59,7 @@ class Admin extends BaseAdmin
      */
     public function createQuery($context = 'list')
     {
-        $query = $this->getModelManager()->createQuery($this->getClass(), '', $this->root);
+        $query = $this->getModelManager()->createQuery($this->getClass(), 'a', $this->getRootPath());
 
         foreach ($this->extensions as $extension) {
             $extension->configureQuery($this, $query, $context);
@@ -90,6 +102,27 @@ class Admin extends BaseAdmin
                 $collection->get($name)->addOptions(array('expose' => true));
             }
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toString($object)
+    {
+        if (!is_object($object)) {
+            return parent::toString($object);
+        }
+
+        if (method_exists($object, '__toString') && null !== $object->__toString()) {
+            return (string) $object;
+        }
+
+        $dm = $this->getModelManager()->getDocumentManager();
+        if ($dm->contains($object)) {
+            return PathHelper::getNodeName($dm->getUnitOfWork()->getDocumentId($object));
+        }
+
+        return parent::toString($object);
     }
 }
 

@@ -30,40 +30,39 @@ class DateFilter extends Filter
 
         $data['type'] = isset($data['type']) ? $data['type'] : DateType::TYPE_EQUAL;
 
-        $qb = $proxyQuery->getQueryBuilder();
-        $eb = $qb->expr();
+        $where = $this->getWhere($proxyQuery);
 
         $from = $data['value'];
         $to = new \DateTime($from->format('Y-m-d') . ' +86399 seconds'); // 23 hours 59 minutes 59 seconds
 
         switch ($data['type']) {
             case DateType::TYPE_GREATER_EQUAL:
-                $expr = $eb->gte($field, $from);
+                $where->gte()->field('a.'.$field)->literal($from);
                 break;
             case DateType::TYPE_GREATER_THAN:
-                $expr = $eb->gt($field, $from);
+                $where->gt()->field('a.'.$field)->literal($from);
                 break;
             case DateType::TYPE_LESS_EQUAL:
-                $expr = $eb->lte($field, $from);
+                $where->lte()->field('a.'.$field)->literal($from);
                 break;
             case DateType::TYPE_LESS_THAN:
-                $expr = $eb->lt($field, $from);
+                $where->lt()->field('a.'.$field)->literal($from);
                 break;
             case DateType::TYPE_NULL:
-                $expr = $eb->eq($field, null);
+                $where->eq()->field('a.'.$field)->literal(null);
                 break;
             case DateType::TYPE_NOT_NULL:
-                $expr = $eb->neq($field, null);
+                $where->neq()->field('a.'.$field)->literal(null);
                 break;
             case DateType::TYPE_EQUAL:
             default:
-                $expr = $eb->andX(
-                    $expr = $eb->gte($field, $from),
-                    $expr = $eb->lte($field, $to)
-                );
+                $where->andX()
+                    ->gte()->field('a.'.$field)->literal($from)->end()
+                    ->lte()->field('a.'.$field)->literal($to)->end();
         }
 
-        $this->applyWhere($qb, $expr);
+        // filter is active as we have now modified the query
+        $this->active = true;
     }
 
     /**

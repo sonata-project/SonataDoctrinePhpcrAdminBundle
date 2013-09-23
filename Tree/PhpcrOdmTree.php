@@ -11,8 +11,12 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tree;
 
+use Doctrine\ODM\PHPCR\Document\Generic;
 use PHPCR\Util\NodeHelper;
 
+use PHPCR\Util\PathHelper;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Templating\Helper\CoreAssetsHelper;
 use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
@@ -115,16 +119,21 @@ class PhpcrOdmTree implements TreeInterface
         $children = array();
 
         if ($root) {
-            foreach ($this->getDocumentChildren($root) as $document) {
-                if ($document instanceof \Doctrine\ODM\PHPCR\Document\Generic &&
-                    NodeHelper::isSystemItem($document->getNode())) {
+            $rootManager = $this->getModelManager($root);
+            foreach ($this->getDocumentChildren($rootManager, $root) as $document) {
+                if ($document instanceof Generic &&
+                    (NodeHelper::isSystemItem($document->getNode())
+                        || !strncmp('phpcr_locale:', $document->getNode()->getName(), 13)
+                    )
+                ) {
                     continue;
                 }
+                $manager = $this->getModelManager($document);
 
-                $child = $this->documentToArray($document);
+                $child = $this->documentToArray($manager, $document);
 
-                foreach ($this->getDocumentChildren($document) as $grandchild) {
-                    $child['children'][] = $this->documentToArray($grandchild);
+                foreach ($this->getDocumentChildren($manager, $document) as $grandchild) {
+                    $child['children'][] = $this->documentToArray($manager, $grandchild);
                 }
 
                 $children[] = $child;
@@ -158,11 +167,12 @@ class PhpcrOdmTree implements TreeInterface
     /**
      * Returns an array representation of the document
      *
-     * @param object $document
+     * @param ModelManager $manager the manager to use with this document
+     * @param object       $document
      *
      * @return array
      */
-    private function documentToArray($document)
+    private function documentToArray(ModelManager $manager, $document)
     {
         $className = ClassUtils::getClass($document);
 
@@ -175,21 +185,26 @@ class PhpcrOdmTree implements TreeInterface
             $id = $admin->getNormalizedIdentifier($document);
             $urlSafeId = $admin->getUrlsafeIdentifier($document);
         } else {
-            $label = '';
-            if (method_exists($document, '__toString')) {
-                $label = (string)$document;
-            }
-            if (strlen($label) > 18) {
-                // TODO: tooltip with full name?
-                $label = substr($label, 0, 17) . '...';
-            }
-            $label .= ' <not editable>';
-            $id = $this->defaultModelManager->getNormalizedIdentifier($document);
-            $urlSafeId = $this->defaultModelManager->getUrlsafeIdentifier($document);
+            $label = method_exists($document, '__toString') ? (string) $document : ClassUtils::getClass($document);
+            $id = $manager->getNormalizedIdentifier($document);
+            $urlSafeId = $manager->getUrlsafeIdentifier($document);
         }
 
-        // TODO: this is not an efficient way to determine if there are children. should ask the phpcr node
-        $has_children = (bool)count($this->getDocumentChildren($document));
+        if (substr($label, 0, 1) === '/') {
+            $label = PathHelper::getNodeName($label);
+        }
+
+        // TODO: this is really the responsibility of the UI
+        if (strlen($label) > 18) {
+            $label = substr($label, 0, 17) . '...';
+        }
+
+        // TODO: ideally the tree should simply not make the node clickable
+        $label .= $admin ? '' : ' (not editable)';
+
+        // as long as we filter out invalid documents, we need to pass through this logic as a PHPCR node might have children but only invalid ones.
+        // this is quite costly, using the PHPCR node would be a lot more efficient
+        $hasChildren = (bool)count($this->getDocumentChildren($manager, $document));
 
         return array(
             'data'  => $label,
@@ -198,7 +213,7 @@ class PhpcrOdmTree implements TreeInterface
                 'url_safe_id' => $urlSafeId,
                 'rel' => $rel
             ),
-            'state' => $has_children ? 'closed' : null,
+            'state' => $hasChildren ? 'closed' : null,
         );
     }
 
@@ -224,29 +239,34 @@ class PhpcrOdmTree implements TreeInterface
             // will return null if not defined
             $this->admins[$className] = $this->pool->getAdminByClass($className);
         }
+
         return $this->admins[$className];
     }
 
     /**
-     * @param object $document the PHPCR-ODM document to get the children of
+     * @param ModelManager $manager the manager to use with this document
+     * @param object $document      the PHPCR-ODM document to get the children of
      *
      * @return array of children indexed by child nodename pointing to the child documents
      */
-    private function getDocumentChildren($document)
+    private function getDocumentChildren(ModelManager $manager, $document)
     {
-        $admin = $this->getAdmin($document);
-        $manager = (null !== $admin) ? $admin->getModelManager() : $this->defaultModelManager;
+        $accessor = PropertyAccess::getPropertyAccessor(); // use deprecated BC method to support symfony 2.2
+
+        /** @var $meta \Doctrine\ODM\PHPCR\Mapping\ClassMetadata */
         $meta = $manager->getMetadata(ClassUtils::getClass($document));
 
         $children = array();
         foreach ($meta->childrenMappings as $fieldName) {
-            $prop = $meta->getReflectionProperty($fieldName)->getValue($document);
-
-            if (is_null($prop)) {
+            try {
+                $prop = $accessor->getValue($document, $fieldName);
+            } catch (NoSuchPropertyException $e) {
+                $prop = $meta->getReflectionProperty($fieldName)->getValue($document);
+            }
+            if (null === $prop) {
                 continue;
             }
-
-            if (! is_array($prop)) {
+            if (!is_array($prop)) {
                 $prop = $prop->toArray();
             }
 
@@ -254,9 +274,12 @@ class PhpcrOdmTree implements TreeInterface
         }
 
         foreach ($meta->childMappings as $fieldName) {
-            $prop = $meta->getReflectionProperty($fieldName)->getValue($document);
-
-            if (! is_null($prop) && $this->isValidDocumentChild($document, $prop)) {
+            try {
+                $prop = $accessor->getValue($document, $fieldName);
+            } catch (NoSuchPropertyException $e) {
+                $prop = $meta->getReflectionProperty($fieldName)->getValue($document);
+            }
+            if (null !== $prop && $this->isValidDocumentChild($document, $prop)) {
                 $children[$fieldName] = $prop;
             }
         }
@@ -283,7 +306,7 @@ class PhpcrOdmTree implements TreeInterface
      * @param object $document
      * @param object $child
      *
-     * @return bool TRUE if valid, FALSE if not vaild
+     * @return boolean TRUE if valid, FALSE if not valid
      */
     public function isValidDocumentChild($document, $child)
     {
@@ -295,22 +318,17 @@ class PhpcrOdmTree implements TreeInterface
             return false;
         }
 
-        if ((isset($this->validClasses[$className]['valid_children'][0]) && $this->validClasses[$className]['valid_children'][0] === self::VALID_CLASS_ALL)
-            || in_array($childClassName, $this->validClasses[$className]['valid_children'])
+        if (isset($this->validClasses[$className]['valid_children'][0])
+            && $this->validClasses[$className]['valid_children'][0] === self::VALID_CLASS_ALL
         ) {
             return true;
         }
 
-        return false;
+        return in_array($childClassName, $this->validClasses[$className]['valid_children']);
     }
 
     /**
-     * Reorder $moved (child of $parent) before or after $target
-     *
-     * @param string $parent the id of the parent
-     * @param string $moved the id of the child being moved
-     * @param string $target the id of the target node
-     * @param bool $before insert before or after the target
+     * {@inheritDoc}
      */
     public function reorder($parent, $moved, $target, $before)
     {
@@ -320,9 +338,7 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * Get the alias for this tree
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getAlias()
     {
@@ -330,9 +346,7 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * Get an array describing the available node types
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function getNodeTypes()
     {
@@ -380,9 +394,7 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * Get an array for labels.
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function getLabels()
     {
@@ -405,7 +417,7 @@ class PhpcrOdmTree implements TreeInterface
     /**
      * @param string $action
      *
-     * @return null|string
+     * @return string|null
      */
     private function mapAction($action)
     {
@@ -413,7 +425,20 @@ class PhpcrOdmTree implements TreeInterface
             case 'edit': return 'select_route';
             case 'create': return 'create_route';
             case 'delete': return 'delete_route';
-            default: return null;
         }
+
+        return null;
+    }
+
+    /**
+     * @param object $document
+     *
+     * @return ModelManager the modelmanager for $document or the default manager
+     */
+    private function getModelManager($document)
+    {
+        $admin = $this->getAdmin($document);
+
+        return $admin ? $admin->getModelManager() : $this->defaultModelManager;
     }
 }

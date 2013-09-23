@@ -13,7 +13,7 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Datagrid;
 
 use Doctrine\ODM\PHPCR\DocumentManager;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Doctrine\ODM\PHPCR\Query\QueryBuilder;
+use Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder;
 
 /**
  * This class is used to abstract the Admin Bundle from the different QueryBuilder implementations
@@ -21,11 +21,18 @@ use Doctrine\ODM\PHPCR\Query\QueryBuilder;
 class ProxyQuery implements ProxyQueryInterface
 {
     /**
-     * Query Builder Fluent interface for the QOM
+     * Query Builder Fluent interface for the QOM.
      *
      * @var QueryBuilder
      */
     protected $qb;
+
+    /**
+     * The alias name used for the document FQN.
+     *
+     * @var string
+     */
+    protected $alias;
 
     /**
      * Property that determines the Ordering of the results
@@ -35,34 +42,43 @@ class ProxyQuery implements ProxyQueryInterface
     protected $sortBy;
 
     /**
-     * Ordering of the results (ASC, DESC)
+     * Ordering of the results (ASC, DESC).
      *
      * @var string
      */
     protected $sortOrder;
 
     /**
-     * PHPCR ODM Document Manager
+     * PHPCR ODM Document Manager.
      *
      * @var DocumentManager;
      */
     protected $documentManager;
 
     /**
-     * Name of this document class
+     * Name of this document class.
      *
      * @var string
      */
     protected $documentName;
 
     /**
-     * Creates a Query Builder from the QOMFactory
+     * Creates a Query Builder from the QOMFactory.
      *
      * @param QueryBuilder $queryBuilder
+     * @param string       $alias        Short name to use instead of the FQN
+     *                                   of the document.
+     *
+     * @throws \InvalidArgumentException if alias is not a string or an empty string
      */
-    public function __construct(QueryBuilder $queryBuilder)
+    public function __construct(QueryBuilder $queryBuilder, $alias = 'a')
     {
+        if (!is_string($alias) || '' === $alias) {
+            throw new \InvalidArgumentException('$alias must be a non empty string');
+        }
+
         $this->qb = $queryBuilder;
+        $this->alias = $alias;
     }
 
     /**
@@ -73,11 +89,22 @@ class ProxyQuery implements ProxyQueryInterface
      * @param mixed $hydrationMode doesn't have any effect
      *
      * @return array of documents
+     *
+     * @throws \Exception if $this->sortOrder is not ASC or DESC
      */
     public function execute(array $params = array(), $hydrationMode = null)
     {
         if ($this->getSortBy()) {
-            $this->qb->orderBy($this->sortBy, $this->sortOrder);
+            switch ($this->sortOrder) {
+                case 'DESC':
+                    $this->qb->orderBy()->desc()->field($this->alias . '.' . $this->sortBy);
+                    break;
+                case 'ASC':
+                    $this->qb->orderBy()->asc()->field($this->alias . '.' . $this->sortBy);
+                    break;
+                default:
+                    throw new \Exception('Unsupported sort order direction: '.$this->sortOrder);
+            }
         }
 
         return $this->qb->getQuery()->execute();
@@ -121,9 +148,14 @@ class ProxyQuery implements ProxyQueryInterface
      * Sets the ordering
      *
      * @param string $sortOrder (ASC|DESC)
+     *
+     * @throws \InvalidArgumentException if $sortOrder is not one of ASC or DESC.
      */
     public function setSortOrder($sortOrder)
     {
+        if (!in_array($sortOrder, array('ASC', 'DESC'))) {
+            throw new \InvalidArgumentException(sprintf('The parameter $sortOrder must be one of "ASC" or "DESC", got "%s"', $sortOrder));
+        }
         $this->sortOrder = $sortOrder;
     }
 

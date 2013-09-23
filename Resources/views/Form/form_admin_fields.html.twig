@@ -62,6 +62,10 @@ file that was distributed with this source code.
                     'objectId': sonata_admin.field_description.associationadmin.id(sonata_admin.value),
                     'uniqid':   sonata_admin.field_description.associationadmin.uniqid
                 }) %}
+            {% elseif sonata_admin.field_description.options.placeholder is defined and sonata_admin.field_description.options.placeholder %}
+                <span class="inner-field-short-description">
+                    {{ sonata_admin.field_description.options.placeholder|trans({}, 'SonataAdminBundle') }}
+                </span>
             {% endif %}
         </span>
         <span style="display: none" >
@@ -175,12 +179,12 @@ file that was distributed with this source code.
 {% endblock %}
 
 {% block doctrine_phpcr_odm_tree_manager_widget %}
-    {% render url('sonata.admin.doctrine_phpcr.phpcr_odm_tree', {
+    {{ render(controller('sonata.admin.doctrine_phpcr.tree_controller:treeAction', {
         'root': form.vars.root,
         'selected': false,
         'create_in_overlay': form.vars.create_in_overlay,
         'edit_in_overlay': form.vars.edit_in_overlay
-    }) %}
+    })) }}
 {% endblock %}
 
 {% block choice_field_mask_widget %}

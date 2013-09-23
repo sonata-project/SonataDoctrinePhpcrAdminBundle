@@ -31,14 +31,14 @@ class ModelManager implements ModelManagerInterface
     /**
      * @var DocumentManager
      */
-    protected $documentManager;
+    protected $dm;
 
     /**
-     * @param DocumentManager $documentManager
+     * @param DocumentManager $dm
      */
-    public function __construct(DocumentManager $documentManager)
+    public function __construct(DocumentManager $dm)
     {
-        $this->documentManager = $documentManager;
+        $this->dm = $dm;
     }
 
     /**
@@ -50,7 +50,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getMetadata($class)
     {
-        return $this->documentManager->getMetadataFactory()->getMetadataFor($class);
+        return $this->dm->getMetadataFactory()->getMetadataFor($class);
     }
 
     /**
@@ -62,7 +62,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function hasMetadata($class)
     {
-        return $this->documentManager->getMetadataFactory()->hasMetadataFor($class);
+        return $this->dm->getMetadataFactory()->hasMetadataFor($class);
     }
 
     /**
@@ -73,8 +73,8 @@ class ModelManager implements ModelManagerInterface
     public function create($object)
     {
         try {
-            $this->documentManager->persist($object);
-            $this->documentManager->flush();
+            $this->dm->persist($object);
+            $this->dm->flush();
         } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
@@ -88,8 +88,8 @@ class ModelManager implements ModelManagerInterface
     public function update($object)
     {
         try {
-            $this->documentManager->persist($object);
-            $this->documentManager->flush();
+            $this->dm->persist($object);
+            $this->dm->flush();
         } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
@@ -103,8 +103,8 @@ class ModelManager implements ModelManagerInterface
     public function delete($object)
     {
         try {
-            $this->documentManager->remove($object);
-            $this->documentManager->flush();
+            $this->dm->remove($object);
+            $this->dm->flush();
         } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
@@ -125,10 +125,10 @@ class ModelManager implements ModelManagerInterface
         }
 
         if (null === $class) {
-            return $this->documentManager->find(null, $id);
+            return $this->dm->find(null, $id);
         }
 
-        return $this->documentManager->getRepository($class)->find($id);
+        return $this->dm->getRepository($class)->find($id);
     }
 
     /**
@@ -172,7 +172,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function findBy($class, array $criteria = array())
     {
-        return $this->documentManager->getRepository($class)->findBy($criteria);
+        return $this->dm->getRepository($class)->findBy($criteria);
     }
 
     /**
@@ -183,7 +183,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function findOneBy($class, array $criteria = array())
     {
-        return $this->documentManager->getRepository($class)->findOneBy($criteria);
+        return $this->dm->getRepository($class)->findOneBy($criteria);
     }
 
     /**
@@ -191,12 +191,11 @@ class ModelManager implements ModelManagerInterface
      */
     public function getDocumentManager()
     {
-        return $this->documentManager;
+        return $this->dm;
     }
 
     /**
-     * @param string $parentAssociationMapping
-     * @param string $class
+     * {@inheritDoc}
      *
      * @return FieldDescriptionInterface
      */
@@ -216,23 +215,28 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
-     * @param string $alias (provided only for compatibility with the interface TODO: remove)
-     * @param null $root
+     * @param string $class the fully qualified class name to search for
+     * @param string $alias alias to use for this class when accessing fields,
+     *                      defaults to 'a'.
+     * @param string $root  root path to restrict what documents to find.
      *
      * @return ProxyQueryInterface
+     *
+     * @throws \InvalidArgumentException if alias is not a string or an empty string
      */
-    public function createQuery($class, $alias = 'o', $root = null)
+    public function createQuery($class, $alias = 'a', $root = null)
     {
-        $qb = $this->getDocumentManager()->createQueryBuilder();
-        $qb->from($class);
-        $query = new ProxyQuery($qb);
-
-        if ($root) {
-            $query->where($qb->expr()->descendant($root));
+        if (!is_string($alias) || '' === $alias) {
+            throw new \InvalidArgumentException('$alias must be a non empty string');
         }
 
-        return $query;
+        $qb = $this->getDocumentManager()->createQueryBuilder();
+        $qb->from()->document($class, $alias);
+        if ($root) {
+            $qb->where()->descendant($root, $alias);
+        }
+
+        return new ProxyQuery($qb, $alias);
     }
 
     /**
@@ -310,6 +314,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * Currently only the leading slash is removed.
+     *
      * TODO: do we also have to encode certain characters like spaces or does that happen automatically?
      *
      * @param object $document
@@ -322,13 +327,12 @@ class ModelManager implements ModelManagerInterface
         if (null !== $id) {
             return substr($id, 1);
         }
+
         return null;
     }
 
     /**
-     * @param $class
-     * @param ProxyQueryInterface $queryProxy
-     * @param array $idx
+     * {@inheritDoc}
      */
     public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx)
     {
@@ -365,27 +369,26 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
-     * @param ProxyQueryInterface $queryProxy
+     * {@inheritDoc}
      *
-     * @throws ModelManagerException
+     * @throws ModelManagerException if anything goes wrong during query execution.
      */
     public function batchDelete($class, ProxyQueryInterface $queryProxy)
     {
         try {
             $i = 0;
-            $res = $queryProxy->getQuery()->execute();
+            $res = $queryProxy->execute();
             foreach ($res as $object) {
-                $this->documentManager->remove($object);
+                $this->dm->remove($object);
 
                 if ((++$i % 20) == 0) {
-                    $this->documentManager->flush();
-                    $this->documentManager->clear();
+                    $this->dm->flush();
+                    $this->dm->clear();
                 }
             }
 
-            $this->documentManager->flush();
-            $this->documentManager->clear();
+            $this->dm->flush();
+            $this->dm->clear();
         } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
@@ -475,7 +478,9 @@ class ModelManager implements ModelManagerInterface
      * @param array $array
      *
      * @return object
-     * @throws NoSuchPropertyException
+     *
+     * @throws NoSuchPropertyException if the class has no magic setter and
+     *      public property for a field in array.
      */
     public function modelReverseTransform($class, array $array = array())
     {
@@ -498,6 +503,7 @@ class ModelManager implements ModelManagerInterface
                 $property = $name;
             }
 
+            // TODO: use PropertyAccess https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/issues/187
             $setter = 'set' . $this->camelize($name);
 
             if ($reflClass->hasMethod($setter)) {
@@ -524,11 +530,15 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * method taken from PropertyPath
+     * Method taken from PropertyPath.
      *
-     * @param  $property
+     * TODO: remove when doing https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/issues/187
+     *
+     * @param string $property
      *
      * @return string
+     *
+     * @deprecated
      */
     protected function camelize($property)
     {
@@ -536,9 +546,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
-     *
-     * @return ArrayCollection
+     * {@inheritDoc}
      */
     public function getModelCollectionInstance($class)
     {
@@ -546,9 +554,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param mixed $collection
-     *
-     * @return mixed
+     * {@inheritDoc}
      */
     public function collectionClear(&$collection)
     {
@@ -556,10 +562,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param mixed $collection
-     * @param mixed $element
-     *
-     * @return bool
+     * {@inheritDoc}
      */
     public function collectionHasElement(&$collection, &$element)
     {
@@ -567,10 +570,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param mixed $collection
-     * @param mixed $element
-     *
-     * @return mixed
+     * {@inheritDoc}
      */
     public function collectionAddElement(&$collection, &$element)
     {
@@ -578,10 +578,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param mixed $collection
-     * @param mixed $element
-     *
-     * @return mixed
+     * {@inheritDoc}
      */
     public function collectionRemoveElement(&$collection, &$element)
     {
@@ -589,12 +586,9 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param DatagridInterface $datagrid
-     * @param array $fields
-     * @param null $firstResult
-     * @param null $maxResult
+     * {@inheritDoc}
      *
-     * @return null
+     * @return null Not really implemented.
      */
     public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null)
     {
@@ -602,12 +596,12 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
+     * {@inheritDoc}
      *
-     * @return null
+     * Not really implemented.
      */
     public function getExportFields($class)
     {
-        return null;
+        return array();
     }
 }

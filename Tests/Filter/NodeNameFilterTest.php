@@ -14,19 +14,17 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\NodeNameFilter;
 use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 
-class NodeNameFilterTest extends \PHPUnit_Framework_TestCase
+class NodeNameFilterTest extends BaseTestCase
 {
     public function setUp()
     {
-        $this->proxyQuery = $this->getMockBuilder('Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->qb = $this->getMockBuilder('Doctrine\ODM\PHPCR\Query\QueryBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->exprBuilder = $this->getMock('Doctrine\ODM\PHPCR\Query\ExpressionBuilder');
-        $this->expr = $this->getMock('Doctrine\Common\Collections\Expr\Expression');
+        parent::setUp();
         $this->filter = new NodeNameFilter();
+    }
+
+    public function getChoiceTypeForEmptyTests()
+    {
+        return ChoiceType::TYPE_EQUAL;
     }
 
     public function testFilterNullData()
@@ -55,9 +53,6 @@ class NodeNameFilterTest extends \PHPUnit_Framework_TestCase
         $this->proxyQuery->expects($this->never())
             ->method('andWhere');
 
-        $this->qb->expects($this->never())
-            ->method('andWhere');
-
         $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => ChoiceType::TYPE_EQUAL, 'value' => ' '));
         $this->assertFalse($this->filter->isActive());
     }
@@ -77,19 +72,9 @@ class NodeNameFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue')
     {
-        $this->proxyQuery->expects($this->exactly(2))
+        $this->proxyQuery->expects($this->exactly(1))
             ->method('getQueryBuilder')
             ->will($this->returnValue($this->qb));
-        $this->qb->expects($this->once())
-            ->method('expr')
-            ->will($this->returnValue($this->exprBuilder));
-        $this->qb->expects($this->once())
-            ->method('andWhere')
-            ->will($this->returnValue($this->qb));
-        $this->exprBuilder->expects($this->once())
-            ->method($operatorMethod)
-            ->with($expectedValue)
-            ->will($this->returnValue($this->expr));
 
         $this->filter->filter(
             $this->proxyQuery,
@@ -97,6 +82,13 @@ class NodeNameFilterTest extends \PHPUnit_Framework_TestCase
             'somefield',
             array('type' => $choiceType, 'value' => 'somevalue')
         );
+
+        $localName = $this->qbTester->getNode('where.constraint.operand_dynamic');
+        $literal = $this->qbTester->getNode('where.constraint.operand_static');
+
+        $this->assertEquals('a', $localName->getAlias());
+        $this->assertEquals($expectedValue, $literal->getValue());
+
         $this->assertTrue($this->filter->isActive());
     }
 }

@@ -14,7 +14,7 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Form\Listener;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormBuilder;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * A listener for the parent form object to reorder a children collection based
@@ -56,7 +56,7 @@ class CollectionOrderListener
             return;
         }
 
-        $accessor = new PropertyAccessor();
+        $accessor = PropertyAccess::getPropertyAccessor(); // use deprecated BC method to support symfony 2.2
         $newCollection = $accessor->getValue($data, $this->name);
         if (! $newCollection instanceof Collection) {
             return;

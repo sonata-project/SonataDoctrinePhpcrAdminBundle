@@ -14,18 +14,11 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\StringFilter;
 use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 
-class StringFilterTest extends \PHPUnit_Framework_TestCase
+class StringFilterTest extends BaseTestCase
 {
     public function setUp()
     {
-        $this->proxyQuery = $this->getMockBuilder('Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->qb = $this->getMockBuilder('Doctrine\ODM\PHPCR\Query\QueryBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->exprBuilder = $this->getMock('Doctrine\ODM\PHPCR\Query\ExpressionBuilder');
-        $this->expr = $this->getMock('Doctrine\Common\Collections\Expr\Expression');
+        parent::setUp();
         $this->filter = new StringFilter();
     }
 
@@ -53,10 +46,7 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
     public function testFilterEmptyArrayDataWithMeaninglessValue()
     {
         $this->proxyQuery->expects($this->never())
-            ->method('andWhere');
-
-        $this->qb->expects($this->never())
-            ->method('andWhere');
+            ->method('getQueryBuilder');
 
         $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => ChoiceType::TYPE_EQUAL, 'value' => ' '));
         $this->assertFalse($this->filter->isActive());
@@ -65,38 +55,58 @@ class StringFilterTest extends \PHPUnit_Framework_TestCase
     public function getFilters()
     {
         return array(
-            array('eq', ChoiceType::TYPE_EQUAL),
-            array('textSearch', ChoiceType::TYPE_NOT_CONTAINS, '* -somevalue'),
-            array('like', ChoiceType::TYPE_CONTAINS, '%somevalue%'),
-            array('textSearch', ChoiceType::TYPE_CONTAINS_WORDS),
+            array(ChoiceType::TYPE_EQUAL, array(
+                'where.constraint.operand_dynamic' => array(
+                    'getAlias' => 'a',
+                    'getField' => 'somefield',
+                ),
+                'where.constraint.operand_static' => array(
+                    'getValue' => 'somevalue',
+                ),
+            )),
+            array(ChoiceType::TYPE_NOT_CONTAINS, array(
+                'where.constraint' => array(
+                    'getField' => 'somefield',
+                    'getFullTextSearchExpression' => '* -somevalue'),
+            )),
+            array(ChoiceType::TYPE_CONTAINS, array(
+                'where.constraint.operand_dynamic' => array(
+                    'getAlias' => 'a',
+                    'getField' => 'somefield',
+                ),
+                'where.constraint.operand_static' => array(
+                    'getValue' => '%somevalue%',
+                ),
+            )),
+            array(ChoiceType::TYPE_CONTAINS_WORDS, array(
+                'where.constraint' => array(
+                    'getField' => 'somefield',
+                    'getFullTextSearchExpression' => 'somevalue'),
+            )),
         );
     }
 
     /**
      * @dataProvider getFilters
      */
-    public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue')
+    public function testFilterSwitch($choiceType, $assertPaths)
     {
-        $this->proxyQuery->expects($this->exactly(2))
-            ->method('getQueryBuilder')
-            ->will($this->returnValue($this->qb));
-        $this->qb->expects($this->once())
-            ->method('expr')
-            ->will($this->returnValue($this->exprBuilder));
-        $this->qb->expects($this->once())
-            ->method('andWhere')
-            ->will($this->returnValue($this->qb));
-        $this->exprBuilder->expects($this->once())
-            ->method($operatorMethod)
-            ->with('somefield', $expectedValue)
-            ->will($this->returnValue($this->expr));
-
         $this->filter->filter(
             $this->proxyQuery, 
             null, 
             'somefield', 
             array('type' => $choiceType, 'value' => 'somevalue')
         );
+        $this->assertTrue($this->filter->isActive());
+
+        foreach ($assertPaths as $path => $assertions) {
+            $node = $this->qbTester->getNode($path);
+            foreach ($assertions as $methodName => $expectedValue) {
+                $res = $node->$methodName();
+                $this->assertEquals($expectedValue, $res);
+            }
+        }
+
         $this->assertTrue($this->filter->isActive());
     }
 }

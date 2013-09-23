@@ -12,6 +12,7 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\AdminBundle\Filter\Filter as BaseFilter;
+use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 
 abstract class Filter extends BaseFilter
 {
@@ -31,23 +32,24 @@ abstract class Filter extends BaseFilter
     }
 
     /**
-     * @param $queryBuilder
-     * @param $parameter
+     * Add the where statement for this filter to the query.
+     *
+     * @param ProxyQuery $proxy
      */
-    protected function applyWhere($queryBuilder, $parameter)
+    protected function getWhere(ProxyQuery $proxy)
     {
+        $queryBuilder = $proxy->getQueryBuilder();
         if ($this->getCondition() == self::CONDITION_OR) {
-            $queryBuilder->orWhere($parameter);
+            return $queryBuilder->orWhere();
         } else {
-            $queryBuilder->andWhere($parameter);
+            return $queryBuilder->andWhere();
         }
-
-        // filter is active since it's added to the queryBuilder
-        $this->active = true;
     }
 
     /**
-     * @return bool
+     * Check whether this filter is active.
+     *
+     * @return boolean
      */
     public function isActive()
     {

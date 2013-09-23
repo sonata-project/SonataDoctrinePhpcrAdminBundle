@@ -10,5 +10,4 @@ file that was distributed with this source code.
 #}
 
 <fieldset><legend>{{ 'content_tree' | trans({}, 'SonataDoctrinePHPCRAdmin') }}</legend></fieldset>
-{# TODO: url is only used for Symfony2.1 compat https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/issues/86 #}
-{% render url('sonata.admin.doctrine_phpcr.phpcr_odm_tree', { 'root': id, 'selected': selected }) %}
+{% render( controller('sonata.admin.doctrine_phpcr.tree_controller:treeAction',{ 'root': id, 'selected': selected })) %}
