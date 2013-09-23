@@ -27,6 +27,11 @@ class ProxyQuery implements ProxyQueryInterface
     protected $qb;
 
     /**
+     * @var string
+     */
+    protected $alias;
+
+    /**
      * Property that determines the Ordering of the results
      *
      * @var string
@@ -58,10 +63,18 @@ class ProxyQuery implements ProxyQueryInterface
      * Creates a Query Builder from the QOMFactory
      *
      * @param QueryBuilder $queryBuilder
+     * @param string $alias
+     *
+     * @throws \InvalidArgumentException if alias is not a string or an empty string
      */
-    public function __construct(QueryBuilder $queryBuilder)
+    public function __construct(QueryBuilder $queryBuilder, $alias = 'a')
     {
+        if (!is_string($alias) || '' === $alias) {
+            throw new \InvalidArgumentException('$alias must be a non empty string');
+        }
+
         $this->qb = $queryBuilder;
+        $this->alias = $alias;
     }
 
     /**
@@ -71,16 +84,18 @@ class ProxyQuery implements ProxyQueryInterface
      * @param array $params doesn't have any effect
      * @param mixed $hydrationMode doesn't have any effect
      * @return array of documents
+     *
+     * @throws \Exception if $this->sortOrder is not ASC or DESC
      */
     public function execute(array $params = array(), $hydrationMode = null)
     {
         if ($this->getSortBy()) {
             switch ($this->sortOrder) {
                 case 'DESC':
-                    $this->qb->orderBy()->desc()->field('a.' . $this->sortBy);
+                    $this->qb->orderBy()->desc()->field($this->alias . '.' . $this->sortBy);
                     break;
                 case 'ASC':
-                    $this->qb->orderBy()->asc()->field('a.' . $this->sortBy);
+                    $this->qb->orderBy()->asc()->field($this->alias . '.' . $this->sortBy);
                     break;
                 default:
                     throw new \Exception('Unsupported sort order direction: '.$this->sortOrder);
