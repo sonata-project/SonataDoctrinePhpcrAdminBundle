@@ -226,7 +226,7 @@ class ModelManager implements ModelManagerInterface
             $qb->where()->descendant($root, $alias);
         }
 
-        return new ProxyQuery($qb);
+        return new ProxyQuery($qb, $alias);
     }
 
     /**
