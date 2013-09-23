@@ -11,10 +11,21 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Datagrid;
 
+use Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder;
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 
 class ProxyQueryTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var QueryBuilder|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $qb;
+
+    /**
+     * @var ProxyQuery
+     */
+    private $pq;
+
     public function setUp()
     {
         $this->qb = $this->getMockBuilder('Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder')
@@ -39,6 +50,15 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testSetSortOrder()
+    {
+        $this->pq->setSortOrder('ASC');
+        $this->assertEquals('ASC', $this->pq->getSortOrder());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSetSortOrderInvalid()
     {
         $this->pq->setSortOrder('SOME_ORDER');
         $this->assertEquals('SOME_ORDER', $this->pq->getSortOrder());
