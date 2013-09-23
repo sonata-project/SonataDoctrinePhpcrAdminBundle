@@ -126,7 +126,7 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
         $invalidClasses = array();
         foreach ($documentTree as $docClass => $config) {
             // Validate top level document classes
-            if (false === $this->isValidDocumentClass($docClass)) {
+            if ( ! class_exists($docClass)) {
                 $invalidClasses[] = $docClass;
             }
 
@@ -137,7 +137,7 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
             // Validate child classes
             } else {
                 foreach ($config['valid_children'] as $childDocType) {
-                    if (false === $this->isValidDocumentClass($childDocType)) {
+                    if ( ! class_exists($childDocType)) {
                         $invalidClasses[] = $childDocType;
                     }
                 }
@@ -152,20 +152,9 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
 
         throw new \InvalidArgumentException(sprintf(
             'The following document types provided in valid_children are invalid: %s '.
-            'The class names provided could not be loaded or there was no matching '.
-            'entry in the document tree config.',
+            'The class names provided could not be loaded.',
             implode(', ', array_unique($invalidClasses))
         ));
-    }
-
-    /**
-     * Check if the class of a document is valid
-     * 
-     * @param string $documentType FQN of the document class
-     */
-    private function isValidDocumentClass($documentType)
-    {
-        return class_exists($documentType);
     }
 
     /**
@@ -175,19 +164,19 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
      */
     private function findAllDocumentClasses(array $documentTree)
     {
-        $documentClasses = array_reduce(
+        $documentClasses = array_unique(array_reduce(
             $documentTree,
             function ($result, $config) {
                 return array_merge($result, $config['valid_children']);
             },
             array_keys($documentTree)
-        );
+        ));
 
         if (false !== ($allIndex = array_search('all', $documentClasses))) {
             unset($documentClasses[$allIndex]);
         }
 
-        return array_unique($documentClasses);
+        return $documentClasses;
     }
 
 }
