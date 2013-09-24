@@ -60,6 +60,17 @@ class SonataDoctrinePHPCRAdminExtensionTest extends \PHPUnit_Framework_TestCase
                 array('\StdClass' => array('valid_children' => array())),
                 array('\StdClass' => array('valid_children' => array())),
             ),
+            // Ensure all 'all' values do not appear in expanded valid_children
+            array(
+                array(
+                    '\StdClass' => array('valid_children' => array('all')),
+                    '\SplFileInfo' => array('valid_children' => array('all'))
+                ),
+                array(
+                    '\StdClass' => array('valid_children' => array('\StdClass', '\SplFileInfo')),
+                    '\SplFileInfo' => array('valid_children' => array('\StdClass', '\SplFileInfo'))
+                ),
+            ),
             // Allow valid children that are not mapped in the top level
             array(
                 array(
