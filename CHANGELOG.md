@@ -1,6 +1,13 @@
 Changelog
 =========
 
+2013-09-24
+----------
+
+- Improved the document tree configuration so that "all" works as it was intended.
+  Added validation of the class names used in the tree - if you start seeing
+  exceptions that means you have invalid class names in your `document_tree`.
+
 2013-07-27
 ----------
 
