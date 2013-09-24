@@ -122,39 +122,33 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
     {
         $docClasses = $this->findAllDocumentClasses($documentTree);
 
-        $processed = array();
-        $invalidClasses = array();
-        foreach ($documentTree as $docClass => $config) {
-            // Validate top level document classes
-            if ( ! class_exists($docClass)) {
-                $invalidClasses[] = $docClass;
+        // Validate all document classes
+        $invalidClasses = array_filter(
+            $docClasses,
+            function ($class) {
+                return false === class_exists($class);
             }
+        );
+        if (count($invalidClasses)) {
+            throw new \InvalidArgumentException(sprintf(
+                'The following document types provided in valid_children are invalid: %s '.
+                'The class names provided could not be loaded.',
+                implode(', ', array_unique($invalidClasses))
+            ));
+        }
 
+        // Process the config
+        $processed = array();
+        foreach ($documentTree as $docClass => $config) {
             // Expand 'all'
             if (false !== array_search('all', $config['valid_children'])) {
                 $config['valid_children'] = $docClasses;
-
-            // Validate child classes
-            } else {
-                foreach ($config['valid_children'] as $childDocType) {
-                    if ( ! class_exists($childDocType)) {
-                        $invalidClasses[] = $childDocType;
-                    }
-                }
             }
 
             $processed[$docClass] = $config;
         }
 
-        if (empty($invalidClasses)) {
-            return $processed;
-        }
-
-        throw new \InvalidArgumentException(sprintf(
-            'The following document types provided in valid_children are invalid: %s '.
-            'The class names provided could not be loaded.',
-            implode(', ', array_unique($invalidClasses))
-        ));
+        return $processed;
     }
 
     /**
