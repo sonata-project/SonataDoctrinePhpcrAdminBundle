@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata package.
  *
@@ -8,6 +9,7 @@
  * file that was distributed with this source code.
  *
  */
+
 namespace Sonata\DoctrinePHPCRAdminBundle\Route;
 
 use Sonata\AdminBundle\Builder\RouteBuilderInterface;
@@ -19,8 +21,7 @@ class PathInfoBuilderSlashes implements RouteBuilderInterface
     /**
      * RouteBuilder that allows slashes in the ids.
      *
-     * @param AdminInterface $admin
-     * @param RouteCollection $collection
+     * {@inheritDoc}
      */
     function build(AdminInterface $admin, RouteCollection $collection)
     {

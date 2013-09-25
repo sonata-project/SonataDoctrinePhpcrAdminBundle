@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the symfony package.
  * (c) Fabien Potencier <fabien.potencier@symfony-project.com>
@@ -20,13 +21,15 @@ use Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder;
 class ProxyQuery implements ProxyQueryInterface
 {
     /**
-     * Query Builder Fluent interface for the QOM
+     * Query Builder Fluent interface for the QOM.
      *
      * @var QueryBuilder
      */
     protected $qb;
 
     /**
+     * The alias name used for the document FQN.
+     *
      * @var string
      */
     protected $alias;
@@ -39,31 +42,32 @@ class ProxyQuery implements ProxyQueryInterface
     protected $sortBy;
 
     /**
-     * Ordering of the results (ASC, DESC)
+     * Ordering of the results (ASC, DESC).
      *
      * @var string
      */
     protected $sortOrder;
 
     /**
-     * PHPCR ODM Document Manager
+     * PHPCR ODM Document Manager.
      *
      * @var DocumentManager;
      */
     protected $documentManager;
 
     /**
-     * Name of this document class
+     * Name of this document class.
      *
      * @var string
      */
     protected $documentName;
 
     /**
-     * Creates a Query Builder from the QOMFactory
+     * Creates a Query Builder from the QOMFactory.
      *
      * @param QueryBuilder $queryBuilder
-     * @param string $alias
+     * @param string       $alias        Short name to use instead of the FQN
+     *                                   of the document.
      *
      * @throws \InvalidArgumentException if alias is not a string or an empty string
      */
@@ -83,6 +87,7 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * @param array $params doesn't have any effect
      * @param mixed $hydrationMode doesn't have any effect
+     *
      * @return array of documents
      *
      * @throws \Exception if $this->sortOrder is not ASC or DESC
@@ -110,7 +115,6 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * @param string $name name of the method
      * @param array $args arguments of the call
-     * @return void
      *
      * @codeCoverageIgnore
      */
@@ -122,14 +126,13 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * Set the property to be sorted by
      *
-     * @param array $parentAssociationMappings
-     * @param array $fieldMapping
-     *
-     * @return mixed
+     * {@inheritDoc}
      */
     public function setSortBy($parentAssociationMappings, $fieldMapping)
     {
         $this->sortBy = $fieldMapping['fieldName'];
+
+        return $this;
     }
 
     /**
@@ -143,19 +146,28 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * Sets the ordering
+     * Set the sort ordering.
+     *
+     * {@inheritDoc}
      *
      * @param string $sortOrder (ASC|DESC)
+     *
+     * @throws \InvalidArgumentException if $sortOrder is not one of ASC or DESC.
      */
     public function setSortOrder($sortOrder)
     {
+        if (!in_array($sortOrder, array('ASC', 'DESC'))) {
+            throw new \InvalidArgumentException(sprintf('The parameter $sortOrder must be one of "ASC" or "DESC", got "%s"', $sortOrder));
+        }
         $this->sortOrder = $sortOrder;
+
+        return $this;
     }
 
     /**
-     * Gets the ordering
+     * Get the ordering.
      *
-     * @return string (ASC|DESC)
+     * @return string ASC or DESC
      */
     public function getSortOrder()
     {
@@ -164,17 +176,20 @@ class ProxyQuery implements ProxyQueryInterface
 
     /**
      * @codeCoverageIgnore
+     *
+     * @throws \Exception
      */
     public function getSingleScalarResult()
     {
         /* TODO: Figure out who calls this method and what to do here in context of PHPCR */
+        throw new \Exception('Used by what??');
     }
 
 
     /**
      * Gets the QueryBuilder
      *
-     * @return \Doctrine\ODM\PHPCR\Query\QueryBuilder
+     * @return QueryBuilder
      */
     public function getQueryBuilder()
     {
@@ -184,11 +199,13 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * Sets the first result (offset)
      *
-     * @param integer $firstResult
+     * {@inheritDoc}
      */
     public function setFirstResult($firstResult)
     {
         $this->qb->setFirstResult($firstResult);
+
+        return $this;
     }
 
     /**
@@ -204,11 +221,13 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * Set maximum number of results to retrieve
      *
-     * @param integer $maxResults
+     * {@inheritDoc}
      */
     public function setMaxResults($maxResults)
     {
         $this->qb->setMaxResults($maxResults);
+
+        return $this;
     }
 
     /**
@@ -224,17 +243,19 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * Sets the document manager
      *
-     * @param \Doctrine\ODM\PHPCR\DocumentManager $documentManager
+     * @param DocumentManager $documentManager
      */
     public function setDocumentManager(DocumentManager $documentManager)
     {
         $this->documentManager = $documentManager;
+
+        return $this;
     }
 
     /**
      * Gets the document manager
      *
-     * @return \Doctrine\ODM\PHPCR\DocumentManager $documentManager
+     * @return DocumentManager $documentManager
      */
     public function getDocumentManager()
     {
@@ -242,9 +263,7 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * Gets a string with the type of the node
-     *
-     * @return string type of the node
+     * @throws \Exception
      */
     public function getNodeType()
     {
@@ -253,17 +272,12 @@ class ProxyQuery implements ProxyQueryInterface
         return $classMD->nodeType;
     }
 
-    /**
-     * @return mixed
-     */
     public function getUniqueParameterId()
     {
     }
 
     /**
      * @param array $associationMappings
-     *
-     * @return mixed
      */
     public function entityJoin(array $associationMappings)
     {

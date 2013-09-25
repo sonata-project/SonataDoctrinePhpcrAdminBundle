@@ -25,6 +25,9 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  */
 class CollectionOrderListener
 {
+    /**
+     * @var string
+     */
     private $name;
 
     /**
@@ -36,7 +39,7 @@ class CollectionOrderListener
     }
 
     /**
-     * Reorder the children of the parent form data at $this->name
+     * Reorder the children of the parent form data at $this->name.
      *
      * For whatever reason we have to go through the parent object, just
      * getting the collection from the form event and reordering it does

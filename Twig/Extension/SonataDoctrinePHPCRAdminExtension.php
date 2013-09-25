@@ -12,11 +12,7 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Twig\Extension;
 
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\AdminBundle\Exception\NoValueException;
-use Sonata\AdminBundle\Filter\FilterInterface;
 use PHPCR\NodeInterface;
-
-use Symfony\Component\Form\FormView;
 
 class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
 {
@@ -26,7 +22,7 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     protected $environment;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function initRuntime(\Twig_Environment $environment)
     {
@@ -35,9 +31,7 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
 
 
     /**
-     * Returns the name of the extension.
-     *
-     * @return string The extension name
+     * {@inheritDoc}
      */
     public function getName()
     {
@@ -47,9 +41,10 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     /**
      * render a list element from the FieldDescription
      *
-     * @param $object
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     * @param object $object
+     * @param FieldDescriptionInterface $fieldDescription
      * @param array $params
+     *
      * @return string
      */
     public function renderListElement($object, FieldDescriptionInterface $fieldDescription, $params = array())
@@ -65,9 +60,7 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     }
 
     /**
-     * Returns a list of filters to add to the existing list.
-     *
-     * @return array An array of filters
+     * {@inheritDoc}
      */
     public function getFilters()
     {
@@ -81,8 +74,9 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     /**
      * Renders a property of a node
      *
-     * @param \PHPCR\NodeInterface $node
+     * @param NodeInterface $node
      * @param string $property
+     *
      * @return string String representation of the property
      */
     public function renderNodeProperty(NodeInterface $node, $property)
@@ -93,7 +87,8 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     /**
      * Renders a path of a node
      *
-     * @param \PHPCR\NodeInterface $node
+     * @param NodeInterface $node
+     *
      * @return string Node path
      */
     public function renderNodePath(NodeInterface $node)

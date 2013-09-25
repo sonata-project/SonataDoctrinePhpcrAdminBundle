@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sonata project.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Sonata\DoctrinePHPCRAdminBundle\Block;
 
 use Sonata\AdminBundle\Form\FormMapper;
@@ -13,8 +22,16 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TreeBlockService extends BaseBlockService
 {
+    /**
+     * @var array
+     */
     protected $defaults;
 
+    /**
+     * @param string $name
+     * @param EngineInterface $templating
+     * @param array $defaults
+     */
     public function __construct($name, EngineInterface $templating, array $defaults = array())
     {
         parent::__construct($name, $templating);
@@ -22,10 +39,9 @@ class TreeBlockService extends BaseBlockService
     }
 
     /**
-     * @param \Sonata\AdminBundle\Form\FormMapper $form
-     * @param \Sonata\BlockBundle\Model\BlockInterface $block
+     * {@inheritDoc}
      *
-     * @return void
+     * NOOP as there is nothing to edit.
      */
     public function buildEditForm(FormMapper $form, BlockInterface $block)
     {
@@ -33,7 +49,7 @@ class TreeBlockService extends BaseBlockService
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
@@ -41,7 +57,7 @@ class TreeBlockService extends BaseBlockService
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setDefaultSettings(OptionsResolverInterface $resolver)
     {
@@ -54,14 +70,12 @@ class TreeBlockService extends BaseBlockService
     }
 
     /**
-     * @param \Sonata\AdminBundle\Validator\ErrorElement $errorElement
-     * @param \Sonata\BlockBundle\Model\BlockInterface $block
-     * @return void
+     * {@inheritDoc}
+     *
+     * NOOP as we do not edit and hence have nothing to validate.
      */
     public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
     {
         // there is nothing to validate here
     }
-
-
 }
