@@ -10,4 +10,4 @@ file that was distributed with this source code.
 #}
 
 <fieldset><legend>{{ 'content_tree' | trans({}, 'SonataDoctrinePHPCRAdmin') }}</legend></fieldset>
-{% render( controller('sonata.admin.doctrine_phpcr.tree_controller:treeAction',{ 'root': id, 'selected': selected })) %}
+{% render controller('sonata.admin.doctrine_phpcr.tree_controller:treeAction', { 'root': id, 'selected': selected }) %}
