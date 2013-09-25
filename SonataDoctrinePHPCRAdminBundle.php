@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sonata project.
  *
@@ -18,6 +19,9 @@ use Sonata\DoctrinePHPCRAdminBundle\DependencyInjection\Compiler\AddTemplatesCom
 
 class SonataDoctrinePHPCRAdminBundle extends Bundle
 {
+    /**
+     * @param ContainerBuilder $container
+     */
     public function build(ContainerBuilder $container)
     {
         $container->addCompilerPass(new AddGuesserCompilerPass());

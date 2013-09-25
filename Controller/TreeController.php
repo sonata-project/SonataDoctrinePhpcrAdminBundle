@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sonata package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Sonata\DoctrinePHPCRAdminBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -12,21 +21,31 @@ use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
  */
 class TreeController extends Controller
 {
-    /** @var TreeInterface */
+    /**
+     * @var TreeInterface
+     */
     private $tree;
 
+    /**
+     * @var string
+     */
     private $template = 'SonataDoctrinePHPCRAdminBundle:Tree:tree.html.twig';
 
+    /**
+     * @var array
+     */
     private $defaults;
 
-    /** @var bool */
+    /**
+     * @var boolean
+     */
     private $confirmMove = false;
 
     /**
      * @param TreeInterface $tree
-     * @param string $template the template to render the tree, defaults to Tree:tree.html.twig
-     * @param array $defaults an array of values that should be included in the tree routes
-     * @param bool $confirmMove
+     * @param string $template
+     * @param array $defaults
+     * @param boolean $confirmMove
      */
     public function __construct(TreeInterface $tree, $template = null, array $defaults = array(), $confirmMove = false)
     {
@@ -43,6 +62,7 @@ class TreeController extends Controller
      * to the view
      *
      * @param Request $request
+     *
      * @return Response
      */
     public function treeAction(Request $request)

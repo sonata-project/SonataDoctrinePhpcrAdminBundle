@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sonata package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Sonata\DoctrinePHPCRAdminBundle\Tree;
 
 use Doctrine\ODM\PHPCR\Document\Generic;
@@ -16,6 +25,7 @@ use Doctrine\ODM\PHPCR\DocumentManager;
 use Doctrine\Common\Util\ClassUtils;
 
 use Sonata\AdminBundle\Admin\Pool;
+use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager;
 
 /**
@@ -69,15 +79,21 @@ class PhpcrOdmTree implements TreeInterface
 
     /**
      * @param DocumentManager $dm
-     * @param ModelManager $defaultModelManager to use with documents that
-     *      have no manager
+     * @param ModelManager $defaultModelManager to use with documents that have no manager
      * @param Pool $pool to get admin classes for documents from
      * @param TranslatorInterface $translator
-     * @param $assetHelper
+     * @param CoreAssetsHelper $assetHelper
      * @param array $validClasses list of the valid class names that may be
      *      used as tree "ref" fields
      */
-    public function __construct(DocumentManager $dm, ModelManager $defaultModelManager, Pool $pool, TranslatorInterface $translator, CoreAssetsHelper $assetHelper, array $validClasses)
+    public function __construct(
+        DocumentManager $dm,
+        ModelManager $defaultModelManager,
+        Pool $pool,
+        TranslatorInterface $translator,
+        CoreAssetsHelper $assetHelper,
+        array $validClasses
+    )
     {
         $this->dm = $dm;
         $this->defaultModelManager = $defaultModelManager;
@@ -88,9 +104,9 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * Get the children of the document at this path by looking at the Child and Children mappings.
+     *
+     * {@inheritDoc}
      */
     public function getChildren($path)
     {
@@ -126,19 +142,19 @@ class PhpcrOdmTree implements TreeInterface
     /**
      * {@inheritDoc}
      */
-    public function move($moved_path, $target_path)
+    public function move($movedPath, $targetPath)
     {
-        $resulting_path = $target_path.'/'.basename($moved_path);
+        $resultingPath = $targetPath.'/'.basename($movedPath);
 
-        $document = $this->dm->find(null, $moved_path);
+        $document = $this->dm->find(null, $movedPath);
         if (null === $document) {
-            return "No document found at $moved_path";
+            return "No document found at $movedPath";
         }
 
-        $this->dm->move($document, $resulting_path);
+        $this->dm->move($document, $resultingPath);
         $this->dm->flush();
 
-        return $resulting_path;
+        return $resultingPath;
     }
 
     /**
@@ -197,7 +213,7 @@ class PhpcrOdmTree implements TreeInterface
     /**
      * @param object $document the PHPCR-ODM document to get the sonata admin for
      *
-     * @return \Sonata\AdminBundle\Admin\AdminInterface
+     * @return AdminInterface
      */
     private function getAdmin($document)
     {
@@ -208,7 +224,7 @@ class PhpcrOdmTree implements TreeInterface
     /**
      * @param string $className
      *
-     * @return \Sonata\AdminBundle\Admin\AdminInterface
+     * @return AdminInterface
      */
     private function getAdminByClass($className)
     {
@@ -216,6 +232,7 @@ class PhpcrOdmTree implements TreeInterface
             // will return null if not defined
             $this->admins[$className] = $this->pool->getAdminByClass($className);
         }
+
         return $this->admins[$className];
     }
 
@@ -264,7 +281,7 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * @param $document
+     * @param object $document
      * @param array $children
      *
      * @return array of valid children for the document
@@ -279,10 +296,10 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * @param $document
-     * @param $child
+     * @param object $document
+     * @param object $child
      *
-     * @return bool TRUE if valid, FALSE if not vaild
+     * @return boolean TRUE if valid, FALSE if not valid
      */
     public function isValidDocumentChild($document, $child)
     {
@@ -324,23 +341,28 @@ class PhpcrOdmTree implements TreeInterface
             $rel = $this->normalizeClassname($className);
             $admin = $this->getAdminByClass($className);
             $validChildren = array();
+
             foreach ($children['valid_children'] as $child) {
                 $validChildren[] = $this->normalizeClassname($child);
             }
+
             $icon = 'bundles/cmftreebrowser/images/folder.png';
             if (!empty($children['image'])) {
                 $icon = $children['image'];
             }
+
             $routes = array();
             if (null !== $admin) {
                 foreach ($admin->getRoutes()->getElements() as $code => $route) {
                     $action = explode('.', $code);
                     $key = $this->mapAction(end($action));
+
                     if (null !== $key) {
                         $routes[$key] = sprintf('%s_%s', $admin->getBaseRouteName(), end($action));
                     }
                 }
             }
+
             $result[$rel] = array(
                 'icon' => array('image' => $this->assetHelper->getUrl($icon)),
                 'label' => (null !== $admin) ? $admin->trans($admin->getLabel()) : $className,

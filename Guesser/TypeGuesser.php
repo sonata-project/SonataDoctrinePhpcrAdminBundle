@@ -23,10 +23,19 @@ use Symfony\Component\Form\Guess\TypeGuess;
 
 class TypeGuesser implements TypeGuesserInterface
 {
+    /**
+     * @var ManagerRegistry
+     */
     protected $registry;
 
+    /**
+     * @var array
+     */
     private $cache;
 
+    /**
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
@@ -34,10 +43,7 @@ class TypeGuesser implements TypeGuesserInterface
     }
 
     /**
-     * @param string $class
-     * @param string $property
-     * @param \Sonata\AdminBundle\Model\ModelManagerInterface $modelManager
-     * @return TypeGuess
+     * {@inheritDoc}
      */
     public function guessType($class, $property, ModelManagerInterface $modelManager)
     {
@@ -83,6 +89,11 @@ class TypeGuesser implements TypeGuesserInterface
         return new TypeGuess('text', array(), Guess::LOW_CONFIDENCE);
     }
 
+    /**
+     * @param string $class
+     *
+     * @return mixed
+     */
     protected function getMetadata($class)
     {
         if (array_key_exists($class, $this->cache)) {

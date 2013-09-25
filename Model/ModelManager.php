@@ -19,6 +19,7 @@ use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
 
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Doctrine\ODM\PHPCR\DocumentManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\ClassUtils;
@@ -43,10 +44,9 @@ class ModelManager implements ModelManagerInterface
     /**
      * Returns the related model's metadata
      *
-     * @abstract
      * @param string $class
      *
-     * @return \Doctrine\ODM\PHPCR\Mapping\ClassMetadata
+     * @return ClassMetadata
      */
     public function getMetadata($class)
     {
@@ -54,9 +54,10 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * Returns true is the model has some metadata
+     * Returns true is the model has some metadata.
      *
-     * @param $class
+     * @param string $class
+     *
      * @return boolean
      */
     public function hasMetadata($class)
@@ -65,13 +66,74 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * Returns a new FieldDescription
+     * {@inheritDoc}
      *
-     * @throws \RunTimeException
-     * @param $class
-     * @param $name
-     * @param array $options
+     * @throws ModelManagerException if the document manager throws any exception
+     */
+    public function create($object)
+    {
+        try {
+            $this->dm->persist($object);
+            $this->dm->flush();
+        } catch (\Exception $e) {
+            throw new ModelManagerException('', 0, $e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws ModelManagerException if the document manager throws any exception
+     */
+    public function update($object)
+    {
+        try {
+            $this->dm->persist($object);
+            $this->dm->flush();
+        } catch (\Exception $e) {
+            throw new ModelManagerException('', 0, $e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws ModelManagerException if the document manager throws any exception
+     */
+    public function delete($object)
+    {
+        try {
+            $this->dm->remove($object);
+            $this->dm->flush();
+        } catch (\Exception $e) {
+            throw new ModelManagerException('', 0, $e);
+        }
+    }
+
+    /**
+     * Find one object from the given class repository.
+     *
+     * {@inheritDoc}
+     */
+    public function find($class, $id)
+    {
+        if (!isset($id)) {
+            return null;
+        }
+
+        if (null === $class) {
+            return $this->dm->find(null, $id);
+        }
+
+        return $this->dm->getRepository($class)->find($id);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * @return FieldDescription
+     *
+     * @throws \RunTimeException if $name is not a string.
      */
     public function getNewFieldDescriptionInstance($class, $name, array $options = array())
     {
@@ -97,71 +159,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param mixed $object
-     * @throws ModelManagerException
-     */
-    public function create($object)
-    {
-        try {
-            $this->dm->persist($object);
-            $this->dm->flush();
-        } catch (\Exception $e) {
-            throw new ModelManagerException('', 0, $e);
-        }
-    }
-
-    /**
-     * @param mixed $object
-     * @throws ModelManagerException
-     */
-    public function update($object)
-    {
-        try {
-            $this->dm->persist($object);
-            $this->dm->flush();
-        } catch (\Exception $e) {
-            throw new ModelManagerException('', 0, $e);
-        }
-    }
-
-    /**
-     * @param object $object
-     * @throws ModelManagerException
-     */
-    public function delete($object)
-    {
-        try {
-            $this->dm->remove($object);
-            $this->dm->flush();
-        } catch (\Exception $e) {
-            throw new ModelManagerException('', 0, $e);
-        }
-    }
-
-    /**
-     * Find one object from the given class repository.
-     *
-     * @param string $class Class name
-     * @param string|int $id Identifier. Can be a string with several IDs concatenated, separated by '-'.
-     * @return Object
-     */
-    public function find($class, $id)
-    {
-        if (!isset($id)) {
-            return null;
-        }
-
-        if (null === $class) {
-            return $this->dm->find(null, $id);
-        }
-
-        return $this->dm->getRepository($class)->find($id);
-    }
-
-    /**
-     * @param $class
-     * @param array $criteria
-     * @return array
+     * {@inheritDoc}
      */
     public function findBy($class, array $criteria = array())
     {
@@ -169,9 +167,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param $class
-     * @param array $criteria
-     * @return array
+     * {@inheritDoc}
      */
     public function findOneBy($class, array $criteria = array())
     {
@@ -179,7 +175,8 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @return DocumentManager
+     * @return DocumentManager The PHPCR-ODM document manager responsible for
+     *                         this model.
      */
     public function getDocumentManager()
     {
@@ -187,8 +184,8 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $parentAssociationMapping
-     * @param string $class
+     * {@inheritDoc}
+     *
      * @return FieldDescriptionInterface
      */
     public function getParentFieldDescription($parentAssociationMapping, $class)
@@ -207,10 +204,12 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param $class
-     * @param string $alias (provided only for compatibility with the interface TODO: remove)
-     * @param string $root
-     * @return \PHPCR\Query\QueryManagerInterface
+     * @param string $class the fully qualified class name to search for
+     * @param string $alias alias to use for this class when accessing fields,
+     *                      defaults to 'a'.
+     * @param string $root  root path to restrict what documents to find.
+     *
+     * @return ProxyQueryInterface
      *
      * @throws \InvalidArgumentException if alias is not a string or an empty string
      */
@@ -230,7 +229,8 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param $query
+     * @param ProxyQuery $query
+     *
      * @return mixed
      */
     public function executeQuery($query)
@@ -260,12 +260,12 @@ class ModelManager implements ModelManagerInterface
     {
         $class = $this->getMetadata(ClassUtils::getClass($document));
         $path = $class->reflFields[$class->identifier]->getValue($document);
+
         return array($path);
     }
 
     /**
-     * @param $class
-     * @return mixed
+     * {@inheritDoc}
      */
     public function getIdentifierFieldNames($class)
     {
@@ -273,14 +273,16 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
+     * This is just taking the id out of the array again.
+     *
      * {@inheritDoc}
      *
-     * This is just taking the id out of the array again.
+     * @throws \InvalidArgumentException if $document is not an object or null
      */
     public function getNormalizedIdentifier($document)
     {
         if (is_scalar($document)) {
-            throw new \RunTimeException('Invalid argument, object or null required');
+            throw new \InvalidArgumentException('Invalid argument, object or null required');
         }
 
         // the document is not managed
@@ -294,11 +296,13 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * Currently only the leading slash is removed.
      *
      * TODO: do we also have to encode certain characters like spaces or does that happen automatically?
+     *
+     * @param object $document
+     *
+     * @return null|string
      */
     public function getUrlsafeIdentifier($document)
     {
@@ -306,14 +310,12 @@ class ModelManager implements ModelManagerInterface
         if (null !== $id) {
             return substr($id, 1);
         }
+
         return null;
     }
 
     /**
-     * @param $class
-     * @param \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryProxy
-     * @param array $idx
-     * @return void
+     * {@inheritDoc}
      */
     public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx)
     {
@@ -340,7 +342,8 @@ class ModelManager implements ModelManagerInterface
      * because SonataAdmin uses object id´s for constructing URL´s it has to use id´s without the
      * leading slash.
      *
-     * @param $id
+     * @param string $id
+     *
      * @return string
      */
     public function getBackendId($id)
@@ -349,15 +352,15 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
-     * @param \Sonata\AdminBundle\Datagrid\ProxyQueryInterface $queryProxy
-     * @throws \Sonata\AdminBundle\Exception\ModelManagerException
+     * {@inheritDoc}
+     *
+     * @throws ModelManagerException if anything goes wrong during query execution.
      */
     public function batchDelete($class, ProxyQueryInterface $queryProxy)
     {
         try {
             $i = 0;
-            $res = $queryProxy->getQuery()->execute();
+            $res = $queryProxy->execute();
             foreach ($res as $object) {
                 $this->dm->remove($object);
 
@@ -376,6 +379,8 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @return object
      */
     public function getModelInstance($class)
     {
@@ -383,11 +388,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * Returns the parameters used in the columns header
-     *
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
-     * @param \Sonata\AdminBundle\Datagrid\DatagridInterface $datagrid
-     * @return array
+     * {@inheritDoc}
      */
     public function getSortParameters(FieldDescriptionInterface $fieldDescription, DatagridInterface $datagrid)
     {
@@ -410,9 +411,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param \Sonata\AdminBundle\Datagrid\DatagridInterface $datagrid
-     * @param $page
-     * @return array
+     * {@inheritDoc}
      */
     public function getPaginationParameters(DatagridInterface $datagrid, $page)
     {
@@ -425,8 +424,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
-     * @return array
+     * {@inheritDoc}
      */
     public function getDefaultSortValues($class)
     {
@@ -438,9 +436,9 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
-     * @param object $instance
-     * @return mixed
+     * {@inheritDoc}
+     *
+     * @return object
      */
     public function modelTransform($class, $instance)
     {
@@ -448,12 +446,12 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
-     * @param array $array
+     * {@inheritDoc}
      *
-     * @return mixed|void
+     * @return object
      *
-     * @throws NoSuchPropertyException
+     * @throws NoSuchPropertyException if the class has no magic setter and
+     *      public property for a field in array.
      */
     public function modelReverseTransform($class, array $array = array())
     {
@@ -476,6 +474,7 @@ class ModelManager implements ModelManagerInterface
                 $property = $name;
             }
 
+            // TODO: use PropertyAccess https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/issues/187
             $setter = 'set' . $this->camelize($name);
 
             if ($reflClass->hasMethod($setter)) {
@@ -502,10 +501,15 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * method taken from PropertyPath
+     * Method taken from PropertyPath.
      *
-     * @param  $property
-     * @return mixed
+     * TODO: remove when doing https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/issues/187
+     *
+     * @param string $property
+     *
+     * @return string
+     *
+     * @deprecated
      */
     protected function camelize($property)
     {
@@ -513,8 +517,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * {@inheritDoc}
      */
     public function getModelCollectionInstance($class)
     {
@@ -522,8 +525,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param mixed $collection
-     * @return mixed
+     * {@inheritDoc}
      */
     public function collectionClear(&$collection)
     {
@@ -531,9 +533,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param mixed $collection
-     * @param mixed $element
-     * @return mixed
+     * {@inheritDoc}
      */
     public function collectionHasElement(&$collection, &$element)
     {
@@ -541,9 +541,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param mixed $collection
-     * @param mixed $element
-     * @return mixed
+     * {@inheritDoc}
      */
     public function collectionAddElement(&$collection, &$element)
     {
@@ -551,9 +549,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param mixed $collection
-     * @param mixed $element
-     * @return mixed
+     * {@inheritDoc}
      */
     public function collectionRemoveElement(&$collection, &$element)
     {
@@ -561,11 +557,9 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param \Sonata\AdminBundle\Datagrid\DatagridInterface $datagrid
-     * @param array $fields
-     * @param null $firstResult
-     * @param null $maxResult
-     * @return null
+     * {@inheritDoc}
+     *
+     * @return null Not really implemented.
      */
     public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null)
     {
@@ -573,11 +567,12 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * @param string $class
-     * @return null
+     * {@inheritDoc}
+     *
+     * Not really implemented.
      */
     public function getExportFields($class)
     {
-        return null;
+        return array();
     }
 }

@@ -12,7 +12,6 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Builder;
 
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Builder\ListBuilderInterface;
@@ -22,30 +21,36 @@ use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 
 class ListBuilder implements ListBuilderInterface
 {
+    /**
+     * @var TypeGuesserInterface
+     */
     protected $guesser;
 
-    protected $templates = array();
+    /**
+     * @var array
+     */
+    protected $templates;
 
     /**
-     * @param \Sonata\AdminBundle\Guesser\TypeGuesserInterface $guesser
+     * @param TypeGuesserInterface $guesser
      * @param array $templates
      */
-    public function __construct(TypeGuesserInterface $guesser, $templates = array())
+    public function __construct(TypeGuesserInterface $guesser, array $templates = array())
     {
         $this->guesser = $guesser;
         $this->templates = $templates;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getBaseList(array $options = array())
     {
-        return new FieldDescriptionCollection;
+        return new FieldDescriptionCollection();
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function buildField($type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
@@ -60,14 +65,14 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function addField(FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         $this->buildField($type, $fieldDescription, $admin);
         $admin->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
 
-        return $list->add($fieldDescription);
+        $list->add($fieldDescription);
     }
 
     /**
@@ -85,7 +90,9 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @throws \RuntimeException if the $fielDescription does not have a type.
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
@@ -172,9 +179,9 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
+     * @param FieldDescriptionInterface $fieldDescription
      *
-     * @return \Sonata\AdminBundle\Admin\FieldDescriptionInterface
+     * @return FieldDescriptionInterface
      */
     public function buildActionFieldDescription(FieldDescriptionInterface $fieldDescription)
     {

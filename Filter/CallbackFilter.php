@@ -17,7 +17,10 @@ use Sonata\DoctrinePHPCRAdminBundle\Filter\Filter as BaseFilter;
 class CallbackFilter extends BaseFilter
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @throws \InvalidArgumentException if the filter is not configured with a
+     *                                   callable in the 'callback' option field.
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
@@ -29,7 +32,7 @@ class CallbackFilter extends BaseFilter
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getDefaultOptions()
     {
@@ -42,7 +45,7 @@ class CallbackFilter extends BaseFilter
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getRenderSettings()
     {

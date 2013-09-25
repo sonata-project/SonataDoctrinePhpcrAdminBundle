@@ -8,5 +8,4 @@
         <default key="_controller">SonataDoctrinePHPCRAdminBundle:Tree:index</default>
     </route>
 
-
 </routes>

@@ -20,14 +20,15 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 
-use Sonata\DoctrinePHPCRAdminBundle\Admin\FieldDescription;
-
 class FormContractor implements FormContractorInterface
 {
+    /**
+     * @var FormFactoryInterface
+     */
     protected $formFactory;
 
     /**
-     * @param \Symfony\Component\Form\FormFactoryInterface $formFactory
+     * @param FormFactoryInterface $formFactory
      */
     public function __construct(FormFactoryInterface $formFactory)
     {
@@ -37,9 +38,9 @@ class FormContractor implements FormContractorInterface
     /**
      * The method defines the correct default settings for the provided FieldDescription
      *
-     * @param \Sonata\AdminBundle\Admin\AdminInterface $admin
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
-     * @return void
+     * {@inheritDoc}
+     *
+     * @throws \RuntimeException if the $fieldDescription does not specify a type.
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
@@ -80,7 +81,7 @@ class FormContractor implements FormContractorInterface
     }
 
     /**
-     * @return \Symfony\Component\Form\FormFactoryInterface
+     * @return FormFactoryInterface
      */
     public function getFormFactory()
     {
@@ -88,9 +89,7 @@ class FormContractor implements FormContractorInterface
     }
 
     /**
-     * @param string $name
-     * @param array $options
-     * @return \Symfony\Component\Form\FormBuilder
+     * {@inheritDoc}
      */
     public function getFormBuilder($name, array $options = array())
     {
@@ -98,9 +97,10 @@ class FormContractor implements FormContractorInterface
     }
 
     /**
-     * @param $type
-     * @param \Sonata\AdminBundle\Admin\FieldDescriptionInterface $fieldDescription
-     * @return array
+     * {@inheritDoc}
+     *
+     * @throws \LogicException if a sonata_type_model field does not have a
+     *                         target model configured.
      */
     public function getDefaultOptions($type, FieldDescriptionInterface $fieldDescription)
     {
@@ -150,6 +150,7 @@ class FormContractor implements FormContractorInterface
 
     /**
      * @param FieldDescriptionInterface $fieldDescription
+     *
      * @return \LogicException
      */
     protected function getAssociationAdminException(FieldDescriptionInterface $fieldDescription)

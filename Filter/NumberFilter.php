@@ -12,21 +12,20 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Doctrine\ODM\PHPCR\Query\ExpressionBuilder;
+use Doctrine\ODM\PHPCR\Query\Expression\Comparison;
 use Sonata\AdminBundle\Form\Type\Filter\NumberType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 class NumberFilter extends Filter
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
         if (!$data || !is_array($data) || !array_key_exists('value', $data) || !is_numeric($data['value'])) {
             return;
         }
-
-        $queryBuilder = $proxyQuery->getQueryBuilder();
 
         $type = isset($data['type']) ? $data['type'] : false;
         $where = $this->getWhere($proxyQuery);
@@ -56,7 +55,7 @@ class NumberFilter extends Filter
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getDefaultOptions()
     {
@@ -64,7 +63,7 @@ class NumberFilter extends Filter
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getRenderSettings()
     {

@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of the symfony package.
- * (c) Fabien Potencier <fabien.potencier@symfony-project.com>
- * (c) Jonathan H. Wage <jonwage@gmail.com>
+ * This file is part of the Sonata package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,18 +16,26 @@ use Doctrine\ODM\PHPCR\Query\Query as PHPCRQuery;
 
 class SimplePager extends Pager
 {
-    /** @var  bool $haveToPaginate */
+    /**
+     * @var  boolean
+     */
     protected $haveToPaginate;
 
-    /** @var int $threshold */
+    /**
+     * How many pages to look forward to create links to next pages.
+     *
+     * @var int
+     */
     protected $threshold;
 
-    /** @var  int $thresholdCount */
+    /**
+     * @var int
+     */
     protected $thresholdCount;
 
     /**
-     * The threshold parameter can be used to determine how far ahead
-     * the pager should fetch results.
+     * The threshold parameter can be used to determine how far ahead the pager
+     * should fetch results.
      *
      * If set to 1 which is the minimal value the pager will generate a link to the next page
      * If set to 2 the pager will generate links to the next two pages
@@ -44,8 +52,9 @@ class SimplePager extends Pager
     }
 
     /**
-     * Returns the exact count when there is only one page or
-     * when the current equals the last page.
+     * Returns the exact count when there is only one page or when the current
+     * equals the last page.
+     *
      * In all other cases an estimate of the total count is returned.
      *
      * @return integer
@@ -63,6 +72,7 @@ class SimplePager extends Pager
      * Get all the results for the pager instance
      *
      * @param mixed $hydrationMode A hydration mode identifier
+     *
      * @return array
      */
     public function getResults($hydrationMode = null)
@@ -82,15 +92,16 @@ class SimplePager extends Pager
     }
 
     /**
-     * Returns true if the current query requires pagination.
-     *
-     * @return boolean
+     * {@inheritDoc}
      */
     public function haveToPaginate()
     {
         return $this->haveToPaginate || $this->getPage() > 1;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function resetIterator()
     {
         parent::resetIterator();
@@ -98,10 +109,8 @@ class SimplePager extends Pager
     }
 
     /**
-     * Initializes the pager setting the offset and maxResults in ProxyQuery
-     * and obtaining the total number of pages.
+     * {@inheritDoc}
      *
-     * @return void
      * @throws \RuntimeException the QueryBuilder is uninitialized.
      */
     public function init()
@@ -131,6 +140,8 @@ class SimplePager extends Pager
     }
 
     /**
+     * Set how many pages to look forward to create links to next pages.
+     *
      * @param int $threshold
      */
     public function setThreshold($threshold)

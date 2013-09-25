@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of the Sonata package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ */
+
 namespace Sonata\DoctrinePHPCRAdminBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -9,6 +19,9 @@ use Symfony\Component\Form\FormView;
 
 class TreeManagerType extends AbstractType
 {
+    /**
+     * {@inheritDoc}
+     */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['root'] = $options['root'];
@@ -18,7 +31,7 @@ class TreeManagerType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -33,6 +46,9 @@ class TreeManagerType extends AbstractType
         ));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getName()
     {
         return 'doctrine_phpcr_odm_tree_manager';
