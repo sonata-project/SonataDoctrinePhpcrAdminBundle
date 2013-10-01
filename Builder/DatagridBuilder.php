@@ -91,8 +91,8 @@ class DatagridBuilder implements DatagridBuilderInterface
             $metadata = $admin->getModelManager()->getMetadata($admin->getClass());
 
             // set the default field mapping
-            if (isset($metadata->fieldMappings[$fieldDescription->getName()])) {
-                $fieldDescription->setFieldMapping($metadata->fieldMappings[$fieldDescription->getName()]);
+            if (isset($metadata->mappings[$fieldDescription->getName()])) {
+                $fieldDescription->setFieldMapping($metadata->mappings[$fieldDescription->getName()]);
             }
 
             // set the default association mapping
