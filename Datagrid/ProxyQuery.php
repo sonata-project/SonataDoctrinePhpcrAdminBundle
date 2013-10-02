@@ -35,6 +35,13 @@ class ProxyQuery implements ProxyQueryInterface
     protected $alias;
 
     /**
+     * The root path
+     *
+     * @var null|string
+     */
+    protected $root;
+
+    /**
      * Property that determines the Ordering of the results
      *
      * @var string
@@ -68,10 +75,11 @@ class ProxyQuery implements ProxyQueryInterface
      * @param QueryBuilder $queryBuilder
      * @param string       $alias        Short name to use instead of the FQN
      *                                   of the document.
+     * @param string $root  root path to restrict what documents to find.
      *
      * @throws \InvalidArgumentException if alias is not a string or an empty string
      */
-    public function __construct(QueryBuilder $queryBuilder, $alias = 'a')
+    public function __construct(QueryBuilder $queryBuilder, $alias = 'a', $root = null)
     {
         if (!is_string($alias) || '' === $alias) {
             throw new \InvalidArgumentException('$alias must be a non empty string');
@@ -79,6 +87,7 @@ class ProxyQuery implements ProxyQueryInterface
 
         $this->qb = $queryBuilder;
         $this->alias = $alias;
+        $this->root = $root;
     }
 
     /**
@@ -105,6 +114,10 @@ class ProxyQuery implements ProxyQueryInterface
                 default:
                     throw new \Exception('Unsupported sort order direction: '.$this->sortOrder);
             }
+        }
+
+        if ($this->root) {
+            $this->qb->andWhere()->descendant($this->root, $this->alias);
         }
 
         return $this->qb->getQuery()->execute();
