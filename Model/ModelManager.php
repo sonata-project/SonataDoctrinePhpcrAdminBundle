@@ -221,11 +221,8 @@ class ModelManager implements ModelManagerInterface
 
         $qb = $this->getDocumentManager()->createQueryBuilder();
         $qb->from()->document($class, $alias);
-        if ($root) {
-            $qb->where()->descendant($root, $alias);
-        }
 
-        return new ProxyQuery($qb, $alias);
+        return new ProxyQuery($qb, $alias, $root);
     }
 
     /**
