@@ -316,20 +316,16 @@ class ModelManager implements ModelManagerInterface
      */
     public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx)
     {
+        /** @var $queryProxy ProxyQuery */
         $qb = $queryProxy->getQueryBuilder();
 
-        $constraint = null;
+        $orX = $qb->andWhere()->orX();
 
         foreach ($idx as $id) {
             $path = $this->getBackendId($id);
-            $condition = $qb->expr()->eqPath($path);
-            if ($constraint) {
-                $constraint = $qb->expr()->orx($constraint, $condition);
-            } else {
-                $constraint = $condition;
-            }
+            // this selector depends on the default in self::createQuery not being changed
+            $orX->same($path, 'a');
         }
-        $qb->andWhere($constraint);
     }
 
     /**
