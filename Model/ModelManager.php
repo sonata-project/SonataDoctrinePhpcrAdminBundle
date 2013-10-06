@@ -206,23 +206,18 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param string $class the fully qualified class name to search for
      * @param string $alias alias to use for this class when accessing fields,
-     *                      defaults to 'a'.
-     * @param string $root  root path to restrict what documents to find.
+     *                      defaults to 'o'.
      *
      * @return ProxyQueryInterface
      *
      * @throws \InvalidArgumentException if alias is not a string or an empty string
      */
-    public function createQuery($class, $alias = 'a', $root = null)
+    public function createQuery($class, $alias = 'o')
     {
-        if (!is_string($alias) || '' === $alias) {
-            throw new \InvalidArgumentException('$alias must be a non empty string');
-        }
-
         $qb = $this->getDocumentManager()->createQueryBuilder();
         $qb->from()->document($class, $alias);
 
-        return new ProxyQuery($qb, $alias, $root);
+        return new ProxyQuery($qb, $alias);
     }
 
     /**

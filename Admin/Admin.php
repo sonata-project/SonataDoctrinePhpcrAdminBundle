@@ -59,7 +59,8 @@ class Admin extends BaseAdmin
      */
     public function createQuery($context = 'list')
     {
-        $query = $this->getModelManager()->createQuery($this->getClass(), 'a', $this->getRootPath());
+        $query = $this->getModelManager()->createQuery($this->getClass(), 'a');
+        $query->setRootPath($this->getRootPath());
 
         foreach ($this->extensions as $extension) {
             $extension->configureQuery($this, $query, $context);

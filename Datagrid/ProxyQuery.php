@@ -75,11 +75,9 @@ class ProxyQuery implements ProxyQueryInterface
      * @param QueryBuilder $queryBuilder
      * @param string       $alias        Short name to use instead of the FQN
      *                                   of the document.
-     * @param string $root  root path to restrict what documents to find.
-     *
      * @throws \InvalidArgumentException if alias is not a string or an empty string
      */
-    public function __construct(QueryBuilder $queryBuilder, $alias = 'a', $root = null)
+    public function __construct(QueryBuilder $queryBuilder, $alias = 'a')
     {
         if (!is_string($alias) || '' === $alias) {
             throw new \InvalidArgumentException('$alias must be a non empty string');
@@ -87,6 +85,13 @@ class ProxyQuery implements ProxyQueryInterface
 
         $this->qb = $queryBuilder;
         $this->alias = $alias;
+    }
+
+    /**
+     * @param string $root  root path to restrict what documents to find.
+     */
+    public function setRootPath($root)
+    {
         $this->root = $root;
     }
 
@@ -273,16 +278,6 @@ class ProxyQuery implements ProxyQueryInterface
     public function getDocumentManager()
     {
         return $this->documentManager;
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function getNodeType()
-    {
-        throw new \Exception('Used by what??');
-        $classMD = $this->documentManager->getClassMetadata($this->documentName);
-        return $classMD->nodeType;
     }
 
     public function getUniqueParameterId()
