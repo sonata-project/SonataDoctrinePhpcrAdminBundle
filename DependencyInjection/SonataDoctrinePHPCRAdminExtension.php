@@ -168,4 +168,8 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
         return $documentClasses;
     }
 
+    public function getNamespace()
+    {
+        return 'http://sonata-project.org/schema/dic/doctrine_phpcr_admin';
+    }
 }

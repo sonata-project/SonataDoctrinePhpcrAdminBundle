@@ -35,10 +35,13 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('sonata_doctrine_phpcr_admin', 'array');
 
         $rootNode
+            ->fixXmlConfig('document_tree_default')
+            ->fixXmlConfig('template')
             ->children()
                 ->arrayNode('document_tree_defaults')
                     ->prototype('scalar')->end()
                 ->end()
+
                 ->arrayNode('templates')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -64,6 +67,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('document_tree')
                     ->useAttributeAsKey('class')
                     ->prototype('array')
+                        ->fixXmlConfig('valid_child', 'valid_children')
                         ->children()
                             ->arrayNode('valid_children')
                                 ->prototype('scalar')->end()
