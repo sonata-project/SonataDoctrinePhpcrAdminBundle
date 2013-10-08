@@ -29,21 +29,21 @@ class NodeNameFilterTest extends BaseTestCase
 
     public function testFilterNullData()
     {
-        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', null);
+        $res = $this->filter->filter($this->proxyQuery, 'a', 'somefield', null);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayData()
     {
-        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', array());
+        $res = $this->filter->filter($this->proxyQuery, 'a', 'somefield', array());
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataSpecifiedType()
     {
-        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => ChoiceType::TYPE_EQUAL));
+        $res = $this->filter->filter($this->proxyQuery, 'a', 'somefield', array('type' => ChoiceType::TYPE_EQUAL));
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
@@ -53,7 +53,7 @@ class NodeNameFilterTest extends BaseTestCase
         $this->proxyQuery->expects($this->never())
             ->method('andWhere');
 
-        $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => ChoiceType::TYPE_EQUAL, 'value' => ' '));
+        $this->filter->filter($this->proxyQuery, 'a', 'somefield', array('type' => ChoiceType::TYPE_EQUAL, 'value' => ' '));
         $this->assertFalse($this->filter->isActive());
     }
 
@@ -78,7 +78,7 @@ class NodeNameFilterTest extends BaseTestCase
 
         $this->filter->filter(
             $this->proxyQuery,
-            null,
+            'a',
             'somefield',
             array('type' => $choiceType, 'value' => 'somevalue')
         );

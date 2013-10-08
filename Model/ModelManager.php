@@ -206,13 +206,13 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param string $class the fully qualified class name to search for
      * @param string $alias alias to use for this class when accessing fields,
-     *                      defaults to 'o'.
+     *                      defaults to 'a'.
      *
      * @return ProxyQueryInterface
      *
      * @throws \InvalidArgumentException if alias is not a string or an empty string
      */
-    public function createQuery($class, $alias = 'o')
+    public function createQuery($class, $alias = 'a')
     {
         $qb = $this->getDocumentManager()->createQueryBuilder();
         $qb->from()->document($class, $alias);
@@ -318,8 +318,7 @@ class ModelManager implements ModelManagerInterface
 
         foreach ($idx as $id) {
             $path = $this->getBackendId($id);
-            // this selector depends on the default in self::createQuery not being changed
-            $orX->same($path, 'a');
+            $orX->same($path, $queryProxy->getAlias());
         }
     }
 
