@@ -77,7 +77,7 @@ class ProxyQuery implements ProxyQueryInterface
      *                                   of the document.
      * @throws \InvalidArgumentException if alias is not a string or an empty string
      */
-    public function __construct(QueryBuilder $queryBuilder, $alias = 'a')
+    public function __construct(QueryBuilder $queryBuilder, $alias)
     {
         if (!is_string($alias) || '' === $alias) {
             throw new \InvalidArgumentException('$alias must be a non empty string');
@@ -85,6 +85,14 @@ class ProxyQuery implements ProxyQueryInterface
 
         $this->qb = $queryBuilder;
         $this->alias = $alias;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAlias()
+    {
+        return $this->alias;
     }
 
     /**

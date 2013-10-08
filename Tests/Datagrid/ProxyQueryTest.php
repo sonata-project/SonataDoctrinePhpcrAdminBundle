@@ -35,7 +35,7 @@ class ProxyQueryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->pq = new ProxyQuery($this->qb);
+        $this->pq = new ProxyQuery($this->qb, 'a');
     }
 
     public function testConstructor()

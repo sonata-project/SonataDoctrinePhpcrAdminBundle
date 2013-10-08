@@ -28,7 +28,7 @@ abstract class Filter extends BaseFilter
     public function apply($queryBuilder, $value)
     {
         $this->value = $value;
-        $this->filter($queryBuilder, null, $this->getFieldName(), $value);
+        $this->filter($queryBuilder, $queryBuilder->getAlias(), $this->getFieldName(), $value);
     }
 
     /**
@@ -41,9 +41,9 @@ abstract class Filter extends BaseFilter
         $queryBuilder = $proxy->getQueryBuilder();
         if ($this->getCondition() == self::CONDITION_OR) {
             return $queryBuilder->orWhere();
-        } else {
-            return $queryBuilder->andWhere();
         }
+
+        return $queryBuilder->andWhere();
     }
 
     /**
