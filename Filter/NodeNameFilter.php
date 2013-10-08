@@ -36,11 +36,11 @@ class NodeNameFilter extends Filter
 
         switch ($data['type']) {
             case ChoiceType::TYPE_EQUAL:
-                $where->eq()->localName('a')->literal($data['value']);
+                $where->eq()->localName($alias)->literal($data['value']);
                 break;
             case ChoiceType::TYPE_CONTAINS:
             default:
-                $where->like()->localName('a')->literal('%'.$data['value'].'%');
+                $where->like()->localName($alias)->literal('%'.$data['value'].'%');
         }
 
         // filter is active as we have now modified the query
