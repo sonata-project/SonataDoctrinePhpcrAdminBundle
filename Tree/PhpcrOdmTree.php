@@ -154,7 +154,16 @@ class PhpcrOdmTree implements TreeInterface
         $this->dm->move($document, $resultingPath);
         $this->dm->flush();
 
-        return $resultingPath;
+        $admin = $this->getAdmin($document);
+        if (null !== $admin) {
+            $id = $admin->getNormalizedIdentifier($document);
+            $urlSafeId = $admin->getUrlsafeIdentifier($document);
+        } else {
+            $id = $this->defaultModelManager->getNormalizedIdentifier($document);
+            $urlSafeId = $this->defaultModelManager->getUrlsafeIdentifier($document);
+        }
+
+        return array('id' => $id, 'url_safe_id' => $urlSafeId);
     }
 
     /**
