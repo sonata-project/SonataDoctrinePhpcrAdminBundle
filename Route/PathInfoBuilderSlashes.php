@@ -27,7 +27,7 @@ class PathInfoBuilderSlashes implements RouteBuilderInterface
 
         $collection->add('list');
         $collection->add('create');
-        $collection->add('batch');
+        $collection->add('batch', null, array(), array('_method' => 'POST'));
         $collection->add('edit', $admin->getRouterIdParameter().'/edit', array(), array('id' => '.+'));
         $collection->add('delete', $admin->getRouterIdParameter().'/delete', array(), array('id' => '.+'));
         $collection->add('export');
