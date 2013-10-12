@@ -149,19 +149,19 @@ class ListBuilder implements ListBuilderInterface
             $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
 
             if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {
-                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_orm_many_to_one.html.twig');
+                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_phpcr_many_to_one.html.twig');
             }
 
             if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_MANY) {
-                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_orm_many_to_many.html.twig');
+                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_phpcr_many_to_many.html.twig');
             }
 
             if ($fieldDescription->getMappingType() == 'child' || $fieldDescription->getMappingType() == 'parent') {
-                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_orm_one_to_one.html.twig');
+                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_phpcr_one_to_one.html.twig');
             }
 
             if ($fieldDescription->getMappingType() == 'children' || $fieldDescription->getMappingType() == 'referrers') {
-                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_orm_one_to_many.html.twig');
+                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_phpcr_one_to_many.html.twig');
             }
         }
 
