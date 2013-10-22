@@ -13,7 +13,7 @@ namespace Sonata\DoctrinePHPCRAdminBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Sonata\AdminBundle\DependencyInjection\AbstractSonataAdminExtension;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Definition\Processor;
@@ -25,7 +25,7 @@ use Symfony\Component\Config\Definition\Processor;
  * @author      Michael Williams <michael.williams@funsational.com>
  * @author      Nacho Martín <nitram.ohcan@gmail.com>
  */
-class SonataDoctrinePHPCRAdminExtension extends Extension
+class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
 {
     /**
      * @param array            $configs   An array of configuration settings
@@ -37,37 +37,13 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
             'templates' => array(
                 'types' => array(
                     'list' => array(
-                        'array'        => 'SonataAdminBundle:CRUD:list_array.html.twig',
-                        'boolean'      => 'SonataAdminBundle:CRUD:list_boolean.html.twig',
-                        'date'         => 'SonataAdminBundle:CRUD:list_date.html.twig',
-                        'datetime'     => 'SonataAdminBundle:CRUD:list_datetime.html.twig',
-                        'text'         => 'SonataAdminBundle:CRUD:base_list_field.html.twig',
-                        'string'       => 'SonataAdminBundle:CRUD:base_list_field.html.twig',
-                        'smallint'     => 'SonataAdminBundle:CRUD:base_list_field.html.twig',
-                        'bigint'       => 'SonataAdminBundle:CRUD:base_list_field.html.twig',
-                        'integer'      => 'SonataAdminBundle:CRUD:base_list_field.html.twig',
-                        'decimal'      => 'SonataAdminBundle:CRUD:base_list_field.html.twig',
-                        'identifier'   => 'SonataAdminBundle:CRUD:base_list_field.html.twig',
                         'node'         => 'SonataDoctrinePHPCRAdminBundle:CRUD:list_node.html.twig'
                     )
                 )
             )
         );
 
-        // let's add some magic, only overwrite template if the SonataIntlBundle is enabled
-        $bundles = $container->getParameter('kernel.bundles');
-        if (isset($bundles['SonataIntlBundle'])) {
-            $defaultConfig['templates']['types']['list'] = array_merge($defaultConfig['templates']['types']['list'], array(
-                'date'         => 'SonataIntlBundle:CRUD:list_date.html.twig',
-                'datetime'     => 'SonataIntlBundle:CRUD:list_datetime.html.twig',
-                'smallint'     => 'SonataIntlBundle:CRUD:list_decimal.html.twig',
-                'bigint'       => 'SonataIntlBundle:CRUD:list_decimal.html.twig',
-                'integer'      => 'SonataIntlBundle:CRUD:list_decimal.html.twig',
-                'decimal'      => 'SonataIntlBundle:CRUD:list_decimal.html.twig',
-            ));
-        }
-
-        array_unshift($configs, $defaultConfig);
+        $configs = $this->fixTemplatesConfiguration($configs, $container, $defaultConfig);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('doctrine_phpcr.xml');
@@ -95,7 +71,7 @@ class SonataDoctrinePHPCRAdminExtension extends Extension
     /**
      * Set the tree type mapping configuration in the services
      *
-     * @param array $config
+     * @param array            $config
      * @param ContainerBuilder $container
      */
     private function loadTreeTypes($config, ContainerBuilder $container)
