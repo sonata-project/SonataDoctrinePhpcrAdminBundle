@@ -189,14 +189,14 @@ file that was distributed with this source code.
 
 {% block choice_field_mask_widget %}
     {{ block('choice_widget') }}
-    {% set main_form_name = form.parent.vars.name %}
+    {% set main_form_name = id|slice(0, id|length - name|length) %}
 
     <script type="text/javascript">
         $(document).ready(function() {
             var allFields = {{ all_fields|json_encode|raw }};
             var map = {{ map|json_encode|raw }};
 
-            showMaskChoiceEl = $('#{{ main_form_name }}_{{ name }}');
+            showMaskChoiceEl = $('#{{ main_form_name }}{{ name }}');
             showMaskChoiceEl.on('change', function () {
                 choice_field_mask_show($(this).val());
             });
@@ -204,7 +204,7 @@ file that was distributed with this source code.
             function choice_field_mask_show(val)
             {
                 var controlGroupIdFunc = function (field) {
-                    return '#sonata-ba-field-container-{{ main_form_name }}_' + field;
+                    return '#sonata-ba-field-container-{{ main_form_name }}' + field;
                 };
 
                 if (map[val] == undefined) {
