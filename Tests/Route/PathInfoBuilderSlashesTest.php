@@ -41,4 +41,23 @@ class PathInfoBuilderSlashesTest extends \PHPUnit_Framework_TestCase
         $builder = new PathInfoBuilderSlashes();
         $builder->build($admin, $collection);
     }
+    
+    function testBuildWithAcl()
+    {
+        $admin = $this->getMockBuilder('Sonata\\AdminBundle\\Admin\\Admin')->disableOriginalConstructor()->getMock();
+        $admin->expects($this->once())
+            ->method('getChildren')
+            ->will($this->returnValue(array()));
+        $admin->expects($this->once())
+            ->method('isAclEnabled')
+            ->will($this->returnValue(true));
+
+        $collection = $this->getMock('Sonata\\AdminBundle\\Route\\RouteCollection', array(), array(), '', false);
+        $collection->expects($this->exactly(8))
+            ->method('add')
+            ->with($this->anything());
+
+        $builder = new PathInfoBuilderSlashes();
+        $builder->build($admin, $collection);
+    }
 }
