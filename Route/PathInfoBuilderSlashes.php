@@ -34,6 +34,10 @@ class PathInfoBuilderSlashes implements RouteBuilderInterface
         $collection->add('export');
         $collection->add('show', $admin->getRouterIdParameter().'/show', array(), array('id' => '.+', '_method' => 'GET'));
 
+        if ($admin->isAclEnabled()) {
+            $collection->add('acl', $admin->getRouterIdParameter().'/acl', array(), array('id' => '.+'));
+        }
+
         // add children urls
         foreach ($admin->getChildren() as $children) {
             $collection->addCollection($children->getRoutes());
