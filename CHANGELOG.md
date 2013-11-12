@@ -1,6 +1,18 @@
 Changelog
 =========
 
+1.0.1
+-----
+
+2013-11-12
+----------
+
+ - Added support for the Sonata ACL editor, if that is enabled in the configuration.
+   http://www.sonata-project.org/bundles/admin/master/doc/reference/security.html#acl-editor
+
+1.0.0
+-----
+
 2013-09-24
 ----------
 
