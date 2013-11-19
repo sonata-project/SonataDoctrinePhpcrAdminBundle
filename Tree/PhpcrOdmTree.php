@@ -126,13 +126,7 @@ class PhpcrOdmTree implements TreeInterface
                 }
                 $manager = $this->getModelManager($document);
 
-                $child = $this->documentToArray($manager, $document);
-
-                foreach ($this->getDocumentChildren($manager, $document) as $grandchild) {
-                    $child['children'][] = $this->documentToArray($manager, $grandchild);
-                }
-
-                $children[] = $child;
+                $children[] = $this->documentToArray($manager, $document);
             }
         }
 
