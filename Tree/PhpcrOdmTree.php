@@ -78,6 +78,12 @@ class PhpcrOdmTree implements TreeInterface
     private $validClasses;
 
     /**
+     * Depth to which grand children should be fetched, currently the maximum depth is one
+     * @var integer
+     */
+    private $depth;
+
+    /**
      * @param DocumentManager $dm
      * @param ModelManager $defaultModelManager to use with documents that have no manager
      * @param Pool $pool to get admin classes for documents from
@@ -85,6 +91,8 @@ class PhpcrOdmTree implements TreeInterface
      * @param CoreAssetsHelper $assetHelper
      * @param array $validClasses list of the valid class names that may be
      *      used as tree "ref" fields
+     * $param integer $depth depth to which grand children should be fetched,
+     *      currently the maximum depth is one
      */
     public function __construct(
         DocumentManager $dm,
@@ -92,15 +100,16 @@ class PhpcrOdmTree implements TreeInterface
         Pool $pool,
         TranslatorInterface $translator,
         CoreAssetsHelper $assetHelper,
-        array $validClasses
-    )
-    {
+        array $validClasses,
+        $depth = 1
+    ) {
         $this->dm = $dm;
         $this->defaultModelManager = $defaultModelManager;
         $this->pool = $pool;
         $this->translator = $translator;
         $this->assetHelper = $assetHelper;
         $this->validClasses = $validClasses;
+        $this->depth = $depth;
     }
 
     /**
@@ -128,8 +137,10 @@ class PhpcrOdmTree implements TreeInterface
 
                 $child = $this->documentToArray($manager, $document);
 
-                foreach ($this->getDocumentChildren($manager, $document) as $grandchild) {
-                    $child['children'][] = $this->documentToArray($manager, $grandchild);
+                if ($this->depth > 0) {
+                    foreach ($this->getDocumentChildren($manager, $document) as $grandchild) {
+                        $child['children'][] = $this->documentToArray($manager, $grandchild);
+                    }
                 }
 
                 $children[] = $child;
