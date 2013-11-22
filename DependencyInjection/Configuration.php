@@ -38,6 +38,8 @@ class Configuration implements ConfigurationInterface
             ->fixXmlConfig('document_tree_default')
             ->fixXmlConfig('template')
             ->children()
+                ->integerNode('depth')->defaultValue(1)->end()
+
                 ->arrayNode('document_tree_defaults')
                     ->prototype('scalar')->end()
                 ->end()
