@@ -116,7 +116,7 @@ class Admin extends BaseAdmin
 
         if (method_exists($object, '__toString') && null !== $object->__toString()) {
             $string = (string) $object;
-            return '' === $string ? $string : $this->trans('link_add', array(), 'SonataAdminBundle');
+            return '' !== $string ? $string : $this->trans('link_add', array(), 'SonataAdminBundle');
         }
 
         $dm = $this->getModelManager()->getDocumentManager();
