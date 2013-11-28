@@ -10,6 +10,22 @@
                 <source>reset_tree</source>
                 <target>Ponastavitev</target>
             </trans-unit>
+            <trans-unit id="tree_create_item">
+                <source>create_item</source>
+                <target>Ustvari</target>
+            </trans-unit>
+            <trans-unit id="tree_delete_item">
+                <source>delete_item</source>
+                <target>Izbriši</target>
+            </trans-unit>
+            <trans-unit id="confirm_move_node">
+                <source>confirm_move_node</source>
+                <target>Ste prepričani, da premaknem to vozlišče?</target>
+            </trans-unit>
+            <trans-unit id="list_results_count_prefix">
+                <source>list_results_count_prefix</source>
+                <target>vsaj</target>
+            </trans-unit>
         </body>
      </file>
 </xliff>
