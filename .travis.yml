@@ -11,6 +11,7 @@ env:
   - SYMFONY_VERSION=dev-master
 
 before_script:
+  - echo 'memory_limit = -1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer require symfony/framework-bundle:${SYMFONY_VERSION} --dev
 
 script: phpunit  --coverage-text
