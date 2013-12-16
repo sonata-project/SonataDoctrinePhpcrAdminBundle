@@ -70,20 +70,6 @@ class Admin extends BaseAdmin
     }
 
     /**
-     * @param string $name
-     * @param mixed $object
-     * @param array $parameters
-     * @param boolean $absolute
-     *
-     * @return string
-     */
-    public function generateObjectUrl($name, $object, array $parameters = array(), $absolute = false)
-    {
-        $parameters['id'] = $this->getUrlsafeIdentifier($object);
-        return $this->generateUrl($name, $parameters, $absolute);
-    }
-
-    /**
      * @param object $object
      *
      * @return string
