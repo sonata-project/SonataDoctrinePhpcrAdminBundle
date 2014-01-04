@@ -213,7 +213,7 @@ class PhpcrOdmTree implements TreeInterface
         }
 
         // TODO: ideally the tree should simply not make the node clickable
-        $label .= $admin ? '' : ' (not editable)';
+        $label .= $admin ? '' : ' '.$this->translator->trans('not_editable', array(), 'SonataDoctrinePHPCRAdmin');
 
         // as long as we filter out invalid documents, we need to pass through this logic as a PHPCR node might have children but only invalid ones.
         // this is quite costly, using the PHPCR node would be a lot more efficient
