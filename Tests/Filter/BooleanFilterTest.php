@@ -11,9 +11,8 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 
-use Sonata\AdminBundle\Form\Type\BooleanType;
+use Sonata\CoreBundle\Form\Type\BooleanType;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\BooleanFilter;
-use Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder;
 
 class BooleanFilterTest extends BaseTestCase
 {
