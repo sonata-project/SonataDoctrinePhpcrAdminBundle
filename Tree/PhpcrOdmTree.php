@@ -48,7 +48,7 @@ class PhpcrOdmTree implements TreeInterface
     /**
      * @var DocumentManager
      */
-    private $dm;
+    protected $dm;
 
     /**
      * @var Pool
@@ -185,7 +185,7 @@ class PhpcrOdmTree implements TreeInterface
      *
      * @return array
      */
-    private function documentToArray(ModelManager $manager, $document)
+    protected function documentToArray(ModelManager $manager, $document)
     {
         $className = ClassUtils::getClass($document);
 
@@ -436,7 +436,7 @@ class PhpcrOdmTree implements TreeInterface
      *
      * @return ModelManager the modelmanager for $document or the default manager
      */
-    private function getModelManager($document)
+    protected function getModelManager($document)
     {
         $admin = $this->getAdmin($document);
 
