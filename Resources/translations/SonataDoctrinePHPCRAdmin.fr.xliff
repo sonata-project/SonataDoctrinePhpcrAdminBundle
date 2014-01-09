@@ -1,34 +1,34 @@
 <?xml version="1.0"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-    <file source-language="en" datatype="plaintext" original="" >
+    <file source-language="fr" datatype="plaintext" original="" >
         <body>
             <trans-unit id="content_tree">
                 <source>content_tree</source>
-                <target>Content</target>
+                <target>Arborescence de contenu</target>
             </trans-unit>
             <trans-unit id="reset_tree">
                 <source>reset_tree</source>
-                <target>Reset</target>
+                <target>Réinitialiser l'arbre</target>
             </trans-unit>
             <trans-unit id="tree_create_item">
                 <source>create_item</source>
-                <target>Create</target>
+                <target>Créer</target>
             </trans-unit>
             <trans-unit id="tree_delete_item">
                 <source>delete_item</source>
-                <target>Delete</target>
+                <target>Supprimer</target>
             </trans-unit>
             <trans-unit id="confirm_move_node">
                 <source>confirm_move_node</source>
-                <target>Really move that node?</target>
+                <target>Confirmer le déplacement?</target>
             </trans-unit>
             <trans-unit id="list_results_count_prefix">
                 <source>list_results_count_prefix</source>
-                <target>at least</target>
+                <target>au moins</target>
             </trans-unit>
             <trans-unit id="tree_not_editable">
                 <source>not_editable</source>
-                <target>(not editable)</target>
+                <target>(Non éditable)</target>
             </trans-unit>
         </body>
      </file>
