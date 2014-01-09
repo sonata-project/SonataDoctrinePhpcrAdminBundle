@@ -208,8 +208,8 @@ class PhpcrOdmTree implements TreeInterface
         }
 
         // TODO: this is really the responsibility of the UI
-        if (strlen($label) > 18) {
-            $label = substr($label, 0, 17) . '...';
+        if (mb_strlen($label, 'utf-8') > 18) {
+            $label = mb_substr($label, 0, 17, 'utf-8') . '...';
         }
 
         // TODO: ideally the tree should simply not make the node clickable
