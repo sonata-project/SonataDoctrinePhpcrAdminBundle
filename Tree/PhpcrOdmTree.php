@@ -207,9 +207,15 @@ class PhpcrOdmTree implements TreeInterface
             $label = PathHelper::getNodeName($label);
         }
 
-        // TODO: this is really the responsibility of the UI
-        if (strlen($label) > 18) {
-            $label = substr($label, 0, 17) . '...';
+        // this is removed in 1.1 but for 1.0 we at least need not fail on multibyte
+        if (method_exists('mb_strlen')) {
+            if (mb_strlen($label, 'utf-8') > 18) {
+                $label = mb_substr($label, 0, 17, 'utf-8') . '...';
+            } else {
+                if (strlen($label) > 18) {
+                    $label = substr($label, 0, 17) . '...';
+                }
+            }
         }
 
         // TODO: ideally the tree should simply not make the node clickable
