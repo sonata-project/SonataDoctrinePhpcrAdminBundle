@@ -208,7 +208,7 @@ class PhpcrOdmTree implements TreeInterface
         }
 
         // this is removed in 1.1 but for 1.0 we at least need not fail on multibyte
-        if (method_exists('mb_strlen')) {
+        if (function_exists('mb_strlen')) {
             if (mb_strlen($label, 'utf-8') > 18) {
                 $label = mb_substr($label, 0, 17, 'utf-8') . '...';
             } else {
