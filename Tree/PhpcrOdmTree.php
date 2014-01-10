@@ -207,17 +207,14 @@ class PhpcrOdmTree implements TreeInterface
             $label = PathHelper::getNodeName($label);
         }
 
-        // TODO: this is really the responsibility of the UI
-        if (strlen($label) > 18) {
-            $label = substr($label, 0, 17) . '...';
-        }
-
         // TODO: ideally the tree should simply not make the node clickable
         $label .= $admin ? '' : ' '.$this->translator->trans('not_editable', array(), 'SonataDoctrinePHPCRAdmin');
 
-        // as long as we filter out invalid documents, we need to pass through this logic as a PHPCR node might have children but only invalid ones.
-        // this is quite costly, using the PHPCR node would be a lot more efficient
-        $hasChildren = (bool)count($this->getDocumentChildren($manager, $document));
+        // as long as we filter out invalid documents, we need to pass through
+        // this logic as a PHPCR node might have children but only invalid ones.
+        // this is quite costly. if we would not have to filter, we could simply
+        // use $manager->getDocumentManager()->getNodeForDocument($document)->hasNodes()
+        $hasChildren = (bool) count($this->getDocumentChildren($manager, $document));
 
         return array(
             'data'  => $label,
