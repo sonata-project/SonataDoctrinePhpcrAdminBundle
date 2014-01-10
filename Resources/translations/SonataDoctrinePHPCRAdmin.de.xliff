@@ -26,6 +26,10 @@
                 <source>list_results_count_prefix</source>
                 <target>mehr als</target>
             </trans-unit>
+            <trans-unit id="tree_not_editable">
+                <source>not_editable</source>
+                <target>(nicht editierbar)</target>
+            </trans-unit>
         </body>
      </file>
 </xliff>
