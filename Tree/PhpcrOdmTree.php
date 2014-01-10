@@ -207,10 +207,8 @@ class PhpcrOdmTree implements TreeInterface
             $label = PathHelper::getNodeName($label);
         }
 
-        // TODO: this is really the responsibility of the UI
-        if (strlen($label) > 18) {
-            $label = substr($label, 0, 17) . '...';
-        }
+        // ensure that we will never return lables which cant be serialised into a JSON respons
+        $label = iconv('UTF-8', 'UTF-8//IGNORE', $label);
 
         // TODO: ideally the tree should simply not make the node clickable
         $label .= $admin ? '' : ' (not editable)';
