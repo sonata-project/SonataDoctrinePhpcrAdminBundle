@@ -54,7 +54,7 @@ Example
             $datagrid
                 ->add('title')
                 ->add('enabled')
-                ->add('tags', null, array(), null, array('expanded' => true, 'multiple' => true)
+                ->add('tags', null, array(), null, array('expanded' => true, 'multiple' => true))
             ;
         }
     }
@@ -109,7 +109,7 @@ You can customize the label which appears on the main widget by using a ``label`
     {
         $datagrid
             // ..
-            ->add('tags', null, array('label' => 'les tags'), null, array('expanded' => true, 'multiple' => true)
+            ->add('tags', null, array('label' => 'les tags'), null, array('expanded' => true, 'multiple' => true))
             // ..
         ;
     }
