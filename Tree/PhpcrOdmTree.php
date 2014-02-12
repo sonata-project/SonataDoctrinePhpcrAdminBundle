@@ -84,6 +84,12 @@ class PhpcrOdmTree implements TreeInterface
     private $depth;
 
     /**
+     * Fetch children lazy - enabling this will allow the tree to fetch a larger amount of  children in the tree but less accurate
+     * @var bool
+     */
+    private $fetchLazy;
+
+    /**
      * @param DocumentManager $dm
      * @param ModelManager $defaultModelManager to use with documents that have no manager
      * @param Pool $pool to get admin classes for documents from
@@ -93,6 +99,8 @@ class PhpcrOdmTree implements TreeInterface
      *      used as tree "ref" fields
      * $param integer $depth depth to which grand children should be fetched,
      *      currently the maximum depth is one
+     * @param int $depth  Depth to which grand children should be fetched, currently the maximum depth is one
+     * @param bool $fetchLazy Fetch children lazy - enabling this will allow the tree to fetch a larger amount of  children in the tree but less accurate
      */
     public function __construct(
         DocumentManager $dm,
@@ -101,7 +109,8 @@ class PhpcrOdmTree implements TreeInterface
         TranslatorInterface $translator,
         CoreAssetsHelper $assetHelper,
         array $validClasses,
-        $depth = 1
+        $depth = 1,
+        $fetchLazy = false
     ) {
         $this->dm = $dm;
         $this->defaultModelManager = $defaultModelManager;
@@ -110,6 +119,7 @@ class PhpcrOdmTree implements TreeInterface
         $this->assetHelper = $assetHelper;
         $this->validClasses = $validClasses;
         $this->depth = $depth;
+        $this->fetchLazy = $fetchLazy;
     }
 
     /**
@@ -210,11 +220,16 @@ class PhpcrOdmTree implements TreeInterface
         // TODO: ideally the tree should simply not make the node clickable
         $label .= $admin ? '' : ' '.$this->translator->trans('not_editable', array(), 'SonataDoctrinePHPCRAdmin');
 
-        // as long as we filter out invalid documents, we need to pass through
-        // this logic as a PHPCR node might have children but only invalid ones.
-        // this is quite costly. if we would not have to filter, we could simply
-        // use $manager->getDocumentManager()->getNodeForDocument($document)->hasNodes()
-        $hasChildren = (bool) count($this->getDocumentChildren($manager, $document));
+        if (!$this->fetchLazy) {
+            //determine if a node has children the accurate way
+            $hasChildren = (bool) count($this->getDocumentChildren($manager, $document));
+        } else {
+            // as long as we filter out invalid documents, we need to pass through
+            // this logic as a PHPCR node might have children but only invalid ones.
+            // this is quite costly. if we would not have to filter, we could simply
+            // use
+            $hasChildren = $manager->getDocumentManager()->getNodeForDocument($document)->hasNodes();
+        }
 
         return array(
             'data'  => $label,
