@@ -24,6 +24,7 @@
             <argument type="service" id="templating.helper.assets" strict="false"/>
             <argument/>
             <argument/>
+            <argument/>
         </service>
 
     </services>

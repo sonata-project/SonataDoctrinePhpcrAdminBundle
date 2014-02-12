@@ -82,6 +82,8 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
             ->replaceArgument(5, $this->processDocumentTreeConfig($config['document_tree']));
         $container->getDefinition('sonata.admin.doctrine_phpcr.phpcr_odm_tree')
             ->replaceArgument(6, $config['depth']);
+        $container->getDefinition('sonata.admin.doctrine_phpcr.phpcr_odm_tree')
+            ->replaceArgument(7, $config['fetch_lazy']);
     }
 
     /**

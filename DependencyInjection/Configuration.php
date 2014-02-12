@@ -40,6 +40,8 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->integerNode('depth')->defaultValue(1)->end()
 
+                ->booleanNode('fetch_lazy')->defaultValue(false)->end()
+
                 ->arrayNode('document_tree_defaults')
                     ->prototype('scalar')->end()
                 ->end()
