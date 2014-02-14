@@ -54,6 +54,7 @@ class TreeController extends Controller
             $this->template = $template;
         }
         $this->defaults = $defaults;
+
         $this->confirmMove = $confirmMove;
     }
 
@@ -72,6 +73,7 @@ class TreeController extends Controller
 
         $root = $request->attributes->get('root');
         $selected = $request->attributes->get('selected') ?: $root;
+
         return $this->render($this->template, array(
             'tree' => $this->tree,
             'root_node' => $root,

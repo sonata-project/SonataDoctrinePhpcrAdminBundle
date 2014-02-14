@@ -87,9 +87,17 @@ class PhpcrOdmTree implements TreeInterface
      * Fetch children lazy - enabling this will allow the tree to fetch a larger amount of  children in the tree but less accurate
      * @var bool
      */
-    private $fetchLazy;
+    private $preciseChildren;
 
     /**
+     * The options are
+     *
+     * - depth: Down to what leve children should be fetched, currently the
+     *      maximum supported depth is one.
+     * - precise_children: To determine if a tree element has children, check if
+     *      the document has valid children. If false, simply check if the node
+     *      has any child nodes. Less accurate but better performance.
+     *
      * @param DocumentManager $dm
      * @param ModelManager $defaultModelManager to use with documents that have no manager
      * @param Pool $pool to get admin classes for documents from
@@ -99,8 +107,7 @@ class PhpcrOdmTree implements TreeInterface
      *      used as tree "ref" fields
      * $param integer $depth depth to which grand children should be fetched,
      *      currently the maximum depth is one
-     * @param int $depth  Depth to which grand children should be fetched, currently the maximum depth is one
-     * @param bool $fetchLazy Fetch children lazy - enabling this will allow the tree to fetch a larger amount of  children in the tree but less accurate
+     * @param array $options
      */
     public function __construct(
         DocumentManager $dm,
@@ -109,8 +116,7 @@ class PhpcrOdmTree implements TreeInterface
         TranslatorInterface $translator,
         CoreAssetsHelper $assetHelper,
         array $validClasses,
-        $depth = 1,
-        $fetchLazy = false
+        array $options
     ) {
         $this->dm = $dm;
         $this->defaultModelManager = $defaultModelManager;
@@ -118,8 +124,9 @@ class PhpcrOdmTree implements TreeInterface
         $this->translator = $translator;
         $this->assetHelper = $assetHelper;
         $this->validClasses = $validClasses;
-        $this->depth = $depth;
-        $this->fetchLazy = $fetchLazy;
+
+        $this->depth = $options['depth'];
+        $this->preciseChildren = $options['precise_children'];
     }
 
     /**
@@ -220,15 +227,19 @@ class PhpcrOdmTree implements TreeInterface
         // TODO: ideally the tree should simply not make the node clickable
         $label .= $admin ? '' : ' '.$this->translator->trans('not_editable', array(), 'SonataDoctrinePHPCRAdmin');
 
-        if (!$this->fetchLazy) {
-            //determine if a node has children the accurate way
-            $hasChildren = (bool) count($this->getDocumentChildren($manager, $document));
-        } else {
-            // as long as we filter out invalid documents, we need to pass through
-            // this logic as a PHPCR node might have children but only invalid ones.
-            // this is quite costly. if we would not have to filter, we could simply
-            // use
-            $hasChildren = $manager->getDocumentManager()->getNodeForDocument($document)->hasNodes();
+        $hasChildren = false;
+        if (isset($this->validClasses[$className]['valid_children'])
+            && count($this->validClasses[$className]['valid_children'])
+        ) {
+            if ($this->preciseChildren) {
+                // determine if a node has children the accurate way. we need to
+                // loop over all documents, as a PHPCR node might have children but
+                // only invalid ones. this is quite costly.
+                $hasChildren = (bool) count($this->getDocumentChildren($manager, $document));
+            } else {
+                // just check if there is any child node
+                $hasChildren = $manager->getDocumentManager()->getNodeForDocument($document)->hasNodes();
+            }
         }
 
         return array(
