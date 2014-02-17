@@ -38,12 +38,6 @@ class Configuration implements ConfigurationInterface
             ->fixXmlConfig('document_tree_default')
             ->fixXmlConfig('template')
             ->children()
-                ->integerNode('depth')->defaultValue(1)->end()
-
-                ->arrayNode('document_tree_defaults')
-                    ->prototype('scalar')->end()
-                ->end()
-
                 ->arrayNode('templates')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -85,7 +79,28 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                  ->end()
-                 ->booleanNode('confirm_move')->defaultFalse()->end()
+
+                ->arrayNode('document_tree_defaults')
+                    ->prototype('scalar')->end()
+                ->end()
+
+                ->arrayNode('document_tree_options')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->integerNode('depth')
+                            ->defaultValue(1)
+                            ->info('Depth to which to fetch tree children when rendering the initial tree')
+                        ->end()
+                        ->scalarNode('precise_children')
+                            ->defaultTrue()
+                            ->info('Exact check if document has children. For large trees, set to false for better performance, but user might needs to click on expand to see there are no children.')
+                        ->end()
+                        ->booleanNode('confirm_move')
+                            ->defaultTrue()
+                            ->info('Whether moving a node in the tree asks for confirmation.')
+                        ->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 
