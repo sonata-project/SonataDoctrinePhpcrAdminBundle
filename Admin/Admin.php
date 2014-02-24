@@ -112,5 +112,23 @@ class Admin extends BaseAdmin
 
         return parent::toString($object);
     }
+    
+    /**
+     * Set a new object instance parent if defined in the request query
+     *
+     * @return mixed
+     */
+    public function getNewInstance()
+    {
+        $object = parent::getNewInstance();
+
+        if ($this->hasRequest() && $parentId = $this->getRequest()->get('parent')) {
+            if (method_exists($object, 'setParent') && $parent = $this->getModelManager()->find(null, $parentId)) {
+                $object->setParent($parent);
+            }
+        }
+
+        return $object;
+    }
 }
 
