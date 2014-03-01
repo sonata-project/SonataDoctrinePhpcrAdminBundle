@@ -105,11 +105,9 @@ class ListBuilder implements ListBuilderInterface
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
             $metadata = $admin->getModelManager()->getMetadata($admin->getClass());
 
-            // TODO sort on multilang documents, see http://www.doctrine-project.org/jira/browse/PHPCR-84
-            // TODO sort on parent associations
+            // TODO sort on parent associations or node name
             $defaultSortable = true;
-            if (in_array($fieldDescription->getName(), $metadata->translatableFields)
-                || $metadata->hasAssociation($fieldDescription->getName())
+            if ($metadata->hasAssociation($fieldDescription->getName())
                 || $metadata->nodename === $fieldDescription->getName()
             ) {
                 $defaultSortable = false;
