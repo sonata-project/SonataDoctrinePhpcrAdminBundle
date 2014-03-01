@@ -2,55 +2,45 @@ Configuration
 =============
 
 You provide admin services for document types by tagging them as
-``sonata.admin`` with the option ``manager_type: doctrine_phpcr`` and as usual
+``sonata.admin`` with the option ``manager_type: doctrine_phpcr`` and `as usual`_
 you can specify a group name and the label for this type.
 
-See [the general Sonata Admin documentation](http://sonata-project.org/bundles/admin/2-0/doc/index.html)
-for the basic information.
-
-We recommend using the ajax_layout and adding the sonata_admin_doctrine_phpcr.tree_block
-to get a tree view of your PHPCR content:
-
-.. configuration-block::
-
-    .. code-block:: yaml
-
-        sonata_admin:
-            templates:
-                # default global templates
-                ajax:    SonataAdminBundle::ajax_layout.html.twig
-            dashboard:
-                blocks:
-                    # display a dashboard block
-                    - { position: right, type: sonata.admin.block.admin_list }
-                    - { position: left, type: sonata_admin_doctrine_phpcr.tree_block }
-
-You have to manually configure what types of documents should be handled in the
-tree and which class may accept what classes as children to manage the move
-operations. Documents that are not configured as valid child will be hidden in the tree.
-
+On this bundle, you can configure templates and the document tree.
 
 .. configuration-block::
 
     .. code-block:: yaml
 
         sonata_doctrine_phpcr_admin:
+            templates:
+                form:
+                    # Default:
+                    - SonataDoctrinePHPCRAdminBundle:Form:form_admin_fields.html.twig
+                filter:
+                    # Default:
+                    - SonataDoctrinePHPCRAdminBundle:Form:filter_admin_fields.html.twig
+                types:
+                    list:
+                        # Prototype
+                        name:                 []
+                    show:
+                        # Prototype
+                        name:                 []
+                pager_results:        SonataDoctrinePHPCRAdminBundle:Pager:simple_pager_results.html.twig
+
             document_tree:
-                Doctrine\PHPCR\Odm\Document\Generic:
-                    valid_children:
-                        - all
-                Symfony\Cmf\Bundle\SimpleCmsBundle\Document\Page: ~
-                Symfony\Cmf\Bundle\RoutingExtraBundle\Document\Route:
-                    valid_children:
-                        - Symfony\Cmf\Bundle\RoutingExtraBundle\Document\Route
-                        - Symfony\Cmf\Bundle\RoutingExtraBundle\Document\RedirectRoute
-                Symfony\Cmf\Bundle\RoutingExtraBundle\Document\RedirectRoute:
-                    valid_children: []
-                Symfony\Cmf\Bundle\MenuItem\Document\MenuItem:
-                    valid_children:
-                        - Symfony\Cmf\Bundle\MenuBundle\Document\MenuItem
-                        - Symfony\Cmf\Bundle\MenuBundle\Document\MultilangMenuItem
-                Symfony\Cmf\Bundle\MenuBundle\Document\MultilangMenuItem:
-                    valid_children:
-                        - Symfony\Cmf\Bundle\MenuBundle\Document\MenuItem
-                        - Symfony\Cmf\Bundle\MenuBundle\Document\MultilangMenuItem
+                # See :doc:`document_tree`.
+                class:
+                    # class names of valid children, manage tree operations for them and hide other children
+                    valid_children:       []
+                    image:
+            document_tree_defaults:  []
+            document_tree_options:
+                # Depth to which to fetch tree children when rendering the initial tree
+                depth:                1
+                # Exact check if document has children. For large trees, set to false for better performance, but user might needs to click on expand to see there are no children.
+                precise_children:     true
+                # Whether moving a node in the tree asks for confirmation.
+                confirm_move:         true
+
+.. _`as usual`: http://sonata-project.org/bundles/admin/master/doc/reference/getting_started.html#step-3-create-an-admin-service
