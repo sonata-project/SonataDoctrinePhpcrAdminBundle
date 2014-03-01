@@ -18,4 +18,5 @@ Reference Guide
    reference/installation
    reference/configuration
    reference/filter_field_definition
+   reference/form_field_definition
 

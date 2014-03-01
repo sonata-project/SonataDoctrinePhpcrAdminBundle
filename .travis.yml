@@ -14,8 +14,9 @@ env:
 before_script:
   - echo 'memory_limit = -1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer require symfony/framework-bundle:${SYMFONY_VERSION} --dev
+  - sudo pip install -r Resources/doc/requirements.txt
 
-script: phpunit  --coverage-text
+script: phpunit --coverage-text && cd Resources/doc && sphinx-build -W -b html -d _build/doctrees . _build/html
 
 matrix:
   allow_failures:
