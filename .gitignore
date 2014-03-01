@@ -1,3 +1,4 @@
 vendor/
 report/*
+Resources/doc/_build/
 composer.lock
