@@ -1,9 +1,9 @@
 Installation
 ============
 
-SonataDoctrinePhpcrAdminBundle is part of a set of bundles aimed at abstracting 
+SonataDoctrinePhpcrAdminBundle is part of a set of bundles aimed at abstracting
 storage connectivity for SonataAdminBundle. As such, SonataDoctrinePhpcrAdminBundle
-depends on SonataAdminBundle, and will not work without it. 
+depends on SonataAdminBundle, and will not work without it.
 
 .. note::
     These installation instructions are meant to be used only as part of SonataAdminBundle's
@@ -40,8 +40,10 @@ Next, be sure to enable the bundle in your AppKernel.php file:
     {
         return array(
             // ...
+            // set up basic doctrine phpcr-odm requirements
             // set up basic sonata requirements
             // ...
+            new Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle(),
             new Sonata\DoctrinePhpcrAdminBundle\SonataDoctrinePhpcrAdminBundle(),
             // ...
         );

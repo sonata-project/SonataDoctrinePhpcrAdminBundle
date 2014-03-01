@@ -5,10 +5,7 @@ Doctrine PHPCR Admin
 
 This bundle integrates the SonataAdminBundle with the Doctrine PHPCR project 
 
-Check out the documentation on [Resources/doc](https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/tree/master/Resources/doc)
-
-**Warning**: documentation files are not rendering correctly in Github (reStructuredText format)
-and some content might be broken or hidden, make sure to read raw files.
+Check out the documentation at http://sonata-project.org/bundles/doctrine-phpcr-admin
 
 **Google Groups**: For questions and proposals you can post on these google groups
 
