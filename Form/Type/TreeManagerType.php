@@ -44,7 +44,7 @@ class TreeManagerType extends AbstractType
         $resolver->setDefaults(array(
             'create_in_overlay' => true,
             'edit_in_overlay' => true,
-            'delete_in_overlay' => true
+            'delete_in_overlay' => true,
         ));
     }
 
