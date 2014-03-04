@@ -27,6 +27,7 @@ class TreeManagerType extends AbstractType
         $view->vars['root'] = $options['root'];
         $view->vars['create_in_overlay'] = $options['create_in_overlay'];
         $view->vars['edit_in_overlay'] = $options['edit_in_overlay'];
+        $view->vars['delete_in_overlay'] = $options['delete_in_overlay'];
         parent::buildView($view, $form, $options);
     }
 
@@ -38,11 +39,12 @@ class TreeManagerType extends AbstractType
         parent::setDefaultOptions($resolver);
 
         $resolver->setRequired((array('root')));
-        $resolver->setOptional(array('create_in_overlay', 'edit_in_overlay'));
+        $resolver->setOptional(array('create_in_overlay', 'edit_in_overlay', 'delete_in_overlay'));
 
         $resolver->setDefaults(array(
             'create_in_overlay' => true,
-            'edit_in_overlay' => true
+            'edit_in_overlay' => true,
+            'delete_in_overlay' => true,
         ));
     }
 
