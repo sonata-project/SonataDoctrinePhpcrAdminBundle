@@ -21,7 +21,7 @@
         "sonata-project/admin-bundle": ">=2.2.7,<2.2.9",
         "symfony/framework-bundle": "~2.2",
         "symfony/property-access": "~2.2",
-        "doctrine/phpcr-odm":"1.*",
+        "doctrine/phpcr-odm":"~1.1",
         "doctrine/phpcr-bundle":"1.*",
         "symfony-cmf/tree-browser-bundle": ">=1.1.0,<1.2.0"
     },
