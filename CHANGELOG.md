@@ -1,6 +1,14 @@
 Changelog
 =========
 
+2014-03-24
+----------
+
+- Updated the dependencies on sonata to use the new SonataCoreBundle.
+
+2014-02-14
+----------
+
 - The tree options confirm_move and depth are now grouped in the configuration
   `document_tree_options`, plus there is an additional option
   `precise_children` to further help with flat trees.
