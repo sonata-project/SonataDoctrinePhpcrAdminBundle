@@ -12,6 +12,7 @@ env:
   - SYMFONY_VERSION=dev-master
 
 before_script:
+  - composer self-update
   - echo 'memory_limit = -1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer require symfony/framework-bundle:${SYMFONY_VERSION} --dev
   - sudo pip install -r Resources/doc/requirements.txt
