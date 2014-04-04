@@ -550,7 +550,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null)
     {
-        return null;
+        throw \RuntimeException("Not implemented");
     }
 
     /**
