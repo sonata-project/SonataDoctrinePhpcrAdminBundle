@@ -18,7 +18,7 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "sonata-project/admin-bundle": ">=2.2.9,<2.2.11",
+        "sonata-project/admin-bundle": ">=2.2.9,<=2.2.11",
         "symfony/framework-bundle": "~2.2",
         "symfony/property-access": "~2.2",
         "doctrine/phpcr-odm": "~1.1",
