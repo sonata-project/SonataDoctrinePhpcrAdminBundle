@@ -92,7 +92,7 @@ class PhpcrOdmTree implements TreeInterface
     /**
      * The options are
      *
-     * - depth: Down to what leve children should be fetched, currently the
+     * - depth: Down to what level children should be fetched, currently the
      *      maximum supported depth is one.
      * - precise_children: To determine if a tree element has children, check if
      *      the document has valid children. If false, simply check if the node

@@ -38,7 +38,7 @@ class ChoiceFilter extends Filter
             }
         }
 
-        // if values not set or "all" sepcified, do not do this filter
+        // if values not set or "all" specified, do not do this filter
         if (!$values || in_array('all', $values, true)) {
             return;
         }
