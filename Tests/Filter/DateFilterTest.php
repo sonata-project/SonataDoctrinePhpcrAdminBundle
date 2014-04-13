@@ -22,7 +22,7 @@ class DateFilterTest extends BaseTestCase
         $this->filter = new DateFilter;
     }
 
-    // @todo: Can problaby factor the following 4 test cases into a common class
+    // @todo: Can probably factor the following 4 test cases into a common class
     //        IF we introduce another test with the same need.
 
     public function testFilterNullData()
@@ -48,7 +48,7 @@ class DateFilterTest extends BaseTestCase
             array('lt', DateType::TYPE_LESS_THAN),
             array('eq', DateType::TYPE_NULL, null),
             array('neq', DateType::TYPE_NOT_NULL, null),
-            // test ChoiceTYPE::TYPE_EQUAL seperately, special case.
+            // test ChoiceTYPE::TYPE_EQUAL separately, special case.
         );
     }
 

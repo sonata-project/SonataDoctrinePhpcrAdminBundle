@@ -92,7 +92,7 @@ class ListBuilder implements ListBuilderInterface
     /**
      * {@inheritDoc}
      *
-     * @throws \RuntimeException if the $fielDescription does not have a type.
+     * @throws \RuntimeException if the $fieldDescription does not have a type.
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
