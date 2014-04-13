@@ -33,8 +33,7 @@ class CollectionTypeExtension extends AbstractTypeExtension
             return;
         }
         $listener = new CollectionOrderListener($options['sonata_field_description']->getName());
-        // we need to use the deprecated constant until we drop symfony 2.2 support
-        $builder->addEventListener(FormEvents::BIND, array($listener, 'onPostBind'));
+        $builder->addEventListener(FormEvents::SUBMIT, array($listener, 'onSubmit'));
     }
 
     /**
