@@ -43,6 +43,13 @@ class DatagridBuilder implements DatagridBuilderInterface
     protected $guesser;
 
     /**
+     * Indicates that csrf protection enabled
+     *
+     * @var bool
+     */
+    protected $csrfTokenEnabled;
+
+    /**
      * @var PagerInterface
      */
     protected $pager;
@@ -51,12 +58,14 @@ class DatagridBuilder implements DatagridBuilderInterface
      * @param FormFactory $formFactory
      * @param FilterFactoryInterface $filterFactory
      * @param TypeGuesserInterface $guesser
+     * @param bool $csrfTokenEnabled
      */
-    public function __construct(FormFactory $formFactory, FilterFactoryInterface $filterFactory, TypeGuesserInterface $guesser)
+    public function __construct(FormFactory $formFactory, FilterFactoryInterface $filterFactory, TypeGuesserInterface $guesser, $csrfTokenEnabled = true)
     {
         $this->formFactory   = $formFactory;
         $this->filterFactory = $filterFactory;
         $this->guesser       = $guesser;
+        $this->csrfTokenEnabled = $csrfTokenEnabled;
     }
 
     /**
@@ -151,7 +160,12 @@ class DatagridBuilder implements DatagridBuilderInterface
      */
     public function getBaseDatagrid(AdminInterface $admin, array $values = array())
     {
-        $formBuilder = $this->formFactory->createNamedBuilder('filter', 'form', array(), array('csrf_protection' => false));
+        $defaultOptions = array();
+        if ($this->csrfTokenEnabled) {
+            $defaultOptions['csrf_protection'] = false;
+        }
+
+        $formBuilder = $this->formFactory->createNamedBuilder('filter', 'form', array(), $defaultOptions);
 
         return new Datagrid($admin->createQuery(), $admin->getList(), $this->getPager(), $formBuilder, $values);
     }
