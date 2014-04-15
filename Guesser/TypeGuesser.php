@@ -21,6 +21,11 @@ use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
+/**
+ * Guesser for displaying fields.
+ *
+ * Form guesses happen in the FormContractor.
+ */
 class TypeGuesser implements TypeGuesserInterface
 {
     /**
@@ -52,21 +57,26 @@ class TypeGuesser implements TypeGuesserInterface
         }
 
         if ($metadata->hasAssociation($property)) {
-            // TODO add support for children, child, referrers and parentDocument associations
             $mapping = $metadata->mappings[$property];
 
             switch ($mapping['type']) {
                 case ClassMetadata::MANY_TO_MANY:
+                case 'referrers':
                     return new TypeGuess('doctrine_phpcr_many_to_many', array(), Guess::HIGH_CONFIDENCE);
 
                 case ClassMetadata::MANY_TO_ONE:
+                case 'parent':
                     return new TypeGuess('doctrine_phpcr_many_to_one', array(), Guess::HIGH_CONFIDENCE);
+
+                case 'children':
+                    return new TypeGuess('doctrine_phpcr_one_to_many', array(), Guess::HIGH_CONFIDENCE);
+
+                case 'child':
+                    return new TypeGuess('doctrine_phpcr_one_to_one', array(), Guess::HIGH_CONFIDENCE);
             }
         }
 
-        // TODO add support for node, nodename, version created, version name
-
-        // TODO: missing multi value support
+        // TODO: missing multivalue support
         switch ($metadata->getTypeOfField($property)) {
             case 'boolean':
                 return new TypeGuess('boolean', array(), Guess::HIGH_CONFIDENCE);
@@ -108,5 +118,7 @@ class TypeGuesser implements TypeGuesserInterface
                 // not an entity or mapped super class
             }
         }
+
+        return null;
     }
 }
