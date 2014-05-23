@@ -44,7 +44,7 @@ Next, be sure to enable the bundle in your AppKernel.php file:
             // set up basic sonata requirements
             // ...
             new Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle(),
-            new Sonata\DoctrinePhpcrAdminBundle\SonataDoctrinePhpcrAdminBundle(),
+            new Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle(),
             // ...
         );
     }
