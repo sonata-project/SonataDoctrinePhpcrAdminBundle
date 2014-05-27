@@ -380,6 +380,8 @@ class PhpcrOdmTree implements TreeInterface
      */
     public function getNodeTypes()
     {
+        $result = array();
+
         foreach ($this->validClasses as $className => $children) {
             $rel = $this->normalizeClassname($className);
             $admin = $this->getAdminByClass($className);
