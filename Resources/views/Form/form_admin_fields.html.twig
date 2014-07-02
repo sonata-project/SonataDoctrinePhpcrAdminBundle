@@ -134,6 +134,7 @@ file that was distributed with this source code.
 
 {% block sonata_type_collection_widget %}
     {% if sonata_admin.field_description.mappingtype == 4
+        or sonata_admin.field_description.mappingtype == 8
         or sonata_admin.field_description.mappingtype == 'children'
         or sonata_admin.field_description.mappingtype == 'referrers'
     %}
