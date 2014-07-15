@@ -29,7 +29,7 @@ Available Filter types
   - doctrine_phpcr_callback   : depends on the ``sonata_type_filter_default`` Form Type, types can be configured as needed
   - doctrine_phpcr_choice     : depends on the ``sonata_type_filter_default`` Form Type, renders operator (contains, not contains, equal) field
   - doctrine_phpcr_string     : depends on the ``doctrine_phpcr_type_filter_choice`` Form Type, renders operator (contains, not contains, equal, contains words) field
-  - doctrine_phpcr_number     : depends on the ``sonata_type_filter_number`` Form Type, renders yes or no field
+  - doctrine_phpcr_number     : depends on the ``sonata_type_filter_number`` Form Type, renders operator (>, >=, <= , <, =, empty, not empty) field
   - doctrine_phpcr_date       : depends on the ``sonata_type_filter_date`` Form Type, renders operator (>, >=, <= , <, =, empty, not empty) field
   - doctrine_phpcr_nodename   : depends on the ``doctrine_phpcr_type_filter_choice`` Form Type, renders operator (contains, not contains, equal, contains words) field
 
