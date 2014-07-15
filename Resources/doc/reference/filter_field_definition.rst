@@ -22,7 +22,7 @@ The ``add`` method accepts the arguments :
   - the field type      : the type of widget used to render the value part
   - the field options   : the type options
 
-Filter types available
+Available Filter types
 ----------------------
 
   - doctrine_phpcr_boolean    : depends on the ``sonata_type_filter_default`` Form Type, renders yes or no field as operator
