@@ -32,7 +32,7 @@
             </trans-unit>
             <trans-unit id="label_type_contains_words">
                 <source>label_type_contains_words</source>
-                <target>contain words</target>
+                <target>contains words</target>
             </trans-unit>            
         </body>
      </file>
