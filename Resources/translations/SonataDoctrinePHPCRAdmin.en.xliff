@@ -30,6 +30,10 @@
                 <source>not_editable</source>
                 <target>(not editable)</target>
             </trans-unit>
+            <trans-unit id="label_type_contains_words">
+                <source>label_type_contains_words</source>
+                <target>contains words</target>
+            </trans-unit>            
         </body>
      </file>
 </xliff>
