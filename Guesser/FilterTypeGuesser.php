@@ -52,7 +52,7 @@ class FilterTypeGuesser implements TypeGuesserInterface
         }
 
         $options = array(
-            'field_type'     => false,
+            'field_type'     => 'text',
             'field_options'  => array(),
             'options'        => array(),
         );
