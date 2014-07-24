@@ -20,7 +20,7 @@ Use composer:
     php composer.phar require sonata-project/doctrine-phpcr-admin-bundle
 
 You'll be asked to type in a version constraint. 'dev-master' will get you the
-latest, bleeding edge version. Check `packagist_ for the current stable version:
+latest, bleeding edge version. Check packagist_ for the current stable version:
 
 Enable the Bundle
 -----------------
