@@ -114,8 +114,12 @@ class FormContractor implements FormContractorInterface
 
         if ($type == 'sonata_type_model' || $type == 'sonata_type_model_list') {
             if (!$fieldDescription->getTargetEntity()) {
-                throw new \LogicException(sprintf('The current field `%s` does not have a target model defined. Please specify the `targetDocument`
-                    in the Reference.', $fieldDescription->getName()));
+                throw new \LogicException(sprintf(
+                    'The field "%s" in class "%s" does not have a target model defined. ' .
+                    'Please specify the "target document" attribute in the mapping for this class.',
+                    $fieldDescription->getName(),
+                    $fieldDescription->getAdmin()->getClass()
+                ));
             }
 
             $options['class']         = $fieldDescription->getTargetEntity();
