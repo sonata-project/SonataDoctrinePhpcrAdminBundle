@@ -116,7 +116,7 @@ class FormContractor implements FormContractorInterface
             if (!$fieldDescription->getTargetEntity()) {
                 throw new \LogicException(sprintf(
                     'The field "%s" in class "%s" does not have a target model defined. ' .
-                    'Please specify the "target document" attribute in the mapping for this class.',
+                    'Please specify the "targetDocument" attribute in the mapping for this class.',
                     $fieldDescription->getName(),
                     $fieldDescription->getAdmin()->getClass()
                 ));
