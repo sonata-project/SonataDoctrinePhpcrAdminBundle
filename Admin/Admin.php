@@ -92,7 +92,7 @@ class Admin extends BaseAdmin
     {
         if ($this->subject === null && $this->request) {
             $id = $this->request->get($this->getIdParameter());
-            if (!preg_match('#^[0-9A-Za-z/-_]+$#', $id)) {
+            if (!preg_match('#^[0-9A-Za-z/\-_]+$#', $id)) {
                 $this->subject = false;
             } else {
                 if (!UUIDHelper::isUUID($id)) {
