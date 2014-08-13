@@ -47,10 +47,10 @@ file that was distributed with this source code.
 
                 <a  href="{{ sonata_admin.field_description.associationadmin.generateUrl('list') }}"
                     onclick="start_field_dialog_form_list_{{ id }}(event)"
-                    class="btn sonata-ba-action"
+                    class="btn btn-info btn-sm btn-outline sonata-ba-action"
                     title="{{ btn_list|trans({}, btn_catalogue) }}"
                     >
-                    <i class="icon-list"></i>
+                    <i class="icon-list fa fa-list"></i>
                     {{ btn_list|trans({}, btn_catalogue) }}
                 </a>
             {% endif %}
@@ -58,10 +58,10 @@ file that was distributed with this source code.
             {% if sonata_admin.field_description.associationadmin.hasroute('create') and sonata_admin.field_description.associationadmin.isGranted('CREATE') and btn_add %}
                 <a  href="{{ sonata_admin.field_description.associationadmin.generateUrl('create') }}"
                     onclick="start_field_dialog_form_add_{{ id }}(event)"
-                    class="btn sonata-ba-action"
+                    class="btn btn-success btn-sm btn-outline sonata-ba-action"
                     title="{{ btn_add|trans({}, btn_catalogue) }}"
                     >
-                    <i class="icon-plus"></i>
+                    <i class="icon-plus fa fa-plus-circle"></i>
                     {{ btn_add|trans({}, btn_catalogue) }}
                 </a>
             {% endif %}
@@ -69,10 +69,10 @@ file that was distributed with this source code.
             {% if sonata_admin.field_description.associationadmin.hasRoute('delete') and sonata_admin.field_description.associationadmin.isGranted('DELETE') and btn_delete %}
                 <a  href=""
                     onclick="remove_selected_element_{{ id }}(event)"
-                    class="btn sonata-ba-action"
+                    class="btn btn-danger btn-sm btn-outline sonata-ba-action"
                     title="{{ btn_delete|trans({}, btn_catalogue) }}"
                     >
-                    <i class="icon-off"></i>
+                    <i class="icon-off fa fa-minus-circle"></i>
                     {{ btn_delete|trans({}, btn_catalogue) }}
                 </a>
             {% endif %}
