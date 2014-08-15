@@ -243,7 +243,11 @@ class PhpcrOdmTree implements TreeInterface
         }
 
         return array(
+            'id' => $id,
+            'text' => $label,
             'data'  => $label,
+            'icon' => '',
+            'type' => $rel,
             'attr'  => array(
                 'id' => $id,
                 'url_safe_id' => $urlSafeId,
