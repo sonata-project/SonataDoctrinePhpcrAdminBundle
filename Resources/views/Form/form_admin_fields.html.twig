@@ -171,12 +171,16 @@ file that was distributed with this source code.
 </script>
 
 <div id="{{id}}-tree-selector"></div>
-{% if value is empty %}
-<input name="{{full_name}}" id="{{id}}-tree-selector-output" value="{{ select_root_node ? root_node : ''}}" readonly="readonly">
-{% else %}
-<input name="{{full_name}}" id="{{id}}-tree-selector-output" value="{{value}}" readonly="readonly">
-{% endif %}
-<button class="btn btn-mini" id={{id}}-tree-reset>{{ 'reset_tree' | trans({}, 'SonataDoctrinePHPCRAdmin') }}</button>
+
+<div class="form-inline">
+    {% if value is empty %}
+        <input class="form-control" name="{{full_name}}" id="{{id}}-tree-selector-output" value="{{ select_root_node ? root_node : ''}}" readonly="readonly">
+    {% else %}
+        <input class="form-control" name="{{full_name}}" id="{{id}}-tree-selector-output" value="{{value}}" readonly="readonly">
+    {% endif %}
+
+    <button class="btn btn-mini" id={{id}}-tree-reset>{{ 'reset_tree' | trans({}, 'SonataDoctrinePHPCRAdmin') }}</button>
+</div>
 {% endblock %}
 
 {% block doctrine_phpcr_odm_tree_manager_widget %}
