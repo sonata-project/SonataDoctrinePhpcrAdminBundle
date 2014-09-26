@@ -169,7 +169,7 @@ This code manage the many-to-[one|many] association field popup
         event.preventDefault();
         event.stopPropagation();
 
-        var a = jQuery(this);
+        var a = jQuery(event.target);
 
         field_dialog_{{ id }}.html('');
 
@@ -343,12 +343,7 @@ This code manage the many-to-[one|many] association field popup
 
         initialize_popup_{{ id }}();
 
-        // add the jQuery event to the a element
-        jQuery(link)
-                .click(field_dialog_form_add_{{ id }})
-                .trigger('click')
-        ;
-
+        field_dialog_form_add_{{ id }}(link);
         return false;
     }
 
