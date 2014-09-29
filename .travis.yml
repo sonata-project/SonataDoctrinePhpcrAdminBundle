@@ -4,13 +4,24 @@ php:
   - 5.3
   - 5.4
   - 5.5
+  - hhvm
 
 env:
-  - SYMFONY_VERSION=2.3.*
-  - SYMFONY_VERSION=2.4.*
-  - SYMFONY_VERSION=dev-master
+  - SYMFONY_VERSION=2.5.*
 
-before_script:
+matrix:
+  allow_failures:
+    - env: SYMFONY_VERSION=dev-master
+    - php: hhvm
+  include:
+    - php: 5.5
+      env: SYMFONY_VERSION=2.3.*
+    - php: 5.5
+      env: SYMFONY_VERSION=2.4.*
+    - php: 5.5
+      env: SYMFONY_VERSION=dev-master
+
+before_install:
   - composer self-update
   - echo 'memory_limit = -1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer require symfony/framework-bundle:${SYMFONY_VERSION} --dev
@@ -18,6 +29,6 @@ before_script:
 
 script: phpunit --coverage-text && cd Resources/doc && sphinx-build -W -b html -d _build/doctrees . _build/html
 
-matrix:
-  allow_failures:
-    - env: SYMFONY_VERSION=dev-master
+notifications:
+  irc: "irc.freenode.org#symfony-cmf"
+  email: "symfony-cmf-devs@googlegroups.com"
