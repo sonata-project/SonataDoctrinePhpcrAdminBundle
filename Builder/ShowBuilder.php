@@ -27,11 +27,18 @@ class ShowBuilder implements ShowBuilderInterface
     protected $guesser;
 
     /**
-     * @param TypeGuesserInterface $guesser
+     * @var array
      */
-    public function __construct(TypeGuesserInterface $guesser)
+    protected $templates;
+
+    /**
+     * @param TypeGuesserInterface $guesser
+     * @param array                $templates Indexed by field type
+     */
+    public function __construct(TypeGuesserInterface $guesser, array $templates)
     {
         $this->guesser = $guesser;
+        $this->templates = $templates;
     }
 
     /**
@@ -57,13 +64,21 @@ class ShowBuilder implements ShowBuilderInterface
         $this->fixFieldDescription($admin, $fieldDescription);
         $admin->addShowFieldDescription($fieldDescription->getName(), $fieldDescription);
 
-        switch($fieldDescription->getMappingType()) {
-            case ClassMetadata::MANY_TO_ONE:
-            case ClassMetadata::MANY_TO_MANY:
-                return;
-            default:
-                $list->add($fieldDescription);
+        $list->add($fieldDescription);
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return string|null The template if found
+     */
+    private function getTemplate($type)
+    {
+        if (!isset($this->templates[$type])) {
+            return null;
         }
+
+        return $this->templates[$type];
     }
 
     /**
@@ -99,23 +114,23 @@ class ShowBuilder implements ShowBuilderInterface
         $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
 
         if (!$fieldDescription->getTemplate()) {
-            $fieldDescription->setTemplate(sprintf('SonataAdminBundle:CRUD:show_%s.html.twig', $fieldDescription->getType()));
+
+            $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
 
             if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {
-                $fieldDescription->setTemplate('SonataAdminBundle:CRUD:show_orm_many_to_one.html.twig');
+                $fieldDescription->setTemplate('SonataDoctrinePhpcrAdminBundle:CRUD:show_phpcr_many_to_one.html.twig');
             }
 
             if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_MANY) {
-                $fieldDescription->setTemplate('SonataAdminBundle:CRUD:show_orm_many_to_many.html.twig');
+                $fieldDescription->setTemplate('SonataDoctrinePhpcrAdminBundle:CRUD:show_phpcr_many_to_many.html.twig');
             }
         }
 
-        if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {
-            $admin->attachAdminClass($fieldDescription);
-        }
-
-        if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_MANY) {
-            $admin->attachAdminClass($fieldDescription);
+        switch($fieldDescription->getMappingType()) {
+            case ClassMetadata::MANY_TO_ONE:
+            case ClassMetadata::MANY_TO_MANY:
+                $admin->attachAdminClass($fieldDescription);
+                break;
         }
     }
 }

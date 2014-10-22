@@ -33,6 +33,7 @@
         <!-- ShowBuilder  -->
         <service id="sonata.admin.builder.doctrine_phpcr_show" class="Sonata\DoctrinePHPCRAdminBundle\Builder\ShowBuilder" >
             <argument type="service" id="sonata.admin.guesser.doctrine_phpcr_show_chain" />
+            <argument />
         </service>
 
         <service id="sonata.admin.guesser.doctrine_phpcr_show" class="Sonata\DoctrinePHPCRAdminBundle\Guesser\TypeGuesser">

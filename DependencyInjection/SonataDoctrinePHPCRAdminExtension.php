@@ -37,7 +37,13 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
             'templates' => array(
                 'types' => array(
                     'list' => array(
-                        'node'         => 'SonataDoctrinePHPCRAdminBundle:CRUD:list_node.html.twig'
+                        'node' => 'SonataDoctrinePHPCRAdminBundle:CRUD:list_node.html.twig',
+                    ),
+                    'show' => array(
+                        'doctrine_phpcr_many_to_many' => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_many_to_many.html.twig',
+                        'doctrine_phpcr_many_to_one' => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_many_to_one.html.twig',
+                        'doctrine_phpcr_one_to_many' => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_one_to_many.html.twig',
+                        'doctrine_phpcr_one_to_one' => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_one_to_one.html.twig',
                     )
                 )
             )
@@ -64,6 +70,9 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
 
         $container->getDefinition('sonata.admin.builder.doctrine_phpcr_list')
             ->replaceArgument(1, $config['templates']['types']['list']);
+
+        $container->getDefinition('sonata.admin.builder.doctrine_phpcr_show')
+            ->replaceArgument(1, $config['templates']['types']['show']);
 
         $this->loadTreeTypes($config, $container);
     }
