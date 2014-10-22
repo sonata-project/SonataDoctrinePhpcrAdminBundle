@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.2.0
+-----
+
+* **2014-10-22**: Updated the template `Block/tree.html.twig`, parameters are now wrapped in `settings`.
+* **2014-10-13**: Fixed things around showing relations
+* **2014-09-29**: Now compatible with sonata admin 2.3
+
 1.2.0-RC1
 ---------
 
