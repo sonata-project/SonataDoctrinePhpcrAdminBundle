@@ -53,7 +53,10 @@ class TreeBlockService extends BaseBlockService
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
-        return $this->templating->renderResponse($blockContext->getTemplate(), $blockContext->getSettings(), $response);
+        return $this->renderResponse($blockContext->getTemplate(), array(
+            'block'     => $blockContext->getBlock(),
+            'settings'  => $blockContext->getSettings(),
+        ), $response);
     }
 
     /**
