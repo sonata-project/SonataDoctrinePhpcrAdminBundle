@@ -6,6 +6,9 @@
 
 This bundle integrates the SonataAdminBundle with the Doctrine PHPCR-ODM project
 
+Documentation
+------------
+
 Check out the documentation at http://sonata-project.org/bundles/doctrine-phpcr-admin
 
 **Google Groups**: For questions and proposals you can post on these google groups
