@@ -30,6 +30,10 @@
                 <source>not_editable</source>
                 <target>(nicht editierbar)</target>
             </trans-unit>
+            <trans-unit id="choose_edit_locale">
+                <source>choose_edit_locale</source>
+                <target>Editierungssprache wählen</target>
+            </trans-unit>
         </body>
      </file>
 </xliff>
