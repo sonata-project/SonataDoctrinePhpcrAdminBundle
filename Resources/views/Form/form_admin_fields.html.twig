@@ -146,38 +146,21 @@ file that was distributed with this source code.
 
 {% block doctrine_phpcr_odm_tree_widget %}
 {% include 'CmfTreeBrowserBundle:Base:tree.html.twig' %}
-<script type="text/javascript">
-    $(document).ready(function() {
-        var treeState = AdminTree.generateTreeStateArray("{{ value }}");
+<script>
+    jQuery(function ($) {
         var defaults = {% include 'SonataDoctrinePHPCRAdminBundle:Tree:routing_defaults.html.twig' with {'routing_defaults': routing_defaults} %};
 
-        SelectTree.initTree({
-            "selector": "#{{id}}-tree-selector",
-            "rootNode": "{{ root_node }}",
-            "ajax": {
-                "children_url": Routing.generate("_cmf_tree_{{ tree.alias }}_children", defaults)
-            },
-            "output": "#{{id}}-tree-selector-output",
-            "reset": "#{{id}}-tree-reset",
-            "path": {
-                "expanded":     treeState,
-                "preloaded":    treeState
-            },
-            "selected": '{{ value }}',
-            "selectRootNode": {{ select_root_node ? 'true' : 'false' }},
-            "routing_defaults": defaults
+        $('#{{ id }}-tree-selector').cmfTree({
+            data_url: Routing.generate('_cmf_tree_{{ tree.alias }}_children', defaults),
+            path_output: '#{{ id }}-tree-selector-output'
         });
-    })
+    });
 </script>
 
 <div id="{{id}}-tree-selector"></div>
 
 <div class="form-inline">
-    {% if value is empty %}
-        <input class="form-control" name="{{full_name}}" id="{{id}}-tree-selector-output" value="{{ select_root_node ? root_node : ''}}" readonly="readonly">
-    {% else %}
-        <input class="form-control" name="{{full_name}}" id="{{id}}-tree-selector-output" value="{{value}}" readonly="readonly">
-    {% endif %}
+    <input class="form-control" name="{{ full_name }}" id="{{ id }}-tree-selector-output" value="{{ value ?: (select_root_node ? root_node : '') }}">
 
     <button class="btn btn-mini" id={{id}}-tree-reset>{{ 'reset_tree' | trans({}, 'SonataDoctrinePHPCRAdmin') }}</button>
 </div>
