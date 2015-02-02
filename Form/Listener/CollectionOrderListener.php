@@ -71,7 +71,7 @@ class CollectionOrderListener
                 // do not re-add a deleted child
                 continue;
             }
-            if ($item->getName()) {
+            if ($item->getName() && !is_numeric($item->getName())) {
                 // keep key in collection
                 $newCollection[$item->getName()] = $item->getData();
             } else {
