@@ -60,6 +60,7 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
         $loader->load('twig.xml');
         $loader->load('block.xml');
         $loader->load('tree.xml');
+        $loader->load('autocomplete.xml');
 
         $configuration = new Configuration();
         $processor = new Processor();
