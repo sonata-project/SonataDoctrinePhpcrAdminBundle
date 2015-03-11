@@ -154,10 +154,11 @@ file that was distributed with this source code.
             request: {
                 load: function (nodePath) {
                     return {
-                        url: Routing.generate('_cmf_resource', jQuery.extend(defaults, {
-                            repositoryName: 'phpcrodm_repo',
-                            path: nodePath
-                        }))
+                        url: {{ path('_cmf_resource', {
+                            repositoryName: repository_name,
+                            path: '%path%'
+                        }) }}
+                        {# todo: include routing defaults #}
                     };
                 },
             },

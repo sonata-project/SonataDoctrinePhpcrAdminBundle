@@ -11,39 +11,21 @@ file that was distributed with this source code.
 
 {% include 'CmfTreeBrowserBundle:Base:tree.html.twig' %}
 <script type="text/javascript">
-    $(document).ready(function() {
-        var treeState = AdminTree.generateTreeStateArray("{{ selected_node }}");
+    jQuery(function($) {
         var defaults = {% include 'SonataDoctrinePHPCRAdminBundle:Tree:routing_defaults.html.twig' with {'routing_defaults': routing_defaults} %};
 
-        AdminTree.initTree({
-            "selector": "#tree",
-            "rootNode": "{{ root_node }}",
-            "selected": "{{ selected_node }}",
-            "labels": {{ tree.labels | json_encode() | raw}},
-            "ajax": {
-                "children_url": Routing.generate("_cmf_tree_{{ tree.alias }}_children", defaults),
-                "move_url": Routing.generate("_cmf_tree_{{ tree.alias }}_move", defaults),
-                "reorder_url": Routing.generate("_cmf_tree_{{ tree.alias }}_reorder", defaults)
+        $('#tree').cmfTree({
+            request: {
+                load: function (nodePath) {
+                    return {
+                        url: Routing.generate('_cmf_resource', jQuery.extend(defaults, {
+                            repositoryName: 'phpcrodm_repo',
+                            path: nodePath
+                        }))
+                    };
+                },
             },
-            "path": {
-                "expanded":     treeState,
-                "preloaded":    treeState
-            },
-            "types": {{ tree.nodeTypes | json_encode() | raw}},
-
-            "routing_defaults": defaults,
-            "createInOverlay": "{{ create_in_overlay }}",
-            "editInOverlay": "{{ edit_in_overlay }}",
-            "deleteInOverlay": "{{ delete_in_overlay }}"
         });
-
-        {% if confirm_move is defined and confirm_move %}
-            $('#tree').on('cmf_tree.move', function(e) {
-                if (!confirm('{{ 'confirm_move_node' | trans({}, 'SonataDoctrinePHPCRAdmin') }}')) {
-                    e.preventDefault();
-                }
-            });
-        {% endif %}
     });
 </script>
 

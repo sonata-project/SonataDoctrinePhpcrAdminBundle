@@ -71,6 +71,7 @@ class TreeModelType extends AbstractType
         $view->vars['tree'] = $this->tree;
         $view->vars['root_node'] = $form->getConfig()->getAttribute('root_node');
         $view->vars['select_root_node'] = $form->getConfig()->getAttribute('select_root_node');
+        $view->vars['repository_name'] = $form->getConfig()->getAttribute('repository_name');
         $view->vars['routing_defaults'] = $this->defaults;
     }
 
@@ -90,6 +91,7 @@ class TreeModelType extends AbstractType
             'root_node'         => '/',
             'select_root_node'  => false,
             'parent'            => 'choice',
+            'repository_name'   => 'phpcrodm_repo',
             'preferred_choices' => array(),
             'choice_list'       => function (Options $options, $previousValue) {
                 return new ModelChoiceList(
