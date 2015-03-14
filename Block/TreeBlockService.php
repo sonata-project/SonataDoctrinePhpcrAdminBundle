@@ -12,7 +12,6 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Block;
 
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\BlockBundle\Block\BaseBlockService;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
@@ -70,15 +69,5 @@ class TreeBlockService extends BaseBlockService
             'selected'         => null,
             'routing_defaults' => $this->defaults,
         ));
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * NOOP as we do not edit and hence have nothing to validate.
-     */
-    public function validateBlock(ErrorElement $errorElement, BlockInterface $block)
-    {
-        // there is nothing to validate here
     }
 }
