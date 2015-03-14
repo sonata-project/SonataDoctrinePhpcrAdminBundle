@@ -60,6 +60,7 @@ class TreeModelType extends AbstractType
         $builder->addViewTransformer(new ModelToIdTransformer($options['model_manager'], $options['class']), true);
         $builder->setAttribute('root_node', $options['root_node']);
         $builder->setAttribute('select_root_node', $options['select_root_node']);
+        $builder->setAttribute('repository_name', $options['repository_name']);
     }
 
     /**

@@ -154,10 +154,10 @@ file that was distributed with this source code.
             request: {
                 load: function (nodePath) {
                     return {
-                        url: {{ path('_cmf_resource', {
+                        url: '{{ path('_cmf_resource', {
                             repositoryName: repository_name,
-                            path: '%path%'
-                        }) }}
+                            path: '__path__'
+                        }) }}'.replace('__path__', nodePath)
                         {# todo: include routing defaults #}
                     };
                 },
