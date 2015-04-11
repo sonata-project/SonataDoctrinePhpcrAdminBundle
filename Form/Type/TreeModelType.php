@@ -92,7 +92,7 @@ class TreeModelType extends AbstractType
             'root_node'         => '/',
             'select_root_node'  => false,
             'parent'            => 'choice',
-            'repository_name'   => 'phpcrodm_repo',
+            'repository_name'   => 'default',
             'preferred_choices' => array(),
             'choice_list'       => function (Options $options, $previousValue) {
                 return new ModelChoiceList(
