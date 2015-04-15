@@ -18,7 +18,7 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "sonata-project/admin-bundle": ">=2.2.9,<=2.3.0",
+        "sonata-project/admin-bundle": ">=2.2.9,<2.4.0-dev",
         "sonata-project/jquery-bundle": "1.8.*",
         "symfony/framework-bundle": "~2.3",
         "symfony/property-access": "~2.2",
