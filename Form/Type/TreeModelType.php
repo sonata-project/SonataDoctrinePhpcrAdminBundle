@@ -60,6 +60,7 @@ class TreeModelType extends AbstractType
         $builder->addViewTransformer(new ModelToIdTransformer($options['model_manager'], $options['class']), true);
         $builder->setAttribute('root_node', $options['root_node']);
         $builder->setAttribute('select_root_node', $options['select_root_node']);
+        $builder->setAttribute('repository_name', $options['repository_name']);
     }
 
     /**
@@ -71,6 +72,7 @@ class TreeModelType extends AbstractType
         $view->vars['tree'] = $this->tree;
         $view->vars['root_node'] = $form->getConfig()->getAttribute('root_node');
         $view->vars['select_root_node'] = $form->getConfig()->getAttribute('select_root_node');
+        $view->vars['repository_name'] = $form->getConfig()->getAttribute('repository_name');
         $view->vars['routing_defaults'] = $this->defaults;
     }
 
@@ -90,6 +92,7 @@ class TreeModelType extends AbstractType
             'root_node'         => '/',
             'select_root_node'  => false,
             'parent'            => 'choice',
+            'repository_name'   => 'default',
             'preferred_choices' => array(),
             'choice_list'       => function (Options $options, $previousValue) {
                 return new ModelChoiceList(

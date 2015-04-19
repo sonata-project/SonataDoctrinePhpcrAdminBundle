@@ -23,7 +23,8 @@
         "symfony/property-access": "~2.2",
         "doctrine/phpcr-odm": "~1.1",
         "doctrine/phpcr-bundle": "~1.1",
-        "symfony-cmf/tree-browser-bundle": "~2.0"
+        "symfony-cmf/tree-browser-bundle": "~2.0",
+        "symfony-cmf/resource-rest-bundle": "~1.0"
     },
     "require-dev": {
         "jackalope/jackalope-jackrabbit": "~1.0"

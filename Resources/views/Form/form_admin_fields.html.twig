@@ -151,7 +151,17 @@ file that was distributed with this source code.
         var defaults = {% include 'SonataDoctrinePHPCRAdminBundle:Tree:routing_defaults.html.twig' with {'routing_defaults': routing_defaults} %};
 
         $('#{{ id }}-tree-selector').cmfTree({
-            data_url: Routing.generate('_cmf_tree_{{ tree.alias }}_children', defaults),
+            request: {
+                load: function (nodePath) {
+                    return {
+                        url: '{{ path('_cmf_resource', {
+                            repositoryName: repository_name,
+                            path: '__path__'
+                        }) }}'.replace('__path__', nodePath)
+                        {# todo: include routing defaults #}
+                    };
+                },
+            },
             path_output: '#{{ id }}-tree-selector-output'
         });
     });
