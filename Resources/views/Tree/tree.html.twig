@@ -18,12 +18,13 @@ file that was distributed with this source code.
             request: {
                 load: function (nodePath) {
                     return {
-                        url: Routing.generate('_cmf_resource', jQuery.extend(defaults, {
-                            repositoryName: 'phpcrodm_repo',
-                            path: nodePath
-                        }))
+                        url: '{{ path('_cmf_resource', {
+                            repositoryName: 'default',
+                            path: '__path__'
+                        }) }}'.replace('__path__', nodePath)
+                        {# todo: include routing defaults #}
                     };
-                },
+                }
             },
         });
     });
