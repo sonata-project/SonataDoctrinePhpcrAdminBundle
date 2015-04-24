@@ -15,6 +15,7 @@ use Doctrine\ODM\PHPCR\Document\Generic;
 use PHPCR\Util\NodeHelper;
 
 use PHPCR\Util\PathHelper;
+use Symfony\Bundle\FrameworkBundle\Templating\Helper\AssetsHelper;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -102,7 +103,7 @@ class PhpcrOdmTree implements TreeInterface
      * @param ModelManager $defaultModelManager to use with documents that have no manager
      * @param Pool $pool to get admin classes for documents from
      * @param TranslatorInterface $translator
-     * @param CoreAssetsHelper $assetHelper
+     * @param CoreAssetsHelper|AssetsHelper $assetHelper
      * @param array $validClasses list of the valid class names that may be
      *      used as tree "ref" fields
      * $param integer $depth depth to which grand children should be fetched,
@@ -114,7 +115,7 @@ class PhpcrOdmTree implements TreeInterface
         ModelManager $defaultModelManager,
         Pool $pool,
         TranslatorInterface $translator,
-        CoreAssetsHelper $assetHelper,
+        $assetHelper,
         array $validClasses,
         array $options
     ) {
@@ -127,6 +128,23 @@ class PhpcrOdmTree implements TreeInterface
 
         $this->depth = $options['depth'];
         $this->preciseChildren = $options['precise_children'];
+
+        if (!$this->assetHelper instanceof CoreAssetsHelper) {
+            // check for the AssetsHelper class introduced in Symfony 2.7
+            if (!$this->assetHelper instanceof AssetsHelper) {
+                throw new \InvalidArgumentException(sprintf(
+                    'The asset helper input for the %s class is not valid.'
+                    .' The current asset helper is an instance of %s.'
+                    .' It should be an instance of one of the following classes: %s',
+                    __CLASS__,
+                    get_class($this->assetHelper),
+                    implode(', ', array(
+                        'Symfony\Component\Templating\Helper\CoreAssetsHelper',
+                        'Symfony\Bundle\FrameworkBundle\Templating\Helper\AssetsHelper',
+                    ))
+                ));
+            }
+        }
     }
 
     /**
