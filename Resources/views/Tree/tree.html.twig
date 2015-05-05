@@ -9,20 +9,29 @@ file that was distributed with this source code.
 
 #}
 
+{% set routing_default_values = {} %}
+{% for default in routing_defaults %}
+    {% if 'locale' == default %}
+        {% set routing_default_values = routing_default_values|merge({'_locale': app.request.locale}) %}
+    {% elseif 'format' == default %}
+        {% set routing_default_values = routing_default_values|merge({'_format': app.request.format}) %}
+    {% else %}
+        {% set routing_default_values = routing_default_values|merge({default: app.request.attributes.get(default)}) %}
+    {% endif %}
+{% endfor %}
+
 {% include 'CmfTreeBrowserBundle:Base:tree.html.twig' %}
 <script type="text/javascript">
     jQuery(function($) {
-        var defaults = {% include 'SonataDoctrinePHPCRAdminBundle:Tree:routing_defaults.html.twig' with {'routing_defaults': routing_defaults} %};
-
         $('#tree').cmfTree({
             request: {
                 load: function (nodePath) {
                     return {
                         url: '{{ path('_cmf_resource', {
-                            repositoryName: 'default',
+                            repositoryName: repository_name,
+                            root_node: root_node,
                             path: '__path__'
-                        }) }}'.replace('__path__', nodePath)
-                        {# todo: include routing defaults #}
+                        }|merge(routing_default_values)) }}'.replace('__path__', nodePath)
                     };
                 }
             },

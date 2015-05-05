@@ -86,13 +86,16 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
      */
     private function loadTreeTypes($config, ContainerBuilder $container)
     {
-        $options = $config['document_tree_options'];
         $container->setParameter('sonata_admin_doctrine_phpcr.tree_block.defaults', $config['document_tree_defaults']);
+        $container->setParameter('sonata_admin_doctrine_phpcr.tree_block.repository_name', $config['document_tree_repository']);
+
+        $options = $config['document_tree_options'];
         $container->setParameter('sonata_admin_doctrine_phpcr.tree_confirm_move', $options['confirm_move']);
+
         unset($options['confirm_move']);
+
         $container->getDefinition('sonata.admin.doctrine_phpcr.phpcr_odm_tree')
-            ->replaceArgument(5, $this->processDocumentTreeConfig($config['document_tree']));
-        $container->getDefinition('sonata.admin.doctrine_phpcr.phpcr_odm_tree')
+            ->replaceArgument(5, $this->processDocumentTreeConfig($config['document_tree']))
             ->replaceArgument(6, $options);
     }
 

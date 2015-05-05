@@ -80,6 +80,8 @@ class Configuration implements ConfigurationInterface
                     ->end()
                  ->end()
 
+                 ->scalarNode('document_tree_repository')->defaultValue('default')->end()
+
                 ->arrayNode('document_tree_defaults')
                     ->prototype('scalar')->end()
                 ->end()
