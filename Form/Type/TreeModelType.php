@@ -32,24 +32,11 @@ class TreeModelType extends AbstractType
     protected $defaults = array();
 
     /**
-     * @var TreeInterface
-     */
-    protected $tree;
-
-    /**
      * @param array $defaults
      */
     public function setDefaults(array $defaults)
     {
         $this->defaults = $defaults;
-    }
-
-    /**
-     * @param TreeInterface $tree
-     */
-    public function setTree(TreeInterface $tree)
-    {
-        $this->tree = $tree;
     }
 
     /**
@@ -68,8 +55,6 @@ class TreeModelType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        parent::buildView($view, $form, $options);
-        $view->vars['tree'] = $this->tree;
         $view->vars['root_node'] = $form->getConfig()->getAttribute('root_node');
         $view->vars['select_root_node'] = $form->getConfig()->getAttribute('select_root_node');
         $view->vars['repository_name'] = $form->getConfig()->getAttribute('repository_name');

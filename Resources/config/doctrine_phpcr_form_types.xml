@@ -10,9 +10,6 @@
             <call method="setDefaults">
                 <argument>%sonata_admin_doctrine_phpcr.tree_block.defaults%</argument>
             </call>
-            <call method="setTree">
-                <argument type="service" id="sonata.admin.doctrine_phpcr.phpcr_odm_tree" />
-            </call>
         </service>
 
         <service id="sonata.admin.doctrine_phpcr.form.type.phpcr_odm_tree_manager" class="Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeManagerType">

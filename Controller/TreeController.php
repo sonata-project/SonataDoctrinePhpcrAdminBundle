@@ -77,7 +77,6 @@ class TreeController extends Controller
         return $this->render($this->template, array(
             'repository_name' => $this->repositoryName,
             'root_node' => $root,
-            //'selected_node' => $selected,
             'routing_defaults' => $this->defaults,
             //'confirm_move' => $this->confirmMove,
             //'create_in_overlay' => $createInOverlay ? $createInOverlay : false,
