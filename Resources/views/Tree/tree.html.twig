@@ -36,8 +36,16 @@ file that was distributed with this source code.
                 }
             },
             actions: {
-                'edit': { url: { data: '?sonata_links.edit' }, label: 'Edit', icon: 'fa  fa-pencil' },
-                'delete': { url: { data: '?sonata_links.delete' }, label: 'Delete', icon: 'fa  fa-trash-o' }
+                'edit': {
+                    url: { data: '?sonata_links.edit' },
+                    label: {{ 'create_item'|trans({}, 'SonataDoctrinePhpcrAdminBundle') }},
+                    icon: 'fa fa-pencil'
+                },
+                'delete': {
+                    url: { data: '?sonata_links.delete' },
+                    label: {{ 'delete_item'|trans({}, 'SonataDoctrinePhpcrAdminBundle') }},
+                    icon: 'fa fa-trash-o'
+                }
             }
         });
     });
