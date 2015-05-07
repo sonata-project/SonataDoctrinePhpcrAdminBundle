@@ -14,7 +14,6 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
 
 /**
  * A controller to render the tree block
@@ -22,9 +21,9 @@ use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
 class TreeController extends Controller
 {
     /**
-     * @var TreeInterface
+     * @var string
      */
-    private $tree;
+    private $repositoryName;
 
     /**
      * @var string
@@ -42,14 +41,14 @@ class TreeController extends Controller
     private $confirmMove = false;
 
     /**
-     * @param TreeInterface $tree
-     * @param string $template
-     * @param array $defaults
+     * @param string  $repositoryName
+     * @param string  $template
+     * @param array   $defaults
      * @param boolean $confirmMove
      */
-    public function __construct(TreeInterface $tree, $template = null, array $defaults = array(), $confirmMove = false)
+    public function __construct($repositoryName = 'default', $template = null, array $defaults = array(), $confirmMove = false)
     {
-        $this->tree = $tree;
+        $this->repositoryName = $repositoryName;
         if ($template) {
             $this->template = $template;
         }
@@ -76,14 +75,13 @@ class TreeController extends Controller
         $selected = $request->attributes->get('selected') ?: $root;
 
         return $this->render($this->template, array(
-            'tree' => $this->tree,
+            'repository_name' => $this->repositoryName,
             'root_node' => $root,
-            'selected_node' => $selected,
             'routing_defaults' => $this->defaults,
-            'confirm_move' => $this->confirmMove,
-            'create_in_overlay' => $createInOverlay ? $createInOverlay : false,
-            'edit_in_overlay' => $editInOverlay ? $editInOverlay : false,
-            'delete_in_overlay' => $deleteInOverlay ? $deleteInOverlay : false,
+            //'confirm_move' => $this->confirmMove,
+            //'create_in_overlay' => $createInOverlay ? $createInOverlay : false,
+            //'edit_in_overlay' => $editInOverlay ? $editInOverlay : false,
+            //'delete_in_overlay' => $deleteInOverlay ? $deleteInOverlay : false,
         ));
     }
 }

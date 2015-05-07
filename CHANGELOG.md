@@ -1,6 +1,12 @@
 Changelog
 =========
 
+* **2015-05-06**: [BC break] Removed `Tree\PhpcrOdmTree`.
+* **2015-05-06**: [BC break] Changed first argument of `Controller\TreeController` from `TreeInterface $tree` to `$repositoryName = 'default'`.
+* **2015-05-06**: [BC break] The tree block template now only recieves a `repository_name`, `root_node` and `routing_defaults` variables.
+* **2015-05-06**: Added `document_tree_repository` setting.
+* **2015-05-06**: [BC break] Removed `Form\Type\TreeModelType#setTree()` method and `$tree` property.
+
 1.2.0
 -----
 

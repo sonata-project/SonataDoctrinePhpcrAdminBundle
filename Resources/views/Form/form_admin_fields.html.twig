@@ -148,7 +148,16 @@ file that was distributed with this source code.
 {% include 'CmfTreeBrowserBundle:Base:tree.html.twig' %}
 <script>
     jQuery(function ($) {
-        var defaults = {% include 'SonataDoctrinePHPCRAdminBundle:Tree:routing_defaults.html.twig' with {'routing_defaults': routing_defaults} %};
+        {% set routing_default_values = {} %}
+        {% for default in routing_defaults %}
+            {% if 'locale' == default %}
+                {% set routing_default_values = routing_default_values|merge({'_locale': app.request.locale}) %}
+            {% elseif 'format' == default %}
+                {% set routing_default_values = routing_default_values|merge({'_format': app.request.format}) %}
+            {% else %}
+                {% set routing_default_values = routing_default_values|merge({default: app.request.attributes.get(default)}) %}
+            {% endif %}
+        {% endfor %}
 
         $('#{{ id }}-tree-selector').cmfTree({
             request: {
@@ -157,8 +166,7 @@ file that was distributed with this source code.
                         url: '{{ path('_cmf_resource', {
                             repositoryName: repository_name,
                             path: '__path__'
-                        }) }}'.replace('__path__', nodePath)
-                        {# todo: include routing defaults #}
+                        }|merge(routing_default_values)) }}'.replace('__path__', nodePath)
                     };
                 },
             },
@@ -179,11 +187,12 @@ file that was distributed with this source code.
 {% block doctrine_phpcr_odm_tree_manager_widget %}
     {{ render(controller('sonata.admin.doctrine_phpcr.tree_controller:treeAction', {
         'root': form.vars.root,
-        'selected': false,
+    })) }}
+    {#    'selected': false,
         'create_in_overlay': form.vars.create_in_overlay,
         'edit_in_overlay': form.vars.edit_in_overlay,
         'delete_in_overlay': form.vars.delete_in_overlay
-    })) }}
+    })) #}
 {% endblock %}
 
 {% block choice_field_mask_widget %}
