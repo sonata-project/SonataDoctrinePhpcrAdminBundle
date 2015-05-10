@@ -206,6 +206,10 @@ file that was distributed with this source code.
         $('#{{ id }}-tree-reset').click(function () {
             $input.val('{{ value ?: (select_root_node ? root_node : '') }}');
         });
+
+        $('#{{ id }}-tree-tooltip').click(function (e) {
+            e.stopPropagation();
+        });
     });
 </script>
 
