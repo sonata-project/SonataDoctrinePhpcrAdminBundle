@@ -158,17 +158,7 @@ file that was distributed with this source code.
                 {% set routing_default_values = routing_default_values|merge({default: app.request.attributes.get(default)}) %}
             {% endif %}
         {% endfor %}
-        var $treeTooltip = $('#{{ id }}-tree-tooltip');
-
-        $treeTooltip.hide(100);
-
-        $('#{{ id }}-tree-tooltip-open').click(function (e) {
-            e.preventDefault();
-
-            $treeTooltip.toggle();
-        });
-
-        $('#{{ id }}-tree-selector').cmfTree({
+        var tree = $('#{{ id }}-tree-selector').cmfTree({
             request: {
                 load: function (nodePath) {
                     return {
@@ -183,40 +173,52 @@ file that was distributed with this source code.
         });
 
         $('#{{ id }}-tree-selector-output').cmfAutoComplete({
-            'data': function (path) {
-                var nodes = [];
-                var root = path.substr(0, path.lastIndexOf('/'));
+            data: function (nodePath, next) {
+                if (tree.getFromCache(nodePath)) {
+                    next(tree.getFromCache(nodePath));
+
+                    return;
+                }
 
                 jQuery.ajax({
-                    url: Routing.generate('_cmf_tree_{{ tree.alias }}_children', defaults),
+                    url: '{{ path('_cmf_resource', {
+                        repositoryName: repository_name,
+                        path: '__path__'
+                    }|merge(routing_default_values)) }}'.replace('__path__', nodePath.replace(/^\//, '')),
                     dataType: 'json',
                     type: 'GET',
-                    data: {root: root},
                     success: function (data) {
-                        data.forEach(function (node) {
-                            nodes.push(node.attr.id.substr(node.attr.id.lastIndexOf('/') + 1));
-                        });
+                        var nodes = [];
 
-                        return nodes;
+                        for (name in data.children) {
+                            if (data.children.hasOwnProperty(name)) {
+                                nodes.push(name);
+                            }
+                        }
+
+                        next(nodes);
                     }
                 });
-
-                return nodes;
             }
+        });
+
+        var $input = $('#{{ id }}-tree-selector-output');
+        $('#{{ id }}-tree-reset').click(function () {
+            $input.val('{{ value ?: (select_root_node ? root_node : '') }}');
         });
     });
 </script>
 
-<div class="form-inline">
+<div class="form-inline dropdown">
     <input class="form-control" name="{{ full_name }}" id="{{ id }}-tree-selector-output" list="{{ id }}-tree-datalist" value="{{ value ?: (select_root_node ? root_node : '') }}">
     <datalist id="{{ id }}-tree-datalist"></datalist>
 
-    <button class="btn btn-mini" id="{{ id }}-tree-tooltip-open">Select</button>
-    <button class="btn btn-mini" id={{ id }}-tree-reset>{{ 'reset_tree' | trans({}, 'SonataDoctrinePHPCRAdmin') }}</button>
-</div>
+    <span class="btn btn-default btn-mini" data-toggle="dropdown">Select</span>
+    <span class="btn btn-default btn-mini" id={{ id }}-tree-reset>{{ 'reset_tree' | trans({}, 'SonataDoctrinePHPCRAdmin') }}</span>
 
-<div id="{{ id }}-tree-tooltip">
-    <div id="{{ id }}-tree-selector"></div>
+    <div id="{{ id }}-tree-tooltip" class="dropdown-menu">
+        <div id="{{ id }}-tree-selector"></div>
+    </div>
 </div>
 {% endblock %}
 
