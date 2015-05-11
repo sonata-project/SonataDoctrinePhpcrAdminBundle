@@ -94,9 +94,8 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
 
         unset($options['confirm_move']);
 
-        $container->getDefinition('sonata.admin.doctrine_phpcr.phpcr_odm_tree')
-            ->replaceArgument(5, $this->processDocumentTreeConfig($config['document_tree']))
-            ->replaceArgument(6, $options);
+        $container->getDefinition('sonata.admin.doctrine_phpcr.tree_controller')
+            ->addMethodCall('setValidChildren', array($this->processDocumentTreeConfig($config['document_tree'])));
     }
 
     /**
