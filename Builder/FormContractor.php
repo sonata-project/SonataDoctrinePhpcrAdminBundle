@@ -11,14 +11,11 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Builder;
 
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\FormContractorInterface;
-
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormFactoryInterface;
-
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 
 class FormContractor implements FormContractorInterface
 {
@@ -36,7 +33,7 @@ class FormContractor implements FormContractorInterface
     }
 
     /**
-     * The method defines the correct default settings for the provided FieldDescription
+     * The method defines the correct default settings for the provided FieldDescription.
      *
      * {@inheritDoc}
      *
@@ -115,7 +112,7 @@ class FormContractor implements FormContractorInterface
         if ($type == 'sonata_type_model' || $type == 'sonata_type_model_list') {
             if (!$fieldDescription->getTargetEntity()) {
                 throw new \LogicException(sprintf(
-                    'The field "%s" in class "%s" does not have a target model defined. ' .
+                    'The field "%s" in class "%s" does not have a target model defined. '.
                     'Please specify the "targetDocument" attribute in the mapping for this class.',
                     $fieldDescription->getName(),
                     $fieldDescription->getAdmin()->getClass()
@@ -124,18 +121,14 @@ class FormContractor implements FormContractorInterface
 
             $options['class']         = $fieldDescription->getTargetEntity();
             $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
-
-        } else if ($type == 'sonata_type_admin') {
-
+        } elseif ($type == 'sonata_type_admin') {
             if (!$fieldDescription->getAssociationAdmin()) {
                 throw $this->getAssociationAdminException($fieldDescription);
             }
 
             $options['data_class'] = $fieldDescription->getAssociationAdmin()->getClass();
             $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'admin'));
-
-        } else if ($type == 'sonata_type_collection') {
-
+        } elseif ($type == 'sonata_type_collection') {
             if (!$fieldDescription->getAssociationAdmin()) {
                 throw $this->getAssociationAdminException($fieldDescription);
             }
@@ -144,9 +137,8 @@ class FormContractor implements FormContractorInterface
             $options['modifiable']   = true;
             $options['type_options'] = array(
                 'sonata_field_description' => $fieldDescription,
-                'data_class'               => $fieldDescription->getAssociationAdmin()->getClass()
+                'data_class'               => $fieldDescription->getAssociationAdmin()->getClass(),
             );
-
         }
 
         return $options;
@@ -164,7 +156,7 @@ class FormContractor implements FormContractorInterface
             if ($fieldDescription->getTargetEntity()) {
                 $msg .= " for the target document: `{$fieldDescription->getTargetEntity()}`";
             }
-            $msg .= ", specify the `targetDocument` in the Reference, or the `referringDocument` in the Referrers or use the option `admin_code` to link it.";
+            $msg .= ', specify the `targetDocument` in the Reference, or the `referringDocument` in the Referrers or use the option `admin_code` to link it.';
         } else {
             $msg .= ' and use the option `admin_code` to link it.';
         }

@@ -66,8 +66,8 @@ class StringFilterTest extends BaseTestCase
             )),
             array(ChoiceType::TYPE_NOT_CONTAINS, array(
                 'where.constraint' => array(
-                    'getField' => 'somefield',
-                    'getFullTextSearchExpression' => '* -somevalue'),
+                    'getField'                    => 'somefield',
+                    'getFullTextSearchExpression' => '* -somevalue', ),
             )),
             array(ChoiceType::TYPE_CONTAINS, array(
                 'where.constraint.operand_dynamic' => array(
@@ -80,8 +80,8 @@ class StringFilterTest extends BaseTestCase
             )),
             array(ChoiceType::TYPE_CONTAINS_WORDS, array(
                 'where.constraint' => array(
-                    'getField' => 'somefield',
-                    'getFullTextSearchExpression' => 'somevalue'),
+                    'getField'                    => 'somefield',
+                    'getFullTextSearchExpression' => 'somevalue', ),
             )),
         );
     }
@@ -92,9 +92,9 @@ class StringFilterTest extends BaseTestCase
     public function testFilterSwitch($choiceType, $assertPaths)
     {
         $this->filter->filter(
-            $this->proxyQuery, 
-            null, 
-            'somefield', 
+            $this->proxyQuery,
+            null,
+            'somefield',
             array('type' => $choiceType, 'value' => 'somevalue')
         );
         $this->assertTrue($this->filter->isActive());

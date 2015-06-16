@@ -17,12 +17,12 @@ use PHPCR\Util\PathHelper;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\Pool;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class AutoCompleteController
+class AutocompleteController
 {
     /**
      * @var \Sonata\AdminBundle\Admin\Pool
@@ -39,7 +39,9 @@ class AutoCompleteController
 
     /**
      * @param Request $request
+     *
      * @return Response
+     *
      * @throws AccessDeniedException
      */
     public function autoCompleteAction(Request $request)
@@ -84,7 +86,7 @@ class AutoCompleteController
         if ($class) {
             /** @var $qb \Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder */
             $qb =  $dm->getRepository($class)->createQueryBuilder('a');
-            $qb->where()->fullTextSearch("a.$property", '*' . $searchText . '*');
+            $qb->where()->fullTextSearch("a.$property", '*'.$searchText.'*');
             $qb->setFirstResult($offset);
             //fetch one more to determine if there are more pages
             $qb->setMaxResults($itemsPerPage + 1);
@@ -95,9 +97,9 @@ class AutoCompleteController
             $qb = $dm->createPhpcrQueryBuilder();
             // TODO: node type should probably be configurable
             $qb->from($qb->getQOMFactory()->selector('a', 'nt:unstructured'));
-            $qb->where($qb->getQOMFactory()->fullTextSearch('a', $property, '*' . $searchText . '*'));
+            $qb->where($qb->getQOMFactory()->fullTextSearch('a', $property, '*'.$searchText.'*'));
             // handle attribute translation
-            $qb->orWhere($qb->getQOMFactory()->fullTextSearch('a', $dm->getTranslationStrategy('attribute')->getTranslatedPropertyName($request->getLocale(), $property), '*' . $searchText . '*'));
+            $qb->orWhere($qb->getQOMFactory()->fullTextSearch('a', $dm->getTranslationStrategy('attribute')->getTranslatedPropertyName($request->getLocale(), $property), '*'.$searchText.'*'));
             $qb->setFirstResult($offset);
             //fetch one more to determine if there are more pages
             $qb->setMaxResults($itemsPerPage + 1);
@@ -138,9 +140,8 @@ class AutoCompleteController
         return new JsonResponse(array(
             'status' => 'OK',
             'more'   => $more,
-            'items'  => $items
+            'items'  => $items,
         ));
-
     }
 
     /**

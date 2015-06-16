@@ -11,8 +11,8 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
-use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 
 class NodeNameFilter extends Filter
 {
@@ -53,7 +53,7 @@ class NodeNameFilter extends Filter
     public function getDefaultOptions()
     {
         return array(
-            'format'   => '%%%s%%'
+            'format'   => '%%%s%%',
         );
     }
 
@@ -65,7 +65,7 @@ class NodeNameFilter extends Filter
         return array('doctrine_phpcr_type_filter_choice', array(
             'field_type'    => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
-            'label'         => $this->getLabel()
+            'label'         => $this->getLabel(),
         ));
     }
 }

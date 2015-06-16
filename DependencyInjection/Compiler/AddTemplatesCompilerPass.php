@@ -11,9 +11,8 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
@@ -28,7 +27,6 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
     {
         $settings = $this->fixSettings($container);
         foreach ($container->findTaggedServiceIds('sonata.admin') as $id => $attributes) {
-
             if (!isset($attributes[0]['manager_type']) || $attributes[0]['manager_type'] != 'doctrine_phpcr') {
                 continue;
             }
@@ -50,7 +48,7 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
     /**
      * @param ContainerBuilder $container
      *
-     * @return boolean
+     * @return bool
      */
     protected function fixSettings(ContainerBuilder $container)
     {
@@ -75,4 +73,3 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
         return $settings;
     }
 }
-

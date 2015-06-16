@@ -11,13 +11,12 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Builder;
 
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
+use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\ShowBuilderInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
-
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 
 class ShowBuilder implements ShowBuilderInterface
 {
@@ -75,14 +74,14 @@ class ShowBuilder implements ShowBuilderInterface
     private function getTemplate($type)
     {
         if (!isset($this->templates[$type])) {
-            return null;
+            return;
         }
 
         return $this->templates[$type];
     }
 
     /**
-     * The method defines the correct default settings for the provided FieldDescription
+     * The method defines the correct default settings for the provided FieldDescription.
      *
      * {@inheritDoc}
      *
@@ -114,7 +113,6 @@ class ShowBuilder implements ShowBuilderInterface
         $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
 
         if (!$fieldDescription->getTemplate()) {
-
             $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
 
             if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {
@@ -126,7 +124,7 @@ class ShowBuilder implements ShowBuilderInterface
             }
         }
 
-        switch($fieldDescription->getMappingType()) {
+        switch ($fieldDescription->getMappingType()) {
             case ClassMetadata::MANY_TO_ONE:
             case ClassMetadata::MANY_TO_MANY:
                 $admin->attachAdminClass($fieldDescription);

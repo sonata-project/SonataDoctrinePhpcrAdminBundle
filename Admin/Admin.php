@@ -14,8 +14,8 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Admin;
 use PHPCR\Util\PathHelper;
 use PHPCR\Util\UUIDHelper;
 use Sonata\AdminBundle\Admin\Admin as BaseAdmin;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Route\RouteCollection;
 
 /**
  * Extend the Admin class to incorporate phpcr changes.
@@ -81,7 +81,7 @@ class Admin extends BaseAdmin
     }
 
     /**
-     * Get subject
+     * Get subject.
      *
      * Overridden to allow a broader set of valid characters in the ID, and
      * if the ID is not a UUID, to call absolutizePath on the ID.
@@ -128,6 +128,7 @@ class Admin extends BaseAdmin
 
         if (method_exists($object, '__toString') && null !== $object->__toString()) {
             $string = (string) $object;
+
             return '' !== $string ? $string : $this->trans('link_add', array(), 'SonataAdminBundle');
         }
 
@@ -139,4 +140,3 @@ class Admin extends BaseAdmin
         return parent::toString($object);
     }
 }
-

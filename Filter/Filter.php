@@ -17,7 +17,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 abstract class Filter extends BaseFilter
 {
     /**
-     * @var boolean
+     * @var bool
      */
     protected $active = false;
 

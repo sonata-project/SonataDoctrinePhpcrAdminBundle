@@ -11,19 +11,17 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Model;
 
-use Sonata\DoctrinePHPCRAdminBundle\Admin\FieldDescription;
-use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Util\ClassUtils;
+use Doctrine\ODM\PHPCR\DocumentManager;
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exception\ModelManagerException;
-
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
-use Doctrine\ODM\PHPCR\DocumentManager;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Util\ClassUtils;
-
+use Sonata\AdminBundle\Model\ModelManagerInterface;
+use Sonata\DoctrinePHPCRAdminBundle\Admin\FieldDescription;
+use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 
 class ModelManager implements ModelManagerInterface
@@ -42,7 +40,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * Returns the related model's metadata
+     * Returns the related model's metadata.
      *
      * @param string $class
      *
@@ -58,7 +56,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @param string $class
      *
-     * @return boolean
+     * @return bool
      */
     public function hasMetadata($class)
     {
@@ -118,7 +116,7 @@ class ModelManager implements ModelManagerInterface
     public function find($class, $id)
     {
         if (!isset($id)) {
-            return null;
+            return;
         }
 
         if (null === $class) {
@@ -143,7 +141,7 @@ class ModelManager implements ModelManagerInterface
 
         $metadata = $this->getMetadata($class);
 
-        $fieldDescription = new FieldDescription;
+        $fieldDescription = new FieldDescription();
         $fieldDescription->setName($name);
         $fieldDescription->setOptions($options);
 
@@ -279,7 +277,7 @@ class ModelManager implements ModelManagerInterface
 
         // the document is not managed
         if (!$document || !$this->getDocumentManager()->contains($document)) {
-            return null;
+            return;
         }
 
         $values = $this->getIdentifierValues($document);
@@ -303,7 +301,7 @@ class ModelManager implements ModelManagerInterface
             return substr($id, 1);
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -311,7 +309,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx)
     {
-        /** @var $queryProxy ProxyQuery */
+        /* @var $queryProxy ProxyQuery */
         $qb = $queryProxy->getQueryBuilder();
 
         $orX = $qb->andWhere()->orX();
@@ -371,7 +369,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getModelInstance($class)
     {
-        return new $class;
+        return new $class();
     }
 
     /**
@@ -418,7 +416,7 @@ class ModelManager implements ModelManagerInterface
         return array(
             '_sort_order' => 'ASC',
             '_sort_by'    => $this->getModelIdentifier($class),
-            '_page'       => 1
+            '_page'       => 1,
         );
     }
 
@@ -438,7 +436,7 @@ class ModelManager implements ModelManagerInterface
      * @return object
      *
      * @throws NoSuchPropertyException if the class has no magic setter and
-     *      public property for a field in array.
+     *                                 public property for a field in array.
      */
     public function modelReverseTransform($class, array $array = array())
     {
@@ -447,22 +445,19 @@ class ModelManager implements ModelManagerInterface
 
         $reflClass = $metadata->reflClass;
         foreach ($array as $name => $value) {
-
             $reflection_property = false;
             // property or association ?
             if (array_key_exists($name, $metadata->fieldMappings)) {
-
                 $property = $metadata->fieldMappings[$name]['fieldName'];
                 $reflection_property = $metadata->reflFields[$name];
-
-            } else if (array_key_exists($name, $metadata->associationMappings)) {
+            } elseif (array_key_exists($name, $metadata->associationMappings)) {
                 $property = $metadata->associationMappings[$name]['fieldName'];
             } else {
                 $property = $name;
             }
 
             // TODO: use PropertyAccess https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/issues/187
-            $setter = 'set' . $this->camelize($name);
+            $setter = 'set'.$this->camelize($name);
 
             if ($reflClass->hasMethod($setter)) {
                 if (!$reflClass->getMethod($setter)->isPublic()) {
@@ -470,16 +465,16 @@ class ModelManager implements ModelManagerInterface
                 }
 
                 $instance->$setter($value);
-            } else if ($reflClass->hasMethod('__set')) {
+            } elseif ($reflClass->hasMethod('__set')) {
                 // needed to support magic method __set
                 $instance->$property = $value;
-            } else if ($reflClass->hasProperty($property)) {
+            } elseif ($reflClass->hasProperty($property)) {
                 if (!$reflClass->getProperty($property)->isPublic()) {
                     throw new NoSuchPropertyException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "set%s()"?', $property, $reflClass->getName(), ucfirst($property)));
                 }
 
                 $instance->$property = $value;
-            } else if ($reflection_property) {
+            } elseif ($reflection_property) {
                 $reflection_property->setValue($instance, $value);
             }
         }
@@ -548,7 +543,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null)
     {
-        throw new \RuntimeException("Datasourceiterator not implemented.");
+        throw new \RuntimeException('Datasourceiterator not implemented.');
     }
 
     /**

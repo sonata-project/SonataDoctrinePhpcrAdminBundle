@@ -11,9 +11,8 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Datagrid;
 
-use Sonata\DoctrinePHPCRAdminBundle\Datagrid\SimplePager;
-use Doctrine\ODM\PHPCR\Query\Query as PHPCRQuery;
 use Doctrine\Common\Collections\ArrayCollection;
+use Sonata\DoctrinePHPCRAdminBundle\Datagrid\SimplePager;
 
 class SimplePagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,7 +31,6 @@ class SimplePagerTest extends \PHPUnit_Framework_TestCase
                 ->method('execute')
                 ->with(array(), null)
                 ->will($this->returnValue(new ArrayCollection(range(0, 12))));
-
 
         $this->proxyQuery->expects($this->once())
             ->method('setMaxResults')

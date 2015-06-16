@@ -11,15 +11,14 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Sonata\AdminBundle\DependencyInjection\AbstractSonataAdminExtension;
-
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 /**
- * SonataAdminBundleExtension
+ * SonataAdminBundleExtension.
  *
  * @author      Thomas Rabaix <thomas.rabaix@sonata-project.org>
  * @author      Michael Williams <michael.williams@funsational.com>
@@ -41,12 +40,12 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
                     ),
                     'show' => array(
                         'doctrine_phpcr_many_to_many' => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_many_to_many.html.twig',
-                        'doctrine_phpcr_many_to_one' => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_many_to_one.html.twig',
-                        'doctrine_phpcr_one_to_many' => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_one_to_many.html.twig',
-                        'doctrine_phpcr_one_to_one' => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_one_to_one.html.twig',
-                    )
-                )
-            )
+                        'doctrine_phpcr_many_to_one'  => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_many_to_one.html.twig',
+                        'doctrine_phpcr_one_to_many'  => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_one_to_many.html.twig',
+                        'doctrine_phpcr_one_to_one'   => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_one_to_one.html.twig',
+                    ),
+                ),
+            ),
         );
 
         $configs = $this->fixTemplatesConfiguration($configs, $container, $defaultConfig);
@@ -79,7 +78,7 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
     }
 
     /**
-     * Set the tree type mapping configuration in the services
+     * Set the tree type mapping configuration in the services.
      *
      * @param array            $config
      * @param ContainerBuilder $container
@@ -102,7 +101,7 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
     /**
      * Process the document tree config
      * Expand references to 'all' to an array of all types
-     * Validate document types
+     * Validate document types.
      *
      * @param array $documentTree
      */
@@ -140,7 +139,7 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
     }
 
     /**
-     * Find all document classes within a document tree
+     * Find all document classes within a document tree.
      *
      * @param array $documentTree
      */

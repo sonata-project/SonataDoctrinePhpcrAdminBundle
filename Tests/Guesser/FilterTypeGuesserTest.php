@@ -1,8 +1,8 @@
 <?php
+
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Guesser;
 
 use Sonata\DoctrinePHPCRAdminBundle\Guesser\FilterTypeGuesser;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\Guess\Guess;
 
 class FilterTypeGuesserTest extends \PHPUnit_Framework_TestCase
@@ -48,10 +48,10 @@ class FilterTypeGuesserTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertSame(
             array(
-                'field_type'     => 'text',
-                'field_options'  => array(),
-                'options'        => array(),
-                'field_name'      => $fieldname
+                'field_type'      => 'text',
+                'field_options'   => array(),
+                'options'         => array(),
+                'field_name'      => $fieldname,
             ),
             $typeGuess->getOptions()
         );
