@@ -11,18 +11,16 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Builder;
 
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\AdminBundle\Datagrid\PagerInterface;
-use Sonata\AdminBundle\Filter\FilterInterface;
 use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\Datagrid;
+use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\DatagridBuilderInterface;
-use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
+use Sonata\AdminBundle\Datagrid\Datagrid;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
+use Sonata\AdminBundle\Datagrid\PagerInterface;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
-
+use Sonata\AdminBundle\Filter\FilterInterface;
+use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\SimplePager;
-
 use Symfony\Component\Form\FormFactory;
 
 class DatagridBuilder implements DatagridBuilderInterface
@@ -43,7 +41,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     protected $guesser;
 
     /**
-     * Indicates that csrf protection enabled
+     * Indicates that csrf protection enabled.
      *
      * @var bool
      */
@@ -55,10 +53,10 @@ class DatagridBuilder implements DatagridBuilderInterface
     protected $pager;
 
     /**
-     * @param FormFactory $formFactory
+     * @param FormFactory            $formFactory
      * @param FilterFactoryInterface $filterFactory
-     * @param TypeGuesserInterface $guesser
-     * @param bool $csrfTokenEnabled
+     * @param TypeGuesserInterface   $guesser
+     * @param bool                   $csrfTokenEnabled
      */
     public function __construct(FormFactory $formFactory, FilterFactoryInterface $filterFactory, TypeGuesserInterface $guesser, $csrfTokenEnabled = true)
     {

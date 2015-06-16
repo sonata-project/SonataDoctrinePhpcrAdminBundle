@@ -11,9 +11,8 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Datagrid;
 
-use Sonata\DoctrinePHPCRAdminBundle\Datagrid\SimplePager;
-use Doctrine\ODM\PHPCR\Query\Query as PHPCRQuery;
 use Doctrine\Common\Collections\ArrayCollection;
+use Sonata\DoctrinePHPCRAdminBundle\Datagrid\SimplePager;
 
 class SimplePagerBasicTest extends \PHPUnit_Framework_TestCase
 {

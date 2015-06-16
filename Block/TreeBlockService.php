@@ -27,9 +27,9 @@ class TreeBlockService extends BaseBlockService
     protected $defaults;
 
     /**
-     * @param string $name
+     * @param string          $name
      * @param EngineInterface $templating
-     * @param array $defaults
+     * @param array           $defaults
      */
     public function __construct($name, EngineInterface $templating, array $defaults = array())
     {

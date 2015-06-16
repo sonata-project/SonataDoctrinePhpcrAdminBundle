@@ -13,9 +13,9 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TreeManagerType extends AbstractType
 {
@@ -43,7 +43,7 @@ class TreeManagerType extends AbstractType
 
         $resolver->setDefaults(array(
             'create_in_overlay' => true,
-            'edit_in_overlay' => true,
+            'edit_in_overlay'   => true,
             'delete_in_overlay' => true,
         ));
     }

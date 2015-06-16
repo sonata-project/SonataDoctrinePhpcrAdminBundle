@@ -11,12 +11,12 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
- * A controller to render the tree block
+ * A controller to render the tree block.
  */
 class TreeController extends Controller
 {
@@ -36,15 +36,15 @@ class TreeController extends Controller
     private $defaults;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $confirmMove = false;
 
     /**
-     * @param string  $repositoryName
-     * @param string  $template
-     * @param array   $defaults
-     * @param boolean $confirmMove
+     * @param string $repositoryName
+     * @param string $template
+     * @param array  $defaults
+     * @param bool   $confirmMove
      */
     public function __construct($repositoryName = 'default', $template = null, array $defaults = array(), $confirmMove = false)
     {
@@ -59,7 +59,7 @@ class TreeController extends Controller
 
     /**
      * Renders a tree, passing the routes for each of the admin types (document types)
-     * to the view
+     * to the view.
      *
      * @param Request $request
      *
@@ -75,8 +75,8 @@ class TreeController extends Controller
         $selected = $request->attributes->get('selected') ?: $root;
 
         return $this->render($this->template, array(
-            'repository_name' => $this->repositoryName,
-            'root_node' => $root,
+            'repository_name'  => $this->repositoryName,
+            'root_node'        => $root,
             'routing_defaults' => $this->defaults,
             //'confirm_move' => $this->confirmMove,
             //'create_in_overlay' => $createInOverlay ? $createInOverlay : false,

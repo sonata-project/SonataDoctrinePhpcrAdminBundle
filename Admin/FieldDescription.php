@@ -32,12 +32,12 @@ class FieldDescription extends BaseFieldDescription
     public function setAssociationMapping($associationMapping)
     {
         if (!is_array($associationMapping)) {
-           throw new \InvalidArgumentException('The association mapping must be an array');
+            throw new \InvalidArgumentException('The association mapping must be an array');
         }
 
         $this->associationMapping = $associationMapping;
 
-        if(isset($associationMapping['type'])){
+        if (isset($associationMapping['type'])) {
             $this->type         = $this->type ?: $associationMapping['type'];
             $this->mappingType  = $this->mappingType ?: $associationMapping['type'];
         } else {
@@ -58,7 +58,7 @@ class FieldDescription extends BaseFieldDescription
             return $this->associationMapping['referringDocument'];
         }
 
-        return null;
+        return;
     }
 
     /**

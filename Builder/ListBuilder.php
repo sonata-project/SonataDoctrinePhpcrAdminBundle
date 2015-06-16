@@ -11,13 +11,12 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Builder;
 
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
+use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\ListBuilderInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
-
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 
 class ListBuilder implements ListBuilderInterface
 {
@@ -33,7 +32,7 @@ class ListBuilder implements ListBuilderInterface
 
     /**
      * @param TypeGuesserInterface $guesser
-     * @param array $templates
+     * @param array                $templates
      */
     public function __construct(TypeGuesserInterface $guesser, array $templates = array())
     {
@@ -83,7 +82,7 @@ class ListBuilder implements ListBuilderInterface
     private function getTemplate($type)
     {
         if (!isset($this->templates[$type])) {
-            return null;
+            return;
         }
 
         return $this->templates[$type];
@@ -143,7 +142,6 @@ class ListBuilder implements ListBuilderInterface
         $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
 
         if (!$fieldDescription->getTemplate()) {
-
             $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
 
             if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {

@@ -14,12 +14,12 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Filter;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\CallbackFilter;
 
-class CallbackFilterTest extends BaseTestCase
+class CallBackFilterTest extends BaseTestCase
 {
     public function testFilterNullData()
     {
         $filter = new CallbackFilter();
-        $filter->initialize('field_name', array('callback' => function() { return; }));
+        $filter->initialize('field_name', array('callback' => function () { return; }));
         $res = $filter->filter($this->proxyQuery, null, 'somefield', null);
         $this->assertNull($res);
         $this->assertFalse($filter->isActive());
@@ -29,7 +29,7 @@ class CallbackFilterTest extends BaseTestCase
     {
         $filter = new CallbackFilter();
 
-        $filter->initialize('field_name', array('callback' => function() { return; }));
+        $filter->initialize('field_name', array('callback' => function () { return; }));
         $res = $filter->filter($this->proxyQuery, null, 'somefield', array());
         $this->assertNull($res);
         $this->assertFalse($filter->isActive());
@@ -43,7 +43,7 @@ class CallbackFilterTest extends BaseTestCase
 
         $filter = new CallbackFilter();
         $filter->initialize('field_name', array(
-            'callback' => array($this, 'callbackMethod')
+            'callback' => array($this, 'callbackMethod'),
         ));
 
         $filter->filter($this->proxyQuery, null, 'somefield', array('type' => '', 'value' => 'somevalue'));
@@ -77,8 +77,9 @@ class CallbackFilterTest extends BaseTestCase
             'callback' => function (ProxyQueryInterface $proxyQuery, $alias, $field, $data) {
                 $queryBuilder = $proxyQuery->getQueryBuilder();
                 $queryBuilder->andWhere()->eq()->field('a.'.$field)->literal($data['value']);
+
                 return true;
-            }
+            },
         ));
 
         $filter->filter($this->proxyQuery, null, 'somefield', array('type' => '', 'value' => 'somevalue'));

@@ -95,8 +95,8 @@ class ChoiceFilterTest extends BaseTestCase
     {
         return array(
             array(array(
-                'choiceType' => ChoiceType::TYPE_NOT_CONTAINS, 
-                'value' => 'somevalue',
+                'choiceType'  => ChoiceType::TYPE_NOT_CONTAINS,
+                'value'       => 'somevalue',
                 'qbNodeCount' => 6,
                 'assertPaths' => array(
                     'where.constraint.constraint[0].constraint.operand_dynamic' => array(
@@ -109,8 +109,8 @@ class ChoiceFilterTest extends BaseTestCase
                 ),
             )),
             array(array(
-                'choiceType' => ChoiceType::TYPE_NOT_CONTAINS, 
-                'value' => array('somevalue', 'somevalue'),
+                'choiceType'  => ChoiceType::TYPE_NOT_CONTAINS,
+                'value'       => array('somevalue', 'somevalue'),
                 'qbNodeCount' => 10,
                 'assertPaths' => array(
                     'where.constraint.constraint.constraint.operand_dynamic' => array(
@@ -130,8 +130,8 @@ class ChoiceFilterTest extends BaseTestCase
                 ),
             )),
             array(array(
-                'choiceType' => ChoiceType::TYPE_CONTAINS, 
-                'value' => 'somevalue',
+                'choiceType'  => ChoiceType::TYPE_CONTAINS,
+                'value'       => 'somevalue',
                 'qbNodeCount' => 5,
                 'assertPaths' => array(
                     'where.constraint.constraint.operand_dynamic' => array(
@@ -147,8 +147,8 @@ class ChoiceFilterTest extends BaseTestCase
                 ),
             )),
             array(array(
-                'choiceType' => ChoiceType::TYPE_CONTAINS, 
-                'value' => array('somevalue', 'somevalue'),
+                'choiceType'  => ChoiceType::TYPE_CONTAINS,
+                'value'       => array('somevalue', 'somevalue'),
                 'qbNodeCount' => 8,
                 'assertPaths' => array(
                     'where.constraint.constraint.operand_dynamic' => array(
@@ -168,8 +168,8 @@ class ChoiceFilterTest extends BaseTestCase
                 ),
             )),
             array(array(
-                'choiceType' => ChoiceType::TYPE_CONTAINS, 
-                'value' => 'somevalue',
+                'choiceType'  => ChoiceType::TYPE_CONTAINS,
+                'value'       => 'somevalue',
                 'qbNodeCount' => 5,
                 'assertPaths' => array(
                     'where.constraint.constraint.operand_dynamic' => array(
@@ -185,8 +185,8 @@ class ChoiceFilterTest extends BaseTestCase
                 ),
             )),
             array(array(
-                'choiceType' => ChoiceType::TYPE_CONTAINS, 
-                'value' => array('somevalue', 'somevalue'),
+                'choiceType'  => ChoiceType::TYPE_CONTAINS,
+                'value'       => array('somevalue', 'somevalue'),
                 'qbNodeCount' => 8,
                 'assertPaths' => array(
                     'where.constraint.constraint.operand_dynamic' => array(
@@ -206,8 +206,8 @@ class ChoiceFilterTest extends BaseTestCase
                 ),
             )),
             array(array(
-                'choiceType' => ChoiceType::TYPE_EQUAL, 
-                'value' => 'somevalue',
+                'choiceType'  => ChoiceType::TYPE_EQUAL,
+                'value'       => 'somevalue',
                 'qbNodeCount' => 5,
                 'assertPaths' => array(
                     'where.constraint.constraint.operand_dynamic' => array(
@@ -223,8 +223,8 @@ class ChoiceFilterTest extends BaseTestCase
                 ),
             )),
             array(array(
-                'choiceType' => ChoiceType::TYPE_EQUAL, 
-                'value' => array('somevalue', 'somevalue'),
+                'choiceType'  => ChoiceType::TYPE_EQUAL,
+                'value'       => array('somevalue', 'somevalue'),
                 'qbNodeCount' => 8,
                 'assertPaths' => array(
                     'where.constraint.constraint.operand_dynamic' => array(
@@ -252,8 +252,8 @@ class ChoiceFilterTest extends BaseTestCase
     public function testFilterMultipleSwitch($options)
     {
         $options = array_merge(array(
-            'choiceType' => null,
-            'value' => null,
+            'choiceType'  => null,
+            'value'       => null,
             'assertPaths' => array(),
             'qbNodeCount' => 0,
         ), $options);

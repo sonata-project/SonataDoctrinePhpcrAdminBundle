@@ -11,8 +11,8 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Datagrid;
 
-use Sonata\DoctrinePHPCRAdminBundle\Datagrid\Pager;
 use Doctrine\ODM\PHPCR\Query\Query as PHPCRQuery;
+use Sonata\DoctrinePHPCRAdminBundle\Datagrid\Pager;
 
 class PagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,7 +42,7 @@ class PagerTest extends \PHPUnit_Framework_TestCase
 
         $this->pager->setQuery($this->proxyQuery);
         $this->pager->init();
-        
+
         $this->assertEquals(2, $this->pager->getLastPage());
     }
 
@@ -65,7 +65,7 @@ class PagerTest extends \PHPUnit_Framework_TestCase
         $this->pager->setQuery($this->proxyQuery);
         $this->pager->setPage(2);
         $this->pager->init();
-        
+
         $this->assertEquals(2, $this->pager->getLastPage());
     }
 
@@ -84,7 +84,7 @@ class PagerTest extends \PHPUnit_Framework_TestCase
         // Max per page 0 means no pagination
         $this->pager->setMaxPerPage(0);
         $this->pager->init();
-        
+
         $this->assertEquals(0, $this->pager->getLastPage());
     }
 
@@ -106,7 +106,7 @@ class PagerTest extends \PHPUnit_Framework_TestCase
         $this->pager->init();
         $this->AssertEquals(0, $this->pager->getLastPage());
     }
-    
+
     public function testInitNoQuery()
     {
         $this->setExpectedException('RuntimeException');

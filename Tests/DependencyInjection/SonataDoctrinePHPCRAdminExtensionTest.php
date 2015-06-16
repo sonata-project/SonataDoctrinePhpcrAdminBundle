@@ -31,26 +31,26 @@ class SonataDoctrinePHPCRAdminExtensionTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     '\StdClass' => array(
-                        'valid_children' => array('all')
-                    )
+                        'valid_children' => array('all'),
+                    ),
                 ),
                 array(
                     '\StdClass' => array(
-                        'valid_children' => array('\StdClass')
-                    )
+                        'valid_children' => array('\StdClass'),
+                    ),
                 ),
             ),
             // Expansion with a valid_children array with all and a class
             array(
                 array(
                     '\StdClass' => array(
-                        'valid_children' => array('all', '\StdClass')
-                    )
+                        'valid_children' => array('all', '\StdClass'),
+                    ),
                 ),
                 array(
                     '\StdClass' => array(
-                        'valid_children' => array('\StdClass')
-                    )
+                        'valid_children' => array('\StdClass'),
+                    ),
                 ),
             ),
             // Empty config ignored
@@ -63,34 +63,34 @@ class SonataDoctrinePHPCRAdminExtensionTest extends \PHPUnit_Framework_TestCase
             // Ensure all 'all' values do not appear in expanded valid_children
             array(
                 array(
-                    '\StdClass' => array('valid_children' => array('all')),
-                    '\SplFileInfo' => array('valid_children' => array('all'))
+                    '\StdClass'    => array('valid_children' => array('all')),
+                    '\SplFileInfo' => array('valid_children' => array('all')),
                 ),
                 array(
-                    '\StdClass' => array('valid_children' => array('\StdClass', '\SplFileInfo')),
-                    '\SplFileInfo' => array('valid_children' => array('\StdClass', '\SplFileInfo'))
+                    '\StdClass'    => array('valid_children' => array('\StdClass', '\SplFileInfo')),
+                    '\SplFileInfo' => array('valid_children' => array('\StdClass', '\SplFileInfo')),
                 ),
             ),
             // Allow valid children that are not mapped in the top level
             array(
                 array(
-                    '\StdClass' => array('valid_children' => array('\SplFileInfo'))
+                    '\StdClass' => array('valid_children' => array('\SplFileInfo')),
                 ),
                 array(
-                    '\StdClass' => array('valid_children' => array('\SplFileInfo'))
-                )
+                    '\StdClass' => array('valid_children' => array('\SplFileInfo')),
+                ),
             ),
             // Complex example
             array(
                 array(
                     'Doctrine\ODM\PHPCR\Document\Generic' => array('valid_children' => array(
-                        'all'
+                        'all',
                     )),
                     '\SplFileInfo' => array('valid_children' => array(
-                        '\StdClass'
+                        '\StdClass',
                     )),
                     '\StdClass' => array('valid_children' => array(
-                        '\StdClass'
+                        '\StdClass',
                     )),
                     '\ArrayIterator' => array('valid_children' => array()),
                 ),
@@ -102,37 +102,37 @@ class SonataDoctrinePHPCRAdminExtensionTest extends \PHPUnit_Framework_TestCase
                         '\ArrayIterator',
                     )),
                     '\SplFileInfo' => array('valid_children' => array(
-                        '\StdClass'
+                        '\StdClass',
                     )),
                     '\StdClass' => array('valid_children' => array(
-                        '\StdClass'
+                        '\StdClass',
                     )),
                     '\ArrayIterator' => array('valid_children' => array()),
-                )
+                ),
             ),
             // Exception due to invalid child class
             array(
                 array(
-                    '\StdClass' => array('valid_children' => array('\Foo\Bar'))
+                    '\StdClass' => array('valid_children' => array('\Foo\Bar')),
                 ),
                 null,
-                'InvalidArgumentException'
+                'InvalidArgumentException',
             ),
             // Exception due to invalid parent class
             array(
                 array(
-                    'Foo\Bar' => array('valid_children' => array('all'))
+                    'Foo\Bar' => array('valid_children' => array('all')),
                 ),
                 null,
-                'InvalidArgumentException'
+                'InvalidArgumentException',
             ),
             // Exception due to invalid class in an array with special 'all' value
             array(
                 array(
-                    '\StdClass' => array('valid_children' => array('all', 'Foo\Bar'))
+                    '\StdClass' => array('valid_children' => array('all', 'Foo\Bar')),
                 ),
                 null,
-                'InvalidArgumentException'
+                'InvalidArgumentException',
             ),
         );
     }
@@ -152,5 +152,4 @@ class SonataDoctrinePHPCRAdminExtensionTest extends \PHPUnit_Framework_TestCase
             );
         }
     }
-
 }
