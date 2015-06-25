@@ -18,6 +18,7 @@ use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TreeBlockService extends BaseBlockService
@@ -65,10 +66,10 @@ class TreeBlockService extends BaseBlockService
     public function setDefaultSettings(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'template'         => 'SonataDoctrinePHPCRAdminBundle:Block:tree.html.twig',
-            'id'               => '/',
-            'selected'         => null,
-            'routing_defaults' => $this->defaults,
+            'template'         => function (Options $options, $value) { return $value ?: 'SonataDoctrinePHPCRAdminBundle:Block:tree.html.twig'; },
+            'id'               => function (Options $options, $value) { return $value ?: '/'; },
+            'selected'         => function (Options $options, $value) { return $value ?: null; },
+            'routing_defaults' => function (Options $options, $value) { return $value ?: $this->defaults; },
         ));
     }
 
