@@ -14,7 +14,7 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Admin;
 use Sonata\AdminBundle\Admin\BaseFieldDescription;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  */
 class FieldDescription extends BaseFieldDescription
 {
@@ -24,7 +24,7 @@ class FieldDescription extends BaseFieldDescription
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws \InvalidArgumentException if the mapping is no array or of an
      *                                   unknown type.
@@ -47,7 +47,7 @@ class FieldDescription extends BaseFieldDescription
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTargetEntity()
     {
@@ -62,7 +62,7 @@ class FieldDescription extends BaseFieldDescription
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws \InvalidArgumentException if the mapping information is not an array.
      */
@@ -80,7 +80,7 @@ class FieldDescription extends BaseFieldDescription
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isIdentifier()
     {
@@ -88,7 +88,7 @@ class FieldDescription extends BaseFieldDescription
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getValue($object)
     {
@@ -100,7 +100,7 @@ class FieldDescription extends BaseFieldDescription
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws \InvalidArgumentException if the list of mappings does contain
      *                                   something else than arrays.

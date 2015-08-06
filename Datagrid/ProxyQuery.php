@@ -153,7 +153,7 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * Set the property to be sorted by.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setSortBy($parentAssociationMappings, $fieldMapping)
     {
@@ -175,7 +175,7 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * Set the sort ordering.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @param string $sortOrder (ASC|DESC)
      *
@@ -225,7 +225,7 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * Sets the first result (offset).
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setFirstResult($firstResult)
     {
@@ -247,7 +247,7 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * Set maximum number of results to retrieve.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setMaxResults($maxResults)
     {

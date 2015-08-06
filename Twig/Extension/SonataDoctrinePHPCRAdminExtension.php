@@ -22,7 +22,7 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     protected $environment;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initRuntime(\Twig_Environment $environment)
     {
@@ -30,7 +30,7 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -59,7 +59,7 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getFilters()
     {

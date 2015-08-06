@@ -38,7 +38,7 @@ class TreeBlockService extends BaseBlockService
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * NOOP as there is nothing to edit.
      */
@@ -48,7 +48,7 @@ class TreeBlockService extends BaseBlockService
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
@@ -59,7 +59,7 @@ class TreeBlockService extends BaseBlockService
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function configureSettings(OptionsResolver $resolver)
     {

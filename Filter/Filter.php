@@ -47,7 +47,7 @@ abstract class Filter extends BaseFilter
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isActive()
     {

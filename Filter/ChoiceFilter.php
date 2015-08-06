@@ -17,7 +17,7 @@ use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 class ChoiceFilter extends Filter
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
@@ -60,7 +60,7 @@ class ChoiceFilter extends Filter
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDefaultOptions()
     {
@@ -68,7 +68,7 @@ class ChoiceFilter extends Filter
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getRenderSettings()
     {

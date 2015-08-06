@@ -92,7 +92,7 @@ class SimplePager extends Pager
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function haveToPaginate()
     {
@@ -100,7 +100,7 @@ class SimplePager extends Pager
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function resetIterator()
     {
@@ -109,7 +109,7 @@ class SimplePager extends Pager
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws \RuntimeException the QueryBuilder is uninitialized.
      */

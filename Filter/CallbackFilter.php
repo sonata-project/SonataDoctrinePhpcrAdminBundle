@@ -17,7 +17,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Filter\Filter as BaseFilter;
 class CallbackFilter extends BaseFilter
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws \InvalidArgumentException if the filter is not configured with a
      *                                   callable in the 'callback' option field.
@@ -32,7 +32,7 @@ class CallbackFilter extends BaseFilter
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDefaultOptions()
     {
@@ -45,7 +45,7 @@ class CallbackFilter extends BaseFilter
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getRenderSettings()
     {

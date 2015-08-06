@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class AddGuesserCompilerPass implements CompilerPassInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * Add tagged sonata guessers to their respective builders.
      */

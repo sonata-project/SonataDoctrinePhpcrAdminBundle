@@ -21,7 +21,7 @@ class PathInfoBuilderSlashes implements RouteBuilderInterface
     /**
      * RouteBuilder that allows slashes in the ids.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function build(AdminInterface $admin, RouteCollection $collection)
     {

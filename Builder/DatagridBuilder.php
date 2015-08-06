@@ -87,7 +87,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
@@ -117,7 +117,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @return FilterInterface
      */
@@ -154,7 +154,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBaseDatagrid(AdminInterface $admin, array $values = array())
     {

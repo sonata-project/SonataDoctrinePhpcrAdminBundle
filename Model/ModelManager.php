@@ -64,7 +64,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws ModelManagerException if the document manager throws any exception
      */
@@ -79,7 +79,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws ModelManagerException if the document manager throws any exception
      */
@@ -94,7 +94,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws ModelManagerException if the document manager throws any exception
      */
@@ -111,7 +111,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * Find one object from the given class repository.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function find($class, $id)
     {
@@ -127,7 +127,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @return FieldDescription
      *
@@ -157,7 +157,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function findBy($class, array $criteria = array())
     {
@@ -165,7 +165,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function findOneBy($class, array $criteria = array())
     {
@@ -182,7 +182,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @return FieldDescriptionInterface
      */
@@ -229,7 +229,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getModelIdentifier($classname)
     {
@@ -244,7 +244,7 @@ class ModelManager implements ModelManagerInterface
      * several columns. We only ever have one, but return that wrapped into an
      * array to adhere to the interface.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getIdentifierValues($document)
     {
@@ -255,7 +255,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getIdentifierFieldNames($class)
     {
@@ -265,7 +265,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * This is just taking the id out of the array again.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws \InvalidArgumentException if $document is not an object or null
      */
@@ -305,7 +305,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx)
     {
@@ -337,7 +337,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws ModelManagerException if anything goes wrong during query execution.
      */
@@ -363,7 +363,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @return object
      */
@@ -373,7 +373,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getSortParameters(FieldDescriptionInterface $fieldDescription, DatagridInterface $datagrid)
     {
@@ -396,7 +396,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPaginationParameters(DatagridInterface $datagrid, $page)
     {
@@ -409,7 +409,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDefaultSortValues($class)
     {
@@ -421,7 +421,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @return object
      */
@@ -431,7 +431,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @return object
      *
@@ -499,7 +499,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getModelCollectionInstance($class)
     {
@@ -507,7 +507,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function collectionClear(&$collection)
     {
@@ -515,7 +515,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function collectionHasElement(&$collection, &$element)
     {
@@ -523,7 +523,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function collectionAddElement(&$collection, &$element)
     {
@@ -531,7 +531,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function collectionRemoveElement(&$collection, &$element)
     {
@@ -539,7 +539,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null)
     {
@@ -547,7 +547,7 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * Not really implemented.
      */
