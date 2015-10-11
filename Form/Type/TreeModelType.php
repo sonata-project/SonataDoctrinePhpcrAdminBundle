@@ -19,6 +19,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TreeModelType extends AbstractType
@@ -63,6 +64,14 @@ class TreeModelType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        $this->configureOptions($resolver);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
         $resolver->setDefaults(array(
             'template'          => 'doctrine_phpcr_odm_tree',
             'compound'          => false,
@@ -90,8 +99,18 @@ class TreeModelType extends AbstractType
 
     /**
      * {@inheritdoc}
+     *
+     * @todo Remove when Symfony <2.8 is no longer supported
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'doctrine_phpcr_odm_tree';
     }
