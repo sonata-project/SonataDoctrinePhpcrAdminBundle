@@ -21,8 +21,8 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            'render_node_property' => new \Twig_SimpleFilter(array($this, 'renderNodeProperty'), array('is_safe' => array('html'))),
-            'render_node_path'     => new \Twig_SimpleFilter(array($this, 'renderNodePath'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('render_node_property', array($this, 'renderNodeProperty'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('render_node_path', array($this, 'renderNodePath'), array('is_safe' => array('html'))),
         );
     }
 
