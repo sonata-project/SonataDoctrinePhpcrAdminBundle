@@ -107,46 +107,54 @@ class FormContractor implements FormContractorInterface
         $options = array();
         $options['sonata_field_description'] = $fieldDescription;
 
-        if ($type == 'doctrine_phpcr_odm_tree') {
-            $options['class']         = $fieldDescription->getTargetEntity();
-            $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
-        }
+        switch ($type) {
+            case 'Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeModelType':
+            case 'doctrine_phpcr_odm_tree':
+                $options['class']         = $fieldDescription->getTargetEntity();
+                $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
 
-        if ($type == 'sonata_type_model' || $type == 'sonata_type_model_list') {
-            if (!$fieldDescription->getTargetEntity()) {
-                throw new \LogicException(sprintf(
-                    'The field "%s" in class "%s" does not have a target model defined. ' .
-                    'Please specify the "targetDocument" attribute in the mapping for this class.',
-                    $fieldDescription->getName(),
-                    $fieldDescription->getAdmin()->getClass()
-                ));
-            }
+                break;
+            case 'Sonata\AdminBundle\Form\Type\Modeltype':
+            case 'sonata_type_model':
+            case 'Sonata\AdminBundle\Form\Type\ModelTypeList':
+            case 'sonata_type_model_list':
+                if (!$fieldDescription->getTargetEntity()) {
+                    throw new \LogicException(sprintf(
+                        'The field "%s" in class "%s" does not have a target model defined. ' .
+                        'Please specify the "targetDocument" attribute in the mapping for this class.',
+                        $fieldDescription->getName(),
+                        $fieldDescription->getAdmin()->getClass()
+                    ));
+                }
 
-            $options['class']         = $fieldDescription->getTargetEntity();
-            $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
+                $options['class']         = $fieldDescription->getTargetEntity();
+                $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
 
-        } else if ($type == 'sonata_type_admin') {
+                break;
+            case 'Sonata\AdminBundle\Form\Type\AdminType':
+            case 'sonata_type_admin':
+                if (!$fieldDescription->getAssociationAdmin()) {
+                    throw $this->getAssociationAdminException($fieldDescription);
+                }
 
-            if (!$fieldDescription->getAssociationAdmin()) {
-                throw $this->getAssociationAdminException($fieldDescription);
-            }
+                $options['data_class'] = $fieldDescription->getAssociationAdmin()->getClass();
+                $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'admin'));
 
-            $options['data_class'] = $fieldDescription->getAssociationAdmin()->getClass();
-            $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'admin'));
+                break;
+            case 'Sonata\AdminBundle\Form\Type\CollectionType':
+            case 'sonata_type_collection':
+                if (!$fieldDescription->getAssociationAdmin()) {
+                    throw $this->getAssociationAdminException($fieldDescription);
+                }
 
-        } else if ($type == 'sonata_type_collection') {
+                $options['type']         = 'sonata_type_admin';
+                $options['modifiable']   = true;
+                $options['type_options'] = array(
+                    'sonata_field_description' => $fieldDescription,
+                    'data_class'               => $fieldDescription->getAssociationAdmin()->getClass()
+                );
 
-            if (!$fieldDescription->getAssociationAdmin()) {
-                throw $this->getAssociationAdminException($fieldDescription);
-            }
-
-            $options['type']         = 'sonata_type_admin';
-            $options['modifiable']   = true;
-            $options['type_options'] = array(
-                'sonata_field_description' => $fieldDescription,
-                'data_class'               => $fieldDescription->getAssociationAdmin()->getClass()
-            );
-
+                break;
         }
 
         return $options;
