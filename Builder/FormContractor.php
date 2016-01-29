@@ -103,13 +103,13 @@ class FormContractor implements FormContractorInterface
     {
         $options = array();
         $options['sonata_field_description'] = $fieldDescription;
-        
+
         switch ($type) {
             case 'Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeModelType':
             case 'doctrine_phpcr_odm_tree':
                 $options['class']         = $fieldDescription->getTargetEntity();
                 $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
-                
+
                 break;
             case 'Sonata\AdminBundle\Form\Type\Modeltype':
             case 'sonata_type_model':
@@ -125,7 +125,7 @@ class FormContractor implements FormContractorInterface
 
                 $options['class']         = $fieldDescription->getTargetEntity();
                 $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
-                
+
                 break;
             case 'Sonata\AdminBundle\Form\Type\AdminType':
             case 'sonata_type_admin':
@@ -135,7 +135,7 @@ class FormContractor implements FormContractorInterface
 
                 $options['data_class'] = $fieldDescription->getAssociationAdmin()->getClass();
                 $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'admin'));
-                
+
                 break;
             case 'Sonata\AdminBundle\Form\Type\CollectionType':
             case 'sonata_type_collection':
