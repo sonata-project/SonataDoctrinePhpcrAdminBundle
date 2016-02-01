@@ -31,7 +31,7 @@ class BooleanFilter extends BaseFilter
         }
 
         $where = $this->getWhere($proxyQuery);
-        $where->eq()->field('a.'.$field)->literal($data['value'] == BooleanType::TYPE_YES ? 1 : 0);
+        $where->eq()->field('a.'.$field)->literal($data['value'] == BooleanType::TYPE_YES ? true : false);
 
         // filter is active as we have now modified the query
         $this->active = true;
