@@ -22,6 +22,7 @@ file that was distributed with this source code.
 
 {% include 'CmfTreeBrowserBundle:Base:tree.html.twig' %}
 <script type="text/javascript">
+    var validChildren = {{ (valid_children is defined ? valid_children : false)|json_encode|raw }};
     jQuery(function($) {
         $('#tree').cmfTree({
             request: {
@@ -33,6 +34,20 @@ file that was distributed with this source code.
                             path: '__path__'
                         }|merge(routing_default_values)) }}'.replace('__path__', nodePath)
                     };
+                }
+            },
+            dnd: {
+                enabled: true,
+                isNodeDraggable: function (node, data) {
+                    return 'Doctrine\\ODM\\PHPCR\\Document\\Generic' !== node.data.type;
+                },
+                nodeAcceptsDraggable: function (node, data) {
+                    var allowed = [];
+                    if (data.otherNode.data.type in validChildren) {
+                        allowed = validChildren[data.otherNode.data.type].valid_children;
+                    }
+
+                    return -1 < jQuery.inArray(node.data.type, allowed);
                 }
             },
             actions: {

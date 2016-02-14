@@ -40,6 +40,8 @@ class TreeController extends Controller
      */
     private $confirmMove = false;
 
+    private $validChildren = array();
+
     /**
      * @param string $repositoryName
      * @param string $template
@@ -78,10 +80,16 @@ class TreeController extends Controller
             'repository_name'  => $this->repositoryName,
             'root_node'        => $root,
             'routing_defaults' => $this->defaults,
+            'valid_children' => $this->validChildren,
             //'confirm_move' => $this->confirmMove,
             //'create_in_overlay' => $createInOverlay ? $createInOverlay : false,
             //'edit_in_overlay' => $editInOverlay ? $editInOverlay : false,
             //'delete_in_overlay' => $deleteInOverlay ? $deleteInOverlay : false,
         ));
+    }
+
+    public function setValidChildren(array $validChildren)
+    {
+        $this->validChildren = $validChildren;
     }
 }
