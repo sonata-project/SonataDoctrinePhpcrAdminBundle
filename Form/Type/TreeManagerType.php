@@ -15,6 +15,7 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TreeManagerType extends AbstractType
@@ -33,13 +34,28 @@ class TreeManagerType extends AbstractType
 
     /**
      * {@inheritdoc}
+     *
+     * @todo Remove when Symfony <2.8 is no longer supported
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        parent::setDefaultOptions($resolver);
+        $this->configureOptions($resolver);
+    }
 
-        $resolver->setRequired((array('root')));
-        $resolver->setOptional(array('create_in_overlay', 'edit_in_overlay', 'delete_in_overlay'));
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setRequired(array('root'));
+
+        if (method_exists($resolver, 'setDefined')) {
+            // The new OptionsResolver API
+            $resolver->setDefined(array('create_in_overlay', 'edit_in_overlay', 'delete_in_overlay'));
+        } else {
+            // To keep compatibility with old Symfony <2.6 API
+            $resolver->setOptional(array('create_in_overlay', 'edit_in_overlay', 'delete_in_overlay'));
+        }
 
         $resolver->setDefaults(array(
             'create_in_overlay' => true,
@@ -50,8 +66,18 @@ class TreeManagerType extends AbstractType
 
     /**
      * {@inheritdoc}
+     *
+     * @todo Remove when Symfony <2.8 is no longer supported
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'doctrine_phpcr_odm_tree_manager';
     }

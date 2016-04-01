@@ -21,8 +21,18 @@ class ChoiceType extends BaseChoiceType
 
     /**
      * {@inheritdoc}
+     *
+     * @todo Remove when Symfony <2.8 is no longer supported
      */
     public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
     {
         return 'doctrine_phpcr_type_filter_choice';
     }
