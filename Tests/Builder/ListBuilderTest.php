@@ -11,10 +11,45 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Builder;
 
+use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
+use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
+use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
+use Sonata\DoctrinePHPCRAdminBundle\Admin\Admin;
 use Sonata\DoctrinePHPCRAdminBundle\Builder\ListBuilder;
+use Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager;
 
 class ListBuilderTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var ListBuilder
+     */
+    private $lb;
+
+    /**
+     * @var Admin
+     */
+    private $admin;
+
+    /**
+     * @var ModelManager
+     */
+    private $modelManager;
+
+    /**
+     * @var FieldDescriptionInterface
+     */
+    private $fieldDescription;
+
+    /**
+     * @var FieldDescriptionCollection
+     */
+    private $fieldDescriptionCollection;
+
+    /**
+     * @var TypeGuesserInterface
+     */
+    private $guesser;
+
     public function setUp()
     {
         $this->guesser = $this->getMock('\Sonata\AdminBundle\Guesser\TypeGuesserInterface', array(), array());
@@ -41,9 +76,6 @@ class ListBuilderTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $this->fieldDescription = $this->getMock('\Sonata\AdminBundle\Admin\FieldDescriptionInterface');
-        $this->fieldDescription->expects($this->any())
-            ->method('getModelManager')
-            ->will($this->returnValue($this->modelManager));
         $this->fieldDescription->expects($this->any())
             ->method('getType')
             ->will($this->returnValue('string'));
