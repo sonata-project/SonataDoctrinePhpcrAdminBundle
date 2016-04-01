@@ -50,9 +50,6 @@ class NodeNameFilterTest extends BaseTestCase
 
     public function testFilterEmptyArrayDataWithMeaninglessValue()
     {
-        $this->proxyQuery->expects($this->never())
-            ->method('andWhere');
-
         $this->filter->filter($this->proxyQuery, 'a', 'somefield', array('type' => ChoiceType::TYPE_EQUAL, 'value' => ' '));
         $this->assertFalse($this->filter->isActive());
     }

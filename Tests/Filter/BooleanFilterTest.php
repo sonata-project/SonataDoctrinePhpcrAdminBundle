@@ -16,6 +16,11 @@ use Sonata\DoctrinePHPCRAdminBundle\Filter\BooleanFilter;
 
 class BooleanFilterTest extends BaseTestCase
 {
+    /**
+     * @var BooleanFilter
+     */
+    private $filter;
+
     public function setUp()
     {
         parent::setUp();
@@ -24,30 +29,24 @@ class BooleanFilterTest extends BaseTestCase
 
     public function testFilterNullData()
     {
-        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', null);
-        $this->assertNull($res);
+        $this->filter->filter($this->proxyQuery, null, 'somefield', null);
         $this->assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayData()
     {
-        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', array());
-        $this->assertNull($res);
+        $this->filter->filter($this->proxyQuery, null, 'somefield', array());
         $this->assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataSpecifiedType()
     {
-        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => BooleanType::TYPE_YES));
-        $this->assertNull($res);
+        $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => BooleanType::TYPE_YES));
         $this->assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataWithMeaninglessValue()
     {
-        $this->proxyQuery->expects($this->never())
-            ->method('andWhere');
-
         $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => BooleanType::TYPE_YES, 'value' => 'someValue'));
         $this->assertFalse($this->filter->isActive());
     }
