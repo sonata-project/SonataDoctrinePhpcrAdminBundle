@@ -61,6 +61,8 @@ class TreeModelType extends AbstractType
 
     /**
      * {@inheritdoc}
+     *
+     * @todo Remove when Symfony <2.8 is no longer supported
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
