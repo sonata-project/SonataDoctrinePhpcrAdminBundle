@@ -231,6 +231,9 @@ file that was distributed with this source code.
                 var controlGroupIdFunc = function (field) {
                     return '#sonata-ba-field-container-{{ main_form_name }}' + field;
                 };
+                var controlInputIdFunc = function (field) {
+                    return '#{{ main_form_name }}' + field;
+                };
 
                 if (map[val] == undefined) {
                     $.each(allFields, function (i, field) {
@@ -242,6 +245,7 @@ file that was distributed with this source code.
 
                 $.each(allFields, function (i, field) {
                     if (map[val].indexOf(field) == -1) {
+                        $(controlInputIdFunc(field)).data('required', $(controlInputIdFunc(field)).prop('required')).prop('required', false);
                         var $fieldContainer = $(controlGroupIdFunc(field));
                         if ($fieldContainer.filter(':visible').length) {
                             $fieldContainer.trigger('hideMappedChildren').hide();
@@ -250,6 +254,7 @@ file that was distributed with this source code.
                 });
 
                 $.each(map[val], function (i, field) {
+                    $(controlInputIdFunc(field)).prop('required', $(controlInputIdFunc(field)).data('required'));
                     var $fieldContainer = $(controlGroupIdFunc(field));
                     if ($fieldContainer.filter(':hidden').length) {
                         $fieldContainer.trigger('showMappedChildren').show();
