@@ -16,9 +16,8 @@
             <tag name="form.type" alias="doctrine_phpcr_odm_tree_manager" />
         </service>
 
-        <service id="sonata.admin.doctrine_phpcr.form.collection_type_extension" class="Sonata\DoctrinePHPCRAdminBundle\Form\Extension\CollectionTypeExtension"
-                >
-            <tag name="form.type_extension" alias="sonata_type_collection" />
+        <service id="sonata.admin.doctrine_phpcr.form.collection_type_extension" class="Sonata\DoctrinePHPCRAdminBundle\Form\Extension\CollectionTypeExtension">
+            <tag name="form.type_extension" extended-type="Sonata\CoreBundle\Form\Type\CollectionType" alias="sonata_type_collection" />
         </service>
     </services>
 
