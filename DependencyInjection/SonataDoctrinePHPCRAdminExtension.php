@@ -90,12 +90,6 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
 
         $options = $config['document_tree_options'];
         $container->setParameter('sonata_admin_doctrine_phpcr.tree_confirm_move', $options['confirm_move']);
-
-        unset($options['confirm_move']);
-
-        $container->getDefinition('sonata.admin.doctrine_phpcr.phpcr_odm_tree')
-            ->replaceArgument(5, $this->processDocumentTreeConfig($config['document_tree']))
-            ->replaceArgument(6, $options);
     }
 
     /**

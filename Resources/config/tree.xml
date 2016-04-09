@@ -16,17 +16,6 @@
             <call method="setContainer"><argument type="service" id="service_container"/></call>
         </service>
 
-        <service id="sonata.admin.doctrine_phpcr.phpcr_odm_tree" class="Sonata\DoctrinePHPCRAdminBundle\Tree\PhpcrOdmTree">
-            <argument type="service" id="doctrine_phpcr.odm.default_document_manager" />
-            <argument type="service" id="sonata.admin.manager.doctrine_phpcr"/>
-            <argument type="service" id="sonata.admin.pool"/>
-            <argument type="service" id="translator"/>
-            <argument type="service" id="templating.helper.assets" strict="false"/>
-            <argument/>
-            <argument/>
-            <argument/>
-        </service>
-
     </services>
 
 </container>
