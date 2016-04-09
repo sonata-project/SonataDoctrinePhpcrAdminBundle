@@ -18,6 +18,7 @@ use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Guesser for displaying fields.
@@ -51,7 +52,7 @@ class TypeGuesser implements TypeGuesserInterface
     public function guessType($class, $property, ModelManagerInterface $modelManager)
     {
         if (!$metadata = $this->getMetadata($class)) {
-            return new TypeGuess('text', array(), Guess::LOW_CONFIDENCE);
+            return new TypeGuess(TextType::class, array(), Guess::LOW_CONFIDENCE);
         }
 
         if ($metadata->hasAssociation($property)) {
@@ -94,7 +95,7 @@ class TypeGuesser implements TypeGuesserInterface
                 return new TypeGuess('string', array(), Guess::MEDIUM_CONFIDENCE);
         }
 
-        return new TypeGuess('text', array(), Guess::LOW_CONFIDENCE);
+        return new TypeGuess(TextType::class, array(), Guess::LOW_CONFIDENCE);
     }
 
     /**

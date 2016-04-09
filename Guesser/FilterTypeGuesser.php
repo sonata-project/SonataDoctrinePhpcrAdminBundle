@@ -14,8 +14,12 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Guesser;
 use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
 use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Doctrine\ODM\PHPCR\Mapping\MappingException;
+use Doctrine\Bundle\PHPCRBundle\Form\Type\DocumentType;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
+use Sonata\CoreBundle\Form\Type\BooleanType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
@@ -50,9 +54,9 @@ class FilterTypeGuesser implements TypeGuesserInterface
         }
 
         $options = array(
-            'field_type'     => 'text',
-            'field_options'  => array(),
-            'options'        => array(),
+            'field_type'    => TextType::class,
+            'field_options' => array(),
+            'options'       => array(),
         );
 
         if ($metadata->hasAssociation($property)) {
@@ -62,7 +66,7 @@ class FilterTypeGuesser implements TypeGuesserInterface
             $options['operator_type'] = 'sonata_type_boolean';
             $options['operator_options'] = array();
 
-            $options['field_type'] = 'document';
+            $options['field_type'] = DocumentType::class;
             if (!empty($mapping['targetDocument'])) {
                 $options['field_options'] = array(
                     'class' => $mapping['targetDocument'],
@@ -85,7 +89,7 @@ class FilterTypeGuesser implements TypeGuesserInterface
         $options['field_name'] = $property;
         switch ($metadata->getTypeOfField($property)) {
             case 'boolean':
-                $options['field_type'] = 'sonata_type_boolean';
+                $options['field_type'] = BooleanType::class;
                 $options['field_options'] = array();
 
                 return new TypeGuess('doctrine_phpcr_boolean', $options, Guess::HIGH_CONFIDENCE);
@@ -95,7 +99,7 @@ class FilterTypeGuesser implements TypeGuesserInterface
             case 'float':
                 return new TypeGuess('doctrine_phpcr_number', $options, Guess::HIGH_CONFIDENCE);
             case 'integer':
-                $options['field_type'] = 'number';
+                $options['field_type'] = NumberType::class;
                 $options['field_options'] = array(
                     'csrf_protection' => false,
                 );
@@ -103,7 +107,7 @@ class FilterTypeGuesser implements TypeGuesserInterface
                 return new TypeGuess('doctrine_phpcr_integer', $options, Guess::HIGH_CONFIDENCE);
             case 'text':
             case 'string':
-                $options['field_type'] = 'text';
+                $options['field_type'] = TextType::class;
 
                 return new TypeGuess('doctrine_phpcr_string', $options, Guess::HIGH_CONFIDENCE);
         }
