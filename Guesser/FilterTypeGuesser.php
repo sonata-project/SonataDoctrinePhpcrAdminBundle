@@ -11,15 +11,15 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Guesser;
 
+use Doctrine\Bundle\PHPCRBundle\Form\Type\DocumentType;
 use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
 use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Doctrine\ODM\PHPCR\Mapping\MappingException;
-use Doctrine\Bundle\PHPCRBundle\Form\Type\DocumentType;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\CoreBundle\Form\Type\BooleanType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
