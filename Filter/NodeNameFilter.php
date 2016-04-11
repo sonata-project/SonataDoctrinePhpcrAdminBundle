@@ -62,7 +62,7 @@ class NodeNameFilter extends Filter
      */
     public function getRenderSettings()
     {
-        return array('doctrine_phpcr_type_filter_choice', array(
+        return array(ChoiceType::class, array(
             'field_type'    => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'label'         => $this->getLabel(),
