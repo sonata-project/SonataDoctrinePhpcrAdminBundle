@@ -16,33 +16,30 @@
         }
     ],
     "require": {
-        "php": "~5.5|~7.0",
-        "sonata-project/admin-bundle": "~3.0",
-        "sonata-project/block-bundle": "^2.3.2",
-        "symfony/framework-bundle": "~2.3|~3.0",
-        "symfony/property-access": "~2.2|~3.0",
-        "doctrine/phpcr-odm": "~1.1",
-        "doctrine/phpcr-bundle": "~1.1",
-        "symfony-cmf/tree-browser-bundle": "~2.0",
-        "symfony-cmf/resource-rest-bundle": "~1.0"
+        "php": "^5.5 || ^7.0",
+        "sonata-project/admin-bundle": "3.x-dev@dev",
+        "symfony/framework-bundle": "^2.3 || ^3.0",
+        "symfony/property-access": "^2.2 || ^3.0",
+        "doctrine/phpcr-odm": "^1.1",
+        "doctrine/phpcr-bundle": "^1.1",
+        "symfony-cmf/tree-browser-bundle": "^2.0@dev",
+        "symfony-cmf/resource-rest-bundle": "^1.0@dev"
     },
     "require-dev": {
-        "jackalope/jackalope-jackrabbit": "~1.0",
-        "symfony/phpunit-bridge": "~2.7|~3.0",
-        "symfony/security-acl": "~2.4|~3.0",
-        "fabpot/php-cs-fixer": "~0.1|~1.0"
+        "jackalope/jackalope-jackrabbit": "^1.0",
+        "symfony/phpunit-bridge": "^2.7 || ^3.0",
+        "symfony/security-acl": "^2.4 || ^3.0",
+        "fabpot/php-cs-fixer": "~0.1 || ^1.0"
     },
     "provide": {
         "sonata-project/admin-bundle-persistency-layer": "1.0.0"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "autoload": {
         "psr-4": { "Sonata\\DoctrinePHPCRAdminBundle\\": "" }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0-dev"
+            "dev-master": "2.x-dev"
         }
     }
 }
