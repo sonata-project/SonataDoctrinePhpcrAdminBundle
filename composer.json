@@ -17,8 +17,8 @@
     ],
     "require": {
         "php": "^5.5 || ^7.0",
-        "sonata-project/admin-bundle": "^3.0@dev",
-        "sonata-project/block-bundle": "^3.0@dev",
+        "sonata-project/admin-bundle": "^3.0",
+        "sonata-project/block-bundle": "^3.0",
         "symfony/framework-bundle": "^2.3 || ^3.0",
         "symfony/property-access": "^2.2 || ^3.0",
         "doctrine/phpcr-odm": "^1.1",
