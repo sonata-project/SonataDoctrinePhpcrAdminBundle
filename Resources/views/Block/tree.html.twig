@@ -17,7 +17,10 @@ file that was distributed with this source code.
             <h3 class="box-title">{{ 'content_tree' | trans({}, 'SonataDoctrinePHPCRAdmin') }}</h3>
         </div>
         <div class="box-body">
-            {{ render(controller('sonata.admin.doctrine_phpcr.tree_controller:treeAction', { 'root': settings.id, 'selected': settings.selected })) }}
+            {{ render(controller('sonata.admin.doctrine_phpcr.tree_controller:treeAction', {
+                'root': settings.id,
+                'selected': settings.selected
+            })) }}
         </div>
     </div>
 {% endblock %}
