@@ -163,7 +163,7 @@ file that was distributed with this source code.
             request: {
                 load: function (nodePath) {
                     return {
-                        url: '{{ path('_cmf_resource', {
+                        url: '{{ path('_get_cmf_resource', {
                             repositoryName: repository_name,
                             path: '__path__'
                         }|merge(routing_default_values)) }}'.replace('__path__', nodePath)
