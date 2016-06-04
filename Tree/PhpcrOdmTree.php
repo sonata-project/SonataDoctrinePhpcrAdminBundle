@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -11,26 +11,23 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tree;
 
-use Doctrine\ODM\PHPCR\Document\Generic;
-use PHPCR\Util\NodeHelper;
-
-use PHPCR\Util\PathHelper;
-use Symfony\Bundle\FrameworkBundle\Templating\Helper\AssetsHelper;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
-use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\Templating\Helper\CoreAssetsHelper;
-use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
-
-use Doctrine\ODM\PHPCR\DocumentManager;
 use Doctrine\Common\Util\ClassUtils;
-
-use Sonata\AdminBundle\Admin\Pool;
+use Doctrine\ODM\PHPCR\Document\Generic;
+use Doctrine\ODM\PHPCR\DocumentManager;
+use PHPCR\Util\NodeHelper;
+use PHPCR\Util\PathHelper;
 use Sonata\AdminBundle\Admin\AdminInterface;
+use Sonata\AdminBundle\Admin\Pool;
 use Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager;
+use Symfony\Bundle\FrameworkBundle\Templating\Helper\AssetsHelper;
+use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
+use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Templating\Helper\CoreAssetsHelper;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
- * A tree implementation to work with Doctrine PHPCR-ODM
+ * A tree implementation to work with Doctrine PHPCR-ODM.
  *
  * Your documents need to map all children with an Children mapping for the
  * tree to see its children. Not having the Children annotation is a
@@ -67,31 +64,35 @@ class PhpcrOdmTree implements TreeInterface
     private $assetHelper;
 
     /**
-     * Array of cached admin services indexed by class name
+     * Array of cached admin services indexed by class name.
+     *
      * @var array
      */
     private $admins = array();
 
     /**
-     * List of the valid class names that may be used as tree "ref" fields
+     * List of the valid class names that may be used as tree "ref" fields.
+     *
      * @var array
      */
     private $validClasses;
 
     /**
-     * Depth to which grand children should be fetched, currently the maximum depth is one
-     * @var integer
+     * Depth to which grand children should be fetched, currently the maximum depth is one.
+     *
+     * @var int
      */
     private $depth;
 
     /**
-     * Fetch children lazy - enabling this will allow the tree to fetch a larger amount of  children in the tree but less accurate
+     * Fetch children lazy - enabling this will allow the tree to fetch a larger amount of  children in the tree but less accurate.
+     *
      * @var bool
      */
     private $preciseChildren;
 
     /**
-     * The options are
+     * The options are.
      *
      * - depth: Down to what level children should be fetched, currently the
      *      maximum supported depth is one.
@@ -99,16 +100,16 @@ class PhpcrOdmTree implements TreeInterface
      *      the document has valid children. If false, simply check if the node
      *      has any child nodes. Less accurate but better performance.
      *
-     * @param DocumentManager $dm
-     * @param ModelManager $defaultModelManager to use with documents that have no manager
-     * @param Pool $pool to get admin classes for documents from
-     * @param TranslatorInterface $translator
+     * @param DocumentManager               $dm
+     * @param ModelManager                  $defaultModelManager to use with documents that have no manager
+     * @param Pool                          $pool                to get admin classes for documents from
+     * @param TranslatorInterface           $translator
      * @param CoreAssetsHelper|AssetsHelper $assetHelper
-     * @param array $validClasses list of the valid class names that may be
-     *      used as tree "ref" fields
-     * $param integer $depth depth to which grand children should be fetched,
-     *      currently the maximum depth is one
-     * @param array $options
+     * @param array                         $validClasses        list of the valid class names that may be
+     *                                                           used as tree "ref" fields
+     *                                                           $param integer $depth depth to which grand children should be fetched,
+     *                                                           currently the maximum depth is one
+     * @param array                         $options
      */
     public function __construct(
         DocumentManager $dm,
@@ -150,7 +151,7 @@ class PhpcrOdmTree implements TreeInterface
     /**
      * Get the children of the document at this path by looking at the Child and Children mappings.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getChildren($path)
     {
@@ -186,7 +187,7 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function move($movedPath, $targetPath)
     {
@@ -213,9 +214,101 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * Returns an array representation of the document
+     * @param object $document
+     * @param object $child
      *
-     * @param ModelManager $manager the manager to use with this document
+     * @return bool TRUE if valid, FALSE if not valid
+     */
+    public function isValidDocumentChild($document, $child)
+    {
+        $className = ClassUtils::getClass($document);
+        $childClassName = ClassUtils::getClass($child);
+
+        if (!isset($this->validClasses[$className])) {
+            // no mapping means no valid children
+            return false;
+        }
+
+        return in_array($childClassName, $this->validClasses[$className]['valid_children']);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function reorder($parent, $moved, $target, $before)
+    {
+        $parentDocument = $this->dm->find(null, $parent);
+        $this->dm->reorder($parentDocument, basename($moved), basename($target), $before);
+        $this->dm->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAlias()
+    {
+        return 'phpcr_odm_tree';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNodeTypes()
+    {
+        $result = array();
+
+        foreach ($this->validClasses as $className => $children) {
+            $rel = $this->normalizeClassname($className);
+            $admin = $this->getAdminByClass($className);
+            $validChildren = array();
+
+            foreach ($children['valid_children'] as $child) {
+                $validChildren[] = $this->normalizeClassname($child);
+            }
+
+            $icon = 'bundles/cmftreebrowser/images/folder.png';
+            if (!empty($children['image'])) {
+                $icon = $children['image'];
+            }
+
+            $routes = array();
+            if (null !== $admin) {
+                foreach ($admin->getRoutes()->getElements() as $code => $route) {
+                    $action = explode('.', $code);
+                    $key = $this->mapAction(end($action));
+
+                    if (null !== $key) {
+                        $routes[$key] = sprintf('%s_%s', $admin->getBaseRouteName(), end($action));
+                    }
+                }
+            }
+
+            $result[$rel] = array(
+                'icon' => array('image' => $this->assetHelper->getUrl($icon)),
+                'label' => (null !== $admin) ? $admin->trans($admin->getLabel()) : $className,
+                'valid_children' => $validChildren,
+                'routes' => $routes,
+            );
+        }
+
+        return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabels()
+    {
+        return array(
+            'createItem' => $this->translator->trans('create_item', array(), 'SonataDoctrinePHPCRAdmin'),
+            'deleteItem' => $this->translator->trans('delete_item', array(), 'SonataDoctrinePHPCRAdmin'),
+        );
+    }
+
+    /**
+     * Returns an array representation of the document.
+     *
+     * @param ModelManager $manager  the manager to use with this document
      * @param object       $document
      *
      * @return array
@@ -261,14 +354,41 @@ class PhpcrOdmTree implements TreeInterface
         }
 
         return array(
-            'data'  => $label,
-            'attr'  => array(
+            'data' => $label,
+            'attr' => array(
                 'id' => $id,
                 'url_safe_id' => $urlSafeId,
-                'rel' => $rel
+                'rel' => $rel,
             ),
             'state' => $hasChildren ? 'closed' : null,
         );
+    }
+
+    /**
+     * @param object $document
+     * @param array  $children
+     *
+     * @return array of valid children for the document
+     */
+    protected function filterDocumentChildren($document, array $children)
+    {
+        $me = $this;
+
+        return array_filter($children, function ($child) use ($me, $document) {
+            return $me->isValidDocumentChild($document, $child);
+        });
+    }
+
+    /**
+     * @param object $document
+     *
+     * @return ModelManager the modelmanager for $document or the default manager
+     */
+    protected function getModelManager($document = null)
+    {
+        $admin = $document ? $this->getAdmin($document) : null;
+
+        return $admin ? $admin->getModelManager() : $this->defaultModelManager;
     }
 
     /**
@@ -279,6 +399,7 @@ class PhpcrOdmTree implements TreeInterface
     private function getAdmin($document)
     {
         $className = ClassUtils::getClass($document);
+
         return $this->getAdminByClass($className);
     }
 
@@ -298,8 +419,8 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * @param ModelManager $manager the manager to use with this document
-     * @param object $document      the PHPCR-ODM document to get the children of
+     * @param ModelManager $manager  the manager to use with this document
+     * @param object       $document the PHPCR-ODM document to get the children of
      *
      * @return array of children indexed by child nodename pointing to the child documents
      */
@@ -342,113 +463,6 @@ class PhpcrOdmTree implements TreeInterface
     }
 
     /**
-     * @param object $document
-     * @param array $children
-     *
-     * @return array of valid children for the document
-     */
-    protected function filterDocumentChildren($document, array $children)
-    {
-        $me = $this;
-
-        return array_filter($children, function ($child) use ($me, $document) {
-            return $me->isValidDocumentChild($document, $child);
-        });
-    }
-
-    /**
-     * @param object $document
-     * @param object $child
-     *
-     * @return boolean TRUE if valid, FALSE if not valid
-     */
-    public function isValidDocumentChild($document, $child)
-    {
-        $className = ClassUtils::getClass($document);
-        $childClassName = ClassUtils::getClass($child);
-
-        if (!isset($this->validClasses[$className])) {
-            // no mapping means no valid children
-            return false;
-        }
-
-        return in_array($childClassName, $this->validClasses[$className]['valid_children']);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function reorder($parent, $moved, $target, $before)
-    {
-        $parentDocument = $this->dm->find(null, $parent);
-        $this->dm->reorder($parentDocument, basename($moved), basename($target), $before);
-        $this->dm->flush();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getAlias()
-    {
-        return 'phpcr_odm_tree';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getNodeTypes()
-    {
-        $result = array();
-
-        foreach ($this->validClasses as $className => $children) {
-            $rel = $this->normalizeClassname($className);
-            $admin = $this->getAdminByClass($className);
-            $validChildren = array();
-
-            foreach ($children['valid_children'] as $child) {
-                $validChildren[] = $this->normalizeClassname($child);
-            }
-
-            $icon = 'bundles/cmftreebrowser/images/folder.png';
-            if (!empty($children['image'])) {
-                $icon = $children['image'];
-            }
-
-            $routes = array();
-            if (null !== $admin) {
-                foreach ($admin->getRoutes()->getElements() as $code => $route) {
-                    $action = explode('.', $code);
-                    $key = $this->mapAction(end($action));
-
-                    if (null !== $key) {
-                        $routes[$key] = sprintf('%s_%s', $admin->getBaseRouteName(), end($action));
-                    }
-                }
-            }
-
-            $result[$rel] = array(
-                'icon' => array('image' => $this->assetHelper->getUrl($icon)),
-                'label' => (null !== $admin) ? $admin->trans($admin->getLabel()) : $className,
-                'valid_children' => $validChildren,
-                'routes' => $routes
-            );
-        }
-
-        return $result;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getLabels()
-    {
-        return array(
-            'createItem' => $this->translator->trans('create_item', array(), 'SonataDoctrinePHPCRAdmin'),
-            'deleteItem' => $this->translator->trans('delete_item', array(), 'SonataDoctrinePHPCRAdmin'),
-        );
-    }
-
-    /**
      * @param string $className
      *
      * @return string
@@ -471,18 +485,6 @@ class PhpcrOdmTree implements TreeInterface
             case 'delete': return 'delete_route';
         }
 
-        return null;
-    }
-
-    /**
-     * @param object $document
-     *
-     * @return ModelManager the modelmanager for $document or the default manager
-     */
-    protected function getModelManager($document = NULL)
-    {
-        $admin = $document ? $this->getAdmin($document) : NULL;
-
-        return $admin ? $admin->getModelManager() : $this->defaultModelManager;
+        return;
     }
 }

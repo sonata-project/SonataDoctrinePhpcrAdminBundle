@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -12,8 +12,8 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Form\Listener;
 
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormEvent;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
@@ -52,16 +52,16 @@ class CollectionOrderListener
         $form = $event->getForm()->getParent();
         $data = $form->getData();
 
-        if (! is_object($data)) {
+        if (!is_object($data)) {
             return;
         }
 
         $accessor = PropertyAccess::getPropertyAccessor(); // use deprecated BC method to support symfony 2.2
         $newCollection = $accessor->getValue($data, $this->name);
-        if (! $newCollection instanceof Collection) {
+        if (!$newCollection instanceof Collection) {
             return;
         }
-        /** @var $newCollection Collection */
+        /* @var $newCollection Collection */
 
         $newCollection->clear();
 

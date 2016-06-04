@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -11,12 +11,10 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Form\Extension;
 
-use Doctrine\Common\Util\Debug;
+use Sonata\DoctrinePHPCRAdminBundle\Form\Listener\CollectionOrderListener;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
-
-use Sonata\DoctrinePHPCRAdminBundle\Form\Listener\CollectionOrderListener;
 
 /**
  * Extend the sonata collection type to sort the collection so the reordering
@@ -25,11 +23,11 @@ use Sonata\DoctrinePHPCRAdminBundle\Form\Listener\CollectionOrderListener;
 class CollectionTypeExtension extends AbstractTypeExtension
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ('doctrine_phpcr' != $options['sonata_field_description']->getAdmin()->getManagerType() || ! $options['sonata_field_description']->getOption('sortable')) {
+        if ('doctrine_phpcr' != $options['sonata_field_description']->getAdmin()->getManagerType() || !$options['sonata_field_description']->getOption('sortable')) {
             return;
         }
         $listener = new CollectionOrderListener($options['sonata_field_description']->getName());
@@ -37,7 +35,7 @@ class CollectionTypeExtension extends AbstractTypeExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getExtendedType()
     {

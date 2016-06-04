@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -11,14 +11,11 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Builder;
 
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\FormContractorInterface;
-
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormFactoryInterface;
-
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 
 class FormContractor implements FormContractorInterface
 {
@@ -36,9 +33,9 @@ class FormContractor implements FormContractorInterface
     }
 
     /**
-     * The method defines the correct default settings for the provided FieldDescription
+     * The method defines the correct default settings for the provided FieldDescription.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws \RuntimeException if the $fieldDescription does not specify a type.
      */
@@ -89,7 +86,7 @@ class FormContractor implements FormContractorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getFormBuilder($name, array $options = array())
     {
@@ -97,7 +94,7 @@ class FormContractor implements FormContractorInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws \LogicException if a sonata_type_model field does not have a
      *                         target model configured.
@@ -110,7 +107,7 @@ class FormContractor implements FormContractorInterface
         switch ($type) {
             case 'Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeModelType':
             case 'doctrine_phpcr_odm_tree':
-                $options['class']         = $fieldDescription->getTargetEntity();
+                $options['class'] = $fieldDescription->getTargetEntity();
                 $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
 
                 break;
@@ -120,14 +117,14 @@ class FormContractor implements FormContractorInterface
             case 'sonata_type_model_list':
                 if (!$fieldDescription->getTargetEntity()) {
                     throw new \LogicException(sprintf(
-                        'The field "%s" in class "%s" does not have a target model defined. ' .
+                        'The field "%s" in class "%s" does not have a target model defined. '.
                         'Please specify the "targetDocument" attribute in the mapping for this class.',
                         $fieldDescription->getName(),
                         $fieldDescription->getAdmin()->getClass()
                     ));
                 }
 
-                $options['class']         = $fieldDescription->getTargetEntity();
+                $options['class'] = $fieldDescription->getTargetEntity();
                 $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
 
                 break;
@@ -147,11 +144,11 @@ class FormContractor implements FormContractorInterface
                     throw $this->getAssociationAdminException($fieldDescription);
                 }
 
-                $options['type']         = 'sonata_type_admin';
-                $options['modifiable']   = true;
+                $options['type'] = 'sonata_type_admin';
+                $options['modifiable'] = true;
                 $options['type_options'] = array(
                     'sonata_field_description' => $fieldDescription,
-                    'data_class'               => $fieldDescription->getAssociationAdmin()->getClass()
+                    'data_class' => $fieldDescription->getAssociationAdmin()->getClass(),
                 );
 
                 break;
@@ -172,7 +169,7 @@ class FormContractor implements FormContractorInterface
             if ($fieldDescription->getTargetEntity()) {
                 $msg .= " for the target document: `{$fieldDescription->getTargetEntity()}`";
             }
-            $msg .= ", specify the `targetDocument` in the Reference, or the `referringDocument` in the Referrers or use the option `admin_code` to link it.";
+            $msg .= ', specify the `targetDocument` in the Reference, or the `referringDocument` in the Referrers or use the option `admin_code` to link it.';
         } else {
             $msg .= ' and use the option `admin_code` to link it.';
         }

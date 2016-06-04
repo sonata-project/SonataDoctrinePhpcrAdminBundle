@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -11,14 +11,14 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
-use Sonata\CoreBundle\Form\Type\BooleanType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\CoreBundle\Form\Type\BooleanType;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\Filter as BaseFilter;
 
 class BooleanFilter extends BaseFilter
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
@@ -38,7 +38,7 @@ class BooleanFilter extends BaseFilter
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDefaultOptions()
     {
@@ -46,16 +46,16 @@ class BooleanFilter extends BaseFilter
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getRenderSettings()
     {
         return array('sonata_type_filter_default', array(
-            'field_type'    => $this->getFieldType(),
+            'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'operator_type' => 'hidden',
             'operator_options' => array(),
-            'label'         => $this->getLabel()
+            'label' => $this->getLabel(),
         ));
     }
 }

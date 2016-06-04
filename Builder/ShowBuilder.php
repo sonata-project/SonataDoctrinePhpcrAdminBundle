@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -11,13 +11,12 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Builder;
 
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
+use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\ShowBuilderInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
-
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 
 class ShowBuilder implements ShowBuilderInterface
 {
@@ -42,7 +41,7 @@ class ShowBuilder implements ShowBuilderInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getBaseList(array $options = array())
     {
@@ -50,9 +49,9 @@ class ShowBuilder implements ShowBuilderInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function addField(FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
+    public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         if ($type == null) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
@@ -68,23 +67,9 @@ class ShowBuilder implements ShowBuilderInterface
     }
 
     /**
-     * @param string $type
+     * The method defines the correct default settings for the provided FieldDescription.
      *
-     * @return string|null The template if found
-     */
-    private function getTemplate($type)
-    {
-        if (!isset($this->templates[$type])) {
-            return null;
-        }
-
-        return $this->templates[$type];
-    }
-
-    /**
-     * The method defines the correct default settings for the provided FieldDescription
-     *
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws \RuntimeException if the $fieldDescription does not have a type.
      */
@@ -114,7 +99,6 @@ class ShowBuilder implements ShowBuilderInterface
         $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
 
         if (!$fieldDescription->getTemplate()) {
-
             $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
 
             if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {
@@ -126,11 +110,25 @@ class ShowBuilder implements ShowBuilderInterface
             }
         }
 
-        switch($fieldDescription->getMappingType()) {
+        switch ($fieldDescription->getMappingType()) {
             case ClassMetadata::MANY_TO_ONE:
             case ClassMetadata::MANY_TO_MANY:
                 $admin->attachAdminClass($fieldDescription);
                 break;
         }
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return string|null The template if found
+     */
+    private function getTemplate($type)
+    {
+        if (!isset($this->templates[$type])) {
+            return;
+        }
+
+        return $this->templates[$type];
     }
 }

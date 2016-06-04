@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -11,13 +11,13 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
-use Sonata\AdminBundle\Form\Type\Filter\DateType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Form\Type\Filter\DateType;
 
 class DateFilter extends Filter
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
@@ -30,7 +30,7 @@ class DateFilter extends Filter
         $where = $this->getWhere($proxyQuery);
 
         $from = $data['value'];
-        $to = new \DateTime($from->format('Y-m-d') . ' +86399 seconds'); // 23 hours 59 minutes 59 seconds
+        $to = new \DateTime($from->format('Y-m-d').' +86399 seconds'); // 23 hours 59 minutes 59 seconds
 
         switch ($data['type']) {
             case DateType::TYPE_GREATER_EQUAL:
@@ -63,7 +63,7 @@ class DateFilter extends Filter
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDefaultOptions()
     {
@@ -73,14 +73,14 @@ class DateFilter extends Filter
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getRenderSettings()
     {
         return array('sonata_type_filter_date', array(
-            'field_type'    => $this->getFieldType(),
+            'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
-            'label'         => $this->getLabel()
+            'label' => $this->getLabel(),
         ));
     }
 }

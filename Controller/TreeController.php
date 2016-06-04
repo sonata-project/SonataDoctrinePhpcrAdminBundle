@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -11,13 +11,13 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
- * A controller to render the tree block
+ * A controller to render the tree block.
  */
 class TreeController extends Controller
 {
@@ -37,15 +37,15 @@ class TreeController extends Controller
     private $defaults;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $confirmMove = false;
 
     /**
      * @param TreeInterface $tree
-     * @param string $template
-     * @param array $defaults
-     * @param boolean $confirmMove
+     * @param string        $template
+     * @param array         $defaults
+     * @param bool          $confirmMove
      */
     public function __construct(TreeInterface $tree, $template = null, array $defaults = array(), $confirmMove = false)
     {
@@ -60,7 +60,7 @@ class TreeController extends Controller
 
     /**
      * Renders a tree, passing the routes for each of the admin types (document types)
-     * to the view
+     * to the view.
      *
      * @param Request $request
      *
