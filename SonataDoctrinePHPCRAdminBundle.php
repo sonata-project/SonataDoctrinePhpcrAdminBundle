@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -42,9 +42,9 @@ class SonataDoctrinePHPCRAdminBundle extends Bundle
     {
         FormHelper::registerFormTypeMapping(array(
             'doctrine_phpcr_type_filter_choice' => 'Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType',
-            'choice_field_mask'                 => 'Sonata\DoctrinePHPCRAdminBundle\Form\Type\ChoiceFieldMaskType',
-            'doctrine_phpcr_odm_tree_manager'   => 'Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeManagerType',
-            'doctrine_phpcr_odm_tree'           => 'Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeModelType',
+            'choice_field_mask' => 'Sonata\DoctrinePHPCRAdminBundle\Form\Type\ChoiceFieldMaskType',
+            'doctrine_phpcr_odm_tree_manager' => 'Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeManagerType',
+            'doctrine_phpcr_odm_tree' => 'Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeModelType',
         ));
     }
 }

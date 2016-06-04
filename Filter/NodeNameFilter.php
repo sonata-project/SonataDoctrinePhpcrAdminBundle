@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -53,7 +53,7 @@ class NodeNameFilter extends Filter
     public function getDefaultOptions()
     {
         return array(
-            'format'   => '%%%s%%',
+            'format' => '%%%s%%',
         );
     }
 
@@ -63,9 +63,9 @@ class NodeNameFilter extends Filter
     public function getRenderSettings()
     {
         return array(ChoiceType::class, array(
-            'field_type'    => $this->getFieldType(),
+            'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
-            'label'         => $this->getLabel(),
+            'label' => $this->getLabel(),
         ));
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -107,7 +107,7 @@ class FormContractor implements FormContractorInterface
         switch ($type) {
             case 'Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeModelType':
             case 'doctrine_phpcr_odm_tree':
-                $options['class']         = $fieldDescription->getTargetEntity();
+                $options['class'] = $fieldDescription->getTargetEntity();
                 $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
 
                 break;
@@ -123,7 +123,7 @@ class FormContractor implements FormContractorInterface
                     ));
                 }
 
-                $options['class']         = $fieldDescription->getTargetEntity();
+                $options['class'] = $fieldDescription->getTargetEntity();
                 $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
 
                 break;
@@ -143,11 +143,11 @@ class FormContractor implements FormContractorInterface
                     throw $this->getAssociationAdminException($fieldDescription);
                 }
 
-                $options['type']         = 'sonata_type_admin';
-                $options['modifiable']   = true;
+                $options['type'] = 'sonata_type_admin';
+                $options['modifiable'] = true;
                 $options['type_options'] = array(
                     'sonata_field_description' => $fieldDescription,
-                    'data_class'               => $fieldDescription->getAssociationAdmin()->getClass(),
+                    'data_class' => $fieldDescription->getAssociationAdmin()->getClass(),
                 );
             break;
         }

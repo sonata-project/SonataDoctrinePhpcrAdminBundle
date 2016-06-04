@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -54,9 +54,9 @@ class FilterTypeGuesser implements TypeGuesserInterface
         }
 
         $options = array(
-            'field_type'    => TextType::class,
+            'field_type' => TextType::class,
             'field_options' => array(),
-            'options'       => array(),
+            'options' => array(),
         );
 
         if ($metadata->hasAssociation($property)) {

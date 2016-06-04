@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
- * (c) 2010-2011 Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -38,12 +38,12 @@ class FieldDescription extends BaseFieldDescription
         $this->associationMapping = $associationMapping;
 
         if (isset($associationMapping['type'])) {
-            $this->type         = $this->type ?: $associationMapping['type'];
-            $this->mappingType  = $this->mappingType ?: $associationMapping['type'];
+            $this->type = $this->type ?: $associationMapping['type'];
+            $this->mappingType = $this->mappingType ?: $associationMapping['type'];
         } else {
             throw new \InvalidArgumentException('Unknown association mapping type');
         }
-        $this->fieldName    = $associationMapping['fieldName'];
+        $this->fieldName = $associationMapping['fieldName'];
     }
 
     /**
@@ -74,9 +74,9 @@ class FieldDescription extends BaseFieldDescription
 
         $this->fieldMapping = $fieldMapping;
 
-        $this->type         = $this->type ?: $fieldMapping['type'];
-        $this->mappingType  = $this->mappingType ?: $fieldMapping['type'];
-        $this->fieldName    = $this->fieldName ?: $fieldMapping['fieldName'];
+        $this->type = $this->type ?: $fieldMapping['type'];
+        $this->mappingType = $this->mappingType ?: $fieldMapping['type'];
+        $this->fieldName = $this->fieldName ?: $fieldMapping['fieldName'];
     }
 
     /**

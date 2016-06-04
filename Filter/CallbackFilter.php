@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -38,9 +38,9 @@ class CallbackFilter extends BaseFilter
     public function getDefaultOptions()
     {
         return array(
-            'callback'         => null,
-            'field_type'       => TextType::class,
-            'operator_type'    => 'hidden',
+            'callback' => null,
+            'field_type' => TextType::class,
+            'operator_type' => 'hidden',
             'operator_options' => array(),
         );
     }
@@ -51,11 +51,11 @@ class CallbackFilter extends BaseFilter
     public function getRenderSettings()
     {
         return array('sonata_type_filter_default', array(
-            'field_type'       => $this->getFieldType(),
-            'field_options'    => $this->getFieldOptions(),
-            'operator_type'    => $this->getOption('operator_type'),
+            'field_type' => $this->getFieldType(),
+            'field_options' => $this->getFieldOptions(),
+            'operator_type' => $this->getOption('operator_type'),
             'operator_options' => $this->getOption('operator_options'),
-            'label'            => $this->getLabel(),
+            'label' => $this->getLabel(),
         ));
     }
 }

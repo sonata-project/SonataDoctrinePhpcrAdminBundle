@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -66,7 +66,7 @@ class StringFilterTest extends BaseTestCase
             )),
             array(ChoiceType::TYPE_NOT_CONTAINS, array(
                 'where.constraint' => array(
-                    'getField'                    => 'somefield',
+                    'getField' => 'somefield',
                     'getFullTextSearchExpression' => '* -somevalue', ),
             )),
             array(ChoiceType::TYPE_CONTAINS, array(
@@ -80,7 +80,7 @@ class StringFilterTest extends BaseTestCase
             )),
             array(ChoiceType::TYPE_CONTAINS_WORDS, array(
                 'where.constraint' => array(
-                    'getField'                    => 'somefield',
+                    'getField' => 'somefield',
                     'getFullTextSearchExpression' => 'somevalue', ),
             )),
         );

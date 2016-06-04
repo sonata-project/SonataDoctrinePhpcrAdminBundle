@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -51,7 +51,7 @@ class ShowBuilder implements ShowBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function addField(FieldDescriptionCollection $list, $type = null, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
+    public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         if ($type == null) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
@@ -64,20 +64,6 @@ class ShowBuilder implements ShowBuilderInterface
         $admin->addShowFieldDescription($fieldDescription->getName(), $fieldDescription);
 
         $list->add($fieldDescription);
-    }
-
-    /**
-     * @param string $type
-     *
-     * @return string|null The template if found
-     */
-    private function getTemplate($type)
-    {
-        if (!isset($this->templates[$type])) {
-            return;
-        }
-
-        return $this->templates[$type];
     }
 
     /**
@@ -130,5 +116,19 @@ class ShowBuilder implements ShowBuilderInterface
                 $admin->attachAdminClass($fieldDescription);
                 break;
         }
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return string|null The template if found
+     */
+    private function getTemplate($type)
+    {
+        if (!isset($this->templates[$type])) {
+            return;
+        }
+
+        return $this->templates[$type];
     }
 }

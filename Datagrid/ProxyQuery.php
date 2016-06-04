@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of the symfony package.
- * (c) Fabien Potencier <fabien.potencier@symfony-project.com>
- * (c) Jonathan H. Wage <jonwage@gmail.com>
+ * This file is part of the Sonata Project package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -89,6 +89,19 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
+     * Allows for direct calls to the QueryBuilder.
+     *
+     * @param string $name name of the method
+     * @param array  $args arguments of the call
+     *
+     * @codeCoverageIgnore
+     */
+    public function __call($name, $args)
+    {
+        return call_user_func_array(array($this->qb, $name), $args);
+    }
+
+    /**
      * @return string
      */
     public function getAlias()
@@ -135,19 +148,6 @@ class ProxyQuery implements ProxyQueryInterface
         }
 
         return $this->qb->getQuery()->execute();
-    }
-
-    /**
-     * Allows for direct calls to the QueryBuilder.
-     *
-     * @param string $name name of the method
-     * @param array  $args arguments of the call
-     *
-     * @codeCoverageIgnore
-     */
-    public function __call($name, $args)
-    {
-        return call_user_func_array(array($this->qb, $name), $args);
     }
 
     /**

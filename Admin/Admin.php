@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
- * (c) 2010-2011 Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -106,18 +106,6 @@ class Admin extends BaseAdmin
     }
 
     /**
-     * @param RouteCollection $collection
-     */
-    protected function configureRoutes(RouteCollection $collection)
-    {
-        foreach (array('edit', 'create', 'delete') as $name) {
-            if ($collection->has($name)) {
-                $collection->get($name)->addOptions(array('expose' => true));
-            }
-        }
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function toString($object)
@@ -138,5 +126,17 @@ class Admin extends BaseAdmin
         }
 
         return parent::toString($object);
+    }
+
+    /**
+     * @param RouteCollection $collection
+     */
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        foreach (array('edit', 'create', 'delete') as $name) {
+            if ($collection->has($name)) {
+                $collection->get($name)->addOptions(array('expose' => true));
+            }
+        }
     }
 }

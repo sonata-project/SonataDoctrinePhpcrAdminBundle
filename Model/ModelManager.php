@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -386,7 +386,7 @@ class ModelManager implements ModelManagerInterface
                 $values['_sort_order'] = 'ASC';
             }
 
-            $values['_sort_by']    = $fieldDescription->getName();
+            $values['_sort_by'] = $fieldDescription->getName();
         } else {
             $values['_sort_order'] = 'ASC';
             $values['_sort_by'] = $fieldDescription->getName();
@@ -415,8 +415,8 @@ class ModelManager implements ModelManagerInterface
     {
         return array(
             '_sort_order' => 'ASC',
-            '_sort_by'    => $this->getModelIdentifier($class),
-            '_page'       => 1,
+            '_sort_by' => $this->getModelIdentifier($class),
+            '_page' => 1,
         );
     }
 
@@ -483,22 +483,6 @@ class ModelManager implements ModelManagerInterface
     }
 
     /**
-     * Method taken from PropertyPath.
-     *
-     * TODO: remove when doing https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/issues/187
-     *
-     * @param string $property
-     *
-     * @return string
-     *
-     * @deprecated
-     */
-    protected function camelize($property)
-    {
-        return preg_replace(array('/(^|_)+(.)/e', '/\.(.)/e'), array("strtoupper('\\2')", "'_'.strtoupper('\\1')"), $property);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getModelCollectionInstance($class)
@@ -554,5 +538,21 @@ class ModelManager implements ModelManagerInterface
     public function getExportFields($class)
     {
         return array();
+    }
+
+    /**
+     * Method taken from PropertyPath.
+     *
+     * TODO: remove when doing https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/issues/187
+     *
+     * @param string $property
+     *
+     * @return string
+     *
+     * @deprecated
+     */
+    protected function camelize($property)
+    {
+        return preg_replace(array('/(^|_)+(.)/e', '/\.(.)/e'), array("strtoupper('\\2')", "'_'.strtoupper('\\1')"), $property);
     }
 }

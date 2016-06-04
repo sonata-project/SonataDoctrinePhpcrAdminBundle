@@ -1,13 +1,12 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
  */
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Form\Type;
@@ -75,19 +74,19 @@ class TreeModelType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'template'          => 'doctrine_phpcr_odm_tree',
-            'compound'          => false,
-            'model_manager'     => null,
-            'class'             => null,
-            'property'          => null,
-            'query'             => null,
-            'choices'           => null,
-            'root_node'         => '/',
-            'select_root_node'  => false,
-            'parent'            => 'choice',
-            'repository_name'   => 'default',
+            'template' => 'doctrine_phpcr_odm_tree',
+            'compound' => false,
+            'model_manager' => null,
+            'class' => null,
+            'property' => null,
+            'query' => null,
+            'choices' => null,
+            'root_node' => '/',
+            'select_root_node' => false,
+            'parent' => 'choice',
+            'repository_name' => 'default',
             'preferred_choices' => array(),
-            'choice_list'       => function (Options $options, $previousValue) {
+            'choice_list' => function (Options $options, $previousValue) {
                 return new ModelChoiceList(
                     $options['model_manager'],
                     $options['class'],
