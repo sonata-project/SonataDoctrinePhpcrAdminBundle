@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -18,7 +18,7 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->qb = new QueryBuilder;
+        $this->qb = new QueryBuilder();
         $this->qbTester = new QueryBuilderTester($this->qb);
 
         $this->proxyQuery = $this->getMockBuilder('Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery')

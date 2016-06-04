@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -95,7 +95,7 @@ class ChoiceFilterTest extends BaseTestCase
     {
         return array(
             array(array(
-                'choiceType' => ChoiceType::TYPE_NOT_CONTAINS, 
+                'choiceType' => ChoiceType::TYPE_NOT_CONTAINS,
                 'value' => 'somevalue',
                 'qbNodeCount' => 6,
                 'assertPaths' => array(
@@ -109,7 +109,7 @@ class ChoiceFilterTest extends BaseTestCase
                 ),
             )),
             array(array(
-                'choiceType' => ChoiceType::TYPE_NOT_CONTAINS, 
+                'choiceType' => ChoiceType::TYPE_NOT_CONTAINS,
                 'value' => array('somevalue', 'somevalue'),
                 'qbNodeCount' => 10,
                 'assertPaths' => array(
@@ -130,7 +130,7 @@ class ChoiceFilterTest extends BaseTestCase
                 ),
             )),
             array(array(
-                'choiceType' => ChoiceType::TYPE_CONTAINS, 
+                'choiceType' => ChoiceType::TYPE_CONTAINS,
                 'value' => 'somevalue',
                 'qbNodeCount' => 5,
                 'assertPaths' => array(
@@ -147,7 +147,7 @@ class ChoiceFilterTest extends BaseTestCase
                 ),
             )),
             array(array(
-                'choiceType' => ChoiceType::TYPE_CONTAINS, 
+                'choiceType' => ChoiceType::TYPE_CONTAINS,
                 'value' => array('somevalue', 'somevalue'),
                 'qbNodeCount' => 8,
                 'assertPaths' => array(
@@ -168,7 +168,7 @@ class ChoiceFilterTest extends BaseTestCase
                 ),
             )),
             array(array(
-                'choiceType' => ChoiceType::TYPE_CONTAINS, 
+                'choiceType' => ChoiceType::TYPE_CONTAINS,
                 'value' => 'somevalue',
                 'qbNodeCount' => 5,
                 'assertPaths' => array(
@@ -185,7 +185,7 @@ class ChoiceFilterTest extends BaseTestCase
                 ),
             )),
             array(array(
-                'choiceType' => ChoiceType::TYPE_CONTAINS, 
+                'choiceType' => ChoiceType::TYPE_CONTAINS,
                 'value' => array('somevalue', 'somevalue'),
                 'qbNodeCount' => 8,
                 'assertPaths' => array(
@@ -206,7 +206,7 @@ class ChoiceFilterTest extends BaseTestCase
                 ),
             )),
             array(array(
-                'choiceType' => ChoiceType::TYPE_EQUAL, 
+                'choiceType' => ChoiceType::TYPE_EQUAL,
                 'value' => 'somevalue',
                 'qbNodeCount' => 5,
                 'assertPaths' => array(
@@ -223,7 +223,7 @@ class ChoiceFilterTest extends BaseTestCase
                 ),
             )),
             array(array(
-                'choiceType' => ChoiceType::TYPE_EQUAL, 
+                'choiceType' => ChoiceType::TYPE_EQUAL,
                 'value' => array('somevalue', 'somevalue'),
                 'qbNodeCount' => 8,
                 'assertPaths' => array(

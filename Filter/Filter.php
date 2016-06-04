@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -17,7 +17,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 abstract class Filter extends BaseFilter
 {
     /**
-     * @var boolean
+     * @var bool
      */
     protected $active = false;
 
@@ -29,6 +29,14 @@ abstract class Filter extends BaseFilter
     {
         $this->value = $value;
         $this->filter($queryBuilder, $queryBuilder->getAlias(), $this->getFieldName(), $value);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isActive()
+    {
+        return $this->active;
     }
 
     /**
@@ -44,13 +52,5 @@ abstract class Filter extends BaseFilter
         }
 
         return $queryBuilder->andWhere();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function isActive()
-    {
-        return $this->active;
     }
 }

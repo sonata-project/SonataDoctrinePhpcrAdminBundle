@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -25,6 +25,23 @@ class ListBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $lb = new ListBuilder($this->guesser, $this->templates);
         $this->assertInstanceOf('Sonata\AdminBundle\Admin\FieldDescriptionCollection', $lb->getBaseList());
+    }
+
+    public function testAddField()
+    {
+        $this->setupAddField();
+        $this->lb->addField($this->fieldDescriptionCollection, 'string', $this->fieldDescription, $this->admin);
+    }
+
+    public function testAddFieldNullType()
+    {
+        $typeguess = $this->getMock('Symfony\Component\Form\Guess\TypeGuess', array(), array(), '', false);
+        $this->guesser->expects($this->once())
+            ->method('guessType')
+            ->with($this->anything())
+            ->will($this->returnValue($typeguess));
+        $this->setupAddField();
+        $this->lb->addField($this->fieldDescriptionCollection, null, $this->fieldDescription, $this->admin);
     }
 
     private function setupAddField()
@@ -65,23 +82,6 @@ class ListBuilderTest extends \PHPUnit_Framework_TestCase
         $this->fieldDescriptionCollection->expects($this->once())
             ->method('add')
             ->with($this->fieldDescription);
-    }
-
-    public function testAddField()
-    {
-        $this->setupAddField();
-        $this->lb->addField($this->fieldDescriptionCollection, 'string', $this->fieldDescription, $this->admin);
-    }
-
-    public function testAddFieldNullType()
-    {
-        $typeguess = $this->getMock('Symfony\Component\Form\Guess\TypeGuess', array(), array(), '', false);
-        $this->guesser->expects($this->once())
-            ->method('guessType')
-            ->with($this->anything())
-            ->will($this->returnValue($typeguess));
-        $this->setupAddField();
-        $this->lb->addField($this->fieldDescriptionCollection, null, $this->fieldDescription, $this->admin);
     }
 
     //public function testAddField()

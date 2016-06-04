@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -17,7 +17,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Filter\Filter as BaseFilter;
 class CallbackFilter extends BaseFilter
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws \InvalidArgumentException if the filter is not configured with a
      *                                   callable in the 'callback' option field.
@@ -32,29 +32,29 @@ class CallbackFilter extends BaseFilter
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDefaultOptions()
     {
         return array(
-            'callback'    => null,
-            'field_type'  => 'text',
+            'callback' => null,
+            'field_type' => 'text',
             'operator_type' => 'hidden',
-            'operator_options' => array()
+            'operator_options' => array(),
         );
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getRenderSettings()
     {
         return array('sonata_type_filter_default', array(
-            'field_type'    => $this->getFieldType(),
+            'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'operator_type' => $this->getOption('operator_type'),
             'operator_options' => $this->getOption('operator_options'),
-            'label'         => $this->getLabel()
+            'label' => $this->getLabel(),
         ));
     }
 }

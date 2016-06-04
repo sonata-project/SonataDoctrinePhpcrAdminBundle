@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
- * (c) 2010-2011 Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,7 +14,7 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Admin;
 use Sonata\AdminBundle\Admin\BaseFieldDescription;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  */
 class FieldDescription extends BaseFieldDescription
 {
@@ -24,7 +24,7 @@ class FieldDescription extends BaseFieldDescription
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws \InvalidArgumentException if the mapping is no array or of an
      *                                   unknown type.
@@ -32,22 +32,22 @@ class FieldDescription extends BaseFieldDescription
     public function setAssociationMapping($associationMapping)
     {
         if (!is_array($associationMapping)) {
-           throw new \InvalidArgumentException('The association mapping must be an array');
+            throw new \InvalidArgumentException('The association mapping must be an array');
         }
 
         $this->associationMapping = $associationMapping;
 
-        if(isset($associationMapping['type'])){
-            $this->type         = $this->type ?: $associationMapping['type'];
-            $this->mappingType  = $this->mappingType ?: $associationMapping['type'];
+        if (isset($associationMapping['type'])) {
+            $this->type = $this->type ?: $associationMapping['type'];
+            $this->mappingType = $this->mappingType ?: $associationMapping['type'];
         } else {
             throw new \InvalidArgumentException('Unknown association mapping type');
         }
-        $this->fieldName    = $associationMapping['fieldName'];
+        $this->fieldName = $associationMapping['fieldName'];
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getTargetEntity()
     {
@@ -58,11 +58,11 @@ class FieldDescription extends BaseFieldDescription
             return $this->associationMapping['referringDocument'];
         }
 
-        return null;
+        return;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws \InvalidArgumentException if the mapping information is not an array.
      */
@@ -74,13 +74,13 @@ class FieldDescription extends BaseFieldDescription
 
         $this->fieldMapping = $fieldMapping;
 
-        $this->type         = $this->type ?: $fieldMapping['type'];
-        $this->mappingType  = $this->mappingType ?: $fieldMapping['type'];
-        $this->fieldName    = $this->fieldName ?: $fieldMapping['fieldName'];
+        $this->type = $this->type ?: $fieldMapping['type'];
+        $this->mappingType = $this->mappingType ?: $fieldMapping['type'];
+        $this->fieldName = $this->fieldName ?: $fieldMapping['fieldName'];
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isIdentifier()
     {
@@ -88,7 +88,7 @@ class FieldDescription extends BaseFieldDescription
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getValue($object)
     {
@@ -100,7 +100,7 @@ class FieldDescription extends BaseFieldDescription
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws \InvalidArgumentException if the list of mappings does contain
      *                                   something else than arrays.

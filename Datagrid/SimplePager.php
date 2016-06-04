@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -12,12 +12,11 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Datagrid;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ODM\PHPCR\Query\Query as PHPCRQuery;
 
 class SimplePager extends Pager
 {
     /**
-     * @var  boolean
+     * @var bool
      */
     protected $haveToPaginate;
 
@@ -42,7 +41,7 @@ class SimplePager extends Pager
      * If set to 3 the pager will generate links to the next three pages
      * etc.
      *
-     * @param integer $maxPerPage Number of records to display per page
+     * @param int $maxPerPage Number of records to display per page
      * @param int $threshold
      */
     public function __construct($maxPerPage = 10, $threshold = 2)
@@ -57,19 +56,20 @@ class SimplePager extends Pager
      *
      * In all other cases an estimate of the total count is returned.
      *
-     * @return integer
+     * @return int
      */
     public function getNbResults()
     {
-        $n = ceil(($this->getLastPage() -1) * $this->getMaxPerPage());
+        $n = ceil(($this->getLastPage() - 1) * $this->getMaxPerPage());
         if ($this->getLastPage() == $this->getPage()) {
             return $n + $this->thresholdCount;
         }
+
         return $n;
     }
 
     /**
-     * Get all the results for the pager instance
+     * Get all the results for the pager instance.
      *
      * @param mixed $hydrationMode A hydration mode identifier
      *
@@ -92,7 +92,7 @@ class SimplePager extends Pager
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function haveToPaginate()
     {
@@ -100,23 +100,14 @@ class SimplePager extends Pager
     }
 
     /**
-     * {@inheritDoc}
-     */
-    protected function resetIterator()
-    {
-        parent::resetIterator();
-        $this->haveToPaginate = false;
-    }
-
-    /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @throws \RuntimeException the QueryBuilder is uninitialized.
      */
     public function init()
     {
         if (!$this->getQuery()) {
-            throw new \RuntimeException("Uninitialized QueryBuilder");
+            throw new \RuntimeException('Uninitialized QueryBuilder');
         }
         $this->resetIterator();
 
@@ -155,5 +146,14 @@ class SimplePager extends Pager
     public function getThreshold()
     {
         return $this->threshold;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function resetIterator()
+    {
+        parent::resetIterator();
+        $this->haveToPaginate = false;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -11,13 +11,11 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Guesser;
 
+use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
+use Doctrine\ODM\PHPCR\Mapping\MappingException;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
-
-use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
-use Doctrine\ODM\PHPCR\Mapping\MappingException;
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
-
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
@@ -43,7 +41,7 @@ class FilterTypeGuesser implements TypeGuesserInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function guessType($class, $property, ModelManagerInterface $modelManager)
     {
@@ -52,9 +50,9 @@ class FilterTypeGuesser implements TypeGuesserInterface
         }
 
         $options = array(
-            'field_type'     => 'text',
-            'field_options'  => array(),
-            'options'        => array(),
+            'field_type' => 'text',
+            'field_options' => array(),
+            'options' => array(),
         );
 
         if ($metadata->hasAssociation($property)) {
@@ -67,7 +65,7 @@ class FilterTypeGuesser implements TypeGuesserInterface
             $options['field_type'] = 'document';
             if (!empty($mapping['targetDocument'])) {
                 $options['field_options'] = array(
-                    'class' => $mapping['targetDocument']
+                    'class' => $mapping['targetDocument'],
                 );
             }
             $options['field_name'] = $mapping['fieldName'];
@@ -99,7 +97,7 @@ class FilterTypeGuesser implements TypeGuesserInterface
             case 'integer':
                 $options['field_type'] = 'number';
                 $options['field_options'] = array(
-                    'csrf_protection' => false
+                    'csrf_protection' => false,
                 );
 
                 return new TypeGuess('doctrine_phpcr_integer', $options, Guess::HIGH_CONFIDENCE);

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -11,9 +11,8 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Datagrid;
 
-use Sonata\DoctrinePHPCRAdminBundle\Datagrid\SimplePager;
-use Doctrine\ODM\PHPCR\Query\Query as PHPCRQuery;
 use Doctrine\Common\Collections\ArrayCollection;
+use Sonata\DoctrinePHPCRAdminBundle\Datagrid\SimplePager;
 
 class SimplePagerTest extends \PHPUnit_Framework_TestCase
 {

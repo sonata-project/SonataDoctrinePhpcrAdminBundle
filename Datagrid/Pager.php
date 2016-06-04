@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -11,8 +11,8 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Datagrid;
 
-use Sonata\AdminBundle\Datagrid\Pager as BasePager;
 use Doctrine\ODM\PHPCR\Query\Query as PHPCRQuery;
+use Sonata\AdminBundle\Datagrid\Pager as BasePager;
 
 /**
  * Doctrine pager class.
@@ -25,7 +25,7 @@ class Pager extends BasePager
     /**
      * Returns a query for counting the total results.
      *
-     * @return integer
+     * @return int
      */
     public function computeNbResult()
     {
@@ -33,7 +33,7 @@ class Pager extends BasePager
     }
 
     /**
-     * Get all the results for the pager instance
+     * Get all the results for the pager instance.
      *
      * @param mixed $hydrationMode A hydration mode identifier
      *
@@ -53,7 +53,7 @@ class Pager extends BasePager
     public function init()
     {
         if (!$this->getQuery()) {
-            throw new \RuntimeException("Uninitialized QueryBuilder");
+            throw new \RuntimeException('Uninitialized QueryBuilder');
         }
 
         $this->resetIterator();

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -19,7 +19,7 @@ class DateFilterTest extends BaseTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->filter = new DateFilter;
+        $this->filter = new DateFilter();
     }
 
     // @todo: Can probably factor the following 4 test cases into a common class
@@ -64,9 +64,9 @@ class DateFilterTest extends BaseTestCase
         }
 
         $this->filter->filter(
-            $this->proxyQuery, 
-            null, 
-            'somefield', 
+            $this->proxyQuery,
+            null,
+            'somefield',
             array('type' => $choiceType, 'value' => $value)
         );
 
@@ -86,9 +86,9 @@ class DateFilterTest extends BaseTestCase
         $to = new \DateTime('2013/01/16 23:59:59');
 
         $this->filter->filter(
-            $this->proxyQuery, 
-            null, 
-            'somefield', 
+            $this->proxyQuery,
+            null,
+            'somefield',
             array('type' => DateType::TYPE_EQUAL, 'value' => $from)
         );
 
