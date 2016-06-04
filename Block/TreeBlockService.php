@@ -63,11 +63,13 @@ class TreeBlockService extends BaseBlockService
      */
     public function configureSettings(OptionsResolver $resolver)
     {
+        // the callables are a workaround to make bundle configuration win over the default values
+        // see https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/pull/345
         $resolver->setDefaults(array(
-            'template'         => 'SonataDoctrinePHPCRAdminBundle:Block:tree.html.twig',
-            'id'               => '/',
-            'selected'         => null,
-            'routing_defaults' => $this->defaults,
+            'template'         => function (Options $options, $value) { return $value ?: 'SonataDoctrinePHPCRAdminBundle:Block:tree.html.twig'; },
+            'id'               => function (Options $options, $value) { return $value ?: '/'; },
+            'selected'         => function (Options $options, $value) { return $value ?: null; },
+            'routing_defaults' => function (Options $options, $value) { return $value ?: $this->defaults; },
         ));
     }
 }
