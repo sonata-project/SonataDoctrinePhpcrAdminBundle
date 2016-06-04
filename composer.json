@@ -17,13 +17,13 @@
     ],
     "require": {
         "php": "^5.3.3 || ^7.0",
+        "doctrine/phpcr-bundle": "^1.1",
+        "doctrine/phpcr-odm": "^1.1",
         "sonata-project/admin-bundle": "^2.2.9",
         "sonata-project/jquery-bundle": "1.8.*",
+        "symfony-cmf/tree-browser-bundle": "^1.0",
         "symfony/framework-bundle": "^2.3",
-        "symfony/property-access": "^2.2",
-        "doctrine/phpcr-odm": "^1.1",
-        "doctrine/phpcr-bundle": "^1.1",
-        "symfony-cmf/tree-browser-bundle": "^1.0"
+        "symfony/property-access": "^2.2"
     },
     "require-dev": {
         "jackalope/jackalope-jackrabbit": "^1.0"
@@ -33,6 +33,9 @@
     },
     "autoload": {
         "psr-4": { "Sonata\\DoctrinePHPCRAdminBundle\\": "" }
+    },
+    "config": {
+        "sort-packages": true
     },
     "extra": {
         "branch-alias": {
