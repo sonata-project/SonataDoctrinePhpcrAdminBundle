@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -32,6 +32,14 @@ abstract class Filter extends BaseFilter
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    /**
      * Add the where statement for this filter to the query.
      *
      * @param ProxyQuery $proxy
@@ -44,13 +52,5 @@ abstract class Filter extends BaseFilter
         }
 
         return $queryBuilder->andWhere();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isActive()
-    {
-        return $this->active;
     }
 }

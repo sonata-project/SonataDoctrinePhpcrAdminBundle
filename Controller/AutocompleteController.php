@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -64,12 +64,12 @@ class AutocompleteController
             throw new AccessDeniedException('Autocomplete list can`t be retrieved because the form element is disabled or read_only.');
         }
 
-        $class              = $formAutocomplete->getConfig()->getOption('class');
-        $property           = $formAutocomplete->getConfig()->getAttribute('property');
+        $class = $formAutocomplete->getConfig()->getOption('class');
+        $property = $formAutocomplete->getConfig()->getAttribute('property');
         $minimumInputLength = $formAutocomplete->getConfig()->getAttribute('minimum_input_length');
-        $itemsPerPage       = $formAutocomplete->getConfig()->getAttribute('items_per_page');
+        $itemsPerPage = $formAutocomplete->getConfig()->getAttribute('items_per_page');
         $reqParamPageNumber = $formAutocomplete->getConfig()->getAttribute('req_param_name_page_number');
-        $toStringCallback   = $formAutocomplete->getConfig()->getAttribute('to_string_callback');
+        $toStringCallback = $formAutocomplete->getConfig()->getAttribute('to_string_callback');
 
         $searchText = $request->get('q');
         if (mb_strlen($searchText, 'UTF-8') < $minimumInputLength) {
@@ -85,7 +85,7 @@ class AutocompleteController
 
         if ($class) {
             /** @var $qb \Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder */
-            $qb =  $dm->getRepository($class)->createQueryBuilder('a');
+            $qb = $dm->getRepository($class)->createQueryBuilder('a');
             $qb->where()->fullTextSearch("a.$property", '*'.$searchText.'*');
             $qb->setFirstResult($offset);
             //fetch one more to determine if there are more pages
@@ -132,15 +132,15 @@ class AutocompleteController
             }
 
             $items[] = array(
-                'id'    => $admin->id($document),
+                'id' => $admin->id($document),
                 'label' => $label,
             );
         }
 
         return new JsonResponse(array(
             'status' => 'OK',
-            'more'   => $more,
-            'items'  => $items,
+            'more' => $more,
+            'items' => $items,
         ));
     }
 

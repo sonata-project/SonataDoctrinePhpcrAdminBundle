@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -75,8 +75,8 @@ class TreeController extends Controller
         $selected = $request->attributes->get('selected') ?: $root;
 
         return $this->render($this->template, array(
-            'repository_name'  => $this->repositoryName,
-            'root_node'        => $root,
+            'repository_name' => $this->repositoryName,
+            'root_node' => $root,
             'routing_defaults' => $this->defaults,
             //'confirm_move' => $this->confirmMove,
             //'create_in_overlay' => $createInOverlay ? $createInOverlay : false,

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -53,8 +53,8 @@ class TreeBlockService extends BaseBlockService
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
         return $this->renderResponse($blockContext->getTemplate(), array(
-            'block'     => $blockContext->getBlock(),
-            'settings'  => $blockContext->getSettings(),
+            'block' => $blockContext->getBlock(),
+            'settings' => $blockContext->getSettings(),
         ), $response);
     }
 
@@ -66,10 +66,18 @@ class TreeBlockService extends BaseBlockService
         // the callables are a workaround to make bundle configuration win over the default values
         // see https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/pull/345
         $resolver->setDefaults(array(
-            'template'         => function (Options $options, $value) { return $value ?: 'SonataDoctrinePHPCRAdminBundle:Block:tree.html.twig'; },
-            'id'               => function (Options $options, $value) { return $value ?: '/'; },
-            'selected'         => function (Options $options, $value) { return $value ?: null; },
-            'routing_defaults' => function (Options $options, $value) { return $value ?: $this->defaults; },
+            'template' => function (Options $options, $value) {
+                return $value ?: 'SonataDoctrinePHPCRAdminBundle:Block:tree.html.twig';
+            },
+            'id' => function (Options $options, $value) {
+                return $value ?: '/';
+            },
+            'selected' => function (Options $options, $value) {
+                return $value ?: null;
+            },
+            'routing_defaults' => function (Options $options, $value) {
+                return $value ?: $this->defaults;
+            },
         ));
     }
 }

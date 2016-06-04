@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -19,7 +19,9 @@ class CallBackFilterTest extends BaseTestCase
     public function testFilterNullData()
     {
         $filter = new CallbackFilter();
-        $filter->initialize('field_name', array('callback' => function () { return; }));
+        $filter->initialize('field_name', array('callback' => function () {
+            return;
+        }));
         $res = $filter->filter($this->proxyQuery, null, 'somefield', null);
         $this->assertNull($res);
         $this->assertFalse($filter->isActive());
@@ -29,7 +31,9 @@ class CallBackFilterTest extends BaseTestCase
     {
         $filter = new CallbackFilter();
 
-        $filter->initialize('field_name', array('callback' => function () { return; }));
+        $filter->initialize('field_name', array('callback' => function () {
+            return;
+        }));
         $res = $filter->filter($this->proxyQuery, null, 'somefield', array());
         $this->assertNull($res);
         $this->assertFalse($filter->isActive());

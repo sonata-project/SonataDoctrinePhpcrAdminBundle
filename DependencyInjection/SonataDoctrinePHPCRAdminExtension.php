@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -40,9 +40,9 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
                     ),
                     'show' => array(
                         'doctrine_phpcr_many_to_many' => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_many_to_many.html.twig',
-                        'doctrine_phpcr_many_to_one'  => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_many_to_one.html.twig',
-                        'doctrine_phpcr_one_to_many'  => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_one_to_many.html.twig',
-                        'doctrine_phpcr_one_to_one'   => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_one_to_one.html.twig',
+                        'doctrine_phpcr_many_to_one' => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_many_to_one.html.twig',
+                        'doctrine_phpcr_one_to_many' => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_one_to_many.html.twig',
+                        'doctrine_phpcr_one_to_one' => 'SonataDoctrinePHPCRAdminBundle:CRUD:show_phpcr_one_to_one.html.twig',
                     ),
                 ),
             ),
@@ -75,6 +75,11 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
             ->replaceArgument(1, $config['templates']['types']['show']);
 
         $this->loadTreeTypes($config, $container);
+    }
+
+    public function getNamespace()
+    {
+        return 'http://sonata-project.org/schema/dic/doctrine_phpcr_admin';
     }
 
     /**
@@ -152,10 +157,5 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
         }
 
         return $documentClasses;
-    }
-
-    public function getNamespace()
-    {
-        return 'http://sonata-project.org/schema/dic/doctrine_phpcr_admin';
     }
 }
