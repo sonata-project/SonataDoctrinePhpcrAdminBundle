@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata project.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -56,7 +56,7 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
 
         // @todo not very clean but don't know how to do that for now
         $settings = false;
-        $methods  = $pool->getMethodCalls();
+        $methods = $pool->getMethodCalls();
         foreach ($methods as $pos => $calls) {
             if ($calls[0] == '__hack_doctrine_phpcr__') {
                 $settings = $calls[1];

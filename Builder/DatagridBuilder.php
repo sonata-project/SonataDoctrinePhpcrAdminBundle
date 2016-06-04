@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -60,9 +60,9 @@ class DatagridBuilder implements DatagridBuilderInterface
      */
     public function __construct(FormFactory $formFactory, FilterFactoryInterface $filterFactory, TypeGuesserInterface $guesser, $csrfTokenEnabled = true)
     {
-        $this->formFactory   = $formFactory;
+        $this->formFactory = $formFactory;
         $this->filterFactory = $filterFactory;
-        $this->guesser       = $guesser;
+        $this->guesser = $guesser;
         $this->csrfTokenEnabled = $csrfTokenEnabled;
     }
 
