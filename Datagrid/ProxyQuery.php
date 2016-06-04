@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of the symfony package.
- * (c) Fabien Potencier <fabien.potencier@symfony-project.com>
- * (c) Jonathan H. Wage <jonwage@gmail.com>
+ * This file is part of the Sonata Project package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,11 +12,11 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Datagrid;
 
 use Doctrine\ODM\PHPCR\DocumentManager;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
 /**
- * This class is used to abstract the Admin Bundle from the different QueryBuilder implementations
+ * This class is used to abstract the Admin Bundle from the different QueryBuilder implementations.
  */
 class ProxyQuery implements ProxyQueryInterface
 {
@@ -35,14 +35,14 @@ class ProxyQuery implements ProxyQueryInterface
     protected $alias;
 
     /**
-     * The root path
+     * The root path.
      *
      * @var null|string
      */
     protected $root;
 
     /**
-     * Property that determines the Ordering of the results
+     * Property that determines the Ordering of the results.
      *
      * @var string
      */
@@ -75,6 +75,7 @@ class ProxyQuery implements ProxyQueryInterface
      * @param QueryBuilder $queryBuilder
      * @param string       $alias        Short name to use instead of the FQN
      *                                   of the document.
+     *
      * @throws \InvalidArgumentException if alias is not a string or an empty string
      */
     public function __construct(QueryBuilder $queryBuilder, $alias)
@@ -88,6 +89,19 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
+     * Allows for direct calls to the QueryBuilder.
+     *
+     * @param string $name name of the method
+     * @param array  $args arguments of the call
+     *
+     * @codeCoverageIgnore
+     */
+    public function __call($name, $args)
+    {
+        return call_user_func_array(array($this->qb, $name), $args);
+    }
+
+    /**
      * @return string
      */
     public function getAlias()
@@ -96,7 +110,7 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * @param string $root  root path to restrict what documents to find.
+     * @param string $root root path to restrict what documents to find.
      */
     public function setRootPath($root)
     {
@@ -107,7 +121,7 @@ class ProxyQuery implements ProxyQueryInterface
      * Executes the query, applying the source, the constraint of documents being of the phpcr:class of
      * this kind of document and builds an array of retrieved documents.
      *
-     * @param array $params doesn't have any effect
+     * @param array $params        doesn't have any effect
      * @param mixed $hydrationMode doesn't have any effect
      *
      * @return array of documents
@@ -119,10 +133,10 @@ class ProxyQuery implements ProxyQueryInterface
         if ($this->getSortBy()) {
             switch ($this->sortOrder) {
                 case 'DESC':
-                    $this->qb->orderBy()->desc()->field($this->alias . '.' . $this->sortBy);
+                    $this->qb->orderBy()->desc()->field($this->alias.'.'.$this->sortBy);
                     break;
                 case 'ASC':
-                    $this->qb->orderBy()->asc()->field($this->alias . '.' . $this->sortBy);
+                    $this->qb->orderBy()->asc()->field($this->alias.'.'.$this->sortBy);
                     break;
                 default:
                     throw new \Exception('Unsupported sort order direction: '.$this->sortOrder);
@@ -137,22 +151,9 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * Allows for direct calls to the QueryBuilder.
+     * Set the property to be sorted by.
      *
-     * @param string $name name of the method
-     * @param array $args arguments of the call
-     *
-     * @codeCoverageIgnore
-     */
-    public function __call($name, $args)
-    {
-        return call_user_func_array(array($this->qb, $name), $args);
-    }
-
-    /**
-     * Set the property to be sorted by
-     *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setSortBy($parentAssociationMappings, $fieldMapping)
     {
@@ -162,7 +163,7 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * Gets the property that defines the ordering
+     * Gets the property that defines the ordering.
      *
      * @return string the property to be sorted by
      */
@@ -174,7 +175,7 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * Set the sort ordering.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @param string $sortOrder (ASC|DESC)
      *
@@ -211,21 +212,20 @@ class ProxyQuery implements ProxyQueryInterface
         throw new \Exception('Used by what??');
     }
 
-
     /**
-     * Gets the QueryBuilder
+     * Gets the QueryBuilder.
      *
      * @return QueryBuilder
      */
     public function getQueryBuilder()
     {
-      return $this->qb;
+        return $this->qb;
     }
 
     /**
-     * Sets the first result (offset)
+     * Sets the first result (offset).
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setFirstResult($firstResult)
     {
@@ -235,9 +235,9 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * Gets the first result (offset)
+     * Gets the first result (offset).
      *
-     * @return integer the offset
+     * @return int the offset
      */
     public function getFirstResult()
     {
@@ -245,9 +245,9 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * Set maximum number of results to retrieve
+     * Set maximum number of results to retrieve.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setMaxResults($maxResults)
     {
@@ -257,9 +257,9 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * Gets the maximum number of results to retrieve
+     * Gets the maximum number of results to retrieve.
      *
-     * @return integer
+     * @return int
      */
     public function getMaxResults()
     {
@@ -267,7 +267,7 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * Sets the document manager
+     * Sets the document manager.
      *
      * @param DocumentManager $documentManager
      */
@@ -279,7 +279,7 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * Gets the document manager
+     * Gets the document manager.
      *
      * @return DocumentManager $documentManager
      */

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -11,13 +11,13 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
-use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 
 class NodeNameFilter extends Filter
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
@@ -48,24 +48,24 @@ class NodeNameFilter extends Filter
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDefaultOptions()
     {
         return array(
-            'format'   => '%%%s%%'
+            'format' => '%%%s%%',
         );
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getRenderSettings()
     {
         return array('doctrine_phpcr_type_filter_choice', array(
-            'field_type'    => $this->getFieldType(),
+            'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
-            'label'         => $this->getLabel()
+            'label' => $this->getLabel(),
         ));
     }
 }

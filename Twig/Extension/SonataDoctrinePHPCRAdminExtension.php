@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of sonata-project.
+ * This file is part of the Sonata Project package.
  *
- * (c) 2010 Thomas Rabaix
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,8 +11,8 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Twig\Extension;
 
-use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use PHPCR\NodeInterface;
+use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 
 class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
 {
@@ -22,16 +22,15 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     protected $environment;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initRuntime(\Twig_Environment $environment)
     {
         $this->environment = $environment;
     }
 
-
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -39,11 +38,11 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     }
 
     /**
-     * render a list element from the FieldDescription
+     * render a list element from the FieldDescription.
      *
-     * @param object $object
+     * @param object                    $object
      * @param FieldDescriptionInterface $fieldDescription
-     * @param array $params
+     * @param array                     $params
      *
      * @return string
      */
@@ -52,30 +51,29 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
         $template = $this->getTemplate($fieldDescription, 'SonataAdminBundle:CRUD:base_list_field.html.twig');
 
         return $this->output($fieldDescription, $template, array_merge($params, array(
-            'admin'  => $fieldDescription->getAdmin(),
+            'admin' => $fieldDescription->getAdmin(),
             'object' => $object,
-            'value'  => $this->getValueFromFieldDescription($object, $fieldDescription),
-            'field_description' => $fieldDescription
+            'value' => $this->getValueFromFieldDescription($object, $fieldDescription),
+            'field_description' => $fieldDescription,
         )));
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getFilters()
     {
         return array(
-            'render_node_property'     => new \Twig_Filter_Method($this, 'renderNodeProperty', array('is_safe' => array('html'))),
-            'render_node_path'     => new \Twig_Filter_Method($this, 'renderNodePath', array('is_safe' => array('html'))),
+            'render_node_property' => new \Twig_Filter_Method($this, 'renderNodeProperty', array('is_safe' => array('html'))),
+            'render_node_path' => new \Twig_Filter_Method($this, 'renderNodePath', array('is_safe' => array('html'))),
         );
     }
 
-
     /**
-     * Renders a property of a node
+     * Renders a property of a node.
      *
      * @param NodeInterface $node
-     * @param string $property
+     * @param string        $property
      *
      * @return string String representation of the property
      */
@@ -85,7 +83,7 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     }
 
     /**
-     * Renders a path of a node
+     * Renders a path of a node.
      *
      * @param NodeInterface $node
      *
@@ -96,4 +94,3 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
         return $node->getPath();
     }
 }
-

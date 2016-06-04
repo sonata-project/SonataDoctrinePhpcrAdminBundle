@@ -1,28 +1,25 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
  */
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Form\Type;
 
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\OptionsResolver\Options;
-
-use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
-
 use Sonata\AdminBundle\Form\ChoiceList\ModelChoiceList;
 use Sonata\AdminBundle\Form\DataTransformer\ModelToIdTransformer;
+use Symfony\Cmf\Bundle\TreeBrowserBundle\Tree\TreeInterface;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TreeModelType extends AbstractType
 {
@@ -53,7 +50,7 @@ class TreeModelType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -63,7 +60,7 @@ class TreeModelType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
@@ -75,23 +72,23 @@ class TreeModelType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'template'          => 'doctrine_phpcr_odm_tree',
-            'compound'          => false,
-            'model_manager'     => null,
-            'class'             => null,
-            'property'          => null,
-            'query'             => null,
-            'choices'           => null,
-            'root_node'         => '/',
-            'select_root_node'  => false,
-            'parent'            => 'choice',
+            'template' => 'doctrine_phpcr_odm_tree',
+            'compound' => false,
+            'model_manager' => null,
+            'class' => null,
+            'property' => null,
+            'query' => null,
+            'choices' => null,
+            'root_node' => '/',
+            'select_root_node' => false,
+            'parent' => 'choice',
             'preferred_choices' => array(),
-            'choice_list'       => function (Options $options, $previousValue) {
+            'choice_list' => function (Options $options, $previousValue) {
                 return new ModelChoiceList(
                     $options['model_manager'],
                     $options['class'],
@@ -99,12 +96,12 @@ class TreeModelType extends AbstractType
                     $options['query'],
                     $options['choices']
                 );
-            }
+            },
         ));
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

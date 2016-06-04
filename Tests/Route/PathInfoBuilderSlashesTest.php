@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Sonata package.
+ * This file is part of the Sonata Project package.
  *
  * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
@@ -12,11 +12,10 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Route;
 
 use Sonata\DoctrinePHPCRAdminBundle\Route\PathInfoBuilderSlashes;
-use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
 
 class PathInfoBuilderSlashesTest extends \PHPUnit_Framework_TestCase
 {
-    function testBuild()
+    public function testBuild()
     {
         $collectionChild = $this->getMock('Sonata\\AdminBundle\\Route\\RouteCollection', array(), array(), '', false);
 
@@ -41,8 +40,8 @@ class PathInfoBuilderSlashesTest extends \PHPUnit_Framework_TestCase
         $builder = new PathInfoBuilderSlashes();
         $builder->build($admin, $collection);
     }
-    
-    function testBuildWithAcl()
+
+    public function testBuildWithAcl()
     {
         $admin = $this->getMockBuilder('Sonata\\AdminBundle\\Admin\\Admin')->disableOriginalConstructor()->getMock();
         $admin->expects($this->once())
