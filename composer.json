@@ -19,7 +19,6 @@
         "php": "^5.3.3 || ^7.0",
         "doctrine/phpcr-bundle": "^1.1",
         "doctrine/phpcr-odm": "^1.1",
-        "sllh/php-cs-fixer-styleci-bridge": "^2.0",
         "sonata-project/admin-bundle": "^2.2.9",
         "sonata-project/jquery-bundle": "1.8.*",
         "symfony-cmf/tree-browser-bundle": "^1.0",
@@ -27,7 +26,8 @@
         "symfony/property-access": "^2.2"
     },
     "require-dev": {
-        "jackalope/jackalope-jackrabbit": "^1.0"
+        "jackalope/jackalope-jackrabbit": "^1.0",
+        "sllh/php-cs-fixer-styleci-bridge": "^2.0"
     },
     "provide": {
         "sonata-project/admin-bundle-persistency-layer": "1.0.0"
