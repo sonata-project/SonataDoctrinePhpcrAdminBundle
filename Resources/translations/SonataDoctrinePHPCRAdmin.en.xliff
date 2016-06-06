@@ -33,7 +33,11 @@
             <trans-unit id="label_type_contains_words">
                 <source>label_type_contains_words</source>
                 <target>contains words</target>
-            </trans-unit>            
+            </trans-unit>
+            <trans-unit id="choose_edit_locale">
+                <source>choose_edit_locale</source>
+                <target>Choose language to edit</target>
+            </trans-unit>
         </body>
      </file>
 </xliff>
