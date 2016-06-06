@@ -23,8 +23,8 @@
         "sonata-project/block-bundle": "^3.0",
         "symfony-cmf/resource-rest-bundle": "^1.0@dev",
         "symfony-cmf/tree-browser-bundle": "^2.0@dev",
-        "symfony/framework-bundle": "^2.3 || ^3.0",
-        "symfony/property-access": "^2.2 || ^3.0"
+        "symfony/framework-bundle": "^2.8 || ^3.0",
+        "symfony/property-access": "^2.8 || ^3.0"
     },
     "require-dev": {
         "dantleech/glob-finder": "@dev",
@@ -35,7 +35,7 @@
         "symfony-cmf/resource": "@dev",
         "symfony-cmf/resource-bundle": "@dev",
         "symfony/phpunit-bridge": "^2.7 || ^3.0",
-        "symfony/security-acl": "^2.4 || ^3.0"
+        "symfony/security-acl": "^2.8 || ^3.0"
     },
     "provide": {
         "sonata-project/admin-bundle-persistency-layer": "1.0.0"
