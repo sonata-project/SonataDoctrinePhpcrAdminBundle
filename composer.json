@@ -19,6 +19,7 @@
         "php": "^5.3.3 || ^7.0",
         "doctrine/phpcr-bundle": "^1.1",
         "doctrine/phpcr-odm": "^1.1",
+        "sllh/php-cs-fixer-styleci-bridge": "^2.0",
         "sonata-project/admin-bundle": "^2.2.9",
         "sonata-project/jquery-bundle": "1.8.*",
         "symfony-cmf/tree-browser-bundle": "^1.0",
