@@ -1,47 +1,33 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
-<container xmlns="http://symfony.com/schema/dic/services"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <service id="sonata.admin.doctrine_phpcr.filter.type.boolean" class="Sonata\DoctrinePHPCRAdminBundle\Filter\BooleanFilter">
-            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_boolean" />
+            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_boolean"/>
         </service>
-
         <service id="sonata.admin.doctrine_phpcr.filter.type.callback" class="Sonata\DoctrinePHPCRAdminBundle\Filter\CallbackFilter">
-            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_callback" />
+            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_callback"/>
         </service>
-
         <service id="sonata.admin.doctrine_phpcr.filter.type.choice" class="Sonata\DoctrinePHPCRAdminBundle\Filter\ChoiceFilter">
-            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_choice" />
+            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_choice"/>
         </service>
-
         <service id="sonata.admin.doctrine_phpcr_form.filter.type.choice" class="Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType">
-            <tag name="form.type" alias="doctrine_phpcr_type_filter_choice" />
-
-            <argument type="service" id="translator" />
+            <tag name="form.type" alias="doctrine_phpcr_type_filter_choice"/>
+            <argument type="service" id="translator"/>
         </service>
-
         <service id="sonata.admin.doctrine_phpcr.filter.type.model" class="Sonata\DoctrinePHPCRAdminBundle\Filter\ModelFilter">
-            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_model" />
+            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_model"/>
         </service>
-
         <service id="sonata.admin.doctrine_phpcr.filter.type.string" class="Sonata\DoctrinePHPCRAdminBundle\Filter\StringFilter">
-            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_string" />
+            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_string"/>
         </service>
-
         <service id="sonata.admin.doctrine_phpcr.filter.type.number" class="Sonata\DoctrinePHPCRAdminBundle\Filter\NumberFilter">
-            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_number" />
+            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_number"/>
         </service>
-
         <service id="sonata.admin.doctrine_phpcr.filter.type.date" class="Sonata\DoctrinePHPCRAdminBundle\Filter\DateFilter">
-            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_date" />
+            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_date"/>
         </service>
-
         <service id="sonata.admin.doctrine_phpcr.filter.type.nodename" class="Sonata\DoctrinePHPCRAdminBundle\Filter\NodeNameFilter">
-            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_nodename" />
+            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_nodename"/>
         </service>
     </services>
-
 </container>

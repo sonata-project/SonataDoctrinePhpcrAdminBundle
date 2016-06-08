@@ -1,23 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
-<container xmlns="http://symfony.com/schema/dic/services"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-
-        <service id="sonata.admin.doctrine_phpcr.tree_controller"
-                 class="Sonata\DoctrinePHPCRAdminBundle\Controller\TreeController">
-            <argument type="service" id="sonata.admin.doctrine_phpcr.phpcr_odm_tree" />
+        <service id="sonata.admin.doctrine_phpcr.tree_controller" class="Sonata\DoctrinePHPCRAdminBundle\Controller\TreeController">
+            <argument type="service" id="sonata.admin.doctrine_phpcr.phpcr_odm_tree"/>
             <argument/>
             <argument>%sonata_admin_doctrine_phpcr.tree_block.defaults%</argument>
             <argument>%sonata_admin_doctrine_phpcr.tree_confirm_move%</argument>
-            <call method="setContainer"><argument type="service" id="service_container"/></call>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
         </service>
-
         <service id="sonata.admin.doctrine_phpcr.phpcr_odm_tree" class="Sonata\DoctrinePHPCRAdminBundle\Tree\PhpcrOdmTree">
-            <tag name="cmf.tree" alias="phpcr_odm_tree" />
-            <argument type="service" id="doctrine_phpcr.odm.default_document_manager" />
+            <tag name="cmf.tree" alias="phpcr_odm_tree"/>
+            <argument type="service" id="doctrine_phpcr.odm.default_document_manager"/>
             <argument type="service" id="sonata.admin.manager.doctrine_phpcr"/>
             <argument type="service" id="sonata.admin.pool"/>
             <argument type="service" id="translator"/>
@@ -26,7 +21,5 @@
             <argument/>
             <argument/>
         </service>
-
     </services>
-
 </container>
