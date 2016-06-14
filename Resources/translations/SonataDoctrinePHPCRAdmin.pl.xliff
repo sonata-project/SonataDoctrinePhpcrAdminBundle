@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="pl" datatype="plaintext" original="">
+        <body>
+            <trans-unit id="content_tree">
+                <source>content_tree</source>
+                <target>Zawartość</target>
+            </trans-unit>
+            <trans-unit id="reset_tree">
+                <source>reset_tree</source>
+                <target>Resetuj</target>
+            </trans-unit>
+            <trans-unit id="tree_create_item">
+                <source>create_item</source>
+                <target>Utwórz</target>
+            </trans-unit>
+            <trans-unit id="tree_delete_item">
+                <source>delete_item</source>
+                <target>Usuń</target>
+            </trans-unit>
+            <trans-unit id="confirm_move_node">
+                <source>confirm_move_node</source>
+                <target>Czy usunąć gałąź?</target>
+            </trans-unit>
+            <trans-unit id="list_results_count_prefix">
+                <source>list_results_count_prefix</source>
+                <target>przynajmniej</target>
+            </trans-unit>
+            <trans-unit id="tree_not_editable">
+                <source>not_editable</source>
+                <target>(nie edytowalny)</target>
+            </trans-unit>
+            <trans-unit id="label_type_contains_words">
+                <source>label_type_contains_words</source>
+                <target>zawiera słowa</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
