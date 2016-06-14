@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="pl" datatype="plaintext" original="" >
         <body>
@@ -33,7 +33,7 @@
             <trans-unit id="label_type_contains_words">
                 <source>label_type_contains_words</source>
                 <target>zawiera słowa</target>
-            </trans-unit>            
+            </trans-unit>
         </body>
-     </file>
+    </file>
 </xliff>
