@@ -11,27 +11,12 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Builder;
 
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
-use Sonata\AdminBundle\Builder\FormContractorInterface;
-use Symfony\Component\Form\FormFactoryInterface;
+use Sonata\AdminBundle\Builder\AbstractFormContractor;
 
-class FormContractor implements FormContractorInterface
+class FormContractor extends AbstractFormContractor
 {
-    /**
-     * @var FormFactoryInterface
-     */
-    protected $formFactory;
-
-    /**
-     * @param FormFactoryInterface $formFactory
-     */
-    public function __construct(FormFactoryInterface $formFactory)
-    {
-        $this->formFactory = $formFactory;
-    }
-
     /**
      * The method defines the correct default settings for the provided FieldDescription.
      *
@@ -64,114 +49,26 @@ class FormContractor implements FormContractorInterface
         $fieldDescription->setAdmin($admin);
         $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'standard'));
 
-        $mappingTypes = array(
-            ClassMetadata::MANY_TO_ONE,
-            ClassMetadata::MANY_TO_MANY,
-            'children',
-            'child', 'parent',
-            'referrers',
-        );
-
-        if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && in_array($fieldDescription->getMappingType(), $mappingTypes)) {
+        if ($fieldDescription->describesAssociation()) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
 
     /**
-     * @return FormFactoryInterface
-     */
-    public function getFormFactory()
-    {
-        return $this->formFactory;
-    }
-
-    /**
      * {@inheritdoc}
-     */
-    public function getFormBuilder($name, array $options = array())
-    {
-        return $this->getFormFactory()->createNamedBuilder($name, 'form', null, $options);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \LogicException if a sonata_type_model field does not have a
-     *                         target model configured.
      */
     public function getDefaultOptions($type, FieldDescriptionInterface $fieldDescription)
     {
-        $options = array();
-        $options['sonata_field_description'] = $fieldDescription;
+        $options = parent::getDefaultOptions($type, $fieldDescription);
 
         switch ($type) {
             case 'Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeModelType':
             case 'doctrine_phpcr_odm_tree':
                 $options['class'] = $fieldDescription->getTargetEntity();
                 $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
-
                 break;
-            case 'Sonata\AdminBundle\Form\Type\Modeltype':
-            case 'sonata_type_model':
-            case 'Sonata\AdminBundle\Form\Type\ModelTypeList':
-            case 'sonata_type_model_list':
-                if (!$fieldDescription->getTargetEntity()) {
-                    throw new \LogicException(sprintf(
-                        'The field "%s" in class "%s" does not have a target model defined. Please specify the "targetDocument" attribute in the mapping for this class.',
-                        $fieldDescription->getName(),
-                        $fieldDescription->getAdmin()->getClass()
-                    ));
-                }
-
-                $options['class'] = $fieldDescription->getTargetEntity();
-                $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
-
-                break;
-            case 'Sonata\AdminBundle\Form\Type\AdminType':
-            case 'sonata_type_admin':
-                if (!$fieldDescription->getAssociationAdmin()) {
-                    throw $this->getAssociationAdminException($fieldDescription);
-                }
-
-                $options['data_class'] = $fieldDescription->getAssociationAdmin()->getClass();
-                $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'admin'));
-
-                break;
-            case 'Sonata\CoreBundle\Form\Type\CollectionType':
-            case 'sonata_type_collection':
-                if (!$fieldDescription->getAssociationAdmin()) {
-                    throw $this->getAssociationAdminException($fieldDescription);
-                }
-
-                $options['type'] = 'sonata_type_admin';
-                $options['modifiable'] = true;
-                $options['type_options'] = array(
-                    'sonata_field_description' => $fieldDescription,
-                    'data_class' => $fieldDescription->getAssociationAdmin()->getClass(),
-                );
-            break;
         }
 
         return $options;
-    }
-
-    /**
-     * @param FieldDescriptionInterface $fieldDescription
-     *
-     * @return \LogicException
-     */
-    protected function getAssociationAdminException(FieldDescriptionInterface $fieldDescription)
-    {
-        $msg = sprintf('The current field `%s` is not linked to an admin. Please create one', $fieldDescription->getName());
-        if (in_array($fieldDescription->getMappingType(), array(ClassMetadata::MANY_TO_ONE, ClassMetadata::MANY_TO_MANY, 'referrers'))) {
-            if ($fieldDescription->getTargetEntity()) {
-                $msg .= " for the target document: `{$fieldDescription->getTargetEntity()}`";
-            }
-            $msg .= ', specify the `targetDocument` in the Reference, or the `referringDocument` in the Referrers or use the option `admin_code` to link it.';
-        } else {
-            $msg .= ' and use the option `admin_code` to link it.';
-        }
-
-        return new \LogicException($msg);
     }
 }
