@@ -102,7 +102,7 @@ class ListBuilderTest extends \PHPUnit_Framework_TestCase
 
         //AdminInterface doesn't implement methods called in addField,
         //so we mock Admin
-        $this->admin = $this->getMock('\Sonata\AdminBundle\Admin\Admin', array(), array(), '', false);
+        $this->admin = $this->getMock('\Sonata\AdminBundle\Admin\AbstractAdmin', array(), array(), '', false);
         $this->admin->expects($this->any())
             ->method('getModelManager')
             ->will($this->returnValue($this->modelManager));
