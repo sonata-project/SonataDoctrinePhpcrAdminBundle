@@ -11,6 +11,7 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Admin;
 
+use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\BaseFieldDescription;
 
 /**
@@ -114,5 +115,30 @@ class FieldDescription extends BaseFieldDescription
         }
 
         $this->parentAssociationMappings = $parentAssociationMappings;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    final public function describesSingleValuedAssociation()
+    {
+        return in_array($this->mappingType, array(
+            ClassMetadata::MANY_TO_ONE,
+            'child',
+            'parent',
+        ), true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    final public function describesCollectionValuedAssociation()
+    {
+        return in_array($this->mappingType, array(
+            ClassMetadata::MANY_TO_MANY,
+            'children',
+            'referrers',
+            'mixedreferrers',
+        ), true);
     }
 }

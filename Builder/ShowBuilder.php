@@ -11,7 +11,6 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Builder;
 
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
@@ -101,20 +100,15 @@ class ShowBuilder implements ShowBuilderInterface
         if (!$fieldDescription->getTemplate()) {
             $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
 
-            if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {
-                $fieldDescription->setTemplate('SonataDoctrinePhpcrAdminBundle:CRUD:show_phpcr_many_to_one.html.twig');
-            }
-
-            if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_MANY) {
-                $fieldDescription->setTemplate('SonataDoctrinePhpcrAdminBundle:CRUD:show_phpcr_many_to_many.html.twig');
+            if ($fieldDescription->describesSingleValuedAssociation()) {
+                $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:show_single.html.twig');
+            } elseif ($fieldDescription->describesCollectionValuedAssociation()) {
+                $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:show_collection.html.twig');
             }
         }
 
-        switch ($fieldDescription->getMappingType()) {
-            case ClassMetadata::MANY_TO_ONE:
-            case ClassMetadata::MANY_TO_MANY:
-                $admin->attachAdminClass($fieldDescription);
-                break;
+        if ($fieldDescription->describesAssociation()) {
+            $admin->attachAdminClass($fieldDescription);
         }
     }
 

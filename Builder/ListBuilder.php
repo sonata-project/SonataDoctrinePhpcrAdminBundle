@@ -11,7 +11,6 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Builder;
 
-use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
@@ -130,32 +129,14 @@ class ListBuilder implements ListBuilderInterface
         if (!$fieldDescription->getTemplate()) {
             $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
 
-            if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {
-                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_phpcr_many_to_one.html.twig');
-            }
-
-            if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_MANY) {
-                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_phpcr_many_to_many.html.twig');
-            }
-
-            if ($fieldDescription->getMappingType() == 'child' || $fieldDescription->getMappingType() == 'parent') {
-                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_phpcr_one_to_one.html.twig');
-            }
-
-            if ($fieldDescription->getMappingType() == 'children' || $fieldDescription->getMappingType() == 'referrers') {
-                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_phpcr_one_to_many.html.twig');
+            if ($fieldDescription->describesSingleValuedAssociation()) {
+                $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:list_single.html.twig');
+            } elseif ($fieldDescription->describesCollectionValuedAssociation()) {
+                $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:list_collection.html.twig');
             }
         }
 
-        $mappingTypes = array(
-            ClassMetadata::MANY_TO_ONE,
-            ClassMetadata::MANY_TO_MANY,
-            'children',
-            'child', 'parent',
-            'referrers',
-        );
-
-        if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && in_array($fieldDescription->getMappingType(), $mappingTypes)) {
+        if ($fieldDescription->describesAssociation()) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
