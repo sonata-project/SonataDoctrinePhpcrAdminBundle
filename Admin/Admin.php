@@ -13,7 +13,7 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Admin;
 
 use PHPCR\Util\PathHelper;
 use PHPCR\Util\UUIDHelper;
-use Sonata\AdminBundle\Admin\Admin as BaseAdmin;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Route\RouteCollection;
 
@@ -24,7 +24,7 @@ use Sonata\AdminBundle\Route\RouteCollection;
  *
  * @author Uwe Jäger <uwej711@googlemail.com>
  */
-class Admin extends BaseAdmin
+class Admin extends AbstractAdmin
 {
     /**
      * Path to the root node in the repository under which documents of this

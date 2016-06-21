@@ -19,12 +19,16 @@ class PathInfoBuilderSlashesTest extends \PHPUnit_Framework_TestCase
     {
         $collectionChild = $this->getMock('Sonata\\AdminBundle\\Route\\RouteCollection', array(), array(), '', false);
 
-        $adminChild = $this->getMockBuilder('Sonata\\AdminBundle\\Admin\\Admin')->disableOriginalConstructor()->getMock();
+        $adminChild = $this->getMockBuilder('Sonata\\AdminBundle\\Admin\\AbstractAdmin')
+            ->disableOriginalConstructor()
+            ->getMock();
         $adminChild->expects($this->once())
             ->method('getRoutes')
             ->will($this->returnValue($collectionChild));
 
-        $admin = $this->getMockBuilder('Sonata\\AdminBundle\\Admin\\Admin')->disableOriginalConstructor()->getMock();
+        $admin = $this->getMockBuilder('Sonata\\AdminBundle\\Admin\\AbstractAdmin')
+            ->disableOriginalConstructor()
+            ->getMock();
         $admin->expects($this->once())
             ->method('getChildren')
             ->will($this->returnValue(array($adminChild)));
@@ -43,7 +47,9 @@ class PathInfoBuilderSlashesTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildWithAcl()
     {
-        $admin = $this->getMockBuilder('Sonata\\AdminBundle\\Admin\\Admin')->disableOriginalConstructor()->getMock();
+        $admin = $this->getMockBuilder('Sonata\\AdminBundle\\Admin\\AbstractAdmin')
+            ->disableOriginalConstructor()
+            ->getMock();
         $admin->expects($this->once())
             ->method('getChildren')
             ->will($this->returnValue(array()));
