@@ -137,7 +137,7 @@ class FormContractor implements FormContractorInterface
                 $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'admin'));
 
                 break;
-            case 'Sonata\AdminBundle\Form\Type\CollectionType':
+            case 'Sonata\CoreBundle\Form\Type\CollectionType':
             case 'sonata_type_collection':
                 if (!$fieldDescription->getAssociationAdmin()) {
                     throw $this->getAssociationAdminException($fieldDescription);
