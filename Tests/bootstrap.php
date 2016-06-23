@@ -9,9 +9,13 @@
  * file that was distributed with this source code.
  */
 
-$file = __DIR__.'/../vendor/autoload.php';
-if (!file_exists($file)) {
+$autoload_paths = array_filter(array(
+    __DIR__.'/../vendor/autoload.php',
+    __DIR__.'/../../../../vendor/autoload.php',
+), 'file_exists');
+
+if (!$autoload_paths) {
     throw new RuntimeException('Run "composer install" to run test suite.');
 }
 
-require_once $file;
+require_once current($autoload_paths);
