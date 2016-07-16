@@ -21,7 +21,7 @@ class CallbackFilter extends BaseFilter
      * {@inheritdoc}
      *
      * @throws \InvalidArgumentException if the filter is not configured with a
-     *                                   callable in the 'callback' option field.
+     *                                   callable in the 'callback' option field
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {

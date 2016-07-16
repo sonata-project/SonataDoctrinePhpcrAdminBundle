@@ -74,7 +74,7 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * @param QueryBuilder $queryBuilder
      * @param string       $alias        Short name to use instead of the FQN
-     *                                   of the document.
+     *                                   of the document
      *
      * @throws \InvalidArgumentException if alias is not a string or an empty string
      */
@@ -110,7 +110,7 @@ class ProxyQuery implements ProxyQueryInterface
     }
 
     /**
-     * @param string $root root path to restrict what documents to find.
+     * @param string $root root path to restrict what documents to find
      */
     public function setRootPath($root)
     {
@@ -179,7 +179,7 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * @param string $sortOrder (ASC|DESC)
      *
-     * @throws \InvalidArgumentException if $sortOrder is not one of ASC or DESC.
+     * @throws \InvalidArgumentException if $sortOrder is not one of ASC or DESC
      */
     public function setSortOrder($sortOrder)
     {
