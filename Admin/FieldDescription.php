@@ -27,7 +27,7 @@ class FieldDescription extends BaseFieldDescription
      * {@inheritdoc}
      *
      * @throws \InvalidArgumentException if the mapping is no array or of an
-     *                                   unknown type.
+     *                                   unknown type
      */
     public function setAssociationMapping($associationMapping)
     {
@@ -64,7 +64,7 @@ class FieldDescription extends BaseFieldDescription
     /**
      * {@inheritdoc}
      *
-     * @throws \InvalidArgumentException if the mapping information is not an array.
+     * @throws \InvalidArgumentException if the mapping information is not an array
      */
     public function setFieldMapping($fieldMapping)
     {
@@ -103,7 +103,7 @@ class FieldDescription extends BaseFieldDescription
      * {@inheritdoc}
      *
      * @throws \InvalidArgumentException if the list of mappings does contain
-     *                                   something else than arrays.
+     *                                   something else than arrays
      */
     public function setParentAssociationMappings(array $parentAssociationMappings)
     {

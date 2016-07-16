@@ -37,7 +37,7 @@ class FormContractor implements FormContractorInterface
      *
      * {@inheritdoc}
      *
-     * @throws \RuntimeException if the $fieldDescription does not specify a type.
+     * @throws \RuntimeException if the $fieldDescription does not specify a type
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
@@ -97,7 +97,7 @@ class FormContractor implements FormContractorInterface
      * {@inheritdoc}
      *
      * @throws \LogicException if a sonata_type_model field does not have a
-     *                         target model configured.
+     *                         target model configured
      */
     public function getDefaultOptions($type, FieldDescriptionInterface $fieldDescription)
     {

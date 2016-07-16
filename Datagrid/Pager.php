@@ -48,7 +48,7 @@ class Pager extends BasePager
      * Initializes the pager setting the offset and maxResults in ProxyQuery
      * and obtaining the total number of pages.
      *
-     * @throws \RuntimeException the QueryBuilder is uninitialized.
+     * @throws \RuntimeException the QueryBuilder is uninitialized
      */
     public function init()
     {
