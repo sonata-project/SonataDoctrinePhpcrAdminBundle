@@ -71,7 +71,7 @@ class ShowBuilder implements ShowBuilderInterface
      *
      * {@inheritdoc}
      *
-     * @throws \RuntimeException if the $fieldDescription does not have a type.
+     * @throws \RuntimeException if the $fieldDescription does not have a type
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {

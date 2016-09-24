@@ -32,7 +32,6 @@ class SimplePagerTest extends \PHPUnit_Framework_TestCase
                 ->with(array(), null)
                 ->will($this->returnValue(new ArrayCollection(range(0, 12))));
 
-
         $this->proxyQuery->expects($this->once())
             ->method('setMaxResults')
             ->with($this->equalTo(21));

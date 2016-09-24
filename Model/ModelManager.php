@@ -131,7 +131,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @return FieldDescription
      *
-     * @throws \RunTimeException if $name is not a string.
+     * @throws \RunTimeException if $name is not a string
      */
     public function getNewFieldDescriptionInstance($class, $name, array $options = array())
     {
@@ -174,7 +174,7 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @return DocumentManager The PHPCR-ODM document manager responsible for
-     *                         this model.
+     *                         this model
      */
     public function getDocumentManager()
     {
@@ -204,7 +204,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * @param string $class the fully qualified class name to search for
      * @param string $alias alias to use for this class when accessing fields,
-     *                      defaults to 'a'.
+     *                      defaults to 'a'
      *
      * @return ProxyQueryInterface
      *
@@ -339,7 +339,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @throws ModelManagerException if anything goes wrong during query execution.
+     * @throws ModelManagerException if anything goes wrong during query execution
      */
     public function batchDelete($class, ProxyQueryInterface $queryProxy)
     {
@@ -436,7 +436,7 @@ class ModelManager implements ModelManagerInterface
      * @return object
      *
      * @throws NoSuchPropertyException if the class has no magic setter and
-     *                                 public property for a field in array.
+     *                                 public property for a field in array
      */
     public function modelReverseTransform($class, array $array = array())
     {
