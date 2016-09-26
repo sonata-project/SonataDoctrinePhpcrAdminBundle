@@ -543,7 +543,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * Method taken from PropertyPath.
      *
-     * TODO: remove when doing https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/issues/187
+     * NEXT_MAJOR: remove when doing https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/issues/187
      *
      * @param string $property
      *
