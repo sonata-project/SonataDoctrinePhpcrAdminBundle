@@ -12,7 +12,6 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Guesser;
 
 use Sonata\DoctrinePHPCRAdminBundle\Guesser\FilterTypeGuesser;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Guess\Guess;
 
 class FilterTypeGuesserTest extends \PHPUnit_Framework_TestCase
@@ -58,7 +57,7 @@ class FilterTypeGuesserTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertSame(
             array(
-                'field_type' => TextType::class,
+                'field_type' => 'Symfony\Component\Form\Extension\Core\Type\TextType',
                 'field_options' => array(),
                 'options' => array(),
                 'field_name' => $fieldname,
