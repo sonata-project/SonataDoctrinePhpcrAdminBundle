@@ -68,7 +68,7 @@ class StringFilter extends Filter
      */
     public function getRenderSettings()
     {
-        return array(ChoiceType::class, array(
+        return array('Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType', array(
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'label' => $this->getLabel(),

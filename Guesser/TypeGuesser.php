@@ -16,7 +16,6 @@ use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Doctrine\ODM\PHPCR\Mapping\MappingException;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
@@ -52,7 +51,7 @@ class TypeGuesser implements TypeGuesserInterface
     public function guessType($class, $property, ModelManagerInterface $modelManager)
     {
         if (!$metadata = $this->getMetadata($class)) {
-            return new TypeGuess(TextType::class, array(), Guess::LOW_CONFIDENCE);
+            return new TypeGuess('Symfony\Component\Form\Extension\Core\Type\TextType', array(), Guess::LOW_CONFIDENCE);
         }
 
         if ($metadata->hasAssociation($property)) {
@@ -95,7 +94,7 @@ class TypeGuesser implements TypeGuesserInterface
                 return new TypeGuess('string', array(), Guess::MEDIUM_CONFIDENCE);
         }
 
-        return new TypeGuess(TextType::class, array(), Guess::LOW_CONFIDENCE);
+        return new TypeGuess('Symfony\Component\Form\Extension\Core\Type\TextType', array(), Guess::LOW_CONFIDENCE);
     }
 
     /**
