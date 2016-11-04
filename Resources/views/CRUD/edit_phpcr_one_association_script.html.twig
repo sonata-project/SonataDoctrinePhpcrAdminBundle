@@ -48,8 +48,8 @@ This code manage the one-to-many association field popup
                     jQuery(form).attr('encoding', 'multipart/form-data');
                 }
                 jQuery('#sonata-ba-field-container-{{ id }}').trigger('sonata.add_element');
-                jQuery('#field_container_{{ id }}').trigger('sonata.add_element');
-                Admin.setup_icheck(jQuery('#field_container_{{ id }}'));
+                var $field_container = jQuery('#field_container_{{ id }}').trigger('sonata.add_element');
+                Admin.setup_icheck($field_container);
             }
         });
 
