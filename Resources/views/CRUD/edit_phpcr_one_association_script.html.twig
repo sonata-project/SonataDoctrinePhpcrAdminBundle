@@ -50,6 +50,7 @@ This code manage the one-to-many association field popup
                 jQuery('#sonata-ba-field-container-{{ id }}').trigger('sonata.add_element');
                 var $field_container = jQuery('#field_container_{{ id }}').trigger('sonata.add_element');
                 Admin.setup_icheck($field_container);
+                Admin.setup_select2($field_container);
             }
         });
 
