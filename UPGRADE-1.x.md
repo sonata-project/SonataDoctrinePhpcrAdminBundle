@@ -1,3 +1,10 @@
+UPGRADE 2.0
+===========
+
+### Removed deprecated  `Sonata\DoctrinePHPCRAdminBundle\Datagrid\SimplePager`
+
+When adding pager function you have to use `Sonata\AdminBundle\Datagrid\SimplePager` now.
+
 UPGRADE 1.x
 ===========
 
