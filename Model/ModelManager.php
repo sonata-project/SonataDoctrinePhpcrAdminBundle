@@ -288,8 +288,6 @@ class ModelManager implements ModelManagerInterface
     /**
      * Currently only the leading slash is removed.
      *
-     * TODO: do we also have to encode certain characters like spaces or does that happen automatically?
-     *
      * @param object $document
      *
      * @return null|string
