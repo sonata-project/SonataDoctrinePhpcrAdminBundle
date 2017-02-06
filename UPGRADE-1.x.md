@@ -1,6 +1,10 @@
 UPGRADE 1.x
 ===========
 
+### Deprecated `Sonata\DoctrinePHPCRAdminBundle\Datagrid\SimplePager`
+
+When adding pager function you should use `Sonata\AdminBundle\Datagrid\SimplePager` now.
+
 ### Tests
 
 All files under the ``Tests`` directory are now correctly handled as internal test classes. 
