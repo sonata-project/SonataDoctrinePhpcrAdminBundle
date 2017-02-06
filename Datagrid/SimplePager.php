@@ -13,6 +13,11 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Datagrid;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
+/**
+ *  NEXT_MAJOR: remove this class.
+
+ * @deprecated since 1.2.7, to be removed in 2.0. Use Sonata\AdminBundle\Datagrid\SimplePager instead.
+ */
 class SimplePager extends Pager
 {
     /**
@@ -46,6 +51,11 @@ class SimplePager extends Pager
      */
     public function __construct($maxPerPage = 10, $threshold = 2)
     {
+        @trigger_error(
+            'The '.__CLASS__.' class is deprecated since 1.2.7, to be removed in 2.0. '.
+            'Use Sonata\AdminBundle\Datagrid\SimplePager instead.',
+            E_USER_DEPRECATED
+        );
         parent::__construct($maxPerPage);
         $this->setThreshold($threshold);
     }

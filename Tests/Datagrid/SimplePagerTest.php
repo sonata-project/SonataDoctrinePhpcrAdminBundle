@@ -14,6 +14,9 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Datagrid;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\SimplePager;
 
+/**
+ * @group legacy
+ */
 class SimplePagerTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
