@@ -17,10 +17,10 @@ use Sonata\AdminBundle\Builder\DatagridBuilderInterface;
 use Sonata\AdminBundle\Datagrid\Datagrid;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\PagerInterface;
+use Sonata\AdminBundle\Datagrid\SimplePager;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
 use Sonata\AdminBundle\Filter\FilterInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
-use Sonata\DoctrinePHPCRAdminBundle\Datagrid\SimplePager;
 use Symfony\Component\Form\FormFactory;
 
 class DatagridBuilder implements DatagridBuilderInterface
