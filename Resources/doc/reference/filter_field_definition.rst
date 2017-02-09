@@ -179,3 +179,32 @@ implement this functionality.
             return true;
         }
     }
+
+Filtering Fields and Case Sensitivity
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The default behaviour when filtering is to compare values in a case sensitive manner.
+For example "Test" is not the same as "test". Depending on your use case, you might want case insensitive filtering.
+To make the filter case insensitive, use the ``compare_case_insensitive`` option for the string filter:
+
+.. code-block:: php
+
+    <?php
+    namespace My\AppBundle\Admin;
+
+    use Sonata\AdminBundle\Admin\Admin;
+    use Sonata\AdminBundle\Datagrid\DatagridMapper;
+
+    use Application\Sonata\NewsBundle\Document\Comment;
+
+    class PostAdmin extends Admin
+    {
+        protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+        {
+            $datagridMapper
+                ->add('title', 'doctrine_phpcr_string', array('compare_case_insensitive' => true))
+                ->add('author', 'doctrine_phpcr_string', array('compare_case_insensitive' => true))
+                ->add('label', 'doctrine_phpcr_string')
+            ;
+        }
+    }

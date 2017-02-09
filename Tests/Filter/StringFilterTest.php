@@ -16,6 +16,11 @@ use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 
 class StringFilterTest extends BaseTestCase
 {
+    /**
+     * @var StringFilter
+     */
+    private $filter;
+
     public function setUp()
     {
         parent::setUp();
@@ -83,14 +88,35 @@ class StringFilterTest extends BaseTestCase
                     'getField' => 'somefield',
                     'getFullTextSearchExpression' => 'somevalue', ),
             )),
+            'equalCaseInsensitiveComparision' => array(ChoiceType::TYPE_EQUAL, array(
+                'where.constraint.operand_dynamic.operand_dynamic' => array(
+                    'getAlias' => 'a',
+                    'getField' => 'somefield',
+                ),
+                'where.constraint.operand_static' => array(
+                    'getValue' => 'somevalue',
+                ),
+            ), true),
+            'containsCaseInsensitiveComparision' => array(ChoiceType::TYPE_CONTAINS, array(
+                'where.constraint.operand_dynamic.operand_dynamic' => array(
+                    'getAlias' => 'a',
+                    'getField' => 'somefield',
+                ),
+                'where.constraint.operand_static' => array(
+                    'getValue' => '%somevalue%',
+                ),
+            ), true)
         );
     }
 
     /**
      * @dataProvider getFilters
      */
-    public function testFilterSwitch($choiceType, $assertPaths)
+    public function testFilterSwitch($choiceType, $assertPaths, $isLowerCase = false)
     {
+        if ($isLowerCase) {
+            $this->filter->setOption('compare_case_insensitive', true);
+        }
         $this->filter->filter(
             $this->proxyQuery,
             null,
