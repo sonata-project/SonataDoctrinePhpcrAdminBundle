@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * @author Wouter de Jong <wouter@wouterj.nl>
  */
-class AddTreeBrowserAssetsPass implements CompilerPassInterface
+final class AddTreeBrowserAssetsPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
@@ -32,9 +32,7 @@ class AddTreeBrowserAssetsPass implements CompilerPassInterface
             return;
         }
 
-        $definition = $container->findDefinition('sonata.admin.pool');
-        $this->addAssetsToAdminPool($definition);
-
+        $this->addAssetsToAdminPool($container->findDefinition('sonata.admin.pool'));
         $this->addFormResources($container);
     }
 
