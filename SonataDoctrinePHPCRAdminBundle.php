@@ -14,6 +14,7 @@ namespace Sonata\DoctrinePHPCRAdminBundle;
 use Sonata\CoreBundle\Form\FormHelper;
 use Sonata\DoctrinePHPCRAdminBundle\DependencyInjection\Compiler\AddGuesserCompilerPass;
 use Sonata\DoctrinePHPCRAdminBundle\DependencyInjection\Compiler\AddTemplatesCompilerPass;
+use Sonata\DoctrinePHPCRAdminBundle\DependencyInjection\Compiler\AddTreeBrowserAssetsPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -28,6 +29,7 @@ class SonataDoctrinePHPCRAdminBundle extends Bundle
 
         $container->addCompilerPass(new AddGuesserCompilerPass());
         $container->addCompilerPass(new AddTemplatesCompilerPass());
+        $container->addCompilerPass(new AddTreeBrowserAssetsPass());
     }
 
     /**

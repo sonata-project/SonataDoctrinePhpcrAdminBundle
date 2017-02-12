@@ -1,0 +1,40 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends '@CmfTreeBrowser/Form/fields.html.twig' %}
+
+{% block cmf_tree_select_widget_assets %}
+    {# avoid assets being loaded for each type, they are loaded by the admin pool #}
+{% endblock %}
+
+{% block cmf_tree_select_widget_css %}
+    {# avoid custom styles, AdminLTE is used #}
+{% endblock %}
+
+{% block cmf_tree_select_widget_tooltip %}
+    <div id="{{ id }}-cmf-tree-tooltip" class="dropdown-menu">
+        <div id="{{ id }}-cmf-tree"></div>
+    </div>
+{% endblock %}
+
+{% block cmf_tree_select_widget_input %}
+    <div class="input-group">
+        {{ block('form_widget_simple') }}
+
+        {% if "compact" == widget %}
+            <div class="input-group-btn">
+                <button class="btn btn-primary" id="{{ id }}-cmf-tree-tooltip-toggle">
+                    {{ 'form.button.pick'|trans({}, 'CmfTreeBrowserBundle') }}
+                </button>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
