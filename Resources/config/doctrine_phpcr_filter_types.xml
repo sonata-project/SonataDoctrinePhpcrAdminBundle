@@ -14,9 +14,6 @@
             <tag name="form.type" alias="doctrine_phpcr_type_filter_choice"/>
             <argument type="service" id="translator"/>
         </service>
-        <service id="sonata.admin.doctrine_phpcr.filter.type.model" class="Sonata\DoctrinePHPCRAdminBundle\Filter\ModelFilter">
-            <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_model"/>
-        </service>
         <service id="sonata.admin.doctrine_phpcr.filter.type.string" class="Sonata\DoctrinePHPCRAdminBundle\Filter\StringFilter">
             <tag name="sonata.admin.filter.type" alias="doctrine_phpcr_string"/>
         </service>
