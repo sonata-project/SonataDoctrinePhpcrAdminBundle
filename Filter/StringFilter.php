@@ -25,28 +25,39 @@ class StringFilter extends Filter
             return;
         }
 
-        $data['value'] = trim($data['value']);
+        $value = trim($data['value']);
         $data['type'] = empty($data['type']) ? ChoiceType::TYPE_CONTAINS : $data['type'];
 
-        if (strlen($data['value']) == 0) {
+        if (strlen($value) == 0) {
             return;
         }
 
         $where = $this->getWhere($proxyQuery);
-
+        $isComparisonLowerCase = $this->getOption('compare_case_insensitive');
+        $value = $isComparisonLowerCase ? strtolower($value) : $value;
         switch ($data['type']) {
             case ChoiceType::TYPE_EQUAL:
-                $where->eq()->field('a.'.$field)->literal($data['value']);
+                if ($isComparisonLowerCase) {
+                    $where->eq()->lowerCase()->field('a.'.$field)->end()->literal($value);
+                } else {
+                    $where->eq()->field('a.'.$field)->literal($value);
+                }
+
                 break;
             case ChoiceType::TYPE_NOT_CONTAINS:
-                $where->fullTextSearch('a.'.$field, '* -'.$data['value']);
+                $where->fullTextSearch('a.'.$field, '* -'.$value);
                 break;
             case ChoiceType::TYPE_CONTAINS:
-                $where->like()->field('a.'.$field)->literal('%'.$data['value'].'%');
+                if ($isComparisonLowerCase) {
+                    $where->like()->lowerCase()->field('a.'.$field)->end()->literal('%'.$value.'%');
+                } else {
+                    $where->like()->field('a.'.$field)->literal('%'.$value.'%');
+                }
+
                 break;
             case ChoiceType::TYPE_CONTAINS_WORDS:
             default:
-                $where->fullTextSearch('a.'.$field, $data['value']);
+                $where->fullTextSearch('a.'.$field, $value);
         }
 
         // filter is active as we have now modified the query
@@ -60,6 +71,7 @@ class StringFilter extends Filter
     {
         return array(
             'format' => '%%%s%%',
+            'compare_lower_case' => false,
         );
     }
 
