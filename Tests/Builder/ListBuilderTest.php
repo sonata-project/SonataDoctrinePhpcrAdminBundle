@@ -12,9 +12,31 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Builder;
 
 use Sonata\DoctrinePHPCRAdminBundle\Builder\ListBuilder;
+use Prophecy\Argument;
+use Sonata\AdminBundle\Admin\AdminInterface;
+use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
+use Sonata\DoctrinePHPCRAdminBundle\Admin\FieldDescription;
+use Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager;
+use Symfony\Component\Form\Guess\Guess;
+use Symfony\Component\Form\Guess\TypeGuess;
 
 class ListBuilderTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var ListBuilder
+     */
+    protected $listBuilder;
+
+    /**
+     * @var AdminInterface
+     */
+    protected $admin;
+
+    /**
+     * @var ModelManager
+     */
+    protected $modelManager;
+
     public function setUp()
     {
         $this->guesser = $this->getMock('\Sonata\AdminBundle\Guesser\TypeGuesserInterface', array(), array());
@@ -94,4 +116,64 @@ class ListBuilderTest extends \PHPUnit_Framework_TestCase
     //    $lb->addField($fieldDescriptionCollection, 'sometype', $fieldDescription, $admin);
 
     //}
+    
+    protected function setUpListActionTests()
+    {
+        $this->metaData = $this->getMock(
+            '\Doctrine\ODM\PHPCR\Mapping\ClassMetadata', array(), array(), '', false
+        );
+        $this->modelManager = $this
+            ->getMockBuilder('\Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager')
+            ->disableOriginalConstructor()->getMock();
+        $this->modelManager->expects($this->any())
+            ->method('getMetadata')
+            ->will($this->returnValue($this->metaData));
+        $this->modelManager->expects($this->any())
+            ->method('hasMetadata')
+            ->with($this->anything())
+            ->will($this->returnValue(true));
+
+        $this->admin = $this->getMock('\Sonata\AdminBundle\Admin\Admin', array(), array(), '', false);
+        $this->admin->expects($this->atLeastOnce())->method('getModelManager')
+            ->willReturn($this->modelManager);
+
+        $this->listBuilder = new ListBuilder($this->guesser);
+    }
+
+    public function testAddListActionField()
+    {
+        $this->setUpListActionTests();
+
+        $fieldDescription = new FieldDescription();
+        $fieldDescription->setName('foo');
+        $list = $this->listBuilder->getBaseList();
+        $this->listBuilder
+            ->addField($list, 'actions', $fieldDescription, $this->admin);
+
+        $this->assertSame(
+            'SonataAdminBundle:CRUD:list__action.html.twig',
+            $list->get('foo')->getTemplate(),
+            'Custom list action field has a default list action template assigned'
+        );
+    }
+
+    public function testCorrectFixedActionsFieldType()
+    {
+        $this->setUpListActionTests();
+
+        $this->guesser->expects($this->once())->method('guessType')
+            ->willReturn(new TypeGuess(null, array(), Guess::LOW_CONFIDENCE));
+
+        $fieldDescription = new FieldDescription();
+        $fieldDescription->setName('_action');
+        $list = $this->listBuilder->getBaseList();
+        $this->listBuilder->addField($list, null, $fieldDescription, $this->admin);
+
+        $this->assertSame(
+            'actions',
+            $list->get('_action')->getType(),
+            'Standard list _action field has "actions" type'
+        );
+    }
 }
+
