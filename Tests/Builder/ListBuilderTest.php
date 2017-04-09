@@ -12,7 +12,6 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Builder;
 
 use Sonata\DoctrinePHPCRAdminBundle\Builder\ListBuilder;
-use Prophecy\Argument;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\DoctrinePHPCRAdminBundle\Admin\FieldDescription;
@@ -176,4 +175,3 @@ class ListBuilderTest extends \PHPUnit_Framework_TestCase
         );
     }
 }
-
