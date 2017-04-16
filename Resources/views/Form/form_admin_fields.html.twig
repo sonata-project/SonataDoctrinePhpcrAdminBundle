@@ -158,8 +158,7 @@ file that was distributed with this source code.
                 {% set routing_default_values = routing_default_values|merge({default: app.request.attributes.get(default)}) %}
             {% endif %}
         {% endfor %}
-
-        $('#{{ id }}-tree-selector').cmfTree({
+        var tree = $('#{{ id }}-tree-selector').cmfTree({
             request: {
                 load: function (nodePath) {
                     return {
@@ -172,15 +171,58 @@ file that was distributed with this source code.
             },
             path_output: '#{{ id }}-tree-selector-output'
         });
+
+        $('#{{ id }}-tree-selector-output').cmfAutoComplete({
+            data: function (nodePath, next) {
+                if (tree.getFromCache(nodePath)) {
+                    next(tree.getFromCache(nodePath));
+
+                    return;
+                }
+
+                jQuery.ajax({
+                    url: '{{ path('_cmf_resource', {
+                        repositoryName: repository_name,
+                        path: '__path__'
+                    }|merge(routing_default_values)) }}'.replace('__path__', nodePath.replace(/^\//, '')),
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (data) {
+                        var nodes = [];
+
+                        for (name in data.children) {
+                            if (data.children.hasOwnProperty(name)) {
+                                nodes.push(name);
+                            }
+                        }
+
+                        next(nodes);
+                    }
+                });
+            }
+        });
+
+        var $input = $('#{{ id }}-tree-selector-output');
+        $('#{{ id }}-tree-reset').click(function () {
+            $input.val('{{ value ?: (select_root_node ? root_node : '') }}');
+        });
+
+        $('#{{ id }}-tree-tooltip').click(function (e) {
+            e.stopPropagation();
+        });
     });
 </script>
 
-<div id="{{id}}-tree-selector"></div>
+<div class="form-inline dropdown">
+    <input class="form-control" name="{{ full_name }}" id="{{ id }}-tree-selector-output" list="{{ id }}-tree-datalist" value="{{ value ?: (select_root_node ? root_node : '') }}">
+    <datalist id="{{ id }}-tree-datalist"></datalist>
 
-<div class="form-inline">
-    <input class="form-control" name="{{ full_name }}" id="{{ id }}-tree-selector-output" value="{{ value ?: (select_root_node ? root_node : '') }}">
+    <span class="btn btn-default btn-mini" data-toggle="dropdown">Select</span>
+    <span class="btn btn-default btn-mini" id={{ id }}-tree-reset>{{ 'reset_tree' | trans({}, 'SonataDoctrinePHPCRAdmin') }}</span>
 
-    <button class="btn btn-mini" id={{id}}-tree-reset>{{ 'reset_tree' | trans({}, 'SonataDoctrinePHPCRAdmin') }}</button>
+    <div id="{{ id }}-tree-tooltip" class="dropdown-menu">
+        <div id="{{ id }}-tree-selector"></div>
+    </div>
 </div>
 {% endblock %}
 
