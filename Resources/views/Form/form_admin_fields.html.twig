@@ -205,6 +205,25 @@ file that was distributed with this source code.
             var map = {{ map|json_encode|raw }};
 
             showMaskChoiceEl = $('#{{ main_form_name }}{{ name }}');
+
+            showMaskChoiceEl.data('mappedFields', allFields);
+            $.each(allFields, function (i, field) {
+                $('#sonata-ba-field-container-{{ main_form_name }}' + field).on('hideMappedChildren', function () {
+                    var mappedFields = $('#{{ main_form_name }}' + field).data('mappedFields');
+                    if (mappedFields) {
+                        $.each(mappedFields, function (i, mappedFieldName) {
+                            $('#sonata-ba-field-container-{{ main_form_name }}' + mappedFieldName).filter(':visible')
+                                    .hide().trigger('hideMappedChildren');
+                        });
+                    }
+                }).on('showMappedChildren', function () {
+                    var mappedFields = $('#{{ main_form_name }}' + field).data('mappedFields');
+                    if (mappedFields) {
+                        $('#{{ main_form_name }}' + field).trigger('change');
+                    }
+                });
+            });
+
             showMaskChoiceEl.on('change', function () {
                 choice_field_mask_show($(this).val());
             });
@@ -213,6 +232,9 @@ file that was distributed with this source code.
             {
                 var controlGroupIdFunc = function (field) {
                     return '#sonata-ba-field-container-{{ main_form_name }}' + field;
+                };
+                var controlInputIdFunc = function (field) {
+                    return '#{{ main_form_name }}' + field;
                 };
 
                 if (map[val] == undefined) {
@@ -224,11 +246,21 @@ file that was distributed with this source code.
                 }
 
                 $.each(allFields, function (i, field) {
-                    $(controlGroupIdFunc(field)).hide();
+                    if (map[val].indexOf(field) == -1) {
+                        $(controlInputIdFunc(field)).data('required', $(controlInputIdFunc(field)).prop('required')).prop('required', false);
+                        var $fieldContainer = $(controlGroupIdFunc(field));
+                        if ($fieldContainer.filter(':visible').length) {
+                            $fieldContainer.trigger('hideMappedChildren').hide();
+                        }
+                    }
                 });
 
                 $.each(map[val], function (i, field) {
-                    $(controlGroupIdFunc(field)).show();
+                    $(controlInputIdFunc(field)).prop('required', $(controlInputIdFunc(field)).data('required'));
+                    var $fieldContainer = $(controlGroupIdFunc(field));
+                    if ($fieldContainer.filter(':hidden').length) {
+                        $fieldContainer.trigger('showMappedChildren').show();
+                    }
                 });
             }
 
