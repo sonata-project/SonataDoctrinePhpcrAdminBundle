@@ -36,11 +36,13 @@ file that was distributed with this source code.
                     };
                 },
                 move: function (sourcePath, destinationPath) {
-                    var body = [{"operation": "move", "target": destinationPath}];
-
                     return $.ajax(
                       apiUrlTemplate.replace('__path__', sourcePath),
-                      {data: body, method: 'PATCH', dataType: 'json', contentType: 'application/json'}
+                      {
+                        data: JSON.stringify([{"operation": "move", "target": destinationPath}]),
+                        method: 'PATCH',
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8'}
                     );
                 }
             },
