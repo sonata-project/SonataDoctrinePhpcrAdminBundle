@@ -22,17 +22,26 @@ file that was distributed with this source code.
 
 {% include 'CmfTreeBrowserBundle:Base:tree.html.twig' %}
 <script type="text/javascript">
+    var apiUrlTemplate = '{{ path('_cmf_get_resource', {
+        repositoryName: repository_name,
+        root_node: root_node,
+        path: '__path__'
+    }|merge(routing_default_values)) }}';
     jQuery(function($) {
         $('#tree').cmfTree({
             request: {
                 load: function (nodePath) {
                     return {
-                        url: '{{ path('_cmf_get_resource', {
-                            repositoryName: repository_name,
-                            root_node: root_node,
-                            path: '__path__'
-                        }|merge(routing_default_values)) }}'.replace('__path__', nodePath)
+                        url: apiUrlTemplate.replace('__path__', nodePath)
                     };
+                },
+                move: function (sourcePath, destinationPath) {
+                    var body = [{"operation": "move", "target": destinationPath}];
+
+                    return $.ajax(
+                      apiUrlTemplate.replace('__path__', sourcePath),
+                      {data: body, method: 'PATCH', dataType: 'json', contentType: 'application/json'}
+                    );
                 }
             },
             actions: {
