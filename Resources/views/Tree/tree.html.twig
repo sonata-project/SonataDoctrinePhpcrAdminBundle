@@ -36,19 +36,18 @@ file that was distributed with this source code.
                     };
                 },
                 move: function (sourcePath, destinationPath) {
-                    return $.ajax(
-                        apiUrlTemplate.replace('__path__', sourcePath),
-                        {
-                            data: JSON.stringify([{"operation": "move", "target": destinationPath}]),
-                            method: 'PATCH',
-                            dataType: 'json',
-                            contentType: 'application/json; charset=utf-8'
-                        }
-                      ).then(function () {
-                            return $.ajax(apiUrlTemplate.replace('__path__', sourcePath), {dataType: 'json'}).done(function (responseData) {
-                                return responseData;
-                            });
-                      });
+                    return $.when(
+                        $.ajax(
+                            apiUrlTemplate.replace('__path__', sourcePath),
+                            {
+                                 data: JSON.stringify([{"operation": "move", "target": destinationPath}]),
+                                 method: 'PATCH',
+                                 dataType: 'json',
+                                 contentType: 'application/json; charset=utf-8'
+                            }
+                        ),
+                        $.ajax(apiUrlTemplate.replace('__path__', destinationPath), {dataType: 'json'})
+                    );
                 }
             },
             actions: {
