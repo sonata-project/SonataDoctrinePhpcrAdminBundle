@@ -44,8 +44,10 @@ file that was distributed with this source code.
                             dataType: 'json',
                             contentType: 'application/json; charset=utf-8'
                         }
-                      ).done(function () {
-                            return $.ajax(apiUrlTemplate.replace('__path__', sourcePath), {dataType: 'json'});
+                      ).then(function () {
+                            return $.ajax(apiUrlTemplate.replace('__path__', sourcePath), {dataType: 'json'}).done(function (responseData) {
+                                return responseData;
+                            });
                       });
                 }
             },
