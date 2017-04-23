@@ -22,7 +22,7 @@ file that was distributed with this source code.
 
 {% include 'CmfTreeBrowserBundle:Base:tree.html.twig' %}
 <script type="text/javascript">
-    var apiUrlTemplate = '{{ path('_cmf_get_resource', {
+    var apiGetTemplate = '{{ path('_cmf_get_resource', {
         repositoryName: repository_name,
         root_node: root_node,
         path: '__path__'
@@ -32,13 +32,17 @@ file that was distributed with this source code.
             request: {
                 load: function (nodePath) {
                     return {
-                        url: apiUrlTemplate.replace('__path__', nodePath)
+                        url: apiGetTemplate.replace('__path__', nodePath)
                     };
                 },
                 move: function (sourcePath, destinationPath) {
                     return $.when(
                         $.ajax(
-                            apiUrlTemplate.replace('__path__', sourcePath),
+                            '{{ path('_cmf_patch_resource', {
+                                repositoryName: repository_name,
+                                root_node: root_node,
+                                path: '__path__'
+                            }|merge(routing_default_values)) }}'.replace('__path__', sourcePath),
                             {
                                 data: JSON.stringify([{"operation": "move", "target": destinationPath}]),
                                 method: 'PATCH',
@@ -46,10 +50,10 @@ file that was distributed with this source code.
                                 contentType: 'application/json; charset=utf-8'
                             }
                         ),
-                        $.ajax(apiUrlTemplate.replace('__path__', destinationPath), {dataType: 'json'})
-                        ).then(function (firstResponse, secondResponse) {
-                            return secondResponse.shift();
-                        });
+                        $.ajax(apiGetTemplate.replace('__path__', destinationPath), {dataType: 'json'})
+                    ).then(function (firstResponse, secondResponse) {
+                        return secondResponse.shift();
+                    });
                 }
             },
             actions: {
