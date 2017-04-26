@@ -2,6 +2,8 @@
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <service id="sonata.admin.doctrine_phpcr.tree_controller" class="Sonata\DoctrinePHPCRAdminBundle\Controller\TreeController">
+            <argument type="service" id="doctrine_phpcr" />
+            <argument>%doctrine_phpcr.default_session%</argument>
             <argument>%sonata_admin_doctrine_phpcr.tree_block.repository_name%</argument>
             <argument/>
             <argument>%sonata_admin_doctrine_phpcr.tree_block.defaults%</argument>
