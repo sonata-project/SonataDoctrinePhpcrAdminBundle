@@ -27,7 +27,7 @@
         "symfony/property-access": "^2.8 || ^3.0"
     },
     "require-dev": {
-        "dantleech/glob-finder": "@dev",
+        "dantleech/glob-finder": "1.*",
         "jackalope/jackalope-jackrabbit": "^1.0",
         "puli/repository": "@beta",
         "sllh/php-cs-fixer-styleci-bridge": "^2.0",

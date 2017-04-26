@@ -54,6 +54,27 @@ file that was distributed with this source code.
                     ).then(function (firstResponse, secondResponse) {
                         return secondResponse.shift();
                     });
+                },
+                reorder: function (parentPath, movedPath, targetPath, position) {
+                    return $.when(
+                        $.ajax(
+                              '{{ path('sonata_admin_tree_reorder') }}',
+                              {
+                                  data: JSON.stringify([{
+                                    "parent": parentPath,
+                                    "dropped": movedPath,
+                                    "target": targetPath,
+                                    "position": position
+                                  }]),
+                                  method: 'POST',
+                                  dataType: 'json',
+                                  contentType: 'application/json; charset=utf-8'
+                              }
+                        ),
+                        $.ajax(apiGetTemplate.replace('__path__', movedPath), {dataType: 'json'})
+                    ).then(function (firstResponse, secondResponse) {
+                        return secondResponse.shift();
+                    });
                 }
             },
             actions: {
@@ -68,7 +89,7 @@ file that was distributed with this source code.
                     icon: 'fa fa-trash-o'
                 }
             },
-            dnd: {enabled: true}
+            dnd: {enabled: true, reorder: true}
         });
     });
 </script>

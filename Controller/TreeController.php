@@ -11,6 +11,8 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Controller;
 
+use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
+use PHPCR\Util\PathHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,13 +43,26 @@ class TreeController extends Controller
     private $confirmMove = false;
 
     /**
+     * @var \PHPCR\SessionInterface
+     */
+    private $session;
+
+    /**
+     * @param ManagerRegistry $manager
+     * @param string $sessionName
      * @param string $repositoryName
      * @param string $template
-     * @param array  $defaults
-     * @param bool   $confirmMove
+     * @param array $defaults
+     * @param bool $confirmMove
      */
-    public function __construct($repositoryName = 'default', $template = null, array $defaults = array(), $confirmMove = false)
-    {
+    public function __construct(
+        ManagerRegistry $manager,
+        $sessionName,
+        $repositoryName = 'default',
+        $template = null,
+        array $defaults = array(),
+        $confirmMove = false
+    ) {
         $this->repositoryName = $repositoryName;
         if ($template) {
             $this->template = $template;
@@ -55,6 +70,8 @@ class TreeController extends Controller
         $this->defaults = $defaults;
 
         $this->confirmMove = $confirmMove;
+
+        $this->session = $manager->getConnection($sessionName);
     }
 
     /**
@@ -83,5 +100,45 @@ class TreeController extends Controller
             //'edit_in_overlay' => $editInOverlay ? $editInOverlay : false,
             //'delete_in_overlay' => $deleteInOverlay ? $deleteInOverlay : false,
         ));
+    }
+
+    /**
+     * Reorder $moved (child of $parent) before or after $target.
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function reorderAction(Request $request)
+    {
+        $parent = $request->request->get('parent');
+        $moved = $request->request->get('dropped');
+        $target = $request->request->get('target');
+        $position = $request->request->get('position');
+        $before = 'before' == $position;
+
+        $parentNode = $this->session->getNode($parent);
+        $targetName = PathHelper::getNodeName($target);
+        if (!$before) {
+            $nodesIterator = $parentNode->getNodes();
+            $nodesIterator->rewind();
+            while ($nodesIterator->valid()) {
+                if ($nodesIterator->key() == $targetName) {
+                    break;
+                }
+                $nodesIterator->next();
+            }
+            $targetName = null;
+            if ($nodesIterator->valid()) {
+                $nodesIterator->next();
+                if ($nodesIterator->valid()) {
+                    $targetName = $nodesIterator->key();
+                }
+            }
+        }
+        $parentNode->orderBefore(PathHelper::getNodeName($moved), $targetName);
+        $this->session->save();
+
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 }
