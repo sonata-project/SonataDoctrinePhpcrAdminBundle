@@ -60,15 +60,15 @@ file that was distributed with this source code.
                         $.ajax(
                               '{{ path('sonata_admin_tree_reorder') }}',
                               {
-                                  data: JSON.stringify([{
+                                  data: {
                                     "parent": parentPath,
                                     "dropped": movedPath,
                                     "target": targetPath,
                                     "position": position
-                                  }]),
+                                  },
                                   method: 'POST',
                                   dataType: 'json',
-                                  contentType: 'application/json; charset=utf-8'
+                                  contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
                               }
                         ),
                         $.ajax(apiGetTemplate.replace('__path__', movedPath), {dataType: 'json'})
