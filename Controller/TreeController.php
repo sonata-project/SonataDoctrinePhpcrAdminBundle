@@ -14,6 +14,7 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Controller;
 use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
 use PHPCR\Util\PathHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -111,12 +112,16 @@ class TreeController extends Controller
      */
     public function reorderAction(Request $request)
     {
-        $parent = $request->request->get('parent');
-        $moved = $request->request->get('dropped');
-        $target = $request->request->get('target');
-        $position = $request->request->get('position');
-        $before = 'before' == $position;
+        $parent = $request->get('parent');
+        $moved = $request->get('dropped');
+        $target = $request->get('target');
+        $position = $request->get('position');
 
+        if (null === $parent || null === $moved || null === $target) {
+            return new JsonResponse(['Parameters parent, dropped and target has to be set to reorder.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $before = 'before' == $position;
         $parentNode = $this->session->getNode($parent);
         $targetName = PathHelper::getNodeName($target);
         if (!$before) {
