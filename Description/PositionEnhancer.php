@@ -46,7 +46,7 @@ class PositionEnhancer implements DescriptionEnhancerInterface
         $nodeIterator = $parentNode->getNodes();
         $nodeIterator->rewind();
         $counter = 0;
-        while($nodeIterator->valid()) {
+        while ($nodeIterator->valid()) {
             $counter++;
             if ($nodeIterator->key() === $nodeName) {
                 break;
