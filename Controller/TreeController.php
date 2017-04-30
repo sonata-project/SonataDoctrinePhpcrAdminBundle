@@ -112,18 +112,18 @@ class TreeController extends Controller
      */
     public function reorderAction(Request $request)
     {
-        $parent = $request->get('parent');
-        $moved = $request->get('dropped');
-        $target = $request->get('target');
+        $parentPath = $request->get('parent');
+        $dropedAtPath = $request->get('dropped');
+        $targetPath = $request->get('target');
         $position = $request->get('position');
 
-        if (null === $parent || null === $moved || null === $target) {
+        if (null === $parentPath || null === $dropedAtPath || null === $targetPath) {
             return new JsonResponse(['Parameters parent, dropped and target has to be set to reorder.'], Response::HTTP_BAD_REQUEST);
         }
 
         $before = 'before' == $position;
-        $parentNode = $this->session->getNode($parent);
-        $targetName = PathHelper::getNodeName($target);
+        $parentNode = $this->session->getNode($parentPath);
+        $targetName = PathHelper::getNodeName($targetPath);
         if (!$before) {
             $nodesIterator = $parentNode->getNodes();
             $nodesIterator->rewind();
@@ -141,7 +141,7 @@ class TreeController extends Controller
                 }
             }
         }
-        $parentNode->orderBefore(PathHelper::getNodeName($moved), $targetName);
+        $parentNode->orderBefore($targetName, PathHelper::getNodeName($dropedAtPath));
         $this->session->save();
 
         return new Response('', Response::HTTP_NO_CONTENT);
