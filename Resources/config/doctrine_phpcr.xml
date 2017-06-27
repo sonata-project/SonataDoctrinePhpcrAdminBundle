@@ -46,5 +46,10 @@
         <service id="sonata.admin.guesser.doctrine_phpcr_datagrid_chain" class="Sonata\AdminBundle\Guesser\TypeGuesserChain">
             <argument/>
         </service>
+        <service id="sonata.admin.description.position_enhancer" class="Sonata\DoctrinePHPCRAdminBundle\Description\PositionEnhancer">
+            <argument type="service" id="doctrine_phpcr"/>
+            <argument>%doctrine_phpcr.default_session%</argument>
+            <tag name="cmf_resource.description.enhancer" alias="doctrine_phpcr_position"/>
+        </service>
     </services>
 </container>

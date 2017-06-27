@@ -11,7 +11,10 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Controller;
 
+use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
+use PHPCR\Util\PathHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -41,13 +44,26 @@ class TreeController extends Controller
     private $confirmMove = false;
 
     /**
+     * @var \PHPCR\SessionInterface
+     */
+    private $session;
+
+    /**
+     * @param ManagerRegistry $manager
+     * @param string $sessionName
      * @param string $repositoryName
      * @param string $template
-     * @param array  $defaults
-     * @param bool   $confirmMove
+     * @param array $defaults
+     * @param bool $confirmMove
      */
-    public function __construct($repositoryName = 'default', $template = null, array $defaults = array(), $confirmMove = false)
-    {
+    public function __construct(
+        ManagerRegistry $manager,
+        $sessionName,
+        $repositoryName = 'default',
+        $template = null,
+        array $defaults = array(),
+        $confirmMove = false
+    ) {
         $this->repositoryName = $repositoryName;
         if ($template) {
             $this->template = $template;
@@ -55,6 +71,8 @@ class TreeController extends Controller
         $this->defaults = $defaults;
 
         $this->confirmMove = $confirmMove;
+
+        $this->session = $manager->getConnection($sessionName);
     }
 
     /**
@@ -83,5 +101,49 @@ class TreeController extends Controller
             //'edit_in_overlay' => $editInOverlay ? $editInOverlay : false,
             //'delete_in_overlay' => $deleteInOverlay ? $deleteInOverlay : false,
         ));
+    }
+
+    /**
+     * Reorder $moved (child of $parent) before or after $target.
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function reorderAction(Request $request)
+    {
+        $parentPath = $request->get('parent');
+        $dropedAtPath = $request->get('dropped');
+        $targetPath = $request->get('target');
+        $position = $request->get('position');
+
+        if (null === $parentPath || null === $dropedAtPath || null === $targetPath) {
+            return new JsonResponse(['Parameters parent, dropped and target has to be set to reorder.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $before = 'before' == $position;
+        $parentNode = $this->session->getNode($parentPath);
+        $targetName = PathHelper::getNodeName($targetPath);
+        if (!$before) {
+            $nodesIterator = $parentNode->getNodes();
+            $nodesIterator->rewind();
+            while ($nodesIterator->valid()) {
+                if ($nodesIterator->key() == $targetName) {
+                    break;
+                }
+                $nodesIterator->next();
+            }
+            $targetName = null;
+            if ($nodesIterator->valid()) {
+                $nodesIterator->next();
+                if ($nodesIterator->valid()) {
+                    $targetName = $nodesIterator->key();
+                }
+            }
+        }
+        $parentNode->orderBefore($targetName, PathHelper::getNodeName($dropedAtPath));
+        $this->session->save();
+
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 }

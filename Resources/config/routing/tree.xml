@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <routes xmlns="http://symfony.com/schema/routing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
     <route id="sonata_admin_tree" path="/tree">
-        <default key="_controller">SonataDoctrinePHPCRAdminBundle:Tree:index</default>
+        <default key="_controller">sonata.admin.doctrine_phpcr.tree_controller:treeAction</default>
+    </route>
+    <route id="sonata_admin_tree_reorder" path="/tree/reorder">
+        <default key="_controller">sonata.admin.doctrine_phpcr.tree_controller:reorderAction</default>
     </route>
 </routes>
