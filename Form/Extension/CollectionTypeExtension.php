@@ -15,8 +15,6 @@ use Sonata\DoctrinePHPCRAdminBundle\Form\Listener\CollectionOrderListener;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
 
 /**
  * Extend the sonata collection type to sort the collection so the reordering

@@ -36,7 +36,6 @@ class PositionEnhancer implements DescriptionEnhancerInterface
      */
     public function enhance(Description $description)
     {
-
         $nodePath = $description->getResource()->getPath();
         $nodeName = PathHelper::getNodeName($nodePath);
         $parentPath = PathHelper::getParentPath($nodePath);
@@ -51,7 +50,7 @@ class PositionEnhancer implements DescriptionEnhancerInterface
         $nodeIterator->rewind();
         $counter = 0;
         while ($nodeIterator->valid()) {
-            $counter++;
+            ++$counter;
             if ($nodeIterator->key() === $nodeName) {
                 break;
             }

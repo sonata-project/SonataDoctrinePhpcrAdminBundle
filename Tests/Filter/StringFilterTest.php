@@ -105,7 +105,7 @@ class StringFilterTest extends BaseTestCase
                 'where.constraint.operand_static' => array(
                     'getValue' => '%somevalue%',
                 ),
-            ), true)
+            ), true),
         );
     }
 
