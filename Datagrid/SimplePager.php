@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  *  NEXT_MAJOR: remove this class.
-
+ *
  * @deprecated since 1.2.7, to be removed in 2.0. Use Sonata\AdminBundle\Datagrid\SimplePager instead.
  */
 class SimplePager extends Pager
