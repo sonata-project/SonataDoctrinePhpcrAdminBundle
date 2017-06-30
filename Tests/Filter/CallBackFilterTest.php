@@ -99,7 +99,7 @@ class CallBackFilterTest extends BaseTestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
     public function testWithoutCallback()
     {
@@ -110,7 +110,7 @@ class CallBackFilterTest extends BaseTestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
     public function testCallbackNotCallable()
     {
