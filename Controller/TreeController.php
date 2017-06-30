@@ -50,11 +50,11 @@ class TreeController extends Controller
 
     /**
      * @param ManagerRegistry $manager
-     * @param string $sessionName
-     * @param string $repositoryName
-     * @param string $template
-     * @param array $defaults
-     * @param bool $confirmMove
+     * @param string          $sessionName
+     * @param string          $repositoryName
+     * @param string          $template
+     * @param array           $defaults
+     * @param bool            $confirmMove
      */
     public function __construct(
         ManagerRegistry $manager,
@@ -118,7 +118,7 @@ class TreeController extends Controller
         $position = $request->get('position');
 
         if (null === $parentPath || null === $dropedAtPath || null === $targetPath) {
-            return new JsonResponse(['Parameters parent, dropped and target has to be set to reorder.'], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(array('Parameters parent, dropped and target has to be set to reorder.'), Response::HTTP_BAD_REQUEST);
         }
 
         $before = 'before' == $position;

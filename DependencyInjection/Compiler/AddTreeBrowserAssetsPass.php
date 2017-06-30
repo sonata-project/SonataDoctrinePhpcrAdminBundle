@@ -14,7 +14,6 @@ namespace Sonata\DoctrinePHPCRAdminBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Adds javascripts and stylesheets required for the TreeSelectType.
