@@ -18,6 +18,7 @@ chmod u+x "${HOME}/bin/coveralls"
 
 # To be removed when this issue will be resolved: https://github.com/composer/composer/issues/5355
 if [ "${COMPOSER_FLAGS}" = '--prefer-lowest' ]; then
-    composer update --prefer-dist --no-interaction --prefer-stable --quiet
+    composer require --no-install symfony/framework-bundle 2.8.*
+    composer require --no-install doctrine/phpcr-odm 1.1.*
 fi
 composer update --prefer-dist --no-interaction --prefer-stable ${COMPOSER_FLAGS}
