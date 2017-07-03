@@ -11,145 +11,52 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\DependencyInjection;
 
+use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Sonata\DoctrinePHPCRAdminBundle\DependencyInjection\SonataDoctrinePHPCRAdminExtension;
 
-class SonataDoctrinePHPCRAdminExtensionTest extends \PHPUnit_Framework_TestCase
+class SonataDoctrinePHPCRAdminExtensionTest extends AbstractExtensionTestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-        $this->extension = new SonataDoctrinePHPCRAdminExtension();
-        $refl = new \ReflectionClass($this->extension);
-        $this->processDocumentTreeConfigMethod = $refl->getMethod('processDocumentTreeConfig');
-        $this->processDocumentTreeConfigMethod->setAccessible(true);
-    }
-
-    public function getDocumentTreeConfigTests()
+    public function getContainerExtensions()
     {
         return array(
-            // Valid expansion of single all
-            array(
-                array(
-                    '\StdClass' => array(
-                        'valid_children' => array('all'),
-                    ),
-                ),
-                array(
-                    '\StdClass' => array(
-                        'valid_children' => array('\StdClass'),
-                    ),
-                ),
-            ),
-            // Expansion with a valid_children array with all and a class
-            array(
-                array(
-                    '\StdClass' => array(
-                        'valid_children' => array('all', '\StdClass'),
-                    ),
-                ),
-                array(
-                    '\StdClass' => array(
-                        'valid_children' => array('\StdClass'),
-                    ),
-                ),
-            ),
-            // Empty config ignored
-            array(array(), array()),
-            // Empty valid children
-            array(
-                array('\StdClass' => array('valid_children' => array())),
-                array('\StdClass' => array('valid_children' => array())),
-            ),
-            // Ensure all 'all' values do not appear in expanded valid_children
-            array(
-                array(
-                    '\StdClass' => array('valid_children' => array('all')),
-                    '\SplFileInfo' => array('valid_children' => array('all')),
-                ),
-                array(
-                    '\StdClass' => array('valid_children' => array('\StdClass', '\SplFileInfo')),
-                    '\SplFileInfo' => array('valid_children' => array('\StdClass', '\SplFileInfo')),
-                ),
-            ),
-            // Allow valid children that are not mapped in the top level
-            array(
-                array(
-                    '\StdClass' => array('valid_children' => array('\SplFileInfo')),
-                ),
-                array(
-                    '\StdClass' => array('valid_children' => array('\SplFileInfo')),
-                ),
-            ),
-            // Complex example
-            array(
-                array(
-                    'Doctrine\ODM\PHPCR\Document\Generic' => array('valid_children' => array(
-                        'all',
-                    )),
-                    '\SplFileInfo' => array('valid_children' => array(
-                        '\StdClass',
-                    )),
-                    '\StdClass' => array('valid_children' => array(
-                        '\StdClass',
-                    )),
-                    '\ArrayIterator' => array('valid_children' => array()),
-                ),
-                array(
-                    'Doctrine\ODM\PHPCR\Document\Generic' => array('valid_children' => array(
-                        'Doctrine\ODM\PHPCR\Document\Generic',
-                        '\SplFileInfo',
-                        '\StdClass',
-                        '\ArrayIterator',
-                    )),
-                    '\SplFileInfo' => array('valid_children' => array(
-                        '\StdClass',
-                    )),
-                    '\StdClass' => array('valid_children' => array(
-                        '\StdClass',
-                    )),
-                    '\ArrayIterator' => array('valid_children' => array()),
-                ),
-            ),
-            // Exception due to invalid child class
-            array(
-                array(
-                    '\StdClass' => array('valid_children' => array('\Foo\Bar')),
-                ),
-                null,
-                'InvalidArgumentException',
-            ),
-            // Exception due to invalid parent class
-            array(
-                array(
-                    'Foo\Bar' => array('valid_children' => array('all')),
-                ),
-                null,
-                'InvalidArgumentException',
-            ),
-            // Exception due to invalid class in an array with special 'all' value
-            array(
-                array(
-                    '\StdClass' => array('valid_children' => array('all', 'Foo\Bar')),
-                ),
-                null,
-                'InvalidArgumentException',
-            ),
+           new SonataDoctrinePHPCRAdminExtension(),
         );
     }
 
-    /**
-     * @dataProvider getDocumentTreeConfigTests
-     */
-    public function testProcessDocumentTreeConfig($config, $processed, $expectedException = null)
+    public function testDocumentTreeDefaultValues()
     {
-        if ($expectedException) {
-            $this->setExpectedException($expectedException);
-            $this->processDocumentTreeConfigMethod->invokeArgs($this->extension, array($config));
-        } else {
-            $this->assertEquals(
-                $processed,
-                $this->processDocumentTreeConfigMethod->invokeArgs($this->extension, array($config))
-            );
-        }
+        $this->container->setParameter(
+            'kernel.bundles',
+            array()
+        );
+        $this->load(array('document_tree' => array()));
+
+        $this->assertContainerBuilderHasParameter(
+            'sonata_admin_doctrine_phpcr.tree_block.configuration',
+            array(
+                'routing_defaults' => 'routing_defaults',
+                'repository_name' => 'repository_name',
+                'sortable_by' => 'sortable_by',
+                'move' => false,
+                'reorder' => false,
+            )
+        );
+    }
+
+    public function testDocumentTreeEnableMoveAndReorder()
+    {
+        $this->container->setParameter(
+            'kernel.bundles',
+            array('move' => array('reorder' => true))
+        );
+        $this->load(array('document_tree' => array()));
+
+        $this->assertContainerBuilderHasParameter(
+            'sonata_admin_doctrine_phpcr.tree_block.configuration',
+            array(
+                'move' => true,
+                'reorder' => true,
+            )
+        );
     }
 }

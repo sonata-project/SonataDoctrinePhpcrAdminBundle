@@ -74,7 +74,9 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
         $container->getDefinition('sonata.admin.builder.doctrine_phpcr_show')
             ->replaceArgument(1, $config['templates']['types']['show']);
 
-        $this->loadTreeTypes($config, $container);
+        if ($this->isConfigEnabled($container, $config['document_tree'])) {
+            $this->loadDocumentTree($config['document_tree'], $container);
+        }
     }
 
     public function getNamespace()
@@ -83,79 +85,27 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
     }
 
     /**
-     * Set the tree type mapping configuration in the services.
+     * Set the document tree parameters and configuration.
      *
-     * @param array            $config
+     * @param array $config
      * @param ContainerBuilder $container
      */
-    private function loadTreeTypes($config, ContainerBuilder $container)
+    private function loadDocumentTree($config, ContainerBuilder $container)
     {
-        $container->setParameter('sonata_admin_doctrine_phpcr.tree_block.defaults', $config['document_tree_defaults']);
-        $container->setParameter('sonata_admin_doctrine_phpcr.tree_block.repository_name', $config['document_tree_repository']);
-
-        $options = $config['document_tree_options'];
-        $container->setParameter('sonata_admin_doctrine_phpcr.tree_confirm_move', $options['confirm_move']);
-    }
-
-    /**
-     * Process the document tree config
-     * Expand references to 'all' to an array of all types
-     * Validate document types.
-     *
-     * @param array $documentTree
-     */
-    private function processDocumentTreeConfig(array $documentTree)
-    {
-        $docClasses = $this->findAllDocumentClasses($documentTree);
-
-        // Validate all document classes
-        $invalidClasses = array_filter(
-            $docClasses,
-            function ($class) {
-                return false === class_exists($class);
-            }
+        $configuration = array(
+            'routing_defaults' => $config['routing_defaults'],
+            'repository_name' => $config['repository_name'],
+            'sortable_by' => $config['sortable_by'],
+            'move' => false,
+            'reorder' => false,
         );
-        if (count($invalidClasses)) {
-            throw new \InvalidArgumentException(sprintf(
-                'The following document types provided in valid_children are invalid: %s '.
-                'The class names provided could not be loaded.',
-                implode(', ', array_unique($invalidClasses))
-            ));
+
+        if ($this->isConfigEnabled($container, $config['move'])) {
+            $configuration['move'] = true;
+            $configuration['reorder'] = $config['move']['reorder'];
         }
 
-        // Process the config
-        $processed = array();
-        foreach ($documentTree as $docClass => $config) {
-            // Expand 'all'
-            if (false !== array_search('all', $config['valid_children'])) {
-                $config['valid_children'] = $docClasses;
-            }
 
-            $processed[$docClass] = $config;
-        }
-
-        return $processed;
-    }
-
-    /**
-     * Find all document classes within a document tree.
-     *
-     * @param array $documentTree
-     */
-    private function findAllDocumentClasses(array $documentTree)
-    {
-        $documentClasses = array_unique(array_reduce(
-            $documentTree,
-            function ($result, $config) {
-                return array_merge($result, $config['valid_children']);
-            },
-            array_keys($documentTree)
-        ));
-
-        if (false !== ($allIndex = array_search('all', $documentClasses))) {
-            unset($documentClasses[$allIndex]);
-        }
-
-        return $documentClasses;
+        $container->setParameter('sonata_admin_doctrine_phpcr.tree_block.configuration', $configuration);
     }
 }

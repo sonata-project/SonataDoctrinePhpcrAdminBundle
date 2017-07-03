@@ -29,6 +29,7 @@
     "require-dev": {
         "dantleech/glob-finder": "1.*",
         "jackalope/jackalope-jackrabbit": "^1.0",
+        "matthiasnoback/symfony-dependency-injection-test": "^2.1",
         "puli/repository": "@beta",
         "sllh/php-cs-fixer-styleci-bridge": "^2.0",
         "sonata-project/core-bundle": "@dev",

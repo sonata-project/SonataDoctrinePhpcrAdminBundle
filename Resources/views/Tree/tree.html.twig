@@ -10,7 +10,7 @@ file that was distributed with this source code.
 #}
 
 {% set routing_default_values = {} %}
-{% for default in routing_defaults %}
+{% for default in tree_configuration['routing_defaults'] %}
     {% if 'locale' == default %}
         {% set routing_default_values = routing_default_values|merge({'_locale': app.request.locale}) %}
     {% elseif 'format' == default %}
@@ -23,7 +23,7 @@ file that was distributed with this source code.
 {% include 'CmfTreeBrowserBundle:Base:tree.html.twig' %}
 <script type="text/javascript">
     var apiGetTemplate = '{{ path('_cmf_get_resource', {
-        repositoryName: repository_name,
+        repositoryName: tree_configuration['repository_name'],
         root_node: root_node,
         path: '__path__'
     }|merge(routing_default_values)) }}';
@@ -39,7 +39,7 @@ file that was distributed with this source code.
                     return $.when(
                         $.ajax(
                             '{{ path('_cmf_patch_resource', {
-                                repositoryName: repository_name,
+                                repositoryName: tree_configuration['repository_name'],
                                 root_node: root_node,
                                 path: '__path__'
                             }|merge(routing_default_values)) }}'.replace('__path__', sourcePath),
@@ -89,8 +89,8 @@ file that was distributed with this source code.
                     icon: 'fa fa-trash-o'
                 }
             },
-            dnd: {enabled: true, reorder: true},
-            sortableBy: 'position'
+            dnd: {enabled: {{ tree_configuration['move']  }}, reorder: {{ tree_configuration['reorder']  }}},
+            sortableBy: {{ tree_configuration['sortable_by']  }}
         });
     });
 </script>

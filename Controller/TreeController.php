@@ -26,53 +26,31 @@ class TreeController extends Controller
     /**
      * @var string
      */
-    private $repositoryName;
-
-    /**
-     * @var string
-     */
     private $template = 'SonataDoctrinePHPCRAdminBundle:Tree:tree.html.twig';
-
-    /**
-     * @var array
-     */
-    private $defaults;
-
-    /**
-     * @var bool
-     */
-    private $confirmMove = false;
 
     /**
      * @var \PHPCR\SessionInterface
      */
     private $session;
+    /**
+     * @var array
+     */
+    private $treeConfiguration;
 
     /**
      * @param ManagerRegistry $manager
-     * @param string          $sessionName
-     * @param string          $repositoryName
-     * @param string          $template
-     * @param array           $defaults
-     * @param bool            $confirmMove
+     * @param string $sessionName
+     * @param array $treeConfiguration
+     * @param string $template
      */
-    public function __construct(
-        ManagerRegistry $manager,
-        $sessionName,
-        $repositoryName = 'default',
-        $template = null,
-        array $defaults = array(),
-        $confirmMove = false
-    ) {
-        $this->repositoryName = $repositoryName;
+    public function __construct(ManagerRegistry $manager, $sessionName, array $treeConfiguration, $template = null)
+    {
         if ($template) {
             $this->template = $template;
         }
-        $this->defaults = $defaults;
-
-        $this->confirmMove = $confirmMove;
 
         $this->session = $manager->getConnection($sessionName);
+        $this->treeConfiguration = $treeConfiguration;
     }
 
     /**
@@ -85,21 +63,13 @@ class TreeController extends Controller
      */
     public function treeAction(Request $request)
     {
-        $createInOverlay = $request->attributes->get('create_in_overlay');
-        $editInOverlay = $request->attributes->get('edit_in_overlay');
-        $deleteInOverlay = $request->attributes->get('delete_in_overlay');
-
         $root = $request->attributes->get('root');
-        $selected = $request->attributes->get('selected') ?: $root;
 
         return $this->render($this->template, array(
-            'repository_name' => $this->repositoryName,
+            'repository_name' => $this-$this->treeConfiguration['routing_defaults'],
             'root_node' => $root,
-            'routing_defaults' => $this->defaults,
-            //'confirm_move' => $this->confirmMove,
-            //'create_in_overlay' => $createInOverlay ? $createInOverlay : false,
-            //'edit_in_overlay' => $editInOverlay ? $editInOverlay : false,
-            //'delete_in_overlay' => $deleteInOverlay ? $deleteInOverlay : false,
+            'routing_defaults' => $this-$this->treeConfiguration['routing_defaults'],
+            'tree_configuration' => $this->treeConfiguration
         ));
     }
 
