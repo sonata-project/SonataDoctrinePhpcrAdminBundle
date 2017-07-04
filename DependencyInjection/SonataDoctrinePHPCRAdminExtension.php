@@ -87,7 +87,7 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
     /**
      * Set the document tree parameters and configuration.
      *
-     * @param array $config
+     * @param array            $config
      * @param ContainerBuilder $container
      */
     private function loadDocumentTree($config, ContainerBuilder $container)
@@ -104,7 +104,6 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
             $configuration['move'] = true;
             $configuration['reorder'] = $config['move']['reorder'];
         }
-
 
         $container->setParameter('sonata_admin_doctrine_phpcr.tree_block.configuration', $configuration);
     }

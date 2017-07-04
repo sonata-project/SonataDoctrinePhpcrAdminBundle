@@ -39,9 +39,9 @@ class TreeController extends Controller
 
     /**
      * @param ManagerRegistry $manager
-     * @param string $sessionName
-     * @param array $treeConfiguration
-     * @param string $template
+     * @param string          $sessionName
+     * @param array           $treeConfiguration
+     * @param string          $template
      */
     public function __construct(ManagerRegistry $manager, $sessionName, array $treeConfiguration, $template = null)
     {
@@ -67,7 +67,7 @@ class TreeController extends Controller
 
         return $this->render($this->template, array(
             'root_node' => $root,
-            'tree_configuration' => $this->treeConfiguration
+            'tree_configuration' => $this->treeConfiguration,
         ));
     }
 
