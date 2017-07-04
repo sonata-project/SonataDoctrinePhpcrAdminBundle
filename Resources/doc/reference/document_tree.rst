@@ -166,20 +166,10 @@ This configuration is global for all your document trees.
 
         # app/config/config.yml
         sonata_doctrine_phpcr_admin:
-            document_tree_defaults: [locale]
             document_tree:
-                Doctrine\ODM\PHPCR\Document\Generic:
-                    valid_children:
-                        - all
-                Symfony\Cmf\Bundle\ContentBundle\Doctrine\Phpcr\StaticContent:
-                    valid_children:
-                        - Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\SimpleBlock
-                        - Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ContainerBlock
-                        - Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ReferenceBlock
-                        - Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ActionBlock
-                Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ReferenceBlock:
-                    valid_children: []
-                # ...
+                routing_defaults: [locale]
+                repository_name: default
+                sortable_by: position
 
     .. code-block:: xml
 
@@ -192,17 +182,10 @@ This configuration is global for all your document trees.
                 <document-tree-default>locale</document-tree-default>
 
                 <document-tree class="Doctrine\ODM\PHPCR\Document\Generic">
-                    <valid-child>all</valid-child>
+                    <routing-default>locale</routing-default>
+                    <repository-name>default</repository-name>
+                    <sortable-by>position</sortable-by>
                 </document-tree>
-
-                <document-tree class="Symfony\Cmf\Bundle\ContentBundle\Doctrine\Phpcr\StaticContent">
-                    <valid-child>Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\SimpleBlock</valid-child>
-                    <valid-child>Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ContainerBlock</valid-child>
-                    <valid-child>Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ReferenceBlock</valid-child>
-                    <valid-child>Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ActionBlock</valid-child>
-                </document-tree>
-
-                <document-tree class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ReferenceBlock" />
 
                 <!-- ... -->
             </config>
@@ -212,25 +195,11 @@ This configuration is global for all your document trees.
 
         // app/config/config.php
         $container->loadFromExtension('sonata_doctrine_phpcr_admin', array(
-            'document_tree_defaults' => array('locale'),
             'document_tree' => array(
-                'Doctrine\ODM\PHPCR\Document\Generic' => array(
-                    'valid_children' => array(
-                        'all',
-                    ),
-                ),
-                'Symfony\Cmf\Bundle\ContentBundle\Doctrine\Phpcr\StaticContent' => array(
-                    'valid_children' => array(
-                        'Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\SimpleBlock',
-                        'Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ContainerBlock',
-                        'Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ReferenceBlock',
-                        'Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ActionBlock',
-                    ),
-                ),
-                'Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ReferenceBlock' => array(
-                    'valid_children' => array(),
-                ),
-                // ...
+                'routing_defaults' => array('locale'),
+                'repository_name' => 'default',
+                'sortable_by' => 'position',
+            ),
         ));
 
 .. tip::
