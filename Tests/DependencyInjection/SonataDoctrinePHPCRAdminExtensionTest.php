@@ -37,28 +37,6 @@ class SonataDoctrinePHPCRAdminExtensionTest extends AbstractExtensionTestCase
                 'routing_defaults' => array(),
                 'repository_name' => 'default',
                 'sortable_by' => 'position',
-                'move' => false,
-                'reorder' => false,
-            )
-        );
-    }
-
-    public function testDocumentTreeEnableMoveAndReorder()
-    {
-        $this->container->setParameter(
-            'kernel.bundles',
-            array()
-        );
-        $this->load(
-            array('document_tree' => array('move' => array('enabled' => true, 'reorder' => true)))
-        );
-
-        $this->assertContainerBuilderHasParameter(
-            'sonata_admin_doctrine_phpcr.tree_block.configuration',
-            array(
-                'routing_defaults' => array(),
-                'repository_name' => 'default',
-                'sortable_by' => 'position',
                 'move' => true,
                 'reorder' => true,
             )

@@ -40,7 +40,7 @@ class TreeController extends Controller
     /**
      * @param ManagerRegistry $manager
      * @param string $sessionName
-     * @param array $treeConfiguration
+     * @param array $treeConfiguration Same structure as defined in Configuration.
      * @param string $template
      */
     public function __construct(ManagerRegistry $manager, $sessionName, array $treeConfiguration, $template = null)
@@ -65,10 +65,14 @@ class TreeController extends Controller
     {
         $root = $request->attributes->get('root');
 
-        return $this->render($this->template, array(
+        return $this->render($this->template, [
             'root_node' => $root,
-            'tree_configuration' => $this->treeConfiguration
-        ));
+            'routing_defaults' => $this->treeConfiguration['routing_default'],
+            'repository_name' => $this->treeConfiguration['repository_name'],
+            'reorder' => $this->treeConfiguration['reorder'],
+            'move' => $this->treeConfiguration['move'],
+            'sortable_by' => $this->treeConfiguration['sortable_by'],
+        ]);
     }
 
     /**

@@ -96,15 +96,9 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
             'routing_defaults' => $config['routing_defaults'],
             'repository_name' => $config['repository_name'],
             'sortable_by' => $config['sortable_by'],
-            'move' => false,
-            'reorder' => false,
+            'move' => true,
+            'reorder' => true,
         );
-
-        if ($this->isConfigEnabled($container, $config['move'])) {
-            $configuration['move'] = true;
-            $configuration['reorder'] = $config['move']['reorder'];
-        }
-
 
         $container->setParameter('sonata_admin_doctrine_phpcr.tree_block.configuration', $configuration);
     }
