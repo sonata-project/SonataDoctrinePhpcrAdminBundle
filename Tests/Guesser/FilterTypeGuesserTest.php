@@ -18,20 +18,14 @@ class FilterTypeGuesserTest extends \PHPUnit_Framework_TestCase
 {
     public function testGuessType()
     {
-        $managerRegistry = $this
-            ->getMockBuilder('Doctrine\Bundle\PHPCRBundle\ManagerRegistry')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $managerRegistry = $this->createMock('Doctrine\Bundle\PHPCRBundle\ManagerRegistry');
 
-        $documentRepository = $this
-            ->getMockBuilder('Doctrine\ODM\PHPCR\DocumentRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $documentRepository = $this->createMock('Doctrine\ODM\PHPCR\DocumentRepository');
 
         $documentRepository->expects($this->once())
             ->method('getClassMetadata')
             ->with($this->equalTo($class = 'Whatever'))
-            ->will($this->returnValue($this->getMock(
+            ->will($this->returnValue($this->createMock(
                 'Doctrine\Common\Persistence\Mapping\ClassMetadata'
             )));
 
@@ -43,7 +37,7 @@ class FilterTypeGuesserTest extends \PHPUnit_Framework_TestCase
             $managerRegistry
         );
 
-        $typeGuess = $guesser->guessType($class, $fieldname = 'whatever', $this->getMock(
+        $typeGuess = $guesser->guessType($class, $fieldname = 'whatever', $this->createMock(
             'Sonata\AdminBundle\Model\ModelManagerInterface'
         ));
 

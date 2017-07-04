@@ -4,8 +4,8 @@
         <service id="sonata.admin.doctrine_phpcr.tree_controller" class="Sonata\DoctrinePHPCRAdminBundle\Controller\TreeController">
             <argument type="service" id="doctrine_phpcr"/>
             <argument>%doctrine_phpcr.default_session%</argument>
+            <argument>%sonata_admin_doctrine_phpcr.tree_block.configuration%%</argument>
             <argument/>
-            <
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>

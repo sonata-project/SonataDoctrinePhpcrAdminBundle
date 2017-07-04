@@ -17,23 +17,19 @@ class PathInfoBuilderSlashesTest extends \PHPUnit_Framework_TestCase
 {
     public function testBuild()
     {
-        $collectionChild = $this->getMock('Sonata\\AdminBundle\\Route\\RouteCollection', array(), array(), '', false);
+        $collectionChild = $this->createMock('Sonata\\AdminBundle\\Route\\RouteCollection');
 
-        $adminChild = $this->getMockBuilder('Sonata\\AdminBundle\\Admin\\AbstractAdmin')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $adminChild = $this->createMock('Sonata\\AdminBundle\\Admin\\AbstractAdmin');
         $adminChild->expects($this->once())
             ->method('getRoutes')
             ->will($this->returnValue($collectionChild));
 
-        $admin = $this->getMockBuilder('Sonata\\AdminBundle\\Admin\\AbstractAdmin')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $admin = $this->createMock('Sonata\\AdminBundle\\Admin\\AbstractAdmin');
         $admin->expects($this->once())
             ->method('getChildren')
             ->will($this->returnValue(array($adminChild)));
 
-        $collection = $this->getMock('Sonata\\AdminBundle\\Route\\RouteCollection', array(), array(), '', false);
+        $collection = $this->createMock('Sonata\\AdminBundle\\Route\\RouteCollection');
         $collection->expects($this->once())
             ->method('addCollection')
             ->with($this->anything());
@@ -47,9 +43,7 @@ class PathInfoBuilderSlashesTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildWithAcl()
     {
-        $admin = $this->getMockBuilder('Sonata\\AdminBundle\\Admin\\AbstractAdmin')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $admin = $this->createMock('Sonata\\AdminBundle\\Admin\\AbstractAdmin');
         $admin->expects($this->once())
             ->method('getChildren')
             ->will($this->returnValue(array()));
@@ -57,7 +51,7 @@ class PathInfoBuilderSlashesTest extends \PHPUnit_Framework_TestCase
             ->method('isAclEnabled')
             ->will($this->returnValue(true));
 
-        $collection = $this->getMock('Sonata\\AdminBundle\\Route\\RouteCollection', array(), array(), '', false);
+        $collection = $this->createMock('Sonata\\AdminBundle\\Route\\RouteCollection');
         $collection->expects($this->exactly(8))
             ->method('add')
             ->with($this->anything());

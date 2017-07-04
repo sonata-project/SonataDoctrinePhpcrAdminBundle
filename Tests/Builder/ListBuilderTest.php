@@ -55,7 +55,7 @@ class ListBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->guesser = $this->getMock('\Sonata\AdminBundle\Guesser\TypeGuesserInterface', array(), array());
+        $this->guesser = $this->createMock('\Sonata\AdminBundle\Guesser\TypeGuesserInterface', array(), array());
         $this->templates = array();
     }
 
@@ -73,7 +73,7 @@ class ListBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testAddFieldNullType()
     {
-        $typeguess = $this->getMock('Symfony\Component\Form\Guess\TypeGuess', array(), array(), '', false);
+        $typeguess = $this->createMock('Symfony\Component\Form\Guess\TypeGuess', array(), array(), '', false);
         $this->guesser->expects($this->once())
             ->method('guessType')
             ->with($this->anything())
@@ -131,12 +131,8 @@ class ListBuilderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUpListActionTests()
     {
-        $this->metaData = $this->getMock(
-            '\Doctrine\ODM\PHPCR\Mapping\ClassMetadata', array(), array(), '', false
-        );
-        $this->modelManager = $this
-            ->getMockBuilder('\Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager')
-            ->disableOriginalConstructor()->getMock();
+        $this->metaData = $this->createMock('\Doctrine\ODM\PHPCR\Mapping\ClassMetadata');
+        $this->modelManager = $this->createMock('Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager');
         $this->modelManager->expects($this->any())
             ->method('getMetadata')
             ->will($this->returnValue($this->metaData));
@@ -145,7 +141,7 @@ class ListBuilderTest extends \PHPUnit_Framework_TestCase
             ->with($this->anything())
             ->will($this->returnValue(true));
 
-        $this->admin = $this->getMock('\Sonata\AdminBundle\Admin\Admin', array(), array(), '', false);
+        $this->admin = $this->createMock('\Sonata\AdminBundle\Admin\Admin', array(), array(), '', false);
         $this->admin->expects($this->atLeastOnce())->method('getModelManager')
             ->willReturn($this->modelManager);
 
@@ -155,8 +151,8 @@ class ListBuilderTest extends \PHPUnit_Framework_TestCase
     private function setupAddField()
     {
         $this->lb = new ListBuilder($this->guesser, $this->templates);
-        $this->metaData = $this->getMock('\Doctrine\ODM\PHPCR\Mapping\ClassMetadata', array(), array(), '', false);
-        $this->modelManager = $this->getMockBuilder('\Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager')->disableOriginalConstructor()->getMock();
+        $this->metaData = $this->createMock('\Doctrine\ODM\PHPCR\Mapping\ClassMetadata', array(), array(), '', false);
+        $this->modelManager = $this->createMock('\Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager');
         $this->modelManager->expects($this->any())
             ->method('getMetadata')
             ->will($this->returnValue($this->metaData));
@@ -165,7 +161,7 @@ class ListBuilderTest extends \PHPUnit_Framework_TestCase
             ->with($this->anything())
             ->will($this->returnValue(true));
 
-        $this->fieldDescription = $this->getMock('\Sonata\AdminBundle\Admin\FieldDescriptionInterface');
+        $this->fieldDescription = $this->createMock('\Sonata\AdminBundle\Admin\FieldDescriptionInterface');
         $this->fieldDescription->expects($this->any())
             ->method('getType')
             ->will($this->returnValue('string'));
@@ -175,7 +171,7 @@ class ListBuilderTest extends \PHPUnit_Framework_TestCase
 
         //AdminInterface doesn't implement methods called in addField,
         //so we mock Admin
-        $this->admin = $this->getMock('\Sonata\AdminBundle\Admin\AbstractAdmin', array(), array(), '', false);
+        $this->admin = $this->createMock('\Sonata\AdminBundle\Admin\AbstractAdmin', array(), array(), '', false);
         $this->admin->expects($this->any())
             ->method('getModelManager')
             ->will($this->returnValue($this->modelManager));
@@ -183,7 +179,7 @@ class ListBuilderTest extends \PHPUnit_Framework_TestCase
             ->method('addListFieldDescription')
             ->with($this->anything(), $this->fieldDescription);
 
-        $this->fieldDescriptionCollection = $this->getMock('\Sonata\AdminBundle\Admin\FieldDescriptionCollection', array(), array());
+        $this->fieldDescriptionCollection = $this->createMock('\Sonata\AdminBundle\Admin\FieldDescriptionCollection');
         $this->fieldDescriptionCollection->expects($this->once())
             ->method('add')
             ->with($this->fieldDescription);

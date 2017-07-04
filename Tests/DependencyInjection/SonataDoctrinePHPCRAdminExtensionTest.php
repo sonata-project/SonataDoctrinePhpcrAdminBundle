@@ -34,9 +34,9 @@ class SonataDoctrinePHPCRAdminExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter(
             'sonata_admin_doctrine_phpcr.tree_block.configuration',
             array(
-                'routing_defaults' => 'routing_defaults',
-                'repository_name' => 'repository_name',
-                'sortable_by' => 'sortable_by',
+                'routing_defaults' => array(),
+                'repository_name' => 'default',
+                'sortable_by' => 'position',
                 'move' => false,
                 'reorder' => false,
             )
@@ -47,13 +47,18 @@ class SonataDoctrinePHPCRAdminExtensionTest extends AbstractExtensionTestCase
     {
         $this->container->setParameter(
             'kernel.bundles',
-            array('move' => array('reorder' => true))
+            array()
         );
-        $this->load(array('document_tree' => array()));
+        $this->load(
+            array('document_tree' => array('move' => array('enabled' => true, 'reorder' => true)))
+        );
 
         $this->assertContainerBuilderHasParameter(
             'sonata_admin_doctrine_phpcr.tree_block.configuration',
             array(
+                'routing_defaults' => array(),
+                'repository_name' => 'default',
+                'sortable_by' => 'position',
                 'move' => true,
                 'reorder' => true,
             )
