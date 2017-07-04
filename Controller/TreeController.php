@@ -66,9 +66,7 @@ class TreeController extends Controller
         $root = $request->attributes->get('root');
 
         return $this->render($this->template, array(
-            'repository_name' => $this-$this->treeConfiguration['routing_defaults'],
             'root_node' => $root,
-            'routing_defaults' => $this-$this->treeConfiguration['routing_defaults'],
             'tree_configuration' => $this->treeConfiguration
         ));
     }
