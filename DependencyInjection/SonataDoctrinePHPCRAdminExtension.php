@@ -12,13 +12,13 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\DependencyInjection;
 
 use Sonata\AdminBundle\DependencyInjection\AbstractSonataAdminExtension;
+use Symfony\Cmf\Bundle\ResourceBundle\DependencyInjection\Configuration as ResourceConfiguration;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Cmf\Bundle\ResourceBundle\DependencyInjection\Configuration as ResourceConfiguration;
 
 /**
  * SonataAdminBundleExtension.
@@ -88,25 +88,6 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension imp
     }
 
     /**
-     * Set the document tree parameters and configuration.
-     *
-     * @param array            $config
-     * @param ContainerBuilder $container
-     */
-    private function loadDocumentTree($config, ContainerBuilder $container)
-    {
-        $configuration = array(
-            'routing_defaults' => $config['routing_defaults'],
-            'repository_name' => $config['repository_name'],
-            'sortable_by' => $config['sortable_by'],
-            'move' => true,
-            'reorder' => true,
-        );
-
-        $container->setParameter('sonata_admin_doctrine_phpcr.tree_block.configuration', $configuration);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function prepend(ContainerBuilder $container)
@@ -139,5 +120,24 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension imp
         $sonataConfig['document_tree']['repository_name'] = $config['default_repository'];
 
         $container->prependExtensionConfig('sonata_doctrine_phpcr_admin', $sonataConfig);
+    }
+
+    /**
+     * Set the document tree parameters and configuration.
+     *
+     * @param array            $config
+     * @param ContainerBuilder $container
+     */
+    private function loadDocumentTree($config, ContainerBuilder $container)
+    {
+        $configuration = array(
+            'routing_defaults' => $config['routing_defaults'],
+            'repository_name' => $config['repository_name'],
+            'sortable_by' => $config['sortable_by'],
+            'move' => true,
+            'reorder' => true,
+        );
+
+        $container->setParameter('sonata_admin_doctrine_phpcr.tree_block.configuration', $configuration);
     }
 }
