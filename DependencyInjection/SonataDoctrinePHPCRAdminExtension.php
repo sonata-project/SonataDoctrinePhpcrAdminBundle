@@ -12,10 +12,13 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\DependencyInjection;
 
 use Sonata\AdminBundle\DependencyInjection\AbstractSonataAdminExtension;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Cmf\Bundle\ResourceBundle\DependencyInjection\Configuration as ResourceConfiguration;
 
 /**
  * SonataAdminBundleExtension.
@@ -24,7 +27,7 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
  * @author      Michael Williams <michael.williams@funsational.com>
  * @author      Nacho Martín <nitram.ohcan@gmail.com>
  */
-class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
+class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension implements PrependExtensionInterface
 {
     /**
      * @param array            $configs   An array of configuration settings
@@ -101,5 +104,40 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
         );
 
         $container->setParameter('sonata_admin_doctrine_phpcr.tree_block.configuration', $configuration);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container)
+    {
+        // process the configuration of CmfResourceBundle
+        $configs = $container->getExtensionConfig('sonata_doctrine_phpcr_admin');
+        $parameterBag = $container->getParameterBag();
+        $configs = $parameterBag->resolveValue($configs);
+        $sonataConfig = $this->processConfiguration(new Configuration(), $configs);
+
+        if (!$this->isConfigEnabled($container, $sonataConfig['document_tree'])) {
+            return;
+        }
+
+        $bundles = $container->getParameter('kernel.bundles');
+        if (!in_array('CmfResourceBundle', $bundles)) {
+            throw new InvalidConfigurationException('CmfResourceBundle has to be enabled when using tree browser');
+        }
+
+        if (null !== $sonataConfig['document_tree']['repository_name']) {
+            return;
+        }
+
+        // process the configuration of CmfResourceBundle
+        $configs = $container->getExtensionConfig('cmf_resource');
+        $parameterBag = $container->getParameterBag();
+        $configs = $parameterBag->resolveValue($configs);
+        $config = $this->processConfiguration(new ResourceConfiguration(), $configs);
+
+        $sonataConfig['document_tree']['repository_name'] = $config['default_repository'];
+
+        $container->prependExtensionConfig('sonata_doctrine_phpcr_admin', $sonataConfig);
     }
 }

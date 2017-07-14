@@ -67,7 +67,7 @@ class Configuration implements ConfigurationInterface
                     ->canBeEnabled()
                     ->children()
                         ->scalarNode('repository_name')
-                            ->defaultValue('default')
+                            ->defaultNull()
                             ->info('The repository name the resource API connects to.')
                         ->end()
                         ->arrayNode('routing_defaults')
