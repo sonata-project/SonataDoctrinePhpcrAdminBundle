@@ -13,7 +13,6 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tests\DependencyInjection;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Sonata\DoctrinePHPCRAdminBundle\DependencyInjection\SonataDoctrinePHPCRAdminExtension;
-use Symfony\Cmf\Bundle\ResourceBundle\DependencyInjection\CmfResourceExtension;
 
 class SonataDoctrinePHPCRAdminExtensionTest extends AbstractExtensionTestCase
 {
@@ -46,10 +45,10 @@ class SonataDoctrinePHPCRAdminExtensionTest extends AbstractExtensionTestCase
 
     public function testPrependDefaultRepositoryName()
     {
-        $this->container->setParameter('kernel.bundles', ['CmfResourceBundle']);
+        $this->container->setParameter('kernel.bundles', array('CmfResourceBundle'));
         $this->container->getExtensionConfig('sonata_doctrine_phpcr_admin');
         $this->container->prependExtensionConfig('sonata_doctrine_phpcr_admin', array('document_tree' => array()));
-        $this->container->prependExtensionConfig('cmf_resource', array('default_repository' =>'default'));
+        $this->container->prependExtensionConfig('cmf_resource', array('default_repository' => 'default'));
 
         $this->container->getExtension('sonata_doctrine_phpcr_admin')->prepend($this->container);
 
@@ -69,23 +68,23 @@ class SonataDoctrinePHPCRAdminExtensionTest extends AbstractExtensionTestCase
      */
     public function testPrependDefaultRepositoryNameThrowsOnNonExistingResourceBundle()
     {
-        $this->container->setParameter('kernel.bundles', []);
+        $this->container->setParameter('kernel.bundles', array());
         $this->container->getExtensionConfig('sonata_doctrine_phpcr_admin');
         $this->container->prependExtensionConfig('sonata_doctrine_phpcr_admin', array('document_tree' => array()));
-        $this->container->prependExtensionConfig('cmf_resource', array('default_repository' =>'default'));
+        $this->container->prependExtensionConfig('cmf_resource', array('default_repository' => 'default'));
 
         $this->container->getExtension('sonata_doctrine_phpcr_admin')->prepend($this->container);
     }
 
     public function testPrependDefaultRepositoryNameKeepsCustomNames()
     {
-        $this->container->setParameter('kernel.bundles', ['CmfResourceBundle']);
+        $this->container->setParameter('kernel.bundles', array('CmfResourceBundle'));
         $this->container->getExtensionConfig('sonata_doctrine_phpcr_admin');
         $this->container->prependExtensionConfig(
             'sonata_doctrine_phpcr_admin',
             array('document_tree' => array('repository_name' => 'custom'))
         );
-        $this->container->prependExtensionConfig('cmf_resource', array('default_repository' =>'default'));
+        $this->container->prependExtensionConfig('cmf_resource', array('default_repository' => 'default'));
 
         $this->container->getExtension('sonata_doctrine_phpcr_admin')->prepend($this->container);
 
