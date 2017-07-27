@@ -62,6 +62,10 @@ Load Routing
             resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
             prefix: /admin
 
+        phpcr_admin:
+            resource: '@SonataDoctrinePhpcrAdminBundle/Resources/config/routing/tree.xml'
+            prefix: /admin
+
         _sonata_admin:
             resource: .
             type: sonata_admin
@@ -82,6 +86,11 @@ Load Routing
             />
 
             <import
+                resource="@SonataDoctrinePhpcrAdminBundle/Resources/config/routing/tree.xml"
+                prefix="/admin"
+            />
+
+            <import
                 resource="."
                 type="sonata_admin"
                 prefix="/admin"
@@ -96,7 +105,13 @@ Load Routing
 
         $collection = new RouteCollection();
         $routing = $loader->import(
-            "@SonataAdminBundle/Resources/config/sonata_admin.xml"
+            '@SonataAdminBundle/Resources/config/sonata_admin.xml'
+        );
+        $routing->setPrefix('/admin');
+        $collection->addCollection($routing);
+
+        $routing = $loader->import(
+            '@SonataDoctrinePhpcrAdminBundle/Resources/config/routing/tree.xml'
         );
         $routing->setPrefix('/admin');
         $collection->addCollection($routing);

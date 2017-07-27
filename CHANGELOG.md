@@ -1,6 +1,7 @@
 Changelog
 =========
 
+* **2017-04-26**: [BC break] The tree routing is no longer optional. Require `@SonataDoctrinePhpcrAdminBundle/Resources/config/routing/tree.xml` in your routing file.
 * **2017-02-06**: [BC break] Removed `Datagrid\SimplePager` in favor of the one provided by the SonataAdminBundle.
 * **2015-05-06**: [BC break] Removed `Tree\PhpcrOdmTree`.
 * **2015-05-06**: [BC break] Changed first argument of `Controller\TreeController` from `TreeInterface $tree` to `$repositoryName = 'default'`.
