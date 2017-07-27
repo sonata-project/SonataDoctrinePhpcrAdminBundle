@@ -96,7 +96,9 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
 
         if (isset($config['document_tree_defaults'])) {
             @trigger_error(
-                'The "sonata_doctrine_phpcr_admin.document_tree_defaults" configuration is deprecated since 1.2.8, to be moved in 2.0.',
+                'The "sonata_doctrine_phpcr_admin.document_tree_defaults" configuration is deprecated
+                since 1.2.8, to be moved in 2.0.
+                Use "sonata_doctrine_phpcr_admin.document_tree.routing_defaults" then',
                 E_USER_DEPRECATED
             );
         }
