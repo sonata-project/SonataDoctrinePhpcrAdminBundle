@@ -38,7 +38,6 @@ class Configuration implements ConfigurationInterface
             ->fixXmlConfig('template')
             ->children()
                 ->arrayNode('templates')
-                    ->addDefaultsIfNotSet()
                     ->children()
                         ->arrayNode('form')
                             ->prototype('scalar')->end()
