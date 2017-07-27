@@ -74,14 +74,14 @@ class TreeController extends Controller
     {
         $root = $request->attributes->get('root');
 
-        return $this->render($this->template, [
+        return $this->render($this->template, array(
             'root_node' => $root,
             'routing_defaults' => $this->treeConfiguration['routing_default'],
             'repository_name' => $this->treeConfiguration['repository_name'],
             'reorder' => $this->treeConfiguration['reorder'],
             'move' => $this->treeConfiguration['move'],
             'sortable_by' => $this->treeConfiguration['sortable_by'],
-        ]);
+        ));
     }
 
     /**
