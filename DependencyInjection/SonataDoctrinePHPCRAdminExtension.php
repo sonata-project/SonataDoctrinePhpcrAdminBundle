@@ -89,6 +89,20 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
      */
     private function loadTreeTypes($config, ContainerBuilder $container)
     {
+        @trigger_error(
+            'The "sonata_doctrine_phpcr_admin.document_tree_options" configuration is deprecated since 1.2.8, to be replaced in 2.0.',
+            E_USER_DEPRECATED
+        );
+
+        if (isset($config['document_tree_defaults'])) {
+            @trigger_error(
+                'The "sonata_doctrine_phpcr_admin.document_tree_defaults" configuration is deprecated
+                since 1.2.8, to be moved in 2.0.
+                Use "sonata_doctrine_phpcr_admin.document_tree.routing_defaults" then',
+                E_USER_DEPRECATED
+            );
+        }
+
         $options = $config['document_tree_options'];
         $container->setParameter('sonata_admin_doctrine_phpcr.tree_block.defaults', $config['document_tree_defaults']);
         $container->setParameter('sonata_admin_doctrine_phpcr.tree_confirm_move', $options['confirm_move']);
@@ -109,7 +123,13 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
     private function processDocumentTreeConfig(array $documentTree)
     {
         $docClasses = $this->findAllDocumentClasses($documentTree);
-
+        if (count($docClasses)) {
+            @trigger_error(
+                'The "sonata_doctrine_phpcr_admin.document_tree.class" configuration is deprecated since 1.2.8,
+            to be removed in 2.0.',
+                E_USER_DEPRECATED
+            );
+        }
         // Validate all document classes
         $invalidClasses = array_filter(
             $docClasses,
