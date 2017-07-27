@@ -39,10 +39,10 @@ class TreeController extends Controller
 
     /**
      * @param ManagerRegistry $manager
-     * @param string $sessionName
-     * @param array $treeConfiguration same structure as defined in Configuration
-     * @param string $defaultRepositoryName The name of the default resource repository
-     * @param string $template
+     * @param string          $sessionName
+     * @param array           $treeConfiguration     same structure as defined in Configuration
+     * @param string          $defaultRepositoryName The name of the default resource repository
+     * @param string          $template
      */
     public function __construct(
         ManagerRegistry $manager,
