@@ -76,7 +76,7 @@ class TreeController extends Controller
 
         return $this->render($this->template, array(
             'root_node' => $root,
-            'routing_defaults' => $this->treeConfiguration['routing_default'],
+            'routing_defaults' => $this->treeConfiguration['routing_defaults'],
             'repository_name' => $this->treeConfiguration['repository_name'],
             'reorder' => $this->treeConfiguration['reorder'],
             'move' => $this->treeConfiguration['move'],
