@@ -41,5 +41,26 @@ class SonataDoctrinePHPCRAdminExtensionTest extends AbstractExtensionTestCase
                 'reorder' => true,
             )
         );
+
+        $this->assertContainerBuilderHasParameter(
+            'sonata_admin_doctrine_phpcr.tree_block.routing_defaults',
+            array()
+        );
+        $this->assertContainerBuilderHasParameter(
+            'sonata_admin_doctrine_phpcr.tree_block.repository_name',
+            null
+        );
+        $this->assertContainerBuilderHasParameter(
+            'sonata_admin_doctrine_phpcr.tree_block.sortable_by',
+            'position'
+        );
+        $this->assertContainerBuilderHasParameter(
+            'sonata_admin_doctrine_phpcr.tree_block.move',
+            true
+        );
+        $this->assertContainerBuilderHasParameter(
+            'sonata_admin_doctrine_phpcr.tree_block.reorder',
+            true
+        );
     }
 }

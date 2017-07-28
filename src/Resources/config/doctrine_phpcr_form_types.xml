@@ -4,7 +4,7 @@
         <service id="sonata.admin.doctrine_phpcr.form.type.phpcr_odm_tree" class="Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeModelType">
             <tag name="form.type" alias="doctrine_phpcr_odm_tree"/>
             <call method="setDefaults">
-                <argument>%sonata_admin_doctrine_phpcr.tree_block.defaults%</argument>
+                <argument>%sonata_admin_doctrine_phpcr.tree_block.routing_defaults%</argument>
             </call>
         </service>
         <service id="sonata.admin.doctrine_phpcr.form.type.phpcr_odm_tree_manager" class="Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeManagerType">

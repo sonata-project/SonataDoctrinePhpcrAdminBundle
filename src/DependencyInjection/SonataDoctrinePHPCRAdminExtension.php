@@ -101,5 +101,9 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
         );
 
         $container->setParameter('sonata_admin_doctrine_phpcr.tree_block.configuration', $configuration);
+
+        foreach ($configuration as $key => $value) {
+            $container->setParameter('sonata_admin_doctrine_phpcr.tree_block.'.$key, $value);
+        }
     }
 }
