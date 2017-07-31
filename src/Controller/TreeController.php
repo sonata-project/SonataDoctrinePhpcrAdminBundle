@@ -103,7 +103,7 @@ class TreeController extends Controller
         }
 
         if (in_array($position, array('over', 'child'))) {
-            return new JsonResponse(array('Can not resort into a collection.'), Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(array('Can not reorder when dropping into a collection.'), Response::HTTP_BAD_REQUEST);
         }
 
         $before = 'before' == $position;
