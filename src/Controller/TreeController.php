@@ -102,6 +102,10 @@ class TreeController extends Controller
             return new JsonResponse(array('Parameters parent, dropped and target has to be set to reorder.'), Response::HTTP_BAD_REQUEST);
         }
 
+        if (in_array($position, array('over', 'child'))) {
+            return new JsonResponse(array('Can not reorder when dropping into a collection.'), Response::HTTP_BAD_REQUEST);
+        }
+
         $before = 'before' == $position;
         $parentNode = $this->session->getNode($parentPath);
         $targetName = PathHelper::getNodeName($targetPath);
