@@ -23,6 +23,7 @@ class SonataDoctrinePHPCRAdminBundle extends Bundle
      */
     public function build(ContainerBuilder $container)
     {
+        // meaningless change
         $container->addCompilerPass(new AddGuesserCompilerPass());
         $container->addCompilerPass(new AddTemplatesCompilerPass());
     }
