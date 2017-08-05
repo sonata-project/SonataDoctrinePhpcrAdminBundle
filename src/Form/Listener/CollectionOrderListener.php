@@ -56,7 +56,7 @@ class CollectionOrderListener
             return;
         }
 
-        $accessor = PropertyAccess::getPropertyAccessor(); // use deprecated BC method to support symfony 2.2
+        $accessor = PropertyAccess::createPropertyAccessor();
         $newCollection = $accessor->getValue($data, $this->name);
         if (!$newCollection instanceof Collection) {
             return;
