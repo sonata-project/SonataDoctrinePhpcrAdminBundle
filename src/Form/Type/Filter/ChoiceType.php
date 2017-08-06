@@ -49,7 +49,7 @@ class ChoiceType extends BaseChoiceType
         );
 
         $builder
-            ->add('type', 'choice', array('choices' => $choices, 'required' => false))
+            ->add('type', 'Symfony\Component\Form\Extension\Core\Type\ChoiceType', array('choices' => $choices, 'required' => false))
             ->add('value', $options['field_type'], array_merge(array('required' => false), $options['field_options']))
         ;
     }

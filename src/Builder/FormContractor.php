@@ -58,7 +58,11 @@ class FormContractor implements FormContractorInterface
         }
 
         if (!$fieldDescription->getType()) {
-            throw new \RuntimeException(sprintf('Please define a type for field `%s` in `%s`', $fieldDescription->getName(), get_class($admin)));
+            throw new \RuntimeException(sprintf(
+                'Please define a type for field `%s` in `%s`',
+                $fieldDescription->getName(),
+                get_class($admin)
+            ));
         }
 
         $fieldDescription->setAdmin($admin);
@@ -68,7 +72,8 @@ class FormContractor implements FormContractorInterface
             ClassMetadata::MANY_TO_ONE,
             ClassMetadata::MANY_TO_MANY,
             'children',
-            'child', 'parent',
+            'child',
+            'parent',
             'referrers',
         );
 
@@ -90,7 +95,11 @@ class FormContractor implements FormContractorInterface
      */
     public function getFormBuilder($name, array $options = array())
     {
-        return $this->getFormFactory()->createNamedBuilder($name, 'form', null, $options);
+        return $this->getFormFactory()->createNamedBuilder(
+            $name,
+            'Symfony\Component\Form\Extension\Core\Type\FormType',
+            null,
+            $options);
     }
 
     /**
@@ -111,11 +120,11 @@ class FormContractor implements FormContractorInterface
                 $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
 
                 break;
-            case 'Sonata\AdminBundle\Form\Type\Modeltype':
+            case 'Sonata\AdminBundle\Form\Type\ModelType':
             case 'sonata_type_model':
             case 'Sonata\AdminBundle\Form\Type\ModelTypeList':
             case 'sonata_type_model_list':
-                if (!$fieldDescription->getTargetEntity()) {
+                if ('child' !== $fieldDescription->getMappingType() && !$fieldDescription->getTargetEntity()) {
                     throw new \LogicException(sprintf(
                         'The field "%s" in class "%s" does not have a target model defined. Please specify the "targetDocument" attribute in the mapping for this class.',
                         $fieldDescription->getName(),
@@ -143,12 +152,13 @@ class FormContractor implements FormContractorInterface
                     throw $this->getAssociationAdminException($fieldDescription);
                 }
 
-                $options['type'] = 'sonata_type_admin';
+                $options['type'] = 'Sonata\AdminBundle\Form\Type\AdminType';
                 $options['modifiable'] = true;
                 $options['type_options'] = array(
                     'sonata_field_description' => $fieldDescription,
                     'data_class' => $fieldDescription->getAssociationAdmin()->getClass(),
                 );
+
             break;
         }
 

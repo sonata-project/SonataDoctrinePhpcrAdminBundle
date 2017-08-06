@@ -86,8 +86,10 @@ class ListBuilder implements ListBuilderInterface
         }
 
         $fieldDescription->setAdmin($admin);
+        $metadata = null;
 
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
+            /** @var ClassMetadata $metadata */
             $metadata = $admin->getModelManager()->getMetadata($admin->getClass());
 
             // TODO sort on parent associations or node name
@@ -106,9 +108,24 @@ class ListBuilder implements ListBuilderInterface
             if (isset($metadata->mappings[$fieldDescription->getName()])) {
                 $fieldDescription->setFieldMapping($metadata->mappings[$fieldDescription->getName()]);
                 if ($fieldDescription->getOption('sortable') !== false) {
-                    $fieldDescription->setOption('sortable', $fieldDescription->getOption('sortable', $defaultSortable));
-                    $fieldDescription->setOption('sort_parent_association_mappings', $fieldDescription->getOption('sort_parent_association_mappings', $fieldDescription->getParentAssociationMappings()));
-                    $fieldDescription->setOption('sort_field_mapping', $fieldDescription->getOption('sort_field_mapping', $fieldDescription->getFieldMapping()));
+                    $fieldDescription->setOption(
+                        'sortable',
+                        $fieldDescription->getOption('sortable', $defaultSortable)
+                    );
+                    $fieldDescription->setOption(
+                        'sort_parent_association_mappings',
+                        $fieldDescription->getOption(
+                            'sort_parent_association_mappings',
+                            $fieldDescription->getParentAssociationMappings()
+                        )
+                    );
+                    $fieldDescription->setOption(
+                        'sort_field_mapping',
+                        $fieldDescription->getOption(
+                            'sort_field_mapping',
+                            $fieldDescription->getFieldMapping()
+                        )
+                    );
                 }
             }
 
@@ -117,33 +134,46 @@ class ListBuilder implements ListBuilderInterface
                 $fieldDescription->setAssociationMapping($metadata->associationMappings[$fieldDescription->getName()]);
             }
 
-            $fieldDescription->setOption('_sort_order', $fieldDescription->getOption('_sort_order', 'ASC'));
+            $fieldDescription->setOption(
+                '_sort_order',
+                $fieldDescription->getOption('_sort_order', 'ASC')
+            );
         }
 
         if (!$fieldDescription->getType()) {
-            throw new \RuntimeException(sprintf('Please define a type for field `%s` in `%s`', $fieldDescription->getName(), get_class($admin)));
+            throw new \RuntimeException(sprintf(
+                'Please define a type for field `%s` in `%s`',
+                $fieldDescription->getName(),
+                get_class($admin)
+            ));
         }
 
-        $fieldDescription->setOption('code', $fieldDescription->getOption('code', $fieldDescription->getName()));
-        $fieldDescription->setOption('label', $fieldDescription->getOption('label', $fieldDescription->getName()));
+        $fieldDescription->setOption(
+            'code',
+            $fieldDescription->getOption('code', $fieldDescription->getName())
+        );
+        $fieldDescription->setOption(
+            'label',
+            $fieldDescription->getOption('label', $fieldDescription->getName())
+        );
 
         if (!$fieldDescription->getTemplate()) {
             $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
 
             if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {
-                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_phpcr_many_to_one.html.twig');
+                $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:list_many_to_one.html.twig');
             }
 
             if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_MANY) {
-                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_phpcr_many_to_many.html.twig');
+                $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:list_many_to_many.html.twig');
             }
 
             if ($fieldDescription->getMappingType() == 'child' || $fieldDescription->getMappingType() == 'parent') {
-                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_phpcr_one_to_one.html.twig');
+                $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:list_one_to_one.html.twig');
             }
 
             if ($fieldDescription->getMappingType() == 'children' || $fieldDescription->getMappingType() == 'referrers') {
-                $fieldDescription->setTemplate('SonataDoctrinePHPCRAdminBundle:CRUD:list_phpcr_one_to_many.html.twig');
+                $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:list_one_to_many.html.twig');
             }
         }
 
@@ -151,11 +181,15 @@ class ListBuilder implements ListBuilderInterface
             ClassMetadata::MANY_TO_ONE,
             ClassMetadata::MANY_TO_MANY,
             'children',
-            'child', 'parent',
+            'child',
+            'parent',
             'referrers',
         );
 
-        if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && in_array($fieldDescription->getMappingType(), $mappingTypes)) {
+        if ($metadata
+            && $metadata->hasAssociation($fieldDescription->getName())
+            && in_array($fieldDescription->getMappingType(), $mappingTypes)
+        ) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
