@@ -1,0 +1,20 @@
+sonata_admin:
+    dashboard:
+        blocks:
+            - { position: right, type: sonata.admin.block.admin_list }
+            - { position: left, type: sonata_admin_doctrine_phpcr.tree_block }
+
+sonata_block:
+    default_contexts: [cms]
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+        sonata_admin_doctrine_phpcr.tree_block:
+            settings:
+                id: '/test'
+            contexts:   [admin]
+
+sonata_doctrine_phpcr_admin:
+    document_tree:
+        routing_defaults: []
+

@@ -35,21 +35,27 @@ class DateFilter extends Filter
         switch ($data['type']) {
             case DateType::TYPE_GREATER_EQUAL:
                 $where->gte()->field('a.'.$field)->literal($from);
+
                 break;
             case DateType::TYPE_GREATER_THAN:
                 $where->gt()->field('a.'.$field)->literal($from);
+
                 break;
             case DateType::TYPE_LESS_EQUAL:
                 $where->lte()->field('a.'.$field)->literal($from);
+
                 break;
             case DateType::TYPE_LESS_THAN:
                 $where->lt()->field('a.'.$field)->literal($from);
+
                 break;
             case DateType::TYPE_NULL:
                 $where->eq()->field('a.'.$field)->literal(null);
+
                 break;
             case DateType::TYPE_NOT_NULL:
                 $where->neq()->field('a.'.$field)->literal(null);
+
                 break;
             case DateType::TYPE_EQUAL:
             default:

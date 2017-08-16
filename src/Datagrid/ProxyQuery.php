@@ -134,9 +134,11 @@ class ProxyQuery implements ProxyQueryInterface
             switch ($this->sortOrder) {
                 case 'DESC':
                     $this->qb->orderBy()->desc()->field($this->alias.'.'.$this->sortBy);
+
                     break;
                 case 'ASC':
                     $this->qb->orderBy()->asc()->field($this->alias.'.'.$this->sortBy);
+
                     break;
                 default:
                     throw new \Exception('Unsupported sort order direction: '.$this->sortOrder);

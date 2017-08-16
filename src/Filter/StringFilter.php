@@ -46,6 +46,7 @@ class StringFilter extends Filter
                 break;
             case ChoiceType::TYPE_NOT_CONTAINS:
                 $where->fullTextSearch('a.'.$field, '* -'.$value);
+
                 break;
             case ChoiceType::TYPE_CONTAINS:
                 if ($isComparisonLowerCase) {

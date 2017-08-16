@@ -77,17 +77,19 @@ class ShowBuilder implements ShowBuilderInterface
     {
         $fieldDescription->setAdmin($admin);
 
+        $metadata = null;
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
+            /** @var ClassMetadata $metadata */
             $metadata = $admin->getModelManager()->getMetadata($admin->getClass());
 
             // set the default field mapping
-            if (isset($metadata->fieldMappings[$fieldDescription->getName()])) {
-                $fieldDescription->setFieldMapping($metadata->fieldMappings[$fieldDescription->getName()]);
+            if (isset($metadata->mappings[$fieldDescription->getName()])) {
+                $fieldDescription->setFieldMapping($metadata->mappings[$fieldDescription->getName()]);
             }
 
             // set the default association mapping
-            if (isset($metadata->associationMappings[$fieldDescription->getName()])) {
-                $fieldDescription->setAssociationMapping($metadata->associationMappings[$fieldDescription->getName()]);
+            if ($metadata->hasAssociation($fieldDescription->getName())) {
+                $fieldDescription->setAssociationMapping($metadata->getAssociation($fieldDescription->getName()));
             }
         }
 
@@ -102,19 +104,25 @@ class ShowBuilder implements ShowBuilderInterface
             $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
 
             if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {
-                $fieldDescription->setTemplate('SonataDoctrinePhpcrAdminBundle:CRUD:show_phpcr_many_to_one.html.twig');
+                $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:show_many_to_one.html.twig');
             }
 
             if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_MANY) {
-                $fieldDescription->setTemplate('SonataDoctrinePhpcrAdminBundle:CRUD:show_phpcr_many_to_many.html.twig');
+                $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:show_many_to_many.html.twig');
             }
         }
 
-        switch ($fieldDescription->getMappingType()) {
-            case ClassMetadata::MANY_TO_ONE:
-            case ClassMetadata::MANY_TO_MANY:
-                $admin->attachAdminClass($fieldDescription);
-                break;
+        $mappingTypes = array(
+            ClassMetadata::MANY_TO_ONE,
+            ClassMetadata::MANY_TO_MANY,
+            'children',
+            'child',
+            'parent',
+            'referrers',
+        );
+
+        if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && in_array($fieldDescription->getMappingType(), $mappingTypes)) {
+            $admin->attachAdminClass($fieldDescription);
         }
     }
 

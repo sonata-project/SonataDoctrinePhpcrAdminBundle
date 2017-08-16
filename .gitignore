@@ -4,3 +4,5 @@
 .php_cs.cache
 composer.lock
 phpunit.xml
+tests/Resources/app/cache/
+tests/Resources/app/logs/

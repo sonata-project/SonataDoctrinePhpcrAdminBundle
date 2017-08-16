@@ -39,6 +39,6 @@ class CollectionTypeExtension extends AbstractTypeExtension
      */
     public function getExtendedType()
     {
-        return 'sonata_type_collection';
+        return 'Sonata\CoreBundle\Form\Type\CollectionType';
     }
 }
