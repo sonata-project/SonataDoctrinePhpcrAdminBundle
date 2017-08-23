@@ -24,11 +24,11 @@ file that was distributed with this source code.
 <script type="text/javascript">
     var apiGetTemplate = '{{ path('_cmf_get_resource', {
         repositoryName: repository_name,
-        root_node: root_node,
         path: '__path__'
     }|merge(routing_default_values)) }}';
     jQuery(function($) {
         $('#tree').cmfTree({
+            root_node: '{{ root_node }}',
             request: {
                 load: function (nodePath) {
                     return {
@@ -38,11 +38,7 @@ file that was distributed with this source code.
                 move: function (sourcePath, destinationPath) {
                     return $.when(
                         $.ajax(
-                            '{{ path('_cmf_patch_resource', {
-                                repositoryName: repository_name,
-                                root_node: root_node,
-                                path: '__path__'
-                            }|merge(routing_default_values)) }}'.replace('__path__', sourcePath),
+                            apiGetTemplate.replace('__path__', sourcePath),
                             {
                                 data: JSON.stringify([{"operation": "move", "target": destinationPath}]),
                                 method: 'PATCH',
