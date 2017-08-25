@@ -42,7 +42,7 @@ This code manage the one-to-many association field popup
             dataType: 'html',
             data: { _xml_http_request: true },
             success: function(html) {
-                var $newForm = jQuery(jQuery.parseHTML(html));
+                var $newForm = jQuery(html);
                 var $oldForm = jQuery('#field_container_{{ id }}');
 
                 // Maintain state of file inputs
