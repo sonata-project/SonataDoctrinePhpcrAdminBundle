@@ -42,7 +42,16 @@ This code manage the one-to-many association field popup
             dataType: 'html',
             data: { _xml_http_request: true },
             success: function(html) {
-                jQuery('#field_container_{{ id }}').replaceWith(html); // replace the html
+                var $newForm = jQuery(jQuery.parseHTML(html));
+                var $oldForm = jQuery('#field_container_{{ id }}');
+
+                // Maintain state of file inputs
+                $oldForm.find('input[type="file"]').each(function(){
+                    var id = '#'$(this).attr('id');
+                    $newForm.find(id).replaceWith($(this));
+                });
+
+                $oldForm.replaceWith($newForm);  // replace the html
                 if(jQuery('input[type="file"]', form).length > 0) {
                     jQuery(form).attr('enctype', 'multipart/form-data');
                     jQuery(form).attr('encoding', 'multipart/form-data');
