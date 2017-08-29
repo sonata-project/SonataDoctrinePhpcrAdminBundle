@@ -12,21 +12,26 @@
          bootstrap="Tests/bootstrap.php"
 >
     <testsuites>
-        <testsuite name="PHPCR Util Test Suite">
-            <directory>./Tests/</directory>
+        <testsuite name="SonataDoctrinePHPCRAdminBundle Test Suite">
+            <directory>./Tests</directory>
         </testsuite>
     </testsuites>
+
     <filter>
         <whitelist>
             <directory>./</directory>
             <exclude>
-                <directory>./Tests</directory>
-                <directory>./vendor</directory>
-                <directory>./Resources</directory>
-                <directory>./DependencyInjection</directory>
-                <file>./SonataDoctrinePHPCRAdminBundle.php</file>
+                <directory>./Tests/</directory>
+                <directory>./DataFixtures/</directory>
+                <directory>./Resources/</directory>
+                <directory>./vendor/</directory>
+                <directory>./coverage/</directory>
             </exclude>
         </whitelist>
     </filter>
+
+    <php>
+        <ini name="precision" value="8"/>
+    </php>
 
 </phpunit>
