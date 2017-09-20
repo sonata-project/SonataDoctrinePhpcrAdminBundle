@@ -52,14 +52,6 @@ matrix:
     - php: '7.1'
       env: SYMFONY=dev-master@dev
     - php: '7.1'
-      env: SONATA_ADMIN=3.*
-    - php: '7.1'
-      env: SONATA_ADMIN=dev-master@dev
-    - php: '7.1'
-      env: SONATA_BLOCK=3.*
-    - php: '7.1'
-      env: SONATA_BLOCK=dev-master@dev
-    - php: '7.1'
       env: SYMFONY_DEPRECATIONS_HELPER=0
     - php: hhvm
       dist: trusty
@@ -68,8 +60,6 @@ matrix:
     - php: hhvm
     - env: SYMFONY_DEPRECATIONS_HELPER=0
     - env: SYMFONY=dev-master@dev
-    - env: SONATA_ADMIN=dev-master@dev
-    - env: SONATA_BLOCK=dev-master@dev
 
 before_install:
   - git remote add upstream ${UPSTREAM_URL} && git fetch --all
