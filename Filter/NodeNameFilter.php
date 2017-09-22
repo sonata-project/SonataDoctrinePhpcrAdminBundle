@@ -37,6 +37,7 @@ class NodeNameFilter extends Filter
         switch ($data['type']) {
             case ChoiceType::TYPE_EQUAL:
                 $where->eq()->localName($alias)->literal($data['value']);
+
                 break;
             case ChoiceType::TYPE_CONTAINS:
             default:

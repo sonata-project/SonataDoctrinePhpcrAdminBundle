@@ -37,12 +37,15 @@ class StringFilter extends Filter
         switch ($data['type']) {
             case ChoiceType::TYPE_EQUAL:
                 $where->eq()->field('a.'.$field)->literal($data['value']);
+
                 break;
             case ChoiceType::TYPE_NOT_CONTAINS:
                 $where->fullTextSearch('a.'.$field, '* -'.$data['value']);
+
                 break;
             case ChoiceType::TYPE_CONTAINS:
                 $where->like()->field('a.'.$field)->literal('%'.$data['value'].'%');
+
                 break;
             case ChoiceType::TYPE_CONTAINS_WORDS:
             default:
