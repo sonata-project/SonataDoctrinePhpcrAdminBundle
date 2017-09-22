@@ -114,6 +114,7 @@ class ShowBuilder implements ShowBuilderInterface
             case ClassMetadata::MANY_TO_ONE:
             case ClassMetadata::MANY_TO_MANY:
                 $admin->attachAdminClass($fieldDescription);
+
                 break;
         }
     }

@@ -60,6 +60,7 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
         foreach ($methods as $pos => $calls) {
             if ($calls[0] == '__hack_doctrine_phpcr__') {
                 $settings = $calls[1];
+
                 break;
             }
         }

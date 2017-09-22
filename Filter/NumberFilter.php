@@ -33,15 +33,19 @@ class NumberFilter extends Filter
         switch ($type) {
             case NumberType::TYPE_GREATER_EQUAL:
                 $where->gte()->field('a.'.$field)->literal($value);
+
                 break;
             case NumberType::TYPE_GREATER_THAN:
                 $where->gt()->field('a.'.$field)->literal($value);
+
                 break;
             case NumberType::TYPE_LESS_EQUAL:
                 $where->lte()->field('a.'.$field)->literal($value);
+
                 break;
             case NumberType::TYPE_LESS_THAN:
                 $where->lt()->field('a.'.$field)->literal($value);
+
                 break;
             case NumberType::TYPE_EQUAL:
             default:
