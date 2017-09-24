@@ -16,6 +16,7 @@ php:
   - nightly
 
 sudo: false
+dist: precise
 
 cache:
   pip: true
@@ -64,8 +65,6 @@ matrix:
     - php: hhvm
     - env: SYMFONY_DEPRECATIONS_HELPER=0
     - env: SYMFONY=dev-master@dev
-    - env: SONATA_ADMIN=dev-master@dev
-    - env: SONATA_BLOCK=dev-master@dev
 
 before_install:
   - git remote add upstream ${UPSTREAM_URL} && git fetch --all

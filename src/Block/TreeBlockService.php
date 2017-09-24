@@ -45,7 +45,7 @@ class TreeBlockService extends BaseBlockService
      */
     public function buildEditForm(FormMapper $form, BlockInterface $block)
     {
-        // there is nothing to edit here!
+        // there is nothing to edit here
     }
 
     /**
