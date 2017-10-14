@@ -12,8 +12,8 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter;
 
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType as BaseChoiceType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType as SymfonyChoiceType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class ChoiceType extends BaseChoiceType
 {
@@ -42,19 +42,19 @@ class ChoiceType extends BaseChoiceType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $choices = array(
-            self::TYPE_CONTAINS => $this->translator->trans('label_type_contains', array(), 'SonataAdminBundle'),
-            self::TYPE_NOT_CONTAINS => $this->translator->trans('label_type_not_contains', array(), 'SonataAdminBundle'),
-            self::TYPE_EQUAL => $this->translator->trans('label_type_equals', array(), 'SonataAdminBundle'),
-            self::TYPE_CONTAINS_WORDS => $this->translator->trans('label_type_contains_words', array(), 'SonataDoctrinePHPCRAdmin'),
-        );
+        $choices = [
+            self::TYPE_CONTAINS => $this->translator->trans('label_type_contains', [], 'SonataAdminBundle'),
+            self::TYPE_NOT_CONTAINS => $this->translator->trans('label_type_not_contains', [], 'SonataAdminBundle'),
+            self::TYPE_EQUAL => $this->translator->trans('label_type_equals', [], 'SonataAdminBundle'),
+            self::TYPE_CONTAINS_WORDS => $this->translator->trans('label_type_contains_words', [], 'SonataDoctrinePHPCRAdmin'),
+        ];
 
         $builder
-            ->add('type', SymfonyChoiceType::class, array(
+            ->add('type', SymfonyChoiceType::class, [
                 'choices' => $choices,
                 'required' => false,
-            ))
-            ->add('value', $options['field_type'], array_merge(array('required' => false), $options['field_options']))
+            ])
+            ->add('value', $options['field_type'], array_merge(['required' => false], $options['field_options']))
         ;
     }
 }
