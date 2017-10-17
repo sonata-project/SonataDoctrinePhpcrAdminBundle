@@ -12,9 +12,10 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Datagrid;
 
 use Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder;
+use PHPUnit\Framework\TestCase;
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 
-class ProxyQueryTest extends \PHPUnit_Framework_TestCase
+class ProxyQueryTest extends TestCase
 {
     /**
      * @var QueryBuilder|\PHPUnit_Framework_MockObject_MockObject

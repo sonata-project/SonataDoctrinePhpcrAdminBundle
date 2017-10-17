@@ -13,9 +13,10 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Filter;
 
 use Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder;
 use Doctrine\ODM\PHPCR\Tools\Test\QueryBuilderTester;
+use PHPUnit\Framework\TestCase;
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 
-class BaseTestCase extends \PHPUnit_Framework_TestCase
+class BaseTestCase extends TestCase
 {
     /**
      * @var QueryBuilder

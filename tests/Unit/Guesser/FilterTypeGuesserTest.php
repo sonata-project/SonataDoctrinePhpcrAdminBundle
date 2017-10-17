@@ -11,10 +11,11 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Guesser;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\DoctrinePHPCRAdminBundle\Guesser\FilterTypeGuesser;
 use Symfony\Component\Form\Guess\Guess;
 
-class FilterTypeGuesserTest extends \PHPUnit_Framework_TestCase
+class FilterTypeGuesserTest extends TestCase
 {
     public function testGuessType()
     {

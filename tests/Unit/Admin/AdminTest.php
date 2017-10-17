@@ -11,9 +11,10 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Admin;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\DoctrinePHPCRAdminBundle\Admin\Admin;
 
-class AdminTest extends \PHPUnit_Framework_TestCase
+class AdminTest extends TestCase
 {
     public function testItCanBeInstanciated()
     {
