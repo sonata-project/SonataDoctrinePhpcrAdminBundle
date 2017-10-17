@@ -56,8 +56,8 @@ class ListBuilderTest extends TestCase
 
     public function setUp()
     {
-        $this->guesser = $this->createMock('\Sonata\AdminBundle\Guesser\TypeGuesserInterface', array(), array());
-        $this->templates = array();
+        $this->guesser = $this->createMock('\Sonata\AdminBundle\Guesser\TypeGuesserInterface', [], []);
+        $this->templates = [];
     }
 
     public function testGetBaseList()
@@ -74,7 +74,7 @@ class ListBuilderTest extends TestCase
 
     public function testAddFieldNullType()
     {
-        $typeguess = $this->createMock('Symfony\Component\Form\Guess\TypeGuess', array(), array(), '', false);
+        $typeguess = $this->createMock('Symfony\Component\Form\Guess\TypeGuess', [], [], '', false);
         $this->guesser->expects($this->once())
             ->method('guessType')
             ->with($this->anything())
@@ -105,7 +105,7 @@ class ListBuilderTest extends TestCase
         $this->setUpListActionTests();
 
         $this->guesser->expects($this->once())->method('guessType')
-            ->willReturn(new TypeGuess(null, array(), Guess::LOW_CONFIDENCE));
+            ->willReturn(new TypeGuess(null, [], Guess::LOW_CONFIDENCE));
 
         $fieldDescription = new FieldDescription();
         $fieldDescription->setName('_action');
@@ -121,9 +121,9 @@ class ListBuilderTest extends TestCase
 
     //public function testAddField()
     //{
-    //    $fieldDescriptionCollection = $this->createMock('\Sonata\AdminBundle\Admin\FieldDescriptionCollection', array(), array());
-    //    $fieldDescription = $this->createMock('\Sonata\AdminBundle\Admin\FieldDescriptionInterface', array(), array());
-    //    $admin = $this->createMock('\Sonata\AdminBundle\Admin\AdminInterface', array(), array());
+    //    $fieldDescriptionCollection = $this->createMock('\Sonata\AdminBundle\Admin\FieldDescriptionCollection', [], []);
+    //    $fieldDescription = $this->createMock('\Sonata\AdminBundle\Admin\FieldDescriptionInterface', [], []);
+    //    $admin = $this->createMock('\Sonata\AdminBundle\Admin\AdminInterface', [], []);
     //    $lb = new ListBuilder($this->guesser, $this->templates);
 
     //    $lb->addField($fieldDescriptionCollection, 'sometype', $fieldDescription, $admin);
@@ -142,7 +142,7 @@ class ListBuilderTest extends TestCase
             ->with($this->anything())
             ->will($this->returnValue(true));
 
-        $this->admin = $this->createMock('\Sonata\AdminBundle\Admin\Admin', array(), array(), '', false);
+        $this->admin = $this->createMock('\Sonata\AdminBundle\Admin\Admin', [], [], '', false);
         $this->admin->expects($this->atLeastOnce())->method('getModelManager')
             ->willReturn($this->modelManager);
 
@@ -152,7 +152,7 @@ class ListBuilderTest extends TestCase
     private function setupAddField()
     {
         $this->lb = new ListBuilder($this->guesser, $this->templates);
-        $this->metaData = $this->createMock('\Doctrine\ODM\PHPCR\Mapping\ClassMetadata', array(), array(), '', false);
+        $this->metaData = $this->createMock('\Doctrine\ODM\PHPCR\Mapping\ClassMetadata', [], [], '', false);
         $this->modelManager = $this->createMock('\Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager');
         $this->modelManager->expects($this->any())
             ->method('getMetadata')
@@ -172,7 +172,7 @@ class ListBuilderTest extends TestCase
 
         //AdminInterface doesn't implement methods called in addField,
         //so we mock Admin
-        $this->admin = $this->createMock('\Sonata\AdminBundle\Admin\AbstractAdmin', array(), array(), '', false);
+        $this->admin = $this->createMock('\Sonata\AdminBundle\Admin\AbstractAdmin', [], [], '', false);
         $this->admin->expects($this->any())
             ->method('getModelManager')
             ->will($this->returnValue($this->modelManager));

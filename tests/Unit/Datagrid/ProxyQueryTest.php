@@ -46,7 +46,7 @@ class ProxyQueryTest extends TestCase
 
     public function testSetSortBy()
     {
-        $this->pq->setSortBy(array(), array('fieldName' => 'field'));
+        $this->pq->setSortBy([], ['fieldName' => 'field']);
         $this->assertEquals('field', $this->pq->getSortBy());
     }
 
