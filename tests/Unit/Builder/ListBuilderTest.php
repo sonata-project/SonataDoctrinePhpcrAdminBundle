@@ -11,6 +11,7 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Builder;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
@@ -21,7 +22,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
-class ListBuilderTest extends \PHPUnit_Framework_TestCase
+class ListBuilderTest extends TestCase
 {
     /**
      * @var ListBuilder
@@ -120,9 +121,9 @@ class ListBuilderTest extends \PHPUnit_Framework_TestCase
 
     //public function testAddField()
     //{
-    //    $fieldDescriptionCollection = $this->getMock('\Sonata\AdminBundle\Admin\FieldDescriptionCollection', array(), array());
-    //    $fieldDescription = $this->getMock('\Sonata\AdminBundle\Admin\FieldDescriptionInterface', array(), array());
-    //    $admin = $this->getMock('\Sonata\AdminBundle\Admin\AdminInterface', array(), array());
+    //    $fieldDescriptionCollection = $this->createMock('\Sonata\AdminBundle\Admin\FieldDescriptionCollection', array(), array());
+    //    $fieldDescription = $this->createMock('\Sonata\AdminBundle\Admin\FieldDescriptionInterface', array(), array());
+    //    $admin = $this->createMock('\Sonata\AdminBundle\Admin\AdminInterface', array(), array());
     //    $lb = new ListBuilder($this->guesser, $this->templates);
 
     //    $lb->addField($fieldDescriptionCollection, 'sometype', $fieldDescription, $admin);

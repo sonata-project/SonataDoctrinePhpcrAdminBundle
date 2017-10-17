@@ -12,9 +12,10 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Datagrid;
 
 use Doctrine\ODM\PHPCR\Query\Query as PHPCRQuery;
+use PHPUnit\Framework\TestCase;
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\Pager;
 
-class PagerTest extends \PHPUnit_Framework_TestCase
+class PagerTest extends TestCase
 {
     public function setUp()
     {
