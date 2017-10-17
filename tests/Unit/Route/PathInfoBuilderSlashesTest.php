@@ -28,7 +28,7 @@ class PathInfoBuilderSlashesTest extends TestCase
         $admin = $this->createMock('Sonata\\AdminBundle\\Admin\\AbstractAdmin');
         $admin->expects($this->once())
             ->method('getChildren')
-            ->will($this->returnValue(array($adminChild)));
+            ->will($this->returnValue([$adminChild]));
 
         $collection = $this->createMock('Sonata\\AdminBundle\\Route\\RouteCollection');
         $collection->expects($this->once())
@@ -47,7 +47,7 @@ class PathInfoBuilderSlashesTest extends TestCase
         $admin = $this->createMock('Sonata\\AdminBundle\\Admin\\AbstractAdmin');
         $admin->expects($this->once())
             ->method('getChildren')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
         $admin->expects($this->once())
             ->method('isAclEnabled')
             ->will($this->returnValue(true));

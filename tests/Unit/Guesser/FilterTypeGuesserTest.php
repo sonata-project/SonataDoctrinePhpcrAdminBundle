@@ -32,7 +32,7 @@ class FilterTypeGuesserTest extends TestCase
 
         $managerRegistry->expects($this->once())
             ->method('getManagers')
-            ->will($this->returnValue(array($documentRepository)));
+            ->will($this->returnValue([$documentRepository]));
 
         $guesser = new FilterTypeGuesser(
             $managerRegistry
@@ -51,12 +51,12 @@ class FilterTypeGuesserTest extends TestCase
             $typeGuess->getType()
         );
         $this->assertSame(
-            array(
+            [
                 'field_type' => 'Symfony\Component\Form\Extension\Core\Type\TextType',
-                'field_options' => array(),
-                'options' => array(),
+                'field_options' => [],
+                'options' => [],
                 'field_name' => $fieldname,
-            ),
+            ],
             $typeGuess->getOptions()
         );
 
