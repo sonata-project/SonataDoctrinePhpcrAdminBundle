@@ -11,10 +11,11 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Guesser;
 
+use PHPUnit\Framework\TestCase;
 use Sonata\DoctrinePHPCRAdminBundle\Guesser\FilterTypeGuesser;
 use Symfony\Component\Form\Guess\Guess;
 
-class FilterTypeGuesserTest extends \PHPUnit_Framework_TestCase
+class FilterTypeGuesserTest extends TestCase
 {
     public function testGuessType()
     {
@@ -31,7 +32,7 @@ class FilterTypeGuesserTest extends \PHPUnit_Framework_TestCase
 
         $managerRegistry->expects($this->once())
             ->method('getManagers')
-            ->will($this->returnValue(array($documentRepository)));
+            ->will($this->returnValue([$documentRepository]));
 
         $guesser = new FilterTypeGuesser(
             $managerRegistry
@@ -50,12 +51,12 @@ class FilterTypeGuesserTest extends \PHPUnit_Framework_TestCase
             $typeGuess->getType()
         );
         $this->assertSame(
-            array(
+            [
                 'field_type' => 'Symfony\Component\Form\Extension\Core\Type\TextType',
-                'field_options' => array(),
-                'options' => array(),
+                'field_options' => [],
+                'options' => [],
                 'field_name' => $fieldname,
-            ),
+            ],
             $typeGuess->getOptions()
         );
 

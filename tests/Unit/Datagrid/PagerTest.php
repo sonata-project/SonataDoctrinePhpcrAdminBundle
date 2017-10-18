@@ -12,9 +12,10 @@
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Datagrid;
 
 use Doctrine\ODM\PHPCR\Query\Query as PHPCRQuery;
+use PHPUnit\Framework\TestCase;
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\Pager;
 
-class PagerTest extends \PHPUnit_Framework_TestCase
+class PagerTest extends TestCase
 {
     public function setUp()
     {
@@ -29,7 +30,7 @@ class PagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->proxyQuery->expects($this->once())
             ->method('execute')
-            ->with(array(), PHPCRQuery::HYDRATE_PHPCR)
+            ->with([], PHPCRQuery::HYDRATE_PHPCR)
             ->will($this->returnValue(range(0, 12)));
 
         $this->proxyQuery->expects($this->once())
@@ -50,7 +51,7 @@ class PagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->proxyQuery->expects($this->once())
             ->method('execute')
-            ->with(array(), PHPCRQuery::HYDRATE_PHPCR)
+            ->with([], PHPCRQuery::HYDRATE_PHPCR)
             ->will($this->returnValue(range(0, 12)));
 
         $this->proxyQuery->expects($this->once())
@@ -92,8 +93,8 @@ class PagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->proxyQuery->expects($this->once())
             ->method('execute')
-            ->with(array(), PHPCRQuery::HYDRATE_PHPCR)
-            ->will($this->returnValue(array()));
+            ->with([], PHPCRQuery::HYDRATE_PHPCR)
+            ->will($this->returnValue([]));
 
         $this->proxyQuery->expects($this->once())
             ->method('setMaxResults')
