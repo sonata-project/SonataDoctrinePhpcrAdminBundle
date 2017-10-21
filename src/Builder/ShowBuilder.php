@@ -43,7 +43,7 @@ class ShowBuilder implements ShowBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getBaseList(array $options = array())
+    public function getBaseList(array $options = [])
     {
         return new FieldDescriptionCollection();
     }
@@ -112,14 +112,14 @@ class ShowBuilder implements ShowBuilderInterface
             }
         }
 
-        $mappingTypes = array(
+        $mappingTypes = [
             ClassMetadata::MANY_TO_ONE,
             ClassMetadata::MANY_TO_MANY,
             'children',
             'child',
             'parent',
             'referrers',
-        );
+        ];
 
         if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && in_array($fieldDescription->getMappingType(), $mappingTypes)) {
             $admin->attachAdminClass($fieldDescription);

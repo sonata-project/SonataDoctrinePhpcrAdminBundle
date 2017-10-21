@@ -18,33 +18,33 @@ class SonataDoctrinePHPCRAdminExtensionTest extends AbstractExtensionTestCase
 {
     public function getContainerExtensions()
     {
-        return array(
+        return [
            new SonataDoctrinePHPCRAdminExtension(),
-        );
+        ];
     }
 
     public function testDocumentTreeDefaultValues()
     {
         $this->container->setParameter(
             'kernel.bundles',
-            array()
+            []
         );
-        $this->load(array('document_tree' => array()));
+        $this->load(['document_tree' => []]);
 
         $this->assertContainerBuilderHasParameter(
             'sonata_admin_doctrine_phpcr.tree_block.configuration',
-            array(
-                'routing_defaults' => array(),
+            [
+                'routing_defaults' => [],
                 'repository_name' => null,
                 'sortable_by' => 'position',
                 'move' => true,
                 'reorder' => true,
-            )
+            ]
         );
 
         $this->assertContainerBuilderHasParameter(
             'sonata_admin_doctrine_phpcr.tree_block.routing_defaults',
-            array()
+            []
         );
         $this->assertContainerBuilderHasParameter(
             'sonata_admin_doctrine_phpcr.tree_block.repository_name',

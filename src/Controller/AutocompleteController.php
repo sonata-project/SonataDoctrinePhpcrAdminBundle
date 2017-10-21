@@ -73,7 +73,7 @@ class AutocompleteController
 
         $searchText = $request->get('q');
         if (mb_strlen($searchText, 'UTF-8') < $minimumInputLength) {
-            return new JsonResponse(array('status' => 'KO', 'message' => 'Too short search string.'), 403);
+            return new JsonResponse(['status' => 'KO', 'message' => 'Too short search string.'], 403);
         }
 
         $page = $request->get($reqParamPageNumber);
@@ -111,7 +111,7 @@ class AutocompleteController
         $more = (count($results) == $itemsPerPage + 1);
         $method = $request->get('_method_name');
 
-        $items = array();
+        $items = [];
         foreach ($results as $path => $document) {
             // handle child translation
             if (strpos(PathHelper::getNodeName($path), Translation::LOCALE_NAMESPACE.':') === 0) {
@@ -131,17 +131,17 @@ class AutocompleteController
                 $label = call_user_func($toStringCallback, $document, $property);
             }
 
-            $items[] = array(
+            $items[] = [
                 'id' => $admin->id($document),
                 'label' => $label,
-            );
+            ];
         }
 
-        return new JsonResponse(array(
+        return new JsonResponse([
             'status' => 'OK',
             'more' => $more,
             'items' => $items,
-        ));
+        ]);
     }
 
     /**

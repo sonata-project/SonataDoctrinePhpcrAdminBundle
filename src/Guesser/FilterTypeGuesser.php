@@ -37,7 +37,7 @@ class FilterTypeGuesser implements TypeGuesserInterface
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
-        $this->cache = array();
+        $this->cache = [];
     }
 
     /**
@@ -49,24 +49,24 @@ class FilterTypeGuesser implements TypeGuesserInterface
             return false;
         }
 
-        $options = array(
+        $options = [
             'field_type' => 'Symfony\Component\Form\Extension\Core\Type\TextType',
-            'field_options' => array(),
-            'options' => array(),
-        );
+            'field_options' => [],
+            'options' => [],
+        ];
 
         if ($metadata->hasAssociation($property)) {
             // TODO add support for children, child, referrers and parentDocument associations
             $mapping = $metadata->mappings[$property];
 
             $options['operator_type'] = 'sonata_type_boolean';
-            $options['operator_options'] = array();
+            $options['operator_options'] = [];
 
             $options['field_type'] = 'Doctrine\Bundle\PHPCRBundle\Form\Type\DocumentType';
             if (!empty($mapping['targetDocument'])) {
-                $options['field_options'] = array(
+                $options['field_options'] = [
                     'class' => $mapping['targetDocument'],
-                );
+                ];
             }
             $options['field_name'] = $mapping['fieldName'];
             $options['mapping_type'] = $mapping['type'];
@@ -86,7 +86,7 @@ class FilterTypeGuesser implements TypeGuesserInterface
         switch ($metadata->getTypeOfField($property)) {
             case 'boolean':
                 $options['field_type'] = 'Sonata\CoreBundle\Form\Type\BooleanType';
-                $options['field_options'] = array();
+                $options['field_options'] = [];
 
                 return new TypeGuess('doctrine_phpcr_boolean', $options, Guess::HIGH_CONFIDENCE);
             case 'date':
@@ -96,9 +96,9 @@ class FilterTypeGuesser implements TypeGuesserInterface
                 return new TypeGuess('doctrine_phpcr_number', $options, Guess::HIGH_CONFIDENCE);
             case 'integer':
                 $options['field_type'] = 'Symfony\Component\Form\Extension\Core\Type\NumberType';
-                $options['field_options'] = array(
+                $options['field_options'] = [
                     'csrf_protection' => false,
-                );
+                ];
 
                 return new TypeGuess('doctrine_phpcr_integer', $options, Guess::HIGH_CONFIDENCE);
             case 'text':

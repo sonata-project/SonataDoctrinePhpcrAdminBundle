@@ -32,7 +32,7 @@ class TreeBlockService extends BaseBlockService
      * @param EngineInterface $templating
      * @param array           $defaults
      */
-    public function __construct($name, EngineInterface $templating, array $defaults = array())
+    public function __construct($name, EngineInterface $templating, array $defaults = [])
     {
         parent::__construct($name, $templating);
         $this->defaults = $defaults;
@@ -53,10 +53,10 @@ class TreeBlockService extends BaseBlockService
      */
     public function execute(BlockContextInterface $blockContext, Response $response = null)
     {
-        return $this->renderResponse($blockContext->getTemplate(), array(
+        return $this->renderResponse($blockContext->getTemplate(), [
             'block' => $blockContext->getBlock(),
             'settings' => $blockContext->getSettings(),
-        ), $response);
+        ], $response);
     }
 
     /**
@@ -66,7 +66,7 @@ class TreeBlockService extends BaseBlockService
     {
         // the callables are a workaround to make bundle configuration win over the default values
         // see https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/pull/345
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'template' => function (Options $options, $value) {
                 return $value ?: 'SonataDoctrinePHPCRAdminBundle:Block:tree.html.twig';
             },
@@ -79,6 +79,6 @@ class TreeBlockService extends BaseBlockService
             'routing_defaults' => function (Options $options, $value) {
                 return $value ?: $this->defaults;
             },
-        ));
+        ]);
     }
 }

@@ -68,14 +68,14 @@ class FormContractor implements FormContractorInterface
         $fieldDescription->setAdmin($admin);
         $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'standard'));
 
-        $mappingTypes = array(
+        $mappingTypes = [
             ClassMetadata::MANY_TO_ONE,
             ClassMetadata::MANY_TO_MANY,
             'children',
             'child',
             'parent',
             'referrers',
-        );
+        ];
 
         if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && in_array($fieldDescription->getMappingType(), $mappingTypes)) {
             $admin->attachAdminClass($fieldDescription);
@@ -93,7 +93,7 @@ class FormContractor implements FormContractorInterface
     /**
      * {@inheritdoc}
      */
-    public function getFormBuilder($name, array $options = array())
+    public function getFormBuilder($name, array $options = [])
     {
         return $this->getFormFactory()->createNamedBuilder(
             $name,
@@ -110,7 +110,7 @@ class FormContractor implements FormContractorInterface
      */
     public function getDefaultOptions($type, FieldDescriptionInterface $fieldDescription)
     {
-        $options = array();
+        $options = [];
         $options['sonata_field_description'] = $fieldDescription;
 
         switch ($type) {
@@ -154,10 +154,10 @@ class FormContractor implements FormContractorInterface
 
                 $options['type'] = 'Sonata\AdminBundle\Form\Type\AdminType';
                 $options['modifiable'] = true;
-                $options['type_options'] = array(
+                $options['type_options'] = [
                     'sonata_field_description' => $fieldDescription,
                     'data_class' => $fieldDescription->getAssociationAdmin()->getClass(),
-                );
+                ];
 
             break;
         }
@@ -173,7 +173,7 @@ class FormContractor implements FormContractorInterface
     protected function getAssociationAdminException(FieldDescriptionInterface $fieldDescription)
     {
         $msg = sprintf('The current field `%s` is not linked to an admin. Please create one', $fieldDescription->getName());
-        if (in_array($fieldDescription->getMappingType(), array(ClassMetadata::MANY_TO_ONE, ClassMetadata::MANY_TO_MANY, 'referrers'))) {
+        if (in_array($fieldDescription->getMappingType(), [ClassMetadata::MANY_TO_ONE, ClassMetadata::MANY_TO_MANY, 'referrers'])) {
             if ($fieldDescription->getTargetEntity()) {
                 $msg .= " for the target document: `{$fieldDescription->getTargetEntity()}`";
             }

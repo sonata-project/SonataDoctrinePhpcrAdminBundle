@@ -29,7 +29,7 @@ class Pager extends BasePager
      */
     public function computeNbResult()
     {
-        return count($this->getQuery()->execute(array(), PHPCRQuery::HYDRATE_PHPCR));
+        return count($this->getQuery()->execute([], PHPCRQuery::HYDRATE_PHPCR));
     }
 
     /**
@@ -41,7 +41,7 @@ class Pager extends BasePager
      */
     public function getResults($hydrationMode = null)
     {
-        return $this->getQuery()->execute(array(), $hydrationMode);
+        return $this->getQuery()->execute([], $hydrationMode);
     }
 
     /**

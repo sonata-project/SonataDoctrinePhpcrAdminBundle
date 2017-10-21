@@ -46,21 +46,21 @@ class TreeManagerType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired(array('root'));
+        $resolver->setRequired(['root']);
 
         if (method_exists($resolver, 'setDefined')) {
             // The new OptionsResolver API
-            $resolver->setDefined(array('create_in_overlay', 'edit_in_overlay', 'delete_in_overlay'));
+            $resolver->setDefined(['create_in_overlay', 'edit_in_overlay', 'delete_in_overlay']);
         } else {
             // To keep compatibility with old Symfony <2.6 API
-            $resolver->setOptional(array('create_in_overlay', 'edit_in_overlay', 'delete_in_overlay'));
+            $resolver->setOptional(['create_in_overlay', 'edit_in_overlay', 'delete_in_overlay']);
         }
 
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'create_in_overlay' => true,
             'edit_in_overlay' => true,
             'delete_in_overlay' => true,
-        ));
+        ]);
     }
 
     /**

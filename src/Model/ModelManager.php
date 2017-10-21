@@ -133,7 +133,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @throws \RunTimeException if $name is not a string
      */
-    public function getNewFieldDescriptionInstance($class, $name, array $options = array())
+    public function getNewFieldDescriptionInstance($class, $name, array $options = [])
     {
         if (!is_string($name)) {
             throw new \RunTimeException('The name argument must be a string');
@@ -159,7 +159,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function findBy($class, array $criteria = array())
+    public function findBy($class, array $criteria = [])
     {
         return $this->dm->getRepository($class)->findBy($criteria);
     }
@@ -167,7 +167,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function findOneBy($class, array $criteria = array())
+    public function findOneBy($class, array $criteria = [])
     {
         return $this->dm->getRepository($class)->findOneBy($criteria);
     }
@@ -251,7 +251,7 @@ class ModelManager implements ModelManagerInterface
         $class = $this->getMetadata(ClassUtils::getClass($document));
         $path = $class->reflFields[$class->identifier]->getValue($document);
 
-        return array($path);
+        return [$path];
     }
 
     /**
@@ -259,7 +259,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getIdentifierFieldNames($class)
     {
-        return array($this->getModelIdentifier($class));
+        return [$this->getModelIdentifier($class)];
     }
 
     /**
@@ -390,7 +390,7 @@ class ModelManager implements ModelManagerInterface
             $values['_sort_by'] = $fieldDescription->getName();
         }
 
-        return array('filter' => $values);
+        return ['filter' => $values];
     }
 
     /**
@@ -403,7 +403,7 @@ class ModelManager implements ModelManagerInterface
         $values['_sort_by'] = $values['_sort_by']->getName();
         $values['_page'] = $page;
 
-        return array('filter' => $values);
+        return ['filter' => $values];
     }
 
     /**
@@ -411,11 +411,11 @@ class ModelManager implements ModelManagerInterface
      */
     public function getDefaultSortValues($class)
     {
-        return array(
+        return [
             '_sort_order' => 'ASC',
             '_sort_by' => $this->getModelIdentifier($class),
             '_page' => 1,
-        );
+        ];
     }
 
     /**
@@ -436,7 +436,7 @@ class ModelManager implements ModelManagerInterface
      * @throws NoSuchPropertyException if the class has no magic setter and
      *                                 public property for a field in array
      */
-    public function modelReverseTransform($class, array $array = array())
+    public function modelReverseTransform($class, array $array = [])
     {
         $instance = $this->getModelInstance($class);
         $metadata = $this->getMetadata($class);
@@ -535,7 +535,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getExportFields($class)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -551,6 +551,6 @@ class ModelManager implements ModelManagerInterface
      */
     protected function camelize($property)
     {
-        return preg_replace(array('/(^|_)+(.)/e', '/\.(.)/e'), array("strtoupper('\\2')", "'_'.strtoupper('\\1')"), $property);
+        return preg_replace(['/(^|_)+(.)/e', '/\.(.)/e'], ["strtoupper('\\2')", "'_'.strtoupper('\\1')"], $property);
     }
 }

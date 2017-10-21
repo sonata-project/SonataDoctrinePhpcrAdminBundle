@@ -26,14 +26,14 @@ class PathInfoBuilderSlashes implements RouteBuilderInterface
     {
         $collection->add('list');
         $collection->add('create');
-        $collection->add('batch', null, array(), array(), array(), '', array(), array('POST'));
-        $collection->add('edit', $admin->getRouterIdParameter().'/edit', array(), array('id' => '.+'));
-        $collection->add('delete', $admin->getRouterIdParameter().'/delete', array(), array('id' => '.+'));
+        $collection->add('batch', null, [], [], [], '', [], ['POST']);
+        $collection->add('edit', $admin->getRouterIdParameter().'/edit', [], ['id' => '.+']);
+        $collection->add('delete', $admin->getRouterIdParameter().'/delete', [], ['id' => '.+']);
         $collection->add('export');
-        $collection->add('show', $admin->getRouterIdParameter().'/show', array(), array('id' => '.+'), array(), '', array(), array('GET'));
+        $collection->add('show', $admin->getRouterIdParameter().'/show', [], ['id' => '.+'], [], '', [], ['GET']);
 
         if ($admin->isAclEnabled()) {
-            $collection->add('acl', $admin->getRouterIdParameter().'/acl', array(), array('id' => '.+'));
+            $collection->add('acl', $admin->getRouterIdParameter().'/acl', [], ['id' => '.+']);
         }
 
         // add children urls

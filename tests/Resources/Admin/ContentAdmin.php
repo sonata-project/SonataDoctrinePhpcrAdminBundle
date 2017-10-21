@@ -37,48 +37,48 @@ class ContentAdmin extends Admin
 
     public function getExportFormats()
     {
-        return array();
+        return [];
     }
 
     public function toString($object)
     {
         return $object instanceof Content && $object->getTitle()
             ? $object->getTitle()
-            : $this->trans('link_add', array(), 'SonataAdminBundle');
+            : $this->trans('link_add', [], 'SonataAdminBundle');
     }
 
     public function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
             ->tab('General') // the tab call is optional
-                ->with('Content', array(
+                ->with('Content', [
                     'class' => 'col-md-8',
                     'box_class' => 'box box-solid box-danger',
                     'description' => 'Main Content',
-                ))
+                ])
                     ->add('title')
                     ->add('name')
                 ->end()
                 ->with('References')
-                    ->add('children', null, array(
-                        'route' => array('name' => 'edit', 'parameters' => array()),
+                    ->add('children', null, [
+                        'route' => ['name' => 'edit', 'parameters' => []],
                         'associated_property' => 'id',
                         'admin_code' => 'sonata_admin_doctrine_phpcr.test.admin',
-                        ))
-                    ->add('child', null, array(
-                        'route' => array('name' => 'edit', 'parameters' => array()),
+                        ])
+                    ->add('child', null, [
+                        'route' => ['name' => 'edit', 'parameters' => []],
                         'associated_property' => 'id',
                         'admin_code' => 'sonata_admin_doctrine_phpcr.test.admin',
-                    ))
+                    ])
                     ->add(
                         'singleRoute',
                         null,
-                        array('route' => array('name' => 'edit', 'parameters' => array()), 'associated_property' => 'id')
+                        ['route' => ['name' => 'edit', 'parameters' => []], 'associated_property' => 'id']
                     )
                     ->add(
                         'routes',
                         null,
-                        array('route' => array('name' => 'edit', 'parameters' => array()), 'associated_property' => 'id')
+                        ['route' => ['name' => 'edit', 'parameters' => []], 'associated_property' => 'id']
                     )
                 ->end()
             ->end()
@@ -101,39 +101,39 @@ class ContentAdmin extends Admin
             ->add(
                 'children',
                 'Sonata\CoreBundle\Form\Type\CollectionType',
-                array('label' => false, 'type_options' => array(
+                ['label' => false, 'type_options' => [
                     'delete' => true,
-                    'delete_options' => array(
+                    'delete_options' => [
                         'type' => 'Symfony\Component\Form\Extension\Core\Type\CheckboxType',
-                        'type_options' => array('required' => false, 'mapped' => false),
-                    ), ),
-                ),
-                array('edit' => 'inline', 'inline' => 'table', 'admin_code' => 'sonata_admin_doctrine_phpcr.test.admin')
+                        'type_options' => ['required' => false, 'mapped' => false],
+                    ], ],
+                ],
+                ['edit' => 'inline', 'inline' => 'table', 'admin_code' => 'sonata_admin_doctrine_phpcr.test.admin']
             )
             ->add(
                 'routes',
                 'Sonata\AdminBundle\Form\Type\ModelType',
-                array('property' => 'title', 'multiple' => true, 'expanded' => false)
+                ['property' => 'title', 'multiple' => true, 'expanded' => false]
             )
-            ->add('parentDocument', 'Symfony\Cmf\Bundle\TreeBrowserBundle\Form\Type\TreeSelectType', array(
+            ->add('parentDocument', 'Symfony\Cmf\Bundle\TreeBrowserBundle\Form\Type\TreeSelectType', [
                 'widget' => 'browser',
                 'root_node' => $this->getRootPath(),
-            ))
+            ])
             ->add(
                 'child',
                 'Sonata\AdminBundle\Form\Type\ModelType',
-                array(
+                [
                     'property' => 'title',
                     'class' => 'Sonata\DoctrinePHPCRAdminBundle\Tests\Resources\Document\Content',
                     'btn_catalogue' => 'List',
                     'required' => false,
-                ),
-                array('admin_code' => 'sonata_admin_doctrine_phpcr.test.admin')
+                ],
+                ['admin_code' => 'sonata_admin_doctrine_phpcr.test.admin']
             )
-            ->add('singleRoute', 'Symfony\Cmf\Bundle\TreeBrowserBundle\Form\Type\TreeSelectType', array(
+            ->add('singleRoute', 'Symfony\Cmf\Bundle\TreeBrowserBundle\Form\Type\TreeSelectType', [
                 'widget' => 'browser',
                 'root_node' => $this->getRootPath(),
-            ))
+            ])
             ->end();
 
         $formMapper->getFormBuilder()->get('parentDocument')->addModelTransformer(new DocumentToPathTransformer(

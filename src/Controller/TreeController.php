@@ -74,14 +74,14 @@ class TreeController extends Controller
     {
         $root = $request->attributes->get('root');
 
-        return $this->render($this->template, array(
+        return $this->render($this->template, [
             'root_node' => $root,
             'routing_defaults' => $this->treeConfiguration['routing_defaults'],
             'repository_name' => $this->treeConfiguration['repository_name'],
             'reorder' => $this->treeConfiguration['reorder'],
             'move' => $this->treeConfiguration['move'],
             'sortable_by' => $this->treeConfiguration['sortable_by'],
-        ));
+        ]);
     }
 
     /**
@@ -99,11 +99,11 @@ class TreeController extends Controller
         $position = $request->get('position');
 
         if (null === $parentPath || null === $dropedAtPath || null === $targetPath) {
-            return new JsonResponse(array('Parameters parent, dropped and target has to be set to reorder.'), Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['Parameters parent, dropped and target has to be set to reorder.'], Response::HTTP_BAD_REQUEST);
         }
 
-        if (in_array($position, array('over', 'child'))) {
-            return new JsonResponse(array('Can not reorder when dropping into a collection.'), Response::HTTP_BAD_REQUEST);
+        if (in_array($position, ['over', 'child'])) {
+            return new JsonResponse(['Can not reorder when dropping into a collection.'], Response::HTTP_BAD_REQUEST);
         }
 
         $before = 'before' == $position;
