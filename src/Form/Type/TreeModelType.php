@@ -26,7 +26,7 @@ class TreeModelType extends AbstractType
     /**
      * @var array
      */
-    protected $defaults = array();
+    protected $defaults = [];
 
     /**
      * @param array $defaults
@@ -73,7 +73,7 @@ class TreeModelType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'template' => 'doctrine_phpcr_odm_tree',
             'compound' => false,
             'model_manager' => null,
@@ -85,7 +85,7 @@ class TreeModelType extends AbstractType
             'select_root_node' => false,
             'parent' => 'choice',
             'repository_name' => 'default',
-            'preferred_choices' => array(),
+            'preferred_choices' => [],
             'choice_list' => function (Options $options, $previousValue) {
                 return new ModelChoiceList(
                     $options['model_manager'],
@@ -95,7 +95,7 @@ class TreeModelType extends AbstractType
                     $options['choices']
                 );
             },
-        ));
+        ]);
     }
 
     /**

@@ -32,21 +32,21 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $defaultConfig = array(
-            'templates' => array(
-                'types' => array(
-                    'list' => array(
+        $defaultConfig = [
+            'templates' => [
+                'types' => [
+                    'list' => [
                         'node' => 'SonataDoctrinePHPCRAdminBundle:CRUD:list_node.html.twig',
-                    ),
-                    'show' => array(
+                    ],
+                    'show' => [
                         'doctrine_phpcr_many_to_many' => 'SonataAdminBundle:CRUD/Association:show_many_to_many.html.twig',
                         'doctrine_phpcr_many_to_one' => 'SonataAdminBundle:CRUD/Association:show_many_to_one.html.twig',
                         'doctrine_phpcr_one_to_many' => 'SonataAdminBundle:CRUD/Association:show_one_to_many.html.twig',
                         'doctrine_phpcr_one_to_one' => 'SonataAdminBundle:CRUD/Association:show_one_to_one.html.twig',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
 
         $configs = $this->fixTemplatesConfiguration($configs, $container, $defaultConfig);
 
@@ -92,13 +92,13 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
      */
     private function loadDocumentTree($config, ContainerBuilder $container)
     {
-        $configuration = array(
+        $configuration = [
             'routing_defaults' => $config['routing_defaults'],
             'repository_name' => $config['repository_name'],
             'sortable_by' => $config['sortable_by'],
             'move' => true,
             'reorder' => true,
-        );
+        ];
 
         $container->setParameter('sonata_admin_doctrine_phpcr.tree_block.configuration', $configuration);
 

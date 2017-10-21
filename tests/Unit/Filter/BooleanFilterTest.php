@@ -35,28 +35,28 @@ class BooleanFilterTest extends BaseTestCase
 
     public function testFilterEmptyArrayData()
     {
-        $this->filter->filter($this->proxyQuery, null, 'somefield', array());
+        $this->filter->filter($this->proxyQuery, null, 'somefield', []);
         $this->assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataSpecifiedType()
     {
-        $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => BooleanType::TYPE_YES));
+        $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => BooleanType::TYPE_YES]);
         $this->assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataWithMeaninglessValue()
     {
-        $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => BooleanType::TYPE_YES, 'value' => 'someValue'));
+        $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => BooleanType::TYPE_YES, 'value' => 'someValue']);
         $this->assertFalse($this->filter->isActive());
     }
 
     public function getFilters()
     {
-        return array(
-            array('eq', BooleanType::TYPE_YES, 1),
-            array('eq', BooleanType::TYPE_NO, 0),
-        );
+        return [
+            ['eq', BooleanType::TYPE_YES, 1],
+            ['eq', BooleanType::TYPE_NO, 0],
+        ];
     }
 
     /**
@@ -68,7 +68,7 @@ class BooleanFilterTest extends BaseTestCase
             $this->proxyQuery,
             null,
             'somefield',
-            array('type' => '', 'value' => $value)
+            ['type' => '', 'value' => $value]
         );
 
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');

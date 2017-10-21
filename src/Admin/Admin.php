@@ -117,7 +117,7 @@ class Admin extends AbstractAdmin
         if (method_exists($object, '__toString') && null !== $object->__toString()) {
             $string = (string) $object;
 
-            return '' !== $string ? $string : $this->trans('link_add', array(), 'SonataAdminBundle');
+            return '' !== $string ? $string : $this->trans('link_add', [], 'SonataAdminBundle');
         }
 
         $dm = $this->getModelManager()->getDocumentManager();
@@ -133,9 +133,9 @@ class Admin extends AbstractAdmin
      */
     protected function configureRoutes(RouteCollection $collection)
     {
-        foreach (array('edit', 'create', 'delete') as $name) {
+        foreach (['edit', 'create', 'delete'] as $name) {
             if ($collection->has($name)) {
-                $collection->get($name)->addOptions(array('expose' => true));
+                $collection->get($name)->addOptions(['expose' => true]);
             }
         }
     }

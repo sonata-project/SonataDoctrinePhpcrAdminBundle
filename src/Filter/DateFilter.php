@@ -73,9 +73,9 @@ class DateFilter extends Filter
      */
     public function getDefaultOptions()
     {
-        return array(
+        return [
             'date_format' => 'yyyy-MM-dd',
-        );
+        ];
     }
 
     /**
@@ -83,10 +83,10 @@ class DateFilter extends Filter
      */
     public function getRenderSettings()
     {
-        return array('sonata_type_filter_date', array(
+        return ['sonata_type_filter_date', [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'label' => $this->getLabel(),
-        ));
+        ]];
     }
 }

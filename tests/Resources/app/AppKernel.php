@@ -18,16 +18,16 @@ class AppKernel extends TestKernel
     {
         $this->requireBundleSet('default');
 
-        $this->requireBundleSets(array(
+        $this->requireBundleSets([
             'phpcr_odm',
             'sonata_admin_phpcr',
-        ));
+        ]);
 
-        $this->addBundles(array(
+        $this->addBundles([
             new Symfony\Cmf\Bundle\ResourceBundle\CmfResourceBundle(),
             new Symfony\Cmf\Bundle\ResourceRestBundle\CmfResourceRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
-        ));
+        ]);
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)

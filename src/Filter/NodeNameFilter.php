@@ -53,9 +53,9 @@ class NodeNameFilter extends Filter
      */
     public function getDefaultOptions()
     {
-        return array(
+        return [
             'format' => '%%%s%%',
-        );
+        ];
     }
 
     /**
@@ -63,10 +63,10 @@ class NodeNameFilter extends Filter
      */
     public function getRenderSettings()
     {
-        return array('Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType', array(
+        return ['Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType', [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'label' => $this->getLabel(),
-        ));
+        ]];
     }
 }
