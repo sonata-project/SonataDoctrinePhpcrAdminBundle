@@ -36,32 +36,32 @@ class NodeNameFilterTest extends BaseTestCase
 
     public function testFilterEmptyArrayData()
     {
-        $res = $this->filter->filter($this->proxyQuery, 'a', 'somefield', array());
+        $res = $this->filter->filter($this->proxyQuery, 'a', 'somefield', []);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataSpecifiedType()
     {
-        $res = $this->filter->filter($this->proxyQuery, 'a', 'somefield', array('type' => ChoiceType::TYPE_EQUAL));
+        $res = $this->filter->filter($this->proxyQuery, 'a', 'somefield', ['type' => ChoiceType::TYPE_EQUAL]);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataWithMeaninglessValue()
     {
-        $this->filter->filter($this->proxyQuery, 'a', 'somefield', array('type' => ChoiceType::TYPE_EQUAL, 'value' => ' '));
+        $this->filter->filter($this->proxyQuery, 'a', 'somefield', ['type' => ChoiceType::TYPE_EQUAL, 'value' => ' ']);
         $this->assertFalse($this->filter->isActive());
     }
 
     public function getFilters()
     {
-        return array(
-            array('eqNodeName', ChoiceType::TYPE_EQUAL),
-            array('likeNodeName', ChoiceType::TYPE_NOT_CONTAINS, '%somevalue%'),
-            array('likeNodeName', ChoiceType::TYPE_CONTAINS, '%somevalue%'),
-            array('likeNodeName', ChoiceType::TYPE_CONTAINS_WORDS, '%somevalue%'),
-        );
+        return [
+            ['eqNodeName', ChoiceType::TYPE_EQUAL],
+            ['likeNodeName', ChoiceType::TYPE_NOT_CONTAINS, '%somevalue%'],
+            ['likeNodeName', ChoiceType::TYPE_CONTAINS, '%somevalue%'],
+            ['likeNodeName', ChoiceType::TYPE_CONTAINS_WORDS, '%somevalue%'],
+        ];
     }
 
     /**
@@ -77,7 +77,7 @@ class NodeNameFilterTest extends BaseTestCase
             $this->proxyQuery,
             'a',
             'somefield',
-            array('type' => $choiceType, 'value' => 'somevalue')
+            ['type' => $choiceType, 'value' => 'somevalue']
         );
 
         $localName = $this->qbTester->getNode('where.constraint.operand_dynamic');

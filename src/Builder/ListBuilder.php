@@ -34,7 +34,7 @@ class ListBuilder implements ListBuilderInterface
      * @param TypeGuesserInterface $guesser
      * @param array                $templates
      */
-    public function __construct(TypeGuesserInterface $guesser, array $templates = array())
+    public function __construct(TypeGuesserInterface $guesser, array $templates = [])
     {
         $this->guesser = $guesser;
         $this->templates = $templates;
@@ -43,7 +43,7 @@ class ListBuilder implements ListBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getBaseList(array $options = array())
+    public function getBaseList(array $options = [])
     {
         return new FieldDescriptionCollection();
     }
@@ -177,14 +177,14 @@ class ListBuilder implements ListBuilderInterface
             }
         }
 
-        $mappingTypes = array(
+        $mappingTypes = [
             ClassMetadata::MANY_TO_ONE,
             ClassMetadata::MANY_TO_MANY,
             'children',
             'child',
             'parent',
             'referrers',
-        );
+        ];
 
         if ($metadata
             && $metadata->hasAssociation($fieldDescription->getName())

@@ -34,22 +34,22 @@ class DateFilterTest extends BaseTestCase
 
     public function testFilterEmptyArrayData()
     {
-        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', array());
+        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', []);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
     public function getFilters()
     {
-        return array(
-            array('gte', DateType::TYPE_GREATER_EQUAL),
-            array('gt', DateType::TYPE_GREATER_THAN),
-            array('lte', DateType::TYPE_LESS_EQUAL),
-            array('lt', DateType::TYPE_LESS_THAN),
-            array('eq', DateType::TYPE_NULL, null),
-            array('neq', DateType::TYPE_NOT_NULL, null),
+        return [
+            ['gte', DateType::TYPE_GREATER_EQUAL],
+            ['gt', DateType::TYPE_GREATER_THAN],
+            ['lte', DateType::TYPE_LESS_EQUAL],
+            ['lt', DateType::TYPE_LESS_THAN],
+            ['eq', DateType::TYPE_NULL, null],
+            ['neq', DateType::TYPE_NOT_NULL, null],
             // test ChoiceTYPE::TYPE_EQUAL separately, special case.
-        );
+        ];
     }
 
     /**
@@ -67,7 +67,7 @@ class DateFilterTest extends BaseTestCase
             $this->proxyQuery,
             null,
             'somefield',
-            array('type' => $choiceType, 'value' => $value)
+            ['type' => $choiceType, 'value' => $value]
         );
 
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
@@ -89,7 +89,7 @@ class DateFilterTest extends BaseTestCase
             $this->proxyQuery,
             null,
             'somefield',
-            array('type' => DateType::TYPE_EQUAL, 'value' => $from)
+            ['type' => DateType::TYPE_EQUAL, 'value' => $from]
         );
 
         // FROM

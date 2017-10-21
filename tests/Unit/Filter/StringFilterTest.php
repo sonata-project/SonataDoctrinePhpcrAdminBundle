@@ -36,14 +36,14 @@ class StringFilterTest extends BaseTestCase
 
     public function testFilterEmptyArrayData()
     {
-        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', array());
+        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', []);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataSpecifiedType()
     {
-        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => ChoiceType::TYPE_EQUAL));
+        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => ChoiceType::TYPE_EQUAL]);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
@@ -53,60 +53,60 @@ class StringFilterTest extends BaseTestCase
         $this->proxyQuery->expects($this->never())
             ->method('getQueryBuilder');
 
-        $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => ChoiceType::TYPE_EQUAL, 'value' => ' '));
+        $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => ChoiceType::TYPE_EQUAL, 'value' => ' ']);
         $this->assertFalse($this->filter->isActive());
     }
 
     public function getFilters()
     {
-        return array(
-            array(ChoiceType::TYPE_EQUAL, array(
-                'where.constraint.operand_dynamic' => array(
+        return [
+            [ChoiceType::TYPE_EQUAL, [
+                'where.constraint.operand_dynamic' => [
                     'getAlias' => 'a',
                     'getField' => 'somefield',
-                ),
-                'where.constraint.operand_static' => array(
+                ],
+                'where.constraint.operand_static' => [
                     'getValue' => 'somevalue',
-                ),
-            )),
-            array(ChoiceType::TYPE_NOT_CONTAINS, array(
-                'where.constraint' => array(
+                ],
+            ]],
+            [ChoiceType::TYPE_NOT_CONTAINS, [
+                'where.constraint' => [
                     'getField' => 'somefield',
-                    'getFullTextSearchExpression' => '* -somevalue', ),
-            )),
-            array(ChoiceType::TYPE_CONTAINS, array(
-                'where.constraint.operand_dynamic' => array(
+                    'getFullTextSearchExpression' => '* -somevalue', ],
+            ]],
+            [ChoiceType::TYPE_CONTAINS, [
+                'where.constraint.operand_dynamic' => [
                     'getAlias' => 'a',
                     'getField' => 'somefield',
-                ),
-                'where.constraint.operand_static' => array(
+                ],
+                'where.constraint.operand_static' => [
                     'getValue' => '%somevalue%',
-                ),
-            )),
-            array(ChoiceType::TYPE_CONTAINS_WORDS, array(
-                'where.constraint' => array(
+                ],
+            ]],
+            [ChoiceType::TYPE_CONTAINS_WORDS, [
+                'where.constraint' => [
                     'getField' => 'somefield',
-                    'getFullTextSearchExpression' => 'somevalue', ),
-            )),
-            'equalCaseInsensitiveComparision' => array(ChoiceType::TYPE_EQUAL, array(
-                'where.constraint.operand_dynamic.operand_dynamic' => array(
+                    'getFullTextSearchExpression' => 'somevalue', ],
+            ]],
+            'equalCaseInsensitiveComparision' => [ChoiceType::TYPE_EQUAL, [
+                'where.constraint.operand_dynamic.operand_dynamic' => [
                     'getAlias' => 'a',
                     'getField' => 'somefield',
-                ),
-                'where.constraint.operand_static' => array(
+                ],
+                'where.constraint.operand_static' => [
                     'getValue' => 'somevalue',
-                ),
-            ), true),
-            'containsCaseInsensitiveComparision' => array(ChoiceType::TYPE_CONTAINS, array(
-                'where.constraint.operand_dynamic.operand_dynamic' => array(
+                ],
+            ], true],
+            'containsCaseInsensitiveComparision' => [ChoiceType::TYPE_CONTAINS, [
+                'where.constraint.operand_dynamic.operand_dynamic' => [
                     'getAlias' => 'a',
                     'getField' => 'somefield',
-                ),
-                'where.constraint.operand_static' => array(
+                ],
+                'where.constraint.operand_static' => [
                     'getValue' => '%somevalue%',
-                ),
-            ), true),
-        );
+                ],
+            ], true],
+        ];
     }
 
     /**
@@ -121,7 +121,7 @@ class StringFilterTest extends BaseTestCase
             $this->proxyQuery,
             null,
             'somefield',
-            array('type' => $choiceType, 'value' => 'somevalue')
+            ['type' => $choiceType, 'value' => 'somevalue']
         );
         $this->assertTrue($this->filter->isActive());
 

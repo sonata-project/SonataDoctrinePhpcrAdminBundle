@@ -31,7 +31,7 @@ class CollectionTypeExtension extends AbstractTypeExtension
             return;
         }
         $listener = new CollectionOrderListener($options['sonata_field_description']->getName());
-        $builder->addEventListener(FormEvents::SUBMIT, array($listener, 'onSubmit'));
+        $builder->addEventListener(FormEvents::SUBMIT, [$listener, 'onSubmit']);
     }
 
     /**

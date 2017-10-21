@@ -31,14 +31,14 @@ class NumberFilterTest extends BaseTestCase
 
     public function testFilterEmptyArrayData()
     {
-        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', array());
+        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', []);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataSpecifiedType()
     {
-        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => NumberType::TYPE_EQUAL));
+        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => NumberType::TYPE_EQUAL]);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
@@ -48,20 +48,20 @@ class NumberFilterTest extends BaseTestCase
         $this->proxyQuery->expects($this->never())
             ->method('getQueryBuilder');
 
-        $this->filter->filter($this->proxyQuery, null, 'somefield', array('type' => NumberType::TYPE_EQUAL, 'value' => ' '));
+        $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => NumberType::TYPE_EQUAL, 'value' => ' ']);
         $this->assertFalse($this->filter->isActive());
     }
 
     public function getFilters()
     {
-        return array(
-            array('gte', NumberType::TYPE_GREATER_EQUAL, 2),
-            array('gt', NumberType::TYPE_GREATER_THAN, 3),
-            array('lte', NumberType::TYPE_LESS_EQUAL, 4),
-            array('lt', NumberType::TYPE_LESS_THAN, 5),
-            array('eq', NumberType::TYPE_EQUAL, 6),
-            array('eq', 'default', 7),
-        );
+        return [
+            ['gte', NumberType::TYPE_GREATER_EQUAL, 2],
+            ['gt', NumberType::TYPE_GREATER_THAN, 3],
+            ['lte', NumberType::TYPE_LESS_EQUAL, 4],
+            ['lt', NumberType::TYPE_LESS_THAN, 5],
+            ['eq', NumberType::TYPE_EQUAL, 6],
+            ['eq', 'default', 7],
+        ];
     }
 
     /**
@@ -73,7 +73,7 @@ class NumberFilterTest extends BaseTestCase
             $this->proxyQuery,
             null,
             'somefield',
-            array('type' => $choiceType, 'value' => $expectedValue)
+            ['type' => $choiceType, 'value' => $expectedValue]
         );
 
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');

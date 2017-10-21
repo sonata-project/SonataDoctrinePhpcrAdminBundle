@@ -26,7 +26,7 @@ class BooleanFilter extends BaseFilter
             return;
         }
 
-        if (is_array($data['value']) || !in_array($data['value'], array(BooleanType::TYPE_NO, BooleanType::TYPE_YES))) {
+        if (is_array($data['value']) || !in_array($data['value'], [BooleanType::TYPE_NO, BooleanType::TYPE_YES])) {
             return;
         }
 
@@ -42,7 +42,7 @@ class BooleanFilter extends BaseFilter
      */
     public function getDefaultOptions()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -50,12 +50,12 @@ class BooleanFilter extends BaseFilter
      */
     public function getRenderSettings()
     {
-        return array('sonata_type_filter_default', array(
+        return ['sonata_type_filter_default', [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'operator_type' => 'hidden',
-            'operator_options' => array(),
+            'operator_options' => [],
             'label' => $this->getLabel(),
-        ));
+        ]];
     }
 }

@@ -131,7 +131,7 @@ class DatagridBuilder implements DatagridBuilderInterface
 
             foreach ($options as $name => $value) {
                 if (is_array($value)) {
-                    $fieldDescription->setOption($name, array_merge($value, $fieldDescription->getOption($name, array())));
+                    $fieldDescription->setOption($name, array_merge($value, $fieldDescription->getOption($name, [])));
                 } else {
                     $fieldDescription->setOption($name, $fieldDescription->getOption($name, $value));
                 }
@@ -143,7 +143,7 @@ class DatagridBuilder implements DatagridBuilderInterface
         $this->fixFieldDescription($admin, $fieldDescription);
         $admin->addFilterFieldDescription($fieldDescription->getName(), $fieldDescription);
 
-        $fieldDescription->mergeOption('field_options', array('required' => false));
+        $fieldDescription->mergeOption('field_options', ['required' => false]);
         $filter = $this->filterFactory->create($fieldDescription->getName(), $type, $fieldDescription->getOptions());
 
         if (false !== $filter->getLabel() && !$filter->getLabel()) {
@@ -156,9 +156,9 @@ class DatagridBuilder implements DatagridBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getBaseDatagrid(AdminInterface $admin, array $values = array())
+    public function getBaseDatagrid(AdminInterface $admin, array $values = [])
     {
-        $defaultOptions = array();
+        $defaultOptions = [];
         if ($this->csrfTokenEnabled) {
             $defaultOptions['csrf_protection'] = false;
         }
@@ -166,7 +166,7 @@ class DatagridBuilder implements DatagridBuilderInterface
         $formBuilder = $this->formFactory->createNamedBuilder(
             'filter',
             'Symfony\Component\Form\Extension\Core\Type\FormType',
-            array(),
+            [],
             $defaultOptions
         );
 

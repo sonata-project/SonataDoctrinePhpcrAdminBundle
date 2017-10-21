@@ -42,7 +42,7 @@ class TypeGuesser implements TypeGuesserInterface
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
-        $this->cache = array();
+        $this->cache = [];
     }
 
     /**
@@ -51,7 +51,7 @@ class TypeGuesser implements TypeGuesserInterface
     public function guessType($class, $property, ModelManagerInterface $modelManager)
     {
         if (!$metadata = $this->getMetadata($class)) {
-            return new TypeGuess('Symfony\Component\Form\Extension\Core\Type\TextType', array(), Guess::LOW_CONFIDENCE);
+            return new TypeGuess('Symfony\Component\Form\Extension\Core\Type\TextType', [], Guess::LOW_CONFIDENCE);
         }
 
         if ($metadata->hasAssociation($property)) {
@@ -60,41 +60,41 @@ class TypeGuesser implements TypeGuesserInterface
             switch ($mapping['type']) {
                 case ClassMetadata::MANY_TO_MANY:
                 case 'referrers':
-                    return new TypeGuess('doctrine_phpcr_many_to_many', array(), Guess::HIGH_CONFIDENCE);
+                    return new TypeGuess('doctrine_phpcr_many_to_many', [], Guess::HIGH_CONFIDENCE);
 
                 case ClassMetadata::MANY_TO_ONE:
                 case 'parent':
-                    return new TypeGuess('doctrine_phpcr_many_to_one', array(), Guess::HIGH_CONFIDENCE);
+                    return new TypeGuess('doctrine_phpcr_many_to_one', [], Guess::HIGH_CONFIDENCE);
 
                 case 'children':
-                    return new TypeGuess('doctrine_phpcr_one_to_many', array(), Guess::HIGH_CONFIDENCE);
+                    return new TypeGuess('doctrine_phpcr_one_to_many', [], Guess::HIGH_CONFIDENCE);
 
                 case 'child':
-                    return new TypeGuess('doctrine_phpcr_one_to_one', array(), Guess::HIGH_CONFIDENCE);
+                    return new TypeGuess('doctrine_phpcr_one_to_one', [], Guess::HIGH_CONFIDENCE);
             }
         }
 
         // TODO: missing multivalue support
         switch ($metadata->getTypeOfField($property)) {
             case 'boolean':
-                return new TypeGuess('boolean', array(), Guess::HIGH_CONFIDENCE);
+                return new TypeGuess('boolean', [], Guess::HIGH_CONFIDENCE);
             case 'date':
-                return new TypeGuess('date', array(), Guess::HIGH_CONFIDENCE);
+                return new TypeGuess('date', [], Guess::HIGH_CONFIDENCE);
 
             case 'decimal':
             case 'double':
-                return new TypeGuess('number', array(), Guess::MEDIUM_CONFIDENCE);
+                return new TypeGuess('number', [], Guess::MEDIUM_CONFIDENCE);
             case 'integer':
             case 'long':
-                return new TypeGuess('integer', array(), Guess::MEDIUM_CONFIDENCE);
+                return new TypeGuess('integer', [], Guess::MEDIUM_CONFIDENCE);
             case 'string':
-                return new TypeGuess('string', array(), Guess::HIGH_CONFIDENCE);
+                return new TypeGuess('string', [], Guess::HIGH_CONFIDENCE);
             case 'binary':
             case 'uri':
-                return new TypeGuess('string', array(), Guess::MEDIUM_CONFIDENCE);
+                return new TypeGuess('string', [], Guess::MEDIUM_CONFIDENCE);
         }
 
-        return new TypeGuess('Symfony\Component\Form\Extension\Core\Type\TextType', array(), Guess::LOW_CONFIDENCE);
+        return new TypeGuess('Symfony\Component\Form\Extension\Core\Type\TextType', [], Guess::LOW_CONFIDENCE);
     }
 
     /**

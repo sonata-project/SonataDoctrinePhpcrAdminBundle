@@ -19,9 +19,9 @@ class CallBackFilterTest extends BaseTestCase
     public function testFilterNullData()
     {
         $filter = new CallbackFilter();
-        $filter->initialize('field_name', array('callback' => function () {
+        $filter->initialize('field_name', ['callback' => function () {
             return;
-        }));
+        }]);
         $res = $filter->filter($this->proxyQuery, null, 'somefield', null);
         $this->assertNull($res);
         $this->assertFalse($filter->isActive());
@@ -31,10 +31,10 @@ class CallBackFilterTest extends BaseTestCase
     {
         $filter = new CallbackFilter();
 
-        $filter->initialize('field_name', array('callback' => function () {
+        $filter->initialize('field_name', ['callback' => function () {
             return;
-        }));
-        $res = $filter->filter($this->proxyQuery, null, 'somefield', array());
+        }]);
+        $res = $filter->filter($this->proxyQuery, null, 'somefield', []);
         $this->assertNull($res);
         $this->assertFalse($filter->isActive());
     }
@@ -46,11 +46,11 @@ class CallBackFilterTest extends BaseTestCase
             ->will($this->returnValue($this->qb));
 
         $filter = new CallbackFilter();
-        $filter->initialize('field_name', array(
-            'callback' => array($this, 'callbackMethod'),
-        ));
+        $filter->initialize('field_name', [
+            'callback' => [$this, 'callbackMethod'],
+        ]);
 
-        $filter->filter($this->proxyQuery, null, 'somefield', array('type' => '', 'value' => 'somevalue'));
+        $filter->filter($this->proxyQuery, null, 'somefield', ['type' => '', 'value' => 'somevalue']);
 
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
@@ -77,16 +77,16 @@ class CallBackFilterTest extends BaseTestCase
             ->will($this->returnValue($this->qb));
 
         $filter = new CallbackFilter();
-        $filter->initialize('field_name', array(
+        $filter->initialize('field_name', [
             'callback' => function (ProxyQueryInterface $proxyQuery, $alias, $field, $data) {
                 $queryBuilder = $proxyQuery->getQueryBuilder();
                 $queryBuilder->andWhere()->eq()->field('a.'.$field)->literal($data['value']);
 
                 return true;
             },
-        ));
+        ]);
 
-        $filter->filter($this->proxyQuery, null, 'somefield', array('type' => '', 'value' => 'somevalue'));
+        $filter->filter($this->proxyQuery, null, 'somefield', ['type' => '', 'value' => 'somevalue']);
 
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $opStatic = $this->qbTester->getNode('where.constraint.operand_static');

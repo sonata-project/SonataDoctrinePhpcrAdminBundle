@@ -98,7 +98,7 @@ class ProxyQuery implements ProxyQueryInterface
      */
     public function __call($name, $args)
     {
-        return call_user_func_array(array($this->qb, $name), $args);
+        return call_user_func_array([$this->qb, $name], $args);
     }
 
     /**
@@ -128,7 +128,7 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * @throws \Exception if $this->sortOrder is not ASC or DESC
      */
-    public function execute(array $params = array(), $hydrationMode = null)
+    public function execute(array $params = [], $hydrationMode = null)
     {
         if ($this->getSortBy()) {
             switch ($this->sortOrder) {
@@ -185,7 +185,7 @@ class ProxyQuery implements ProxyQueryInterface
      */
     public function setSortOrder($sortOrder)
     {
-        if (!in_array($sortOrder, array('ASC', 'DESC'))) {
+        if (!in_array($sortOrder, ['ASC', 'DESC'])) {
             throw new \InvalidArgumentException(sprintf('The parameter $sortOrder must be one of "ASC" or "DESC", got "%s"', $sortOrder));
         }
         $this->sortOrder = $sortOrder;

@@ -36,12 +36,12 @@ class CallbackFilter extends BaseFilter
      */
     public function getDefaultOptions()
     {
-        return array(
+        return [
             'callback' => null,
             'field_type' => 'Symfony\Component\Form\Extension\Core\Type\TextType',
             'operator_type' => 'hidden',
-            'operator_options' => array(),
-        );
+            'operator_options' => [],
+        ];
     }
 
     /**
@@ -49,12 +49,12 @@ class CallbackFilter extends BaseFilter
      */
     public function getRenderSettings()
     {
-        return array('sonata_type_filter_default', array(
+        return ['sonata_type_filter_default', [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'operator_type' => $this->getOption('operator_type'),
             'operator_options' => $this->getOption('operator_options'),
             'label' => $this->getLabel(),
-        ));
+        ]];
     }
 }
