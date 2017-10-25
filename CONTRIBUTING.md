@@ -72,9 +72,26 @@ and run this command before committing your modifications:
 php-cs-fixer fix --verbose
 ```
 
+Please note that we try to keep phpdoc to a minimum, so if an `@param` phpdoc
+comment brings nothing more than the type hint and variable name already do,
+it should be removed. Descriptions are optional if you want to document a type.
+
+```php
+/**
+ * @param Bar|Baz $foo
+ * @param int     $limit a crucial, highly interesting comment
+ */
+protected function bar($foo, string $name, int $limit)
+{
+    // ...
+}
+```
+
+Please also note that multiline signatures are allowed when the line is longer than 120 characters.
+
 #### The documentation
 
-The documentation is mostly written with the `rst` format, and can be found in the `Resources/doc` directory.
+The documentation is mostly written with the `rst` format, and can be found in the `docs` directory.
 You can test the doc rendering with the `make docs` command, but to do this, you will need [Sphinx][sphinx_install].
 Just like php dependencies can be managed with Composer, python dependencies can be managed with [pip][pip_install].
 To get sphinx, simply run the following command.
@@ -321,9 +338,13 @@ If you want to change some dependencies, here are the rules:
 - Don't change the highest supported version to a lower one.
 - Lower version dropping is accepted as a Backward Compatible change according to [semver][semver_dependencies_update],
 but some extra rules must be respected here:
-  - PHP versions that are under the [green zone][php_supported_versions] (actively maintained) **MUST NO** be dropped, even on master.
+  - PHP versions that are under the [orange zone][php_supported_versions] (Security Support) **MUST NOT** be dropped on the stable branch.
+  - PHP versions that are under the [green zone][php_supported_versions] (Active Support) **MUST NOT** be dropped on the master branch.
   - If it's a Symfony package, at least the last LTS version **MUST** be supported, even on master.
   - Generally, don't drop dependency version it it doesn't have a big impact on the code.
+  - Backward Compatible code related to the dropped version **MUST** be dropped on the same PR.
+    This will allow to see if this version drop **is really worth it** or not.
+    Please note that we can refuse a version drop at any moment if the gain does not seem sufficient.
 
 ##### Legacy branches
 
