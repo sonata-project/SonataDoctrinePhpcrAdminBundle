@@ -28,7 +28,7 @@ class CallbackFilter extends BaseFilter
             throw new \RuntimeException(sprintf('Please provide a valid callback for option "callback" and field "%s"', $this->getName()));
         }
 
-        $this->active = call_user_func($this->getOption('callback'), $proxyQuery, $alias, $field, $data) === true;
+        $this->active = true === call_user_func($this->getOption('callback'), $proxyQuery, $alias, $field, $data);
     }
 
     /**

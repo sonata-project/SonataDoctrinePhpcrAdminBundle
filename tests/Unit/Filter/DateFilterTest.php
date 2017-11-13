@@ -59,7 +59,7 @@ class DateFilterTest extends BaseTestCase
     {
         $value = new \DateTime('2013/01/16 00:00:00');
 
-        if ($expectedValue == '__null__') {
+        if ('__null__' == $expectedValue) {
             $expectedValue = new \DateTime('2013/01/16 00:00:00');
         }
 

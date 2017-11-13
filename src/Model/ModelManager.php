@@ -331,7 +331,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getBackendId($id)
     {
-        return substr($id, 0, 1) === '/' ? $id : '/'.$id;
+        return '/' === substr($id, 0, 1) ? $id : '/'.$id;
     }
 
     /**
@@ -347,7 +347,7 @@ class ModelManager implements ModelManagerInterface
             foreach ($res as $object) {
                 $this->dm->remove($object);
 
-                if ((++$i % 20) == 0) {
+                if (0 == (++$i % 20)) {
                     $this->dm->flush();
                     $this->dm->clear();
                 }
@@ -378,7 +378,7 @@ class ModelManager implements ModelManagerInterface
         $values = $datagrid->getValues();
 
         if ($fieldDescription->getName() == $values['_sort_by']->getName()) {
-            if ($values['_sort_order'] == 'ASC') {
+            if ('ASC' == $values['_sort_order']) {
                 $values['_sort_order'] = 'DESC';
             } else {
                 $values['_sort_order'] = 'ASC';

@@ -80,7 +80,7 @@ class ContentAdminTest extends BaseTestCase
         $crawler = $this->client->request('GET', '/admin/tests/resources/content/test/content/content-1/show');
         $res = $this->client->getResponse();
 
-        if ($res->getStatusCode() !== 200) {
+        if (200 !== $res->getStatusCode()) {
             echo $res->getContent();
         }
         $this->assertResponseSuccess($res);

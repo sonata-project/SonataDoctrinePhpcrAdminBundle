@@ -114,7 +114,7 @@ class AutocompleteController
         $items = [];
         foreach ($results as $path => $document) {
             // handle child translation
-            if (strpos(PathHelper::getNodeName($path), Translation::LOCALE_NAMESPACE.':') === 0) {
+            if (0 === strpos(PathHelper::getNodeName($path), Translation::LOCALE_NAMESPACE.':')) {
                 $document = $dm->find(null, PathHelper::getParentPath($path));
             }
 
@@ -123,7 +123,7 @@ class AutocompleteController
             }
 
             $label = $document->{$method}();
-            if ($toStringCallback !== null) {
+            if (null !== $toStringCallback) {
                 if (!is_callable($toStringCallback)) {
                     throw new \RuntimeException('Option "to_string_callback" does not contain callable function.');
                 }
@@ -164,7 +164,7 @@ class AutocompleteController
             throw new \RuntimeException(sprintf('The field "%s" does not exist.', $field));
         }
 
-        if ($fieldDescription->getType() !== 'sonata_type_model_autocomplete') {
+        if ('sonata_type_model_autocomplete' !== $fieldDescription->getType()) {
             throw new \RuntimeException(sprintf('Unsupported form type "%s" for field "%s".', $fieldDescription->getType(), $field));
         }
 
