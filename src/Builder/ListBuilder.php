@@ -53,7 +53,7 @@ class ListBuilder implements ListBuilderInterface
      */
     public function buildField($type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
-        if ($type == null) {
+        if (null == $type) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
             $fieldDescription->setType($guessType->getType());
         } else {
@@ -81,7 +81,7 @@ class ListBuilder implements ListBuilderInterface
      */
     public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
-        if ($fieldDescription->getName() == '_action' || $fieldDescription->getType() === 'actions') {
+        if ('_action' == $fieldDescription->getName() || 'actions' === $fieldDescription->getType()) {
             $this->buildActionFieldDescription($fieldDescription);
         }
 
@@ -107,7 +107,7 @@ class ListBuilder implements ListBuilderInterface
             // set the default field mapping
             if (isset($metadata->mappings[$fieldDescription->getName()])) {
                 $fieldDescription->setFieldMapping($metadata->mappings[$fieldDescription->getName()]);
-                if ($fieldDescription->getOption('sortable') !== false) {
+                if (false !== $fieldDescription->getOption('sortable')) {
                     $fieldDescription->setOption(
                         'sortable',
                         $fieldDescription->getOption('sortable', $defaultSortable)
@@ -160,19 +160,19 @@ class ListBuilder implements ListBuilderInterface
         if (!$fieldDescription->getTemplate()) {
             $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
 
-            if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {
+            if (ClassMetadata::MANY_TO_ONE == $fieldDescription->getMappingType()) {
                 $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:list_many_to_one.html.twig');
             }
 
-            if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_MANY) {
+            if (ClassMetadata::MANY_TO_MANY == $fieldDescription->getMappingType()) {
                 $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:list_many_to_many.html.twig');
             }
 
-            if ($fieldDescription->getMappingType() == 'child' || $fieldDescription->getMappingType() == 'parent') {
+            if ('child' == $fieldDescription->getMappingType() || 'parent' == $fieldDescription->getMappingType()) {
                 $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:list_one_to_one.html.twig');
             }
 
-            if ($fieldDescription->getMappingType() == 'children' || $fieldDescription->getMappingType() == 'referrers') {
+            if ('children' == $fieldDescription->getMappingType() || 'referrers' == $fieldDescription->getMappingType()) {
                 $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:list_one_to_many.html.twig');
             }
         }

@@ -90,7 +90,7 @@ class Admin extends AbstractAdmin
      */
     public function getSubject()
     {
-        if ($this->subject === null && $this->request) {
+        if (null === $this->subject && $this->request) {
             $id = $this->request->get($this->getIdParameter());
             if (!preg_match('#^[0-9A-Za-z/\-_]+$#', $id)) {
                 $this->subject = false;
