@@ -28,7 +28,7 @@ class StringFilter extends Filter
         $value = trim($data['value']);
         $data['type'] = empty($data['type']) ? ChoiceType::TYPE_CONTAINS : $data['type'];
 
-        if (strlen($value) == 0) {
+        if (0 == strlen($value)) {
             return;
         }
 
