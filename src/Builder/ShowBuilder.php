@@ -53,7 +53,7 @@ class ShowBuilder implements ShowBuilderInterface
      */
     public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
-        if ($type == null) {
+        if (null == $type) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
             $fieldDescription->setType($guessType->getType());
         } else {
@@ -103,11 +103,11 @@ class ShowBuilder implements ShowBuilderInterface
         if (!$fieldDescription->getTemplate()) {
             $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
 
-            if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_ONE) {
+            if (ClassMetadata::MANY_TO_ONE == $fieldDescription->getMappingType()) {
                 $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:show_many_to_one.html.twig');
             }
 
-            if ($fieldDescription->getMappingType() == ClassMetadata::MANY_TO_MANY) {
+            if (ClassMetadata::MANY_TO_MANY == $fieldDescription->getMappingType()) {
                 $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:show_many_to_many.html.twig');
             }
         }
