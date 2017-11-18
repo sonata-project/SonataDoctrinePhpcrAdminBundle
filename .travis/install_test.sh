@@ -15,7 +15,7 @@ chmod u+x "${HOME}/bin/coveralls"
 # https://github.com/composer/composer/issues/5355
 # https://github.com/composer/composer/issues/5030
 if [ "${COMPOSER_FLAGS}" = '--prefer-lowest' ]; then
-    composer update --prefer-dist --no-interaction --prefer-stable --quiet --ignore-platform-reqs
+    composer update --prefer-dist --no-interaction --prefer-stable --quiet
 fi
 
 composer update --prefer-dist --no-interaction --prefer-stable ${COMPOSER_FLAGS}
