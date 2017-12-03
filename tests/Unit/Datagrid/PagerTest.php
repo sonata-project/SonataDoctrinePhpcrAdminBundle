@@ -73,6 +73,11 @@ class PagerTest extends TestCase
     public function testNoPagesPerConfig()
     {
         $this->proxyQuery->expects($this->once())
+            ->method('execute')
+            ->with([], PHPCRQuery::HYDRATE_PHPCR)
+            ->will($this->returnValue([]));
+
+        $this->proxyQuery->expects($this->once())
             ->method('setMaxResults')
             ->with($this->equalTo(0));
 
