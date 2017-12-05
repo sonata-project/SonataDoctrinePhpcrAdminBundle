@@ -98,7 +98,7 @@ class Admin extends AbstractAdmin
                 if (!UUIDHelper::isUUID($id)) {
                     $id = PathHelper::absolutizePath($id, '/');
                 }
-                $this->subject = $this->getModelManager()->find($this->getClass(), $id);
+                $this->subject = $this->getObject($id);
             }
         }
 
