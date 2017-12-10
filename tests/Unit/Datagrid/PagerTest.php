@@ -115,7 +115,7 @@ class PagerTest extends TestCase
 
     public function testInitNoQuery()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException('RuntimeException');
         $this->pager->init();
     }
 }

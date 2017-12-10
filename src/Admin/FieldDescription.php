@@ -57,8 +57,6 @@ class FieldDescription extends BaseFieldDescription
         if (isset($this->associationMapping['referringDocument'])) {
             return $this->associationMapping['referringDocument'];
         }
-
-        return;
     }
 
     /**

@@ -124,9 +124,9 @@ class ProxyQuery implements ProxyQueryInterface
      * @param array $params        doesn't have any effect
      * @param mixed $hydrationMode doesn't have any effect
      *
-     * @return array of documents
-     *
      * @throws \Exception if $this->sortOrder is not ASC or DESC
+     *
+     * @return array of documents
      */
     public function execute(array $params = [], $hydrationMode = null)
     {
