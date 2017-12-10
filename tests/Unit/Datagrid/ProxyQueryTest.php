@@ -56,11 +56,10 @@ class ProxyQueryTest extends TestCase
         $this->assertEquals('ASC', $this->pq->getSortOrder());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testSetSortOrderInvalid()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->pq->setSortOrder('SOME_ORDER');
         $this->assertEquals('SOME_ORDER', $this->pq->getSortOrder());
     }
