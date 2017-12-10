@@ -40,9 +40,9 @@ class AutocompleteController
     /**
      * @param Request $request
      *
-     * @return Response
-     *
      * @throws AccessDeniedException
+     *
+     * @return Response
      */
     public function autoCompleteAction(Request $request)
     {
@@ -150,9 +150,9 @@ class AutocompleteController
      * @param AdminInterface $admin
      * @param string         $field
      *
-     * @return \Symfony\Component\Form\FormInterface
-     *
      * @throws \RuntimeException
+     *
+     * @return \Symfony\Component\Form\FormInterface
      */
     private function retrieveFieldDescription(AdminInterface $admin, $field)
     {

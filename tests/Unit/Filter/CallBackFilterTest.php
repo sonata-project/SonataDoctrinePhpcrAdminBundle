@@ -20,7 +20,6 @@ class CallBackFilterTest extends BaseTestCase
     {
         $filter = new CallbackFilter();
         $filter->initialize('field_name', ['callback' => function () {
-            return;
         }]);
         $res = $filter->filter($this->proxyQuery, null, 'somefield', null);
         $this->assertNull($res);
@@ -32,7 +31,6 @@ class CallBackFilterTest extends BaseTestCase
         $filter = new CallbackFilter();
 
         $filter->initialize('field_name', ['callback' => function () {
-            return;
         }]);
         $res = $filter->filter($this->proxyQuery, null, 'somefield', []);
         $this->assertNull($res);
@@ -98,22 +96,20 @@ class CallBackFilterTest extends BaseTestCase
         $this->assertTrue($filter->isActive());
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testWithoutCallback()
     {
+        $this->expectException(\RuntimeException::class);
+
         $filter = new CallbackFilter();
 
         $filter->setOption('callback', null);
         $filter->filter($this->proxyQuery, null, 'somefield', null);
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testCallbackNotCallable()
     {
+        $this->expectException(\RuntimeException::class);
+
         $filter = new CallbackFilter();
 
         $filter->setOption('callback', 'someCallback');
