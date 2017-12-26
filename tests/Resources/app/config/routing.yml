@@ -7,9 +7,8 @@ sonata_admin:
     type: sonata_admin
     prefix: /admin
     requirements:
-        id:  .+
+        id: .+
 
 sonata_phpcr_admin_tree:
     resource: '@SonataDoctrinePHPCRAdminBundle/Resources/config/routing/tree.xml'
     prefix: /admin
-
