@@ -33,7 +33,6 @@
         "sonata-project/core-bundle": "^3.8",
         "symfony-cmf/resource": "^1.0",
         "symfony-cmf/resource-bundle": "^1.0",
-        "symfony-cmf/testing": "^2.0",
         "symfony/phpunit-bridge": "^3.3",
         "symfony/security-acl": "^2.8 || ^3.0"
     },
