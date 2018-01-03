@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -16,7 +18,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 
 class NodeNameFilterTest extends BaseTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->filter = new NodeNameFilter();
@@ -27,28 +29,28 @@ class NodeNameFilterTest extends BaseTestCase
         return ChoiceType::TYPE_EQUAL;
     }
 
-    public function testFilterNullData()
+    public function testFilterNullData(): void
     {
         $res = $this->filter->filter($this->proxyQuery, 'a', 'somefield', null);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayData()
+    public function testFilterEmptyArrayData(): void
     {
         $res = $this->filter->filter($this->proxyQuery, 'a', 'somefield', []);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayDataSpecifiedType()
+    public function testFilterEmptyArrayDataSpecifiedType(): void
     {
         $res = $this->filter->filter($this->proxyQuery, 'a', 'somefield', ['type' => ChoiceType::TYPE_EQUAL]);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayDataWithMeaninglessValue()
+    public function testFilterEmptyArrayDataWithMeaninglessValue(): void
     {
         $this->filter->filter($this->proxyQuery, 'a', 'somefield', ['type' => ChoiceType::TYPE_EQUAL, 'value' => ' ']);
         $this->assertFalse($this->filter->isActive());
@@ -67,7 +69,7 @@ class NodeNameFilterTest extends BaseTestCase
     /**
      * @dataProvider getFilters
      */
-    public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue')
+    public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue'): void
     {
         $this->proxyQuery->expects($this->exactly(1))
             ->method('getQueryBuilder')

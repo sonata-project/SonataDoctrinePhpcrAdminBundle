@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -23,7 +25,7 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
     /**
      * @param ContainerBuilder $container
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $settings = $this->fixSettings($container);
         foreach ($container->findTaggedServiceIds('sonata.admin') as $id => $attributes) {

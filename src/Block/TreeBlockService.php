@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -43,7 +45,7 @@ class TreeBlockService extends BaseBlockService
      *
      * NOOP as there is nothing to edit.
      */
-    public function buildEditForm(FormMapper $form, BlockInterface $block)
+    public function buildEditForm(FormMapper $form, BlockInterface $block): void
     {
         // there is nothing to edit here
     }
@@ -62,7 +64,7 @@ class TreeBlockService extends BaseBlockService
     /**
      * {@inheritdoc}
      */
-    public function configureSettings(OptionsResolver $resolver)
+    public function configureSettings(OptionsResolver $resolver): void
     {
         // the callables are a workaround to make bundle configuration win over the default values
         // see https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/pull/345
