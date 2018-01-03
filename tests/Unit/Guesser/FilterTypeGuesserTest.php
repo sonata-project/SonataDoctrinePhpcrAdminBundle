@@ -19,7 +19,7 @@ use Symfony\Component\Form\Guess\Guess;
 
 class FilterTypeGuesserTest extends TestCase
 {
-    public function testGuessType()
+    public function testGuessType(): void
     {
         $managerRegistry = $this->createMock('Doctrine\Bundle\PHPCRBundle\ManagerRegistry');
 

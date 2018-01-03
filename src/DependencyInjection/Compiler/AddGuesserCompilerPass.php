@@ -28,7 +28,7 @@ class AddGuesserCompilerPass implements CompilerPassInterface
      *
      * Add tagged sonata guessers to their respective builders.
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         // ListBuilder
         $definition = $container->getDefinition('sonata.admin.guesser.doctrine_phpcr_list_chain');

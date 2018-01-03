@@ -49,7 +49,7 @@ class CollectionOrderListener
      *
      * @param FormEvent $event
      */
-    public function onSubmit(FormEvent $event)
+    public function onSubmit(FormEvent $event): void
     {
         $form = $event->getForm()->getParent();
         $data = $form->getData();

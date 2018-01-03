@@ -42,7 +42,7 @@ class ChoiceType extends BaseChoiceType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $choices = [
             $this->translator->trans('label_type_contains', [], 'SonataAdminBundle') => self::TYPE_CONTAINS,

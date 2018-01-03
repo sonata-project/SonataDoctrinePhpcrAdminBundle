@@ -41,7 +41,7 @@ class FormContractor implements FormContractorInterface
      *
      * @throws \RuntimeException if the $fieldDescription does not specify a type
      */
-    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
+    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription): void
     {
         $metadata = null;
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {

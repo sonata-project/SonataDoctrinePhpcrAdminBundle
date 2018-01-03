@@ -52,7 +52,7 @@ class Pager extends BasePager
      *
      * @throws \RuntimeException the QueryBuilder is uninitialized
      */
-    public function init()
+    public function init(): void
     {
         if (!$this->getQuery()) {
             throw new \RuntimeException('Uninitialized QueryBuilder');

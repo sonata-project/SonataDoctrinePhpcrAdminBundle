@@ -192,7 +192,7 @@ class Content
     /**
      * @param mixed $child
      */
-    public function setChild($child)
+    public function setChild($child): void
     {
         $this->child = $child;
     }
@@ -208,7 +208,7 @@ class Content
     /**
      * @param mixed $children
      */
-    public function setChildren($children)
+    public function setChildren($children): void
     {
         $this->children = $children;
     }
@@ -224,7 +224,7 @@ class Content
     /**
      * @param mixed $singleRoute
      */
-    public function setSingleRoute($singleRoute)
+    public function setSingleRoute($singleRoute): void
     {
         $this->singleRoute = $singleRoute;
     }
@@ -240,7 +240,7 @@ class Content
     /**
      * @param ArrayCollection|Content[] $routes
      */
-    public function setRoutes($routes)
+    public function setRoutes($routes): void
     {
         $this->routes = $routes;
     }
@@ -248,7 +248,7 @@ class Content
     /**
      * @param $route
      */
-    public function addRoute($route)
+    public function addRoute($route): void
     {
         $this->routes->add($route);
     }
@@ -256,7 +256,7 @@ class Content
     /**
      * @param $route
      */
-    public function removeRoute($route)
+    public function removeRoute($route): void
     {
         $this->routes->removeElement($route);
     }
@@ -264,7 +264,7 @@ class Content
     /**
      * @param $child
      */
-    public function addChild($child)
+    public function addChild($child): void
     {
         $this->children->add($child);
     }
@@ -272,7 +272,7 @@ class Content
     /**
      * @param $child
      */
-    public function removeChild($child)
+    public function removeChild($child): void
     {
         $this->children->removeElement($child);
     }
