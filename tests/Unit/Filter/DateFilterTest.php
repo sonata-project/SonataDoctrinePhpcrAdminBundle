@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -16,7 +18,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Filter\DateFilter;
 
 class DateFilterTest extends BaseTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->filter = new DateFilter();
@@ -25,14 +27,14 @@ class DateFilterTest extends BaseTestCase
     // @todo: Can probably factor the following 4 test cases into a common class
     //        IF we introduce another test with the same need.
 
-    public function testFilterNullData()
+    public function testFilterNullData(): void
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', null);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayData()
+    public function testFilterEmptyArrayData(): void
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', []);
         $this->assertNull($res);
@@ -55,7 +57,7 @@ class DateFilterTest extends BaseTestCase
     /**
      * @dataProvider getFilters
      */
-    public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = '__null__')
+    public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = '__null__'): void
     {
         $value = new \DateTime('2013/01/16 00:00:00');
 
@@ -80,7 +82,7 @@ class DateFilterTest extends BaseTestCase
         $this->assertTrue($this->filter->isActive());
     }
 
-    public function testFilterEquals()
+    public function testFilterEquals(): void
     {
         $from = new \DateTime('2013/01/16 00:00:00');
         $to = new \DateTime('2013/01/16 23:59:59');

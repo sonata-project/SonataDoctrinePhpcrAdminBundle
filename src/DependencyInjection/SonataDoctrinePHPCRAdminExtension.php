@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -30,7 +32,7 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
      * @param array            $configs   An array of configuration settings
      * @param ContainerBuilder $container A ContainerBuilder instance
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $defaultConfig = [
             'templates' => [
@@ -90,7 +92,7 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
      * @param array            $config
      * @param ContainerBuilder $container
      */
-    private function loadDocumentTree($config, ContainerBuilder $container)
+    private function loadDocumentTree($config, ContainerBuilder $container): void
     {
         $configuration = [
             'routing_defaults' => $config['routing_defaults'],

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -50,7 +52,7 @@ class Pager extends BasePager
      *
      * @throws \RuntimeException the QueryBuilder is uninitialized
      */
-    public function init()
+    public function init(): void
     {
         if (!$this->getQuery()) {
             throw new \RuntimeException('Uninitialized QueryBuilder');

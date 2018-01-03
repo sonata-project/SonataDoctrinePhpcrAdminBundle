@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -16,27 +18,27 @@ use Sonata\DoctrinePHPCRAdminBundle\Filter\ChoiceFilter;
 
 class ChoiceFilterTest extends BaseTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->filter = new ChoiceFilter();
     }
 
-    public function testFilterNullData()
+    public function testFilterNullData(): void
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', null);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayData()
+    public function testFilterEmptyArrayData(): void
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', []);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayDataSpecifiedType()
+    public function testFilterEmptyArrayDataSpecifiedType(): void
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => ChoiceType::TYPE_EQUAL]);
         $this->assertNull($res);
@@ -58,7 +60,7 @@ class ChoiceFilterTest extends BaseTestCase
     /**
      * @dataProvider getMeaninglessValues
      */
-    public function testFilterEmptyArrayDataWithMeaninglessValue($value)
+    public function testFilterEmptyArrayDataWithMeaninglessValue($value): void
     {
         $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => ChoiceType::TYPE_EQUAL, 'value' => $value]);
         $this->assertFalse($this->filter->isActive());
@@ -76,7 +78,7 @@ class ChoiceFilterTest extends BaseTestCase
     /**
      * @dataProvider getFilters
      */
-    public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue')
+    public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue'): void
     {
         $this->proxyQuery->expects($this->once())
             ->method('getQueryBuilder')
@@ -249,7 +251,7 @@ class ChoiceFilterTest extends BaseTestCase
     /**
      * @dataProvider getFiltersMultiple
      */
-    public function testFilterMultipleSwitch($options)
+    public function testFilterMultipleSwitch($options): void
     {
         $options = array_merge([
             'choiceType' => null,
