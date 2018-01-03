@@ -28,7 +28,7 @@ class BooleanFilter extends BaseFilter
             return;
         }
 
-        if (\is_array($data['value']) || !\in_array($data['value'], [BooleanType::TYPE_NO, BooleanType::TYPE_YES])) {
+        if (\is_array($data['value']) || !\in_array($data['value'], [BooleanType::TYPE_NO, BooleanType::TYPE_YES], true)) {
             return;
         }
 

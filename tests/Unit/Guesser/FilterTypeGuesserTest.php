@@ -25,7 +25,7 @@ use Symfony\Component\Form\Guess\TypeGuess;
 
 class FilterTypeGuesserTest extends TestCase
 {
-    public function testGuessType()
+    public function testGuessType(): void
     {
         $managerRegistry = $this->createMock(ManagerRegistry::class);
 
