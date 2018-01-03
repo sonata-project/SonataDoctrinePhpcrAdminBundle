@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -18,13 +20,13 @@ use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
  */
 class TreeBrowserTest extends BaseTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->db('PHPCR')->loadFixtures(['Sonata\DoctrinePHPCRAdminBundle\Tests\Resources\DataFixtures\Phpcr\LoadTreeData']);
         $this->client = $this->createClient();
     }
 
-    public function testTreeOnDashboardLoadsWithNoErrors()
+    public function testTreeOnDashboardLoadsWithNoErrors(): void
     {
         $crawler = $this->client->request('GET', '/admin/dashboard');
         $res = $this->client->getResponse();

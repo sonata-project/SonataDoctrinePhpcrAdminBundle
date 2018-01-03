@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -27,7 +29,7 @@ class ProxyQueryTest extends TestCase
      */
     private $pq;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->qb = $this->getMockBuilder('Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder')
             ->disableOriginalConstructor()
@@ -39,24 +41,24 @@ class ProxyQueryTest extends TestCase
         $this->pq = new ProxyQuery($this->qb, 'a');
     }
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertInstanceOf('Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder', $this->pq->getQueryBuilder());
     }
 
-    public function testSetSortBy()
+    public function testSetSortBy(): void
     {
         $this->pq->setSortBy([], ['fieldName' => 'field']);
         $this->assertEquals('field', $this->pq->getSortBy());
     }
 
-    public function testSetSortOrder()
+    public function testSetSortOrder(): void
     {
         $this->pq->setSortOrder('ASC');
         $this->assertEquals('ASC', $this->pq->getSortOrder());
     }
 
-    public function testSetSortOrderInvalid()
+    public function testSetSortOrderInvalid(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -64,7 +66,7 @@ class ProxyQueryTest extends TestCase
         $this->assertEquals('SOME_ORDER', $this->pq->getSortOrder());
     }
 
-    public function testSetFirstResult()
+    public function testSetFirstResult(): void
     {
         $this->qb->expects($this->once())
             ->method('setFirstResult')
@@ -73,7 +75,7 @@ class ProxyQueryTest extends TestCase
         $this->pq->setFirstResult(19);
     }
 
-    public function testGetFirstResult()
+    public function testGetFirstResult(): void
     {
         $this->qb->expects($this->once())
             ->method('getFirstResult');
@@ -81,7 +83,7 @@ class ProxyQueryTest extends TestCase
         $this->pq->getFirstResult();
     }
 
-    public function testSetMaxResults()
+    public function testSetMaxResults(): void
     {
         $this->qb->expects($this->once())
             ->method('setMaxResults')
@@ -90,7 +92,7 @@ class ProxyQueryTest extends TestCase
         $this->pq->setMaxResults(29);
     }
 
-    public function testGetMaxResults()
+    public function testGetMaxResults(): void
     {
         $this->qb->expects($this->once())
             ->method('getMaxResults');
@@ -98,7 +100,7 @@ class ProxyQueryTest extends TestCase
         $this->pq->getMaxResults();
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $this->qb->expects($this->once())
             ->method('getQuery')
@@ -111,7 +113,7 @@ class ProxyQueryTest extends TestCase
         $this->assertEquals('test', $res);
     }
 
-    public function testGetAndSetDocumentManager()
+    public function testGetAndSetDocumentManager(): void
     {
         $dm = $this->getMockBuilder('Doctrine\\ODM\\PHPCR\\DocumentManager')
             ->disableOriginalConstructor()

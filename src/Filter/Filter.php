@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -25,7 +27,7 @@ abstract class Filter extends BaseFilter
      * @param ProxyQuery $queryBuilder
      * @param mixed      $value
      */
-    public function apply($queryBuilder, $value)
+    public function apply($queryBuilder, $value): void
     {
         $this->value = $value;
         $this->filter($queryBuilder, $queryBuilder->getAlias(), $this->getFieldName(), $value);

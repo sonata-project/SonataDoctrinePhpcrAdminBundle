@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -14,7 +16,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class AppKernel extends TestKernel
 {
-    public function configure()
+    public function configure(): void
     {
         $this->requireBundleSet('default');
 
@@ -30,7 +32,7 @@ class AppKernel extends TestKernel
         ]);
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__.'/config/config.php');
         $loader->load(__DIR__.'/config/admin-test.xml');

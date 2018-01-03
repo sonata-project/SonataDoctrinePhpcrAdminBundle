@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -21,31 +23,31 @@ class BooleanFilterTest extends BaseTestCase
      */
     private $filter;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->filter = new BooleanFilter();
     }
 
-    public function testFilterNullData()
+    public function testFilterNullData(): void
     {
         $this->filter->filter($this->proxyQuery, null, 'somefield', null);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayData()
+    public function testFilterEmptyArrayData(): void
     {
         $this->filter->filter($this->proxyQuery, null, 'somefield', []);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayDataSpecifiedType()
+    public function testFilterEmptyArrayDataSpecifiedType(): void
     {
         $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => BooleanType::TYPE_YES]);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayDataWithMeaninglessValue()
+    public function testFilterEmptyArrayDataWithMeaninglessValue(): void
     {
         $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => BooleanType::TYPE_YES, 'value' => 'someValue']);
         $this->assertFalse($this->filter->isActive());
@@ -62,7 +64,7 @@ class BooleanFilterTest extends BaseTestCase
     /**
      * @dataProvider getFilters
      */
-    public function testFilterSwitch($operatorMethod, $value, $expectedValue)
+    public function testFilterSwitch($operatorMethod, $value, $expectedValue): void
     {
         $this->filter->filter(
             $this->proxyQuery,

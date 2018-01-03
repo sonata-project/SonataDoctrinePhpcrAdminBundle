@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -15,13 +17,13 @@ use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 class ContentAdminTest extends BaseTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->db('PHPCR')->loadFixtures(['Sonata\DoctrinePHPCRAdminBundle\Tests\Resources\DataFixtures\Phpcr\LoadTreeData']);
         $this->client = $this->createClient();
     }
 
-    public function testContentList()
+    public function testContentList(): void
     {
         $crawler = $this->client->request('GET', '/admin/tests/resources/content/list');
         $res = $this->client->getResponse();
@@ -30,7 +32,7 @@ class ContentAdminTest extends BaseTestCase
         $this->assertCount(1, $crawler->filter('html:contains("Content 1")'));
     }
 
-    public function testContentWithChildEdit()
+    public function testContentWithChildEdit(): void
     {
         $crawler = $this->client->request('GET', '/admin/tests/resources/content/test/content/content-1/edit');
         $res = $this->client->getResponse();
@@ -47,7 +49,7 @@ class ContentAdminTest extends BaseTestCase
         $this->assertCount(1, $crawler->filter('div[id$="_routes"] select'));
     }
 
-    public function testContentWithChildrenEdit()
+    public function testContentWithChildrenEdit(): void
     {
         $crawler = $this->client->request('GET', '/admin/tests/resources/content/test/content/content-2/edit');
         $res = $this->client->getResponse();
@@ -61,7 +63,7 @@ class ContentAdminTest extends BaseTestCase
         $this->assertCount(1, $crawler->filter('div[id$="_children"] table'));
     }
 
-    public function testContentCreate()
+    public function testContentCreate(): void
     {
         $crawler = $this->client->request('GET', '/admin/tests/resources/content/create');
         $res = $this->client->getResponse();
@@ -84,7 +86,7 @@ class ContentAdminTest extends BaseTestCase
         $this->assertEquals(302, $res->getStatusCode());
     }
 
-    public function testShowContent()
+    public function testShowContent(): void
     {
         $crawler = $this->client->request('GET', '/admin/tests/resources/content/test/content/content-1/show');
         $res = $this->client->getResponse();

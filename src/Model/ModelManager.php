@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -68,7 +70,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @throws ModelManagerException if the document manager throws any exception
      */
-    public function create($object)
+    public function create($object): void
     {
         try {
             $this->dm->persist($object);
@@ -83,7 +85,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @throws ModelManagerException if the document manager throws any exception
      */
-    public function update($object)
+    public function update($object): void
     {
         try {
             $this->dm->persist($object);
@@ -98,7 +100,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @throws ModelManagerException if the document manager throws any exception
      */
-    public function delete($object)
+    public function delete($object): void
     {
         try {
             $this->dm->remove($object);
@@ -303,7 +305,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx)
+    public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx): void
     {
         /* @var $queryProxy ProxyQuery */
         $qb = $queryProxy->getQueryBuilder();
@@ -337,7 +339,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @throws ModelManagerException if anything goes wrong during query execution
      */
-    public function batchDelete($class, ProxyQueryInterface $queryProxy)
+    public function batchDelete($class, ProxyQueryInterface $queryProxy): void
     {
         try {
             $i = 0;
@@ -521,7 +523,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null)
+    public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null): void
     {
         throw new \RuntimeException('Datasourceiterator not implemented.');
     }

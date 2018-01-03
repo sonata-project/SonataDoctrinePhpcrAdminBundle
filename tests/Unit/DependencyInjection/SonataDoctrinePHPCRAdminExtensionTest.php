@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -23,7 +25,7 @@ class SonataDoctrinePHPCRAdminExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    public function testDocumentTreeDefaultValues()
+    public function testDocumentTreeDefaultValues(): void
     {
         $this->container->setParameter(
             'kernel.bundles',

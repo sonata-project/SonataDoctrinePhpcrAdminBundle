@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -112,7 +114,7 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * @param string $root root path to restrict what documents to find
      */
-    public function setRootPath($root)
+    public function setRootPath($root): void
     {
         $this->root = $root;
     }
@@ -208,7 +210,7 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * @throws \Exception
      */
-    public function getSingleScalarResult()
+    public function getSingleScalarResult(): void
     {
         /* TODO: Figure out who calls this method and what to do here in context of PHPCR */
         throw new \Exception('Used by what??');
@@ -290,14 +292,14 @@ class ProxyQuery implements ProxyQueryInterface
         return $this->documentManager;
     }
 
-    public function getUniqueParameterId()
+    public function getUniqueParameterId(): void
     {
     }
 
     /**
      * @param array $associationMappings
      */
-    public function entityJoin(array $associationMappings)
+    public function entityJoin(array $associationMappings): void
     {
     }
 }
