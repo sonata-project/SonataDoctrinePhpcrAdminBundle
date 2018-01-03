@@ -129,9 +129,9 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @return FieldDescription
-     *
      * @throws \RunTimeException if $name is not a string
+     *
+     * @return FieldDescription
      */
     public function getNewFieldDescriptionInstance($class, $name, array $options = [])
     {
@@ -206,9 +206,9 @@ class ModelManager implements ModelManagerInterface
      * @param string $alias alias to use for this class when accessing fields,
      *                      defaults to 'a'
      *
-     * @return ProxyQueryInterface
-     *
      * @throws \InvalidArgumentException if alias is not a string or an empty string
+     *
+     * @return ProxyQueryInterface
      */
     public function createQuery($class, $alias = 'a')
     {
@@ -298,8 +298,6 @@ class ModelManager implements ModelManagerInterface
         if (null !== $id) {
             return substr($id, 1);
         }
-
-        return;
     }
 
     /**
@@ -431,10 +429,10 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @return object
-     *
      * @throws NoSuchPropertyException if the class has no magic setter and
      *                                 public property for a field in array
+     *
+     * @return object
      */
     public function modelReverseTransform($class, array $array = [])
     {

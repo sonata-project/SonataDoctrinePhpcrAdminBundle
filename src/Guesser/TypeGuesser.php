@@ -116,7 +116,5 @@ class TypeGuesser implements TypeGuesserInterface
                 // not an entity or mapped super class
             }
         }
-
-        return;
     }
 }
