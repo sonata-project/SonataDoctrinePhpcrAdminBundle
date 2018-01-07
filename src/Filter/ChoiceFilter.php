@@ -32,7 +32,7 @@ class ChoiceFilter extends Filter
 
         // clean values
         foreach ($values as $key => $value) {
-            $value = trim($value);
+            $value = trim((string) $value);
             if (!$value) {
                 unset($values[$key]);
             } else {
