@@ -192,9 +192,11 @@ class Content
     /**
      * @param mixed $child
      */
-    public function setChild($child): void
+    public function setChild($child)
     {
         $this->child = $child;
+
+        return $this;
     }
 
     /**
@@ -208,9 +210,11 @@ class Content
     /**
      * @param mixed $children
      */
-    public function setChildren($children): void
+    public function setChildren($children)
     {
         $this->children = $children;
+
+        return $this;
     }
 
     /**
@@ -224,9 +228,11 @@ class Content
     /**
      * @param mixed $singleRoute
      */
-    public function setSingleRoute($singleRoute): void
+    public function setSingleRoute($singleRoute)
     {
         $this->singleRoute = $singleRoute;
+
+        return $this;
     }
 
     /**
@@ -240,9 +246,11 @@ class Content
     /**
      * @param ArrayCollection|Content[] $routes
      */
-    public function setRoutes($routes): void
+    public function setRoutes($routes)
     {
         $this->routes = $routes;
+
+        return $this;
     }
 
     /**
