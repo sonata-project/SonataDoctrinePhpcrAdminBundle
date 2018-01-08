@@ -1,5 +1,21 @@
-Changelog
-=========
+# Change Log
+All notable changes to this project will be documented in this file.
+This project adheres to [Semantic Versioning](http://semver.org/).
+
+## [2.1.0](https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/compare/2.0.0...2.1.0) - 2018-01-08
+### Added
+- version 2.0 for `phpcr-odm`
+
+### Removed
+- Support for old versions of PHP and Symfony.
+
+### Fixed
+- Missing root_node parameter in cmfTree options
+
+###### Starting this point, the changelog does not follow the same way.
+
+2.0.0
+-----
 
 * **2017-04-26**: [BC break] The tree routing is no longer optional. Require `@SonataDoctrinePhpcrAdminBundle/Resources/config/routing/tree.xml` in your routing file.
 * **2017-02-06**: [BC break] Removed `Datagrid\SimplePager` in favor of the one provided by the SonataAdminBundle.
