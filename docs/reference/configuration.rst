@@ -15,10 +15,10 @@ On this bundle, you can configure templates and the document tree.
             templates:
                 form:
                     # Default:
-                    - SonataDoctrinePHPCRAdminBundle:Form:form_admin_fields.html.twig
+                    - "@SonataDoctrinePHPCRAdmin/Form/form_admin_fields.html.twig"
                 filter:
                     # Default:
-                    - SonataDoctrinePHPCRAdminBundle:Form:filter_admin_fields.html.twig
+                    - "@SonataDoctrinePHPCRAdmin/Form/filter_admin_fields.html.twig"
                 types:
                     list:
                         # Prototype
@@ -26,7 +26,7 @@ On this bundle, you can configure templates and the document tree.
                     show:
                         # Prototype
                         name:                 []
-                pager_results:        SonataDoctrinePHPCRAdminBundle:Pager:simple_pager_results.html.twig
+                pager_results:        "@SonataDoctrinePHPCRAdmin/Pager/simple_pager_results.html.twig"
 
             document_tree:
                 # See :doc:`document_tree`.

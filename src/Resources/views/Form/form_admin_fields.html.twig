@@ -9,25 +9,25 @@ file that was distributed with this source code.
 
 #}
 
-{% extends 'SonataAdminBundle:Form:form_admin_fields.html.twig' %}
+{% extends '@SonataAdmin/Form/form_admin_fields.html.twig' %}
 
 
 
 {# Custom Sonata Admin Extension #}
 {% block sonata_admin_phpcr_one_to_one_widget %}
-    {% include 'SonataAdminBundle:CRUD/Association:edit_one_to_one.html.twig' %}
+    {% include '@SonataAdmin/CRUD/Association/edit_one_to_one.html.twig' %}
 {% endblock %}
 
 {% block sonata_admin_phpcr_many_to_many_widget %}
-    {% include 'SonataAdminBundle:CRUD/Association:edit_many_to_many.html.twig' %}
+    {% include '@SonataAdmin/CRUD/Association/edit_many_to_many.html.twig' %}
 {% endblock %}
 
 {% block sonata_admin_phpcr_many_to_one_widget %}
-    {% include 'SonataAdminBundle:CRUD/Association:edit_many_to_one.html.twig' %}
+    {% include '@SonataAdmin/CRUD/Association/edit_many_to_one.html.twig' %}
 {% endblock %}
 
 {% block sonata_admin_phpcr_one_to_many_widget %}
-    {% include 'SonataAdminBundle:CRUD/Association:edit_one_to_many.html.twig' %}
+    {% include '@SonataAdmin/CRUD/Association/edit_one_to_many.html.twig' %}
 {% endblock %}
 
 {% block sonata_type_model_widget %}
@@ -131,7 +131,7 @@ file that was distributed with this source code.
         </div>
     </div>
 
-    {% include 'SonataAdminBundle:CRUD/Association:edit_many_script.html.twig' %}
+    {% include '@SonataAdmin/CRUD/Association/edit_many_script.html.twig' %}
 {% endblock %}
 
 {% block sonata_type_admin_widget %}
@@ -164,7 +164,7 @@ file that was distributed with this source code.
 {% endblock %}
 
 {% block doctrine_phpcr_odm_tree_widget %}
-{% include 'CmfTreeBrowserBundle:Base:tree.html.twig' %}
+{% include '@CmfTreeBrowser/Base/tree.html.twig' %}
 <script>
     jQuery(function ($) {
         {% set routing_default_values = {} %}

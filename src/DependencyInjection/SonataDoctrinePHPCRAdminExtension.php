@@ -36,13 +36,13 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
             'templates' => [
                 'types' => [
                     'list' => [
-                        'node' => 'SonataDoctrinePHPCRAdminBundle:CRUD:list_node.html.twig',
+                        'node' => '@SonataDoctrinePHPCRAdmin/CRUD/list_node.html.twig',
                     ],
                     'show' => [
-                        'doctrine_phpcr_many_to_many' => 'SonataAdminBundle:CRUD/Association:show_many_to_many.html.twig',
-                        'doctrine_phpcr_many_to_one' => 'SonataAdminBundle:CRUD/Association:show_many_to_one.html.twig',
-                        'doctrine_phpcr_one_to_many' => 'SonataAdminBundle:CRUD/Association:show_one_to_many.html.twig',
-                        'doctrine_phpcr_one_to_one' => 'SonataAdminBundle:CRUD/Association:show_one_to_one.html.twig',
+                        'doctrine_phpcr_many_to_many' => '@SonataAdmin/CRUD/Association/show_many_to_many.html.twig',
+                        'doctrine_phpcr_many_to_one' => '@SonataAdmin/CRUD/Association/show_many_to_one.html.twig',
+                        'doctrine_phpcr_one_to_many' => '@SonataAdmin/CRUD/Association/show_one_to_many.html.twig',
+                        'doctrine_phpcr_one_to_one' => '@SonataAdmin/CRUD/Association/show_one_to_one.html.twig',
                     ],
                 ],
             ],
