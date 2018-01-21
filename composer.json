@@ -2,7 +2,12 @@
     "name": "sonata-project/doctrine-phpcr-admin-bundle",
     "type": "symfony-bundle",
     "description": "Symfony Sonata / Integrate Doctrine PHPCR into the SonataAdminBundle",
-    "keywords": ["Admin Generator", "admin", "sonata", "bootstrap"],
+    "keywords": [
+        "Admin Generator",
+        "admin",
+        "sonata",
+        "bootstrap"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -32,6 +37,9 @@
         "symfony/options-resolver": "^2.8 || ^3.2",
         "symfony/property-access": "^2.8 || ^3.2"
     },
+    "provide": {
+        "sonata-project/admin-bundle-persistency-layer": "1.0.0"
+    },
     "require-dev": {
         "dantleech/glob-finder": "^1.0",
         "jackalope/jackalope-jackrabbit": "^1.3",
@@ -44,21 +52,22 @@
         "symfony/routing": "^2.8 || ^3.2",
         "symfony/security-acl": "^2.8 || ^3.0"
     },
-    "provide": {
-        "sonata-project/admin-bundle-persistency-layer": "1.0.0"
-    },
-    "autoload": {
-        "psr-4": { "Sonata\\DoctrinePHPCRAdminBundle\\": "src/" }
-    },
-    "autoload-dev": {
-        "psr-4": { "Sonata\\DoctrinePHPCRAdminBundle\\Tests\\": "tests/" }
-    },
     "config": {
         "sort-packages": true
     },
     "extra": {
         "branch-alias": {
             "dev-master": "2.x-dev"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Sonata\\DoctrinePHPCRAdminBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sonata\\DoctrinePHPCRAdminBundle\\Tests\\": "tests/"
         }
     }
 }
