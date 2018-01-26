@@ -20,7 +20,7 @@ file that was distributed with this source code.
     {% endif %}
 {% endfor %}
 
-{% include 'CmfTreeBrowserBundle:Base:tree.html.twig' %}
+{% include '@CmfTreeBrowser/Base/tree.html.twig' %}
 <script type="text/javascript">
     var apiGetTemplate = '{{ path('_cmf_get_resource', {
         repositoryName: repository_name,

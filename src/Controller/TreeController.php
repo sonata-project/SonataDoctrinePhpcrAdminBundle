@@ -26,7 +26,7 @@ class TreeController extends Controller
     /**
      * @var string
      */
-    private $template = 'SonataDoctrinePHPCRAdminBundle:Tree:tree.html.twig';
+    private $template = '@SonataDoctrinePHPCRAdmin/Tree/tree.html.twig';
 
     /**
      * @var \PHPCR\SessionInterface

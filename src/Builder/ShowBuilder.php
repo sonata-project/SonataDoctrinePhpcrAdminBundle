@@ -104,11 +104,11 @@ class ShowBuilder implements ShowBuilderInterface
             $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
 
             if (ClassMetadata::MANY_TO_ONE == $fieldDescription->getMappingType()) {
-                $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:show_many_to_one.html.twig');
+                $fieldDescription->setTemplate('@SonataAdmin/CRUD/Association/show_many_to_one.html.twig');
             }
 
             if (ClassMetadata::MANY_TO_MANY == $fieldDescription->getMappingType()) {
-                $fieldDescription->setTemplate('SonataAdminBundle:CRUD/Association:show_many_to_many.html.twig');
+                $fieldDescription->setTemplate('@SonataAdmin/CRUD/Association/show_many_to_many.html.twig');
             }
         }
 

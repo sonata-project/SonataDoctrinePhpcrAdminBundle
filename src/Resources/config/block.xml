@@ -7,7 +7,7 @@
         <service id="sonata_admin_doctrine_phpcr.tree_block" class="Sonata\DoctrinePHPCRAdminBundle\Block\TreeBlockService">
             <tag name="sonata.block"/>
             <argument>sonata_admin_doctrine_phpcr.tree_block</argument>
-            <argument type="service" id="templating"/>
+            <argument type="service" id="sonata.templating"/>
             <argument>%sonata_admin_doctrine_phpcr.tree_block.routing_defaults%</argument>
         </service>
     </services>
