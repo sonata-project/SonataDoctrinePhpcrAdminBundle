@@ -49,7 +49,7 @@ final class AddTreeBrowserAssetsPass implements CompilerPassInterface
     private function addFormResources(ContainerBuilder $container): void
     {
         $resources = $container->getParameter('twig.form.resources');
-        $resources[] = 'SonataDoctrinePHPCRAdminBundle:Form:tree_browser_fields.html.twig';
+        $resources[] = '@SonataDoctrinePHPCRAdmin/Form/tree_browser_fields.html.twig';
 
         $container->setParameter('twig.form.resources', $resources);
     }

@@ -70,7 +70,7 @@ class TreeBlockService extends BaseBlockService
         // see https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/pull/345
         $resolver->setDefaults([
             'template' => function (Options $options, $value) {
-                return $value ?: 'SonataDoctrinePHPCRAdminBundle:Block:tree.html.twig';
+                return $value ?: '@SonataDoctrinePHPCRAdmin/Block/tree.html.twig';
             },
             'id' => function (Options $options, $value) {
                 return $value ?: '/';
