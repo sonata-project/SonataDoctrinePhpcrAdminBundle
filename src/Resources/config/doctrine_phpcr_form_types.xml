@@ -10,7 +10,7 @@
         <service id="sonata.admin.doctrine_phpcr.form.type.phpcr_odm_tree_manager" class="Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeManagerType">
             <tag name="form.type" alias="doctrine_phpcr_odm_tree_manager"/>
         </service>
-        <service id="sonata.admin.doctrine_phpcr.form.collection_type_extension" class="Sonata\DoctrinePHPCRAdminBundle\Form\Extension\CollectionTypeExtension">
+        <service id="sonata.admin.doctrine_phpcr.form.collection_type_extension" class="Sonata\DoctrinePHPCRAdminBundle\Form\Extension\CollectionTypeExtension" public="true">
             <tag name="form.type_extension" extended-type="Sonata\CoreBundle\Form\Type\CollectionType" alias="sonata_type_collection"/>
         </service>
     </services>

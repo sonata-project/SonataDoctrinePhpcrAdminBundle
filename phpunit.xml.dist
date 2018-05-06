@@ -10,20 +10,10 @@
          stopOnFailure="false"
          bootstrap="vendor/symfony-cmf/testing/bootstrap/bootstrap.php"
 >
-    <php>
-        <server name="KERNEL_DIR" value="tests/Resources/app" />
-        <ini name="precision" value="8"/>
-    </php>
-
     <testsuites>
-        <testsuite name="SonataDoctrinePHPCRAdminBundle Unit Test Suite">
+        <testsuite name="SonataDoctrinePHPCRAdminBundle Test Suite">
             <directory>./tests/Unit</directory>
-        </testsuite>
-
-        <!-- SonataDoctrinePHPCRAdminBundle Integration Test Suite – The name has to be "phpcr" to trigger db listener.-->
-        <testsuite name="phpcr">
             <directory>./tests/WebTest</directory>
-            <directory>./Tests</directory>
         </testsuite>
     </testsuites>
 
@@ -33,16 +23,16 @@
             <exclude>
                 <directory>./tests</directory>
                 <directory>./vendor</directory>
-                <directory>./Resources</directory>
-                <directory>./DependencyInjection</directory>
-                <file>./SonataDoctrinePHPCRAdminBundle.php</file>
+                <directory>./src/Resources</directory>
+                <directory>./src/DependencyInjection</directory>
+                <file>./src/SonataDoctrinePHPCRAdminBundle.php</file>
                 <directory>./coverage/</directory>
             </exclude>
         </whitelist>
     </filter>
-
-    <listeners>
-        <listener class="Symfony\Cmf\Component\Testing\Phpunit\DatabaseTestListener" />
-    </listeners>
+    <php>
+        <ini name="precision" value="8"/>
+        <env name="KERNEL_CLASS" value="Sonata\DoctrinePHPCRAdminBundle\Tests\Fixtures\App\Kernel" />
+    </php>
 
 </phpunit>

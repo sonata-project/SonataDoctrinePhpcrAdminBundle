@@ -19,6 +19,7 @@ use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\ListBuilderInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
+use Symfony\Component\Form\Guess\TypeGuess;
 
 class ListBuilder implements ListBuilderInterface
 {
@@ -57,7 +58,7 @@ class ListBuilder implements ListBuilderInterface
     {
         if (null == $type) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
-            $fieldDescription->setType($guessType->getType());
+            $fieldDescription->setType(($guessType instanceof TypeGuess ? $guessType->getType() : null));
         } else {
             $fieldDescription->setType($type);
         }
@@ -190,7 +191,7 @@ class ListBuilder implements ListBuilderInterface
 
         if ($metadata
             && $metadata->hasAssociation($fieldDescription->getName())
-            && \in_array($fieldDescription->getMappingType(), $mappingTypes)
+            && \in_array($fieldDescription->getMappingType(), $mappingTypes, true)
         ) {
             $admin->attachAdminClass($fieldDescription);
         }

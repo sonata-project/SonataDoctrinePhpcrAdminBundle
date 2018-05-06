@@ -13,23 +13,28 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Guesser;
 
+use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
+use Doctrine\Common\Persistence\Mapping\ClassMetadata;
+use Doctrine\ODM\PHPCR\DocumentRepository;
 use PHPUnit\Framework\TestCase;
 use Sonata\DoctrinePHPCRAdminBundle\Guesser\FilterTypeGuesser;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Guess\Guess;
+use Symfony\Component\Form\Guess\TypeGuess;
 
 class FilterTypeGuesserTest extends TestCase
 {
     public function testGuessType(): void
     {
-        $managerRegistry = $this->createMock('Doctrine\Bundle\PHPCRBundle\ManagerRegistry');
+        $managerRegistry = $this->createMock(ManagerRegistry::class);
 
-        $documentRepository = $this->createMock('Doctrine\ODM\PHPCR\DocumentRepository');
+        $documentRepository = $this->createMock(DocumentRepository::class);
 
         $documentRepository->expects($this->once())
             ->method('getClassMetadata')
             ->with($this->equalTo($class = 'Whatever'))
             ->will($this->returnValue($this->createMock(
-                'Doctrine\Common\Persistence\Mapping\ClassMetadata'
+                ClassMetadata::class
             )));
 
         $managerRegistry->expects($this->once())
@@ -44,8 +49,8 @@ class FilterTypeGuesserTest extends TestCase
             'Sonata\AdminBundle\Model\ModelManagerInterface'
         ));
 
-        $this->assertInstanceof(
-            'Symfony\Component\Form\Guess\TypeGuess',
+        $this->assertInstanceOf(
+            TypeGuess::class,
             $typeGuess
         );
         $this->assertSame(
@@ -54,7 +59,7 @@ class FilterTypeGuesserTest extends TestCase
         );
         $this->assertSame(
             [
-                'field_type' => 'Symfony\Component\Form\Extension\Core\Type\TextType',
+                'field_type' => TextType::class,
                 'field_options' => [],
                 'options' => [],
                 'field_name' => $fieldname,

@@ -16,6 +16,7 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Datagrid;
 use Doctrine\ODM\PHPCR\Query\Query as PHPCRQuery;
 use PHPUnit\Framework\TestCase;
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\Pager;
+use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 
 class PagerTest extends TestCase
 {
@@ -23,7 +24,7 @@ class PagerTest extends TestCase
     {
         $this->pager = new Pager(10);
 
-        $this->proxyQuery = $this->getMockBuilder('Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery')
+        $this->proxyQuery = $this->getMockBuilder(ProxyQuery::class)
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -117,7 +118,7 @@ class PagerTest extends TestCase
 
     public function testInitNoQuery(): void
     {
-        $this->expectException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->pager->init();
     }
 }

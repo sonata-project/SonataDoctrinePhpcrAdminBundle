@@ -14,25 +14,27 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Route;
 
 use PHPUnit\Framework\TestCase;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrinePHPCRAdminBundle\Route\PathInfoBuilderSlashes;
 
 class PathInfoBuilderSlashesTest extends TestCase
 {
     public function testBuild(): void
     {
-        $collectionChild = $this->createMock('Sonata\\AdminBundle\\Route\\RouteCollection');
+        $collectionChild = $this->createMock(RouteCollection::class);
 
-        $adminChild = $this->createMock('Sonata\\AdminBundle\\Admin\\AbstractAdmin');
+        $adminChild = $this->createMock(AbstractAdmin::class);
         $adminChild->expects($this->once())
             ->method('getRoutes')
             ->will($this->returnValue($collectionChild));
 
-        $admin = $this->createMock('Sonata\\AdminBundle\\Admin\\AbstractAdmin');
+        $admin = $this->createMock(AbstractAdmin::class);
         $admin->expects($this->once())
             ->method('getChildren')
             ->will($this->returnValue([$adminChild]));
 
-        $collection = $this->createMock('Sonata\\AdminBundle\\Route\\RouteCollection');
+        $collection = $this->createMock(RouteCollection::class);
         $collection->expects($this->once())
             ->method('addCollection')
             ->with($this->anything());
@@ -46,7 +48,7 @@ class PathInfoBuilderSlashesTest extends TestCase
 
     public function testBuildWithAcl(): void
     {
-        $admin = $this->createMock('Sonata\\AdminBundle\\Admin\\AbstractAdmin');
+        $admin = $this->createMock(AbstractAdmin::class);
         $admin->expects($this->once())
             ->method('getChildren')
             ->will($this->returnValue([]));
@@ -54,7 +56,7 @@ class PathInfoBuilderSlashesTest extends TestCase
             ->method('isAclEnabled')
             ->will($this->returnValue(true));
 
-        $collection = $this->createMock('Sonata\\AdminBundle\\Route\\RouteCollection');
+        $collection = $this->createMock(RouteCollection::class);
         $collection->expects($this->exactly(8))
             ->method('add')
             ->with($this->anything());

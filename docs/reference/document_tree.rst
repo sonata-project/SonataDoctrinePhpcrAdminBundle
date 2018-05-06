@@ -220,7 +220,7 @@ like this:
     .. code-block:: jinja
 
         {% render(controller(
-            'sonata.admin.doctrine_phpcr.tree_controller:treeAction',
+            'sonata.admin.doctrine_phpcr.tree_controller::tree',
              {
                 'root':     basePath ~ "/menu",
                 'selected': menuNodeId,
@@ -231,7 +231,7 @@ like this:
     .. code-block:: php
 
         <?php echo $view['actions']->render(new ControllerReference(
-                'sonata.admin.doctrine_phpcr.tree_controller:treeAction',
+                'sonata.admin.doctrine_phpcr.tree_controller::tree',
                 array(
                     'root'     => $basePath . '/menu',
                     'selected' => $menuNodeId,
@@ -239,6 +239,11 @@ like this:
                 ),
         )) ?>
 
+.. note::
+    To use the configuration for Symfony < 3.4 you should use the single colon (:) notation to define controller
+    actions: ``sonata.admin.doctrine_phpcr.tree_controller:treeAction`` – `jsTree`_
+
 .. _`CmfTreeBrowserBundle`: http://symfony.com/doc/master/cmf/bundles/tree_browser/introduction.html
 .. _`cmf-sandbox configuration`: https://github.com/symfony-cmf/cmf-sandbox/blob/master/app/config/config.yml
 .. _`jsTree`: http://www.jstree.com/documentation
+.. _`Symfony documentation`: https://symfony.com/doc/3.1/controller/service.html#referring-to-the-service

@@ -40,7 +40,7 @@ class BaseTestCase extends TestCase
         $this->qb = new QueryBuilder();
         $this->qbTester = new QueryBuilderTester($this->qb);
 
-        $this->proxyQuery = $this->getMockBuilder('Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery')
+        $this->proxyQuery = $this->getMockBuilder(ProxyQuery::class)
             ->disableOriginalConstructor()
             ->getMock();
         $this->proxyQuery->expects($this->any())
