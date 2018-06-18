@@ -3,11 +3,6 @@ Doctrine PHPCR Admin Bundle
 
 The ``Doctrine PHPCR-ODM Admin`` integrates the ``Admin Bundle`` with the `Doctrine PHPCR-ODM project`_.
 
-**Google Groups**: For questions and proposals you can post on these google groups
-
-* `Sonata Users <https://groups.google.com/group/sonata-users>`_: For questions on how to use Sonata bundles on your project
-* `Sonata Devs <https://groups.google.com/group/sonata-devs>`_: For questions regarding the development of Sonata bundles
-
 Reference Guide
 ---------------
 
