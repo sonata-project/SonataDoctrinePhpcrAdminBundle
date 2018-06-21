@@ -16,6 +16,17 @@ class AppKernel extends TestKernel
 {
     public function configure()
     {
+        $this->registerBundleSet('sonata_admin_phpcr', [
+            Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class,
+            Knp\Bundle\MenuBundle\KnpMenuBundle::class,
+            Sonata\AdminBundle\SonataAdminBundle::class,
+            Sonata\CoreBundle\SonataCoreBundle::class,
+            Sonata\BlockBundle\SonataBlockBundle::class,
+            Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle::class,
+            Symfony\Bundle\TwigBundle\TwigBundle::class,
+            Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle::class,
+        ]);
+
         $this->requireBundleSet('default');
 
         $this->requireBundleSets([
