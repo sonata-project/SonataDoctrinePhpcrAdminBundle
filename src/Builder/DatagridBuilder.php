@@ -101,7 +101,7 @@ class DatagridBuilder implements DatagridBuilderInterface
             if (isset($metadata->mappings[$fieldDescription->getName()])) {
                 $fieldDescription->setFieldMapping($metadata->mappings[$fieldDescription->getName()]);
 
-                if ($metadata->mappings[$fieldDescription->getName()]['type'] == 'string') {
+                if ('string' == $metadata->mappings[$fieldDescription->getName()]['type']) {
                     $fieldDescription->setOption('global_search', $fieldDescription->getOption('global_search', true)); // always search on string field only
                 }
             }
