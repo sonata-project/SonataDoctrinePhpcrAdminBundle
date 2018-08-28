@@ -21,14 +21,14 @@ class NodeNameFilter extends Filter
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
-        if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
+        if (!$data || !\is_array($data) || !array_key_exists('value', $data)) {
             return;
         }
 
         $data['value'] = trim($data['value']);
         $data['type'] = empty($data['type']) ? ChoiceType::TYPE_CONTAINS : $data['type'];
 
-        if (0 == strlen($data['value'])) {
+        if (0 == \strlen($data['value'])) {
             return;
         }
 
