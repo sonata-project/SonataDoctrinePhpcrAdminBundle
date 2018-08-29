@@ -130,7 +130,7 @@ class DatagridBuilder implements DatagridBuilderInterface
             $options = $guessType->getOptions();
 
             foreach ($options as $name => $value) {
-                if (is_array($value)) {
+                if (\is_array($value)) {
                     $fieldDescription->setOption($name, array_merge($value, $fieldDescription->getOption($name, [])));
                 } else {
                     $fieldDescription->setOption($name, $fieldDescription->getOption($name, $value));
