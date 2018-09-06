@@ -21,7 +21,7 @@ class DateFilter extends Filter
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
-        if (!$data || !is_array($data) || !isset($data['value'])) {
+        if (!$data || !\is_array($data) || !isset($data['value'])) {
             return;
         }
 
