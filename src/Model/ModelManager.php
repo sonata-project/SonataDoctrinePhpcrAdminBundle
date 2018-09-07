@@ -135,7 +135,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getNewFieldDescriptionInstance($class, $name, array $options = [])
     {
-        if (!is_string($name)) {
+        if (!\is_string($name)) {
             throw new \RunTimeException('The name argument must be a string');
         }
 
