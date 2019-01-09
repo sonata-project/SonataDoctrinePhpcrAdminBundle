@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -47,7 +49,7 @@ class CollectionOrderListener
      *
      * @param FormEvent $event
      */
-    public function onSubmit(FormEvent $event)
+    public function onSubmit(FormEvent $event): void
     {
         $form = $event->getForm()->getParent();
         $data = $form->getData();

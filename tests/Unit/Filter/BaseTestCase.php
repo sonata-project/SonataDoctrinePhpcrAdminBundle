@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -33,7 +35,7 @@ class BaseTestCase extends TestCase
      */
     protected $proxyQuery;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->qb = new QueryBuilder();
         $this->qbTester = new QueryBuilderTester($this->qb);

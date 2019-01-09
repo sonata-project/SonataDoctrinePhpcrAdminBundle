@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -16,28 +18,28 @@ use Sonata\DoctrinePHPCRAdminBundle\Filter\CallbackFilter;
 
 class CallBackFilterTest extends BaseTestCase
 {
-    public function testFilterNullData()
+    public function testFilterNullData(): void
     {
         $filter = new CallbackFilter();
-        $filter->initialize('field_name', ['callback' => function () {
+        $filter->initialize('field_name', ['callback' => function (): void {
         }]);
         $res = $filter->filter($this->proxyQuery, null, 'somefield', null);
         $this->assertNull($res);
         $this->assertFalse($filter->isActive());
     }
 
-    public function testFilterEmptyArrayData()
+    public function testFilterEmptyArrayData(): void
     {
         $filter = new CallbackFilter();
 
-        $filter->initialize('field_name', ['callback' => function () {
+        $filter->initialize('field_name', ['callback' => function (): void {
         }]);
         $res = $filter->filter($this->proxyQuery, null, 'somefield', []);
         $this->assertNull($res);
         $this->assertFalse($filter->isActive());
     }
 
-    public function testFilterMethod()
+    public function testFilterMethod(): void
     {
         $this->proxyQuery->expects($this->once())
             ->method('getQueryBuilder')
@@ -68,7 +70,7 @@ class CallBackFilterTest extends BaseTestCase
         return true;
     }
 
-    public function testFilterClosure()
+    public function testFilterClosure(): void
     {
         $this->proxyQuery->expects($this->once())
             ->method('getQueryBuilder')
@@ -96,7 +98,7 @@ class CallBackFilterTest extends BaseTestCase
         $this->assertTrue($filter->isActive());
     }
 
-    public function testWithoutCallback()
+    public function testWithoutCallback(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -106,7 +108,7 @@ class CallBackFilterTest extends BaseTestCase
         $filter->filter($this->proxyQuery, null, 'somefield', null);
     }
 
-    public function testCallbackNotCallable()
+    public function testCallbackNotCallable(): void
     {
         $this->expectException(\RuntimeException::class);
 

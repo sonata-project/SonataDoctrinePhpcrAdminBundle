@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -25,7 +27,7 @@ final class AddTreeBrowserAssetsPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('sonata.admin.pool')) {
             return;
@@ -35,7 +37,7 @@ final class AddTreeBrowserAssetsPass implements CompilerPassInterface
         $this->addFormResources($container);
     }
 
-    private function addAssetsToAdminPool(Definition $definition)
+    private function addAssetsToAdminPool(Definition $definition): void
     {
         $options = $definition->getArgument(3);
         $options['javascripts'][] = 'bundles/cmftreebrowser/js/cmf_tree_browser.fancytree.js';
@@ -44,7 +46,7 @@ final class AddTreeBrowserAssetsPass implements CompilerPassInterface
         $definition->replaceArgument(3, $options);
     }
 
-    private function addFormResources(ContainerBuilder $container)
+    private function addFormResources(ContainerBuilder $container): void
     {
         $resources = $container->getParameter('twig.form.resources');
         $resources[] = '@SonataDoctrinePHPCRAdmin/Form/tree_browser_fields.html.twig';

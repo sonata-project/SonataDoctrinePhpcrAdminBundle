@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -69,7 +71,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     /**
      * @param PagerInterface $pager
      */
-    public function setPager(PagerInterface $pager)
+    public function setPager(PagerInterface $pager): void
     {
         $this->pager = $pager;
     }
@@ -89,7 +91,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
+    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription): void
     {
         // set default values
         $fieldDescription->setAdmin($admin);

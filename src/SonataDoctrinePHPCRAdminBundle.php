@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -23,7 +25,7 @@ class SonataDoctrinePHPCRAdminBundle extends Bundle
     /**
      * @param ContainerBuilder $container
      */
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         $this->registerFormMapping();
 
@@ -35,12 +37,12 @@ class SonataDoctrinePHPCRAdminBundle extends Bundle
     /**
      * {@inheritdoc}
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerFormMapping();
     }
 
-    private function registerFormMapping()
+    private function registerFormMapping(): void
     {
         FormHelper::registerFormTypeMapping([
             'doctrine_phpcr_type_filter_choice' => 'Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType',

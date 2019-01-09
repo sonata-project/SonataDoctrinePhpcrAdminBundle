@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -16,7 +18,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Admin\Admin;
 
 class AdminTest extends TestCase
 {
-    public function testItCanBeInstanciated()
+    public function testItCanBeInstanciated(): void
     {
         $admin = new Admin('', '', '');
     }

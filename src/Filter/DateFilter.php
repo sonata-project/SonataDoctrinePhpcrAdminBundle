@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -19,13 +21,13 @@ class DateFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data): void
     {
         if (!$data || !\is_array($data) || !isset($data['value'])) {
             return;
         }
 
-        $data['type'] = isset($data['type']) ? $data['type'] : DateType::TYPE_EQUAL;
+        $data['type'] = $data['type'] ?? DateType::TYPE_EQUAL;
 
         $where = $this->getWhere($proxyQuery);
 
