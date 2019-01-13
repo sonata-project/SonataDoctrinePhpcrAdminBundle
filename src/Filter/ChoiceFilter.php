@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -30,7 +32,7 @@ class ChoiceFilter extends Filter
 
         // clean values
         foreach ($values as $key => $value) {
-            $value = trim($value);
+            $value = trim((string) $value);
             if (!$value) {
                 unset($values[$key]);
             } else {
