@@ -18,12 +18,16 @@ class AppKernel extends TestKernel
     {
         $this->requireBundleSet('default');
 
-        $this->requireBundleSets([
-            'phpcr_odm',
-            'sonata_admin_phpcr',
-        ]);
+        $this->requireBundleSets(['phpcr_odm']);
 
         $this->addBundles([
+            new Sonata\BlockBundle\SonataBlockBundle(),
+            new Sonata\CoreBundle\SonataCoreBundle(),
+            new Sonata\AdminBundle\SonataAdminBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle(),
+            new Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle(),
             new Symfony\Cmf\Bundle\ResourceBundle\CmfResourceBundle(),
             new Symfony\Cmf\Bundle\ResourceRestBundle\CmfResourceRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
