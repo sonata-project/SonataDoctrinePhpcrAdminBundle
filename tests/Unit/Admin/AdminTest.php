@@ -18,6 +18,9 @@ use Sonata\DoctrinePHPCRAdminBundle\Admin\Admin;
 
 class AdminTest extends TestCase
 {
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testItCanBeInstanciated()
     {
         $admin = new Admin('', '', '');
