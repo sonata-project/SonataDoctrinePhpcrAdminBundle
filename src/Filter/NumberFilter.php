@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -25,7 +27,7 @@ class NumberFilter extends Filter
             return;
         }
 
-        $type = isset($data['type']) ? $data['type'] : false;
+        $type = $data['type'] ?? false;
         $where = $this->getWhere($proxyQuery);
 
         $value = $data['value'];
