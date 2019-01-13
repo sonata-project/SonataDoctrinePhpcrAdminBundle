@@ -8,11 +8,11 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
-         syntaxCheck="false"
          bootstrap="vendor/symfony-cmf/testing/bootstrap/bootstrap.php"
 >
     <php>
         <server name="KERNEL_DIR" value="tests/Resources/app" />
+        <ini name="precision" value="8"/>
     </php>
 
     <testsuites>
@@ -44,9 +44,5 @@
     <listeners>
         <listener class="Symfony\Cmf\Component\Testing\Phpunit\DatabaseTestListener" />
     </listeners>
-
-    <php>
-        <ini name="precision" value="8"/>
-    </php>
 
 </phpunit>
