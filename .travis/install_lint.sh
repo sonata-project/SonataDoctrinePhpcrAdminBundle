@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 set -ev
 
 mkdir --parents "${HOME}/bin"
