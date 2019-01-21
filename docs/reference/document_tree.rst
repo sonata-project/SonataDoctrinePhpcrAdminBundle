@@ -220,7 +220,7 @@ like this:
     .. code-block:: jinja
 
         {% render(controller(
-            'sonata.admin.doctrine_phpcr.tree_controller::tree',
+            'sonata.admin.doctrine_phpcr.tree_controller::treeAction',
              {
                 'root':     basePath ~ "/menu",
                 'selected': menuNodeId,
@@ -231,7 +231,7 @@ like this:
     .. code-block:: php
 
         <?php echo $view['actions']->render(new ControllerReference(
-                'sonata.admin.doctrine_phpcr.tree_controller::tree',
+                'sonata.admin.doctrine_phpcr.tree_controller::treeAction',
                 [
                     'root'     => $basePath . '/menu',
                     'selected' => $menuNodeId,
