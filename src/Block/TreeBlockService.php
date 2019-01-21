@@ -29,11 +29,6 @@ class TreeBlockService extends AbstractBlockService
      */
     protected $defaults;
 
-    /**
-     * @param string          $name
-     * @param EngineInterface $templating
-     * @param array           $defaults
-     */
     public function __construct($name, EngineInterface $templating, array $defaults = [])
     {
         parent::__construct($name, $templating);
@@ -45,7 +40,7 @@ class TreeBlockService extends AbstractBlockService
      *
      * NOOP as there is nothing to edit.
      */
-    public function buildEditForm(FormMapper $form, BlockInterface $block): void
+    public function buildEditForm(FormMapper $form, BlockInterface $block)
     {
         // there is nothing to edit here
     }
@@ -64,7 +59,7 @@ class TreeBlockService extends AbstractBlockService
     /**
      * {@inheritdoc}
      */
-    public function configureSettings(OptionsResolver $resolver): void
+    public function configureSettings(OptionsResolver $resolver)
     {
         // the callables are a workaround to make bundle configuration win over the default values
         // see https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/pull/345
