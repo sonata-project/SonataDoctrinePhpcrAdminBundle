@@ -21,7 +21,7 @@ class Kernel extends TestKernel
     {
         $this->registerConfiguredBundles();
         $this->requireBundleSet('default');
-        $this->requireBundleSets(['phpcr_odm',]);
+        $this->requireBundleSets(['phpcr_odm']);
     }
 
     public function getKernelDir()
