@@ -33,7 +33,7 @@ Next, be sure to enable the bundle in your AppKernel.php file:
     // app/AppKernel.php
     public function registerBundles()
     {
-        return array(
+        return [
             // ...
             // set up basic doctrine phpcr-odm requirements
             // set up basic sonata requirements
@@ -41,7 +41,7 @@ Next, be sure to enable the bundle in your AppKernel.php file:
             new Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle(),
             new Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle(),
             // ...
-        );
+        ];
     }
 
 .. note::

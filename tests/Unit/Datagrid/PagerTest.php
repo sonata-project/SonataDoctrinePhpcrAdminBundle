@@ -24,9 +24,7 @@ class PagerTest extends TestCase
     {
         $this->pager = new Pager(10);
 
-        $this->proxyQuery = $this->getMockBuilder(ProxyQuery::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->proxyQuery = $this->createMock(ProxyQuery::class);
     }
 
     public function testInitNumPages()

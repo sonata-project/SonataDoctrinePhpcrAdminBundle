@@ -33,12 +33,8 @@ class ProxyQueryTest extends TestCase
 
     public function setUp()
     {
-        $this->qb = $this->getMockBuilder(QueryBuilder::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->query = $this->getMockBuilder(Query::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->qb = $this->createMock(QueryBuilder::class);
+        $this->query = $this->createMock(Query::class);
 
         $this->pq = new ProxyQuery($this->qb, 'a');
     }
@@ -117,9 +113,7 @@ class ProxyQueryTest extends TestCase
 
     public function testGetAndSetDocumentManager()
     {
-        $dm = $this->getMockBuilder(DocumentManager::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $dm = $this->createMock(DocumentManager::class);
         $this->pq->setDocumentManager($dm);
         $this->assertEquals($dm, $this->pq->getDocumentManager());
     }

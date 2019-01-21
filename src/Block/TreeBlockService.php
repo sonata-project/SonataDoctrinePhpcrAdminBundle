@@ -29,6 +29,9 @@ class TreeBlockService extends AbstractBlockService
      */
     protected $defaults;
 
+    /**
+     * @param string $name
+     */
     public function __construct($name, EngineInterface $templating, array $defaults = [])
     {
         parent::__construct($name, $templating);
