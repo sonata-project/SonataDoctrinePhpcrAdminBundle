@@ -21,7 +21,7 @@ class AdminTest extends TestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function testItCanBeInstanciated(): void
+    public function testItCanBeInstanciated()
     {
         $admin = new Admin('', '', '');
     }

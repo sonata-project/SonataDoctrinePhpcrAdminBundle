@@ -18,34 +18,34 @@ use Sonata\DoctrinePHPCRAdminBundle\Filter\NumberFilter;
 
 class NumberFilterTest extends BaseTestCase
 {
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
         $this->filter = new NumberFilter();
     }
 
-    public function testFilterNullData(): void
+    public function testFilterNullData()
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', null);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayData(): void
+    public function testFilterEmptyArrayData()
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', []);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayDataSpecifiedType(): void
+    public function testFilterEmptyArrayDataSpecifiedType()
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => NumberType::TYPE_EQUAL]);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayDataWithMeaninglessValue(): void
+    public function testFilterEmptyArrayDataWithMeaninglessValue()
     {
         $this->proxyQuery->expects($this->never())
             ->method('getQueryBuilder');
@@ -69,7 +69,7 @@ class NumberFilterTest extends BaseTestCase
     /**
      * @dataProvider getFilters
      */
-    public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue'): void
+    public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue')
     {
         $this->filter->filter(
             $this->proxyQuery,

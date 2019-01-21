@@ -20,7 +20,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Tests\Fixtures\App\Document\Content;
 
 class LoadTreeData implements FixtureInterface
 {
-    public function load(ObjectManager $manager): void
+    public function load(ObjectManager $manager)
     {
         NodeHelper::createPath($manager->getPhpcrSession(), '/test');
 

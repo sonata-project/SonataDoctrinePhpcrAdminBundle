@@ -27,7 +27,7 @@ abstract class Filter extends BaseFilter
      * @param ProxyQuery $queryBuilder
      * @param mixed      $value
      */
-    public function apply($queryBuilder, $value): void
+    public function apply($queryBuilder, $value)
     {
         $this->value = $value;
         $this->filter($queryBuilder, $queryBuilder->getAlias(), $this->getFieldName(), $value);

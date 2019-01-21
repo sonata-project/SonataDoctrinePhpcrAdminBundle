@@ -53,7 +53,7 @@ class ShowBuilder implements ShowBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin): void
+    public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
         if (null == $type) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
@@ -75,7 +75,7 @@ class ShowBuilder implements ShowBuilderInterface
      *
      * @throws \RuntimeException if the $fieldDescription does not have a type
      */
-    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription): void
+    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
         $fieldDescription->setAdmin($admin);
 

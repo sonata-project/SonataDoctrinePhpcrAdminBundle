@@ -27,7 +27,7 @@ class CollectionTypeExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ('doctrine_phpcr' != $options['sonata_field_description']->getAdmin()->getManagerType() || !$options['sonata_field_description']->getOption('sortable')) {
             return;

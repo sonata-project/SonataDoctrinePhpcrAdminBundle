@@ -256,7 +256,7 @@ class Content
     /**
      * @param $route
      */
-    public function addRoute($route): void
+    public function addRoute($route)
     {
         $this->routes->add($route);
     }
@@ -264,7 +264,7 @@ class Content
     /**
      * @param $route
      */
-    public function removeRoute($route): void
+    public function removeRoute($route)
     {
         $this->routes->removeElement($route);
     }
@@ -272,7 +272,7 @@ class Content
     /**
      * @param $child
      */
-    public function addChild($child): void
+    public function addChild($child)
     {
         $this->children->add($child);
     }
@@ -280,7 +280,7 @@ class Content
     /**
      * @param $child
      */
-    public function removeChild($child): void
+    public function removeChild($child)
     {
         $this->children->removeElement($child);
     }

@@ -57,25 +57,25 @@ class ListBuilderTest extends TestCase
      */
     private $guesser;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->guesser = $this->createMock(TypeGuesserInterface::class, [], []);
         $this->templates = [];
     }
 
-    public function testGetBaseList(): void
+    public function testGetBaseList()
     {
         $lb = new ListBuilder($this->guesser, $this->templates);
         $this->assertInstanceOf(FieldDescriptionCollection::class, $lb->getBaseList());
     }
 
-    public function testAddField(): void
+    public function testAddField()
     {
         $this->setupAddField();
         $this->lb->addField($this->fieldDescriptionCollection, 'string', $this->fieldDescription, $this->admin);
     }
 
-    public function testAddFieldNullType(): void
+    public function testAddFieldNullType()
     {
         $typeguess = $this->createMock(TypeGuess::class, [], [], '', false);
         $this->guesser->expects($this->once())
@@ -86,7 +86,7 @@ class ListBuilderTest extends TestCase
         $this->lb->addField($this->fieldDescriptionCollection, null, $this->fieldDescription, $this->admin);
     }
 
-    public function testAddListActionField(): void
+    public function testAddListActionField()
     {
         $this->setUpListActionTests();
 
@@ -103,7 +103,7 @@ class ListBuilderTest extends TestCase
         );
     }
 
-    public function testCorrectFixedActionsFieldType(): void
+    public function testCorrectFixedActionsFieldType()
     {
         $this->setUpListActionTests();
         $this->guesser->expects($this->once())->method('guessType')->willReturn(null);
@@ -131,7 +131,7 @@ class ListBuilderTest extends TestCase
 
     //}
 
-    protected function setUpListActionTests(): void
+    protected function setUpListActionTests()
     {
         $this->metaData = $this->createMock(ClassMetadata::class);
         $this->modelManager = $this->createMock(ModelManager::class);
@@ -150,7 +150,7 @@ class ListBuilderTest extends TestCase
         $this->listBuilder = new ListBuilder($this->guesser);
     }
 
-    private function setupAddField(): void
+    private function setupAddField()
     {
         $this->lb = new ListBuilder($this->guesser, $this->templates);
         $this->metaData = $this->createMock(ClassMetadata::class, [], [], '', false);

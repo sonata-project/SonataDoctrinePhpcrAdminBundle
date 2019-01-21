@@ -25,7 +25,7 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
     /**
      * @param ContainerBuilder $container
      */
-    public function process(ContainerBuilder $container): void
+    public function process(ContainerBuilder $container)
     {
         $settings = $this->fixSettings($container);
         foreach ($container->findTaggedServiceIds('sonata.admin') as $id => $attributes) {

@@ -22,7 +22,7 @@ class BooleanFilter extends BaseFilter
     /**
      * {@inheritdoc}
      */
-    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data): void
+    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
         if (!$data || !\is_array($data) || !array_key_exists('type', $data) || !array_key_exists('value', $data)) {
             return;

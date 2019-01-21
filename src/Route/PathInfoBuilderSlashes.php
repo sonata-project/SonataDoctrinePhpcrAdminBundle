@@ -24,7 +24,7 @@ class PathInfoBuilderSlashes implements RouteBuilderInterface
      *
      * {@inheritdoc}
      */
-    public function build(AdminInterface $admin, RouteCollection $collection): void
+    public function build(AdminInterface $admin, RouteCollection $collection)
     {
         $collection->add('list');
         $collection->add('create');

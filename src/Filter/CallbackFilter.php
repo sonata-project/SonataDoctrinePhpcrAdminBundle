@@ -24,7 +24,7 @@ class CallbackFilter extends BaseFilter
      * @throws \InvalidArgumentException if the filter is not configured with a
      *                                   callable in the 'callback' option field
      */
-    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data): void
+    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
         if (!\is_callable($this->getOption('callback'))) {
             throw new \RuntimeException(sprintf('Please provide a valid callback for option "callback" and field "%s"', $this->getName()));

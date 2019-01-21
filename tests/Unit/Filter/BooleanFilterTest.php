@@ -23,31 +23,31 @@ class BooleanFilterTest extends BaseTestCase
      */
     private $filter;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
         $this->filter = new BooleanFilter();
     }
 
-    public function testFilterNullData(): void
+    public function testFilterNullData()
     {
         $this->filter->filter($this->proxyQuery, null, 'somefield', null);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayData(): void
+    public function testFilterEmptyArrayData()
     {
         $this->filter->filter($this->proxyQuery, null, 'somefield', []);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayDataSpecifiedType(): void
+    public function testFilterEmptyArrayDataSpecifiedType()
     {
         $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => BooleanType::TYPE_YES]);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayDataWithMeaninglessValue(): void
+    public function testFilterEmptyArrayDataWithMeaninglessValue()
     {
         $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => BooleanType::TYPE_YES, 'value' => 'someValue']);
         $this->assertFalse($this->filter->isActive());
@@ -64,7 +64,7 @@ class BooleanFilterTest extends BaseTestCase
     /**
      * @dataProvider getFilters
      */
-    public function testFilterSwitch($operatorMethod, $value, $expectedValue): void
+    public function testFilterSwitch($operatorMethod, $value, $expectedValue)
     {
         $this->filter->filter(
             $this->proxyQuery,

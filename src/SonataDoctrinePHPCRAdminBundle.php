@@ -25,7 +25,7 @@ class SonataDoctrinePHPCRAdminBundle extends Bundle
     /**
      * @param ContainerBuilder $container
      */
-    public function build(ContainerBuilder $container): void
+    public function build(ContainerBuilder $container)
     {
         $this->registerFormMapping();
 
@@ -37,12 +37,12 @@ class SonataDoctrinePHPCRAdminBundle extends Bundle
     /**
      * {@inheritdoc}
      */
-    public function boot(): void
+    public function boot()
     {
         $this->registerFormMapping();
     }
 
-    private function registerFormMapping(): void
+    private function registerFormMapping()
     {
         FormHelper::registerFormTypeMapping([
             'doctrine_phpcr_type_filter_choice' => 'Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType',

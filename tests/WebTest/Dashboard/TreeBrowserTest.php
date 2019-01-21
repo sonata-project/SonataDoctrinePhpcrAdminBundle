@@ -21,13 +21,13 @@ use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
  */
 class TreeBrowserTest extends BaseTestCase
 {
-    public function setUp(): void
+    public function setUp()
     {
         $this->db('PHPCR')->loadFixtures([LoadTreeData::class]);
         $this->client = $this->createClient();
     }
 
-    public function testTreeOnDashboardLoadsWithNoErrors(): void
+    public function testTreeOnDashboardLoadsWithNoErrors()
     {
         $crawler = $this->client->request('GET', '/admin/dashboard');
         $res = $this->client->getResponse();

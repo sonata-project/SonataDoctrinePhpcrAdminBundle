@@ -71,7 +71,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     /**
      * @param PagerInterface $pager
      */
-    public function setPager(PagerInterface $pager): void
+    public function setPager(PagerInterface $pager)
     {
         $this->pager = $pager;
     }
@@ -91,7 +91,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription): void
+    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
     {
         // set default values
         $fieldDescription->setAdmin($admin);

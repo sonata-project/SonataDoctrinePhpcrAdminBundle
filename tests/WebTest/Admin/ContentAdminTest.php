@@ -18,13 +18,13 @@ use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 class ContentAdminTest extends BaseTestCase
 {
-    public function setUp(): void
+    public function setUp()
     {
         $this->db('PHPCR')->loadFixtures([LoadTreeData::class]);
         $this->client = $this->createClient();
     }
 
-    public function testContentList(): void
+    public function testContentList()
     {
         $crawler = $this->client->request('GET', '/admin/fixtures/app/content/list');
         $res = $this->client->getResponse();
@@ -33,7 +33,7 @@ class ContentAdminTest extends BaseTestCase
         $this->assertCount(1, $crawler->filter('html:contains("Content 1")'));
     }
 
-    public function testContentWithChildEdit(): void
+    public function testContentWithChildEdit()
     {
         $crawler = $this->client->request('GET', '/admin/fixtures/app/content/test/content/content-1/edit');
         $res = $this->client->getResponse();
@@ -50,7 +50,7 @@ class ContentAdminTest extends BaseTestCase
         $this->assertCount(1, $crawler->filter('div[id$="_routes"] select'));
     }
 
-    public function testContentWithChildrenEdit(): void
+    public function testContentWithChildrenEdit()
     {
         $crawler = $this->client->request('GET', '/admin/fixtures/app/content/test/content/content-2/edit');
         $res = $this->client->getResponse();
@@ -64,7 +64,7 @@ class ContentAdminTest extends BaseTestCase
         $this->assertCount(1, $crawler->filter('div[id$="_children"] table'));
     }
 
-    public function testContentCreate(): void
+    public function testContentCreate()
     {
         $crawler = $this->client->request('GET', '/admin/fixtures/app/content/create');
         $res = $this->client->getResponse();
@@ -87,7 +87,7 @@ class ContentAdminTest extends BaseTestCase
         $this->assertEquals(302, $res->getStatusCode());
     }
 
-    public function testShowContent(): void
+    public function testShowContent()
     {
         $crawler = $this->client->request('GET', '/admin/fixtures/app/content/test/content/content-1/show');
         $res = $this->client->getResponse();

@@ -20,7 +20,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 
 class PagerTest extends TestCase
 {
-    public function setUp(): void
+    public function setUp()
     {
         $this->pager = new Pager(10);
 
@@ -29,7 +29,7 @@ class PagerTest extends TestCase
             ->getMock();
     }
 
-    public function testInitNumPages(): void
+    public function testInitNumPages()
     {
         $this->proxyQuery->expects($this->once())
             ->method('execute')
@@ -50,7 +50,7 @@ class PagerTest extends TestCase
         $this->assertEquals(2, $this->pager->getLastPage());
     }
 
-    public function testInitOffset(): void
+    public function testInitOffset()
     {
         $this->proxyQuery->expects($this->once())
             ->method('execute')
@@ -73,7 +73,7 @@ class PagerTest extends TestCase
         $this->assertEquals(2, $this->pager->getLastPage());
     }
 
-    public function testNoPagesPerConfig(): void
+    public function testNoPagesPerConfig()
     {
         $this->proxyQuery->expects($this->once())
             ->method('execute')
@@ -97,7 +97,7 @@ class PagerTest extends TestCase
         $this->assertEquals(0, $this->pager->getLastPage());
     }
 
-    public function testNoPagesForNoResults(): void
+    public function testNoPagesForNoResults()
     {
         $this->proxyQuery->expects($this->once())
             ->method('execute')
@@ -116,7 +116,7 @@ class PagerTest extends TestCase
         $this->AssertEquals(0, $this->pager->getLastPage());
     }
 
-    public function testInitNoQuery(): void
+    public function testInitNoQuery()
     {
         $this->expectException(\RuntimeException::class);
         $this->pager->init();

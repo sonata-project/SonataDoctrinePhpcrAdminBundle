@@ -18,28 +18,28 @@ use Sonata\DoctrinePHPCRAdminBundle\Filter\CallbackFilter;
 
 class CallBackFilterTest extends BaseTestCase
 {
-    public function testFilterNullData(): void
+    public function testFilterNullData()
     {
         $filter = new CallbackFilter();
-        $filter->initialize('field_name', ['callback' => function (): void {
+        $filter->initialize('field_name', ['callback' => function () {
         }]);
         $res = $filter->filter($this->proxyQuery, null, 'somefield', null);
         $this->assertNull($res);
         $this->assertFalse($filter->isActive());
     }
 
-    public function testFilterEmptyArrayData(): void
+    public function testFilterEmptyArrayData()
     {
         $filter = new CallbackFilter();
 
-        $filter->initialize('field_name', ['callback' => function (): void {
+        $filter->initialize('field_name', ['callback' => function () {
         }]);
         $res = $filter->filter($this->proxyQuery, null, 'somefield', []);
         $this->assertNull($res);
         $this->assertFalse($filter->isActive());
     }
 
-    public function testFilterMethod(): void
+    public function testFilterMethod()
     {
         $this->proxyQuery->expects($this->once())
             ->method('getQueryBuilder')
@@ -70,7 +70,7 @@ class CallBackFilterTest extends BaseTestCase
         return true;
     }
 
-    public function testFilterClosure(): void
+    public function testFilterClosure()
     {
         $this->proxyQuery->expects($this->once())
             ->method('getQueryBuilder')
@@ -98,7 +98,7 @@ class CallBackFilterTest extends BaseTestCase
         $this->assertTrue($filter->isActive());
     }
 
-    public function testWithoutCallback(): void
+    public function testWithoutCallback()
     {
         $this->expectException(\RuntimeException::class);
 
@@ -108,7 +108,7 @@ class CallBackFilterTest extends BaseTestCase
         $filter->filter($this->proxyQuery, null, 'somefield', null);
     }
 
-    public function testCallbackNotCallable(): void
+    public function testCallbackNotCallable()
     {
         $this->expectException(\RuntimeException::class);
 

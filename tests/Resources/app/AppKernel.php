@@ -16,7 +16,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class AppKernel extends TestKernel
 {
-    public function configure(): void
+    public function configure()
     {
         $this->requireBundleSet('default');
 
@@ -36,7 +36,7 @@ class AppKernel extends TestKernel
         ]);
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader): void
+    public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__.'/config/config.php');
         $loader->load(__DIR__.'/config/admin-test.xml');

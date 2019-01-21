@@ -23,34 +23,34 @@ class StringFilterTest extends BaseTestCase
      */
     private $filter;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
         $this->filter = new StringFilter();
     }
 
-    public function testFilterNullData(): void
+    public function testFilterNullData()
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', null);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayData(): void
+    public function testFilterEmptyArrayData()
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', []);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayDataSpecifiedType(): void
+    public function testFilterEmptyArrayDataSpecifiedType()
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => ChoiceType::TYPE_EQUAL]);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayDataWithMeaninglessValue(): void
+    public function testFilterEmptyArrayDataWithMeaninglessValue()
     {
         $this->proxyQuery->expects($this->never())
             ->method('getQueryBuilder');
@@ -114,7 +114,7 @@ class StringFilterTest extends BaseTestCase
     /**
      * @dataProvider getFilters
      */
-    public function testFilterSwitch($choiceType, $assertPaths, $isLowerCase = false): void
+    public function testFilterSwitch($choiceType, $assertPaths, $isLowerCase = false)
     {
         if ($isLowerCase) {
             $this->filter->setOption('compare_case_insensitive', true);

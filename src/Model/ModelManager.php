@@ -70,7 +70,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @throws ModelManagerException if the document manager throws any exception
      */
-    public function create($object): void
+    public function create($object)
     {
         try {
             $this->dm->persist($object);
@@ -85,7 +85,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @throws ModelManagerException if the document manager throws any exception
      */
-    public function update($object): void
+    public function update($object)
     {
         try {
             $this->dm->persist($object);
@@ -100,7 +100,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @throws ModelManagerException if the document manager throws any exception
      */
-    public function delete($object): void
+    public function delete($object)
     {
         try {
             $this->dm->remove($object);
@@ -305,7 +305,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx): void
+    public function addIdentifiersToQuery($class, ProxyQueryInterface $queryProxy, array $idx)
     {
         /* @var $queryProxy ProxyQuery */
         $qb = $queryProxy->getQueryBuilder();
@@ -339,7 +339,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @throws ModelManagerException if anything goes wrong during query execution
      */
-    public function batchDelete($class, ProxyQueryInterface $queryProxy): void
+    public function batchDelete($class, ProxyQueryInterface $queryProxy)
     {
         try {
             $i = 0;
@@ -523,7 +523,7 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null): void
+    public function getDataSourceIterator(DatagridInterface $datagrid, array $fields, $firstResult = null, $maxResult = null)
     {
         throw new \RuntimeException('Datasourceiterator not implemented.');
     }

@@ -114,7 +114,7 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * @param string $root root path to restrict what documents to find
      */
-    public function setRootPath($root): void
+    public function setRootPath($root)
     {
         $this->root = $root;
     }
@@ -210,7 +210,7 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * @throws \Exception
      */
-    public function getSingleScalarResult(): void
+    public function getSingleScalarResult()
     {
         /* TODO: Figure out who calls this method and what to do here in context of PHPCR */
         throw new \Exception('Used by what??');
@@ -292,14 +292,14 @@ class ProxyQuery implements ProxyQueryInterface
         return $this->documentManager;
     }
 
-    public function getUniqueParameterId(): void
+    public function getUniqueParameterId()
     {
     }
 
     /**
      * @param array $associationMappings
      */
-    public function entityJoin(array $associationMappings): void
+    public function entityJoin(array $associationMappings)
     {
     }
 }

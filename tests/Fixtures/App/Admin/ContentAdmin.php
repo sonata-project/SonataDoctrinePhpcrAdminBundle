@@ -37,7 +37,7 @@ class ContentAdmin extends Admin
      */
     private $managerRegistry;
 
-    public function setManagerRegistry(ManagerRegistry $managerRegistry): void
+    public function setManagerRegistry(ManagerRegistry $managerRegistry)
     {
         $this->managerRegistry = $managerRegistry;
     }
@@ -54,7 +54,7 @@ class ContentAdmin extends Admin
             : $this->trans('link_add', [], 'SonataAdminBundle');
     }
 
-    public function configureShowFields(ShowMapper $showMapper): void
+    public function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
             ->tab('General') // the tab call is optional
@@ -92,14 +92,14 @@ class ContentAdmin extends Admin
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
             ->addIdentifier('id')
             ->add('title');
     }
 
-    protected function configureFormFields(FormMapper $formMapper): void
+    protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
             ->with('form.group_general')
@@ -154,7 +154,7 @@ class ContentAdmin extends Admin
         ));
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('title', 'doctrine_phpcr_string')

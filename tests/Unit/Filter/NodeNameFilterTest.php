@@ -18,7 +18,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 
 class NodeNameFilterTest extends BaseTestCase
 {
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
         $this->filter = new NodeNameFilter();
@@ -29,28 +29,28 @@ class NodeNameFilterTest extends BaseTestCase
         return ChoiceType::TYPE_EQUAL;
     }
 
-    public function testFilterNullData(): void
+    public function testFilterNullData()
     {
         $res = $this->filter->filter($this->proxyQuery, 'a', 'somefield', null);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayData(): void
+    public function testFilterEmptyArrayData()
     {
         $res = $this->filter->filter($this->proxyQuery, 'a', 'somefield', []);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayDataSpecifiedType(): void
+    public function testFilterEmptyArrayDataSpecifiedType()
     {
         $res = $this->filter->filter($this->proxyQuery, 'a', 'somefield', ['type' => ChoiceType::TYPE_EQUAL]);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayDataWithMeaninglessValue(): void
+    public function testFilterEmptyArrayDataWithMeaninglessValue()
     {
         $this->filter->filter($this->proxyQuery, 'a', 'somefield', ['type' => ChoiceType::TYPE_EQUAL, 'value' => ' ']);
         $this->assertFalse($this->filter->isActive());
@@ -69,7 +69,7 @@ class NodeNameFilterTest extends BaseTestCase
     /**
      * @dataProvider getFilters
      */
-    public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue'): void
+    public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue')
     {
         $this->proxyQuery->expects($this->exactly(1))
             ->method('getQueryBuilder')

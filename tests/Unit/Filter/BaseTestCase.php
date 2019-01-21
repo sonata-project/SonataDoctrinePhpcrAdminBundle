@@ -35,7 +35,7 @@ class BaseTestCase extends TestCase
      */
     protected $proxyQuery;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->qb = new QueryBuilder();
         $this->qbTester = new QueryBuilderTester($this->qb);

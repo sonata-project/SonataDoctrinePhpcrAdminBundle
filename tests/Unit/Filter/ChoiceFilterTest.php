@@ -18,27 +18,27 @@ use Sonata\DoctrinePHPCRAdminBundle\Filter\ChoiceFilter;
 
 class ChoiceFilterTest extends BaseTestCase
 {
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
         $this->filter = new ChoiceFilter();
     }
 
-    public function testFilterNullData(): void
+    public function testFilterNullData()
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', null);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayData(): void
+    public function testFilterEmptyArrayData()
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', []);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
 
-    public function testFilterEmptyArrayDataSpecifiedType(): void
+    public function testFilterEmptyArrayDataSpecifiedType()
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => ChoiceType::TYPE_EQUAL]);
         $this->assertNull($res);
@@ -60,7 +60,7 @@ class ChoiceFilterTest extends BaseTestCase
     /**
      * @dataProvider getMeaninglessValues
      */
-    public function testFilterEmptyArrayDataWithMeaninglessValue($value): void
+    public function testFilterEmptyArrayDataWithMeaninglessValue($value)
     {
         $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => ChoiceType::TYPE_EQUAL, 'value' => $value]);
         $this->assertFalse($this->filter->isActive());
@@ -78,7 +78,7 @@ class ChoiceFilterTest extends BaseTestCase
     /**
      * @dataProvider getFilters
      */
-    public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue'): void
+    public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue')
     {
         $this->proxyQuery->expects($this->once())
             ->method('getQueryBuilder')
@@ -251,7 +251,7 @@ class ChoiceFilterTest extends BaseTestCase
     /**
      * @dataProvider getFiltersMultiple
      */
-    public function testFilterMultipleSwitch($options): void
+    public function testFilterMultipleSwitch($options)
     {
         $options = array_merge([
             'choiceType' => null,

@@ -20,7 +20,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Route\PathInfoBuilderSlashes;
 
 class PathInfoBuilderSlashesTest extends TestCase
 {
-    public function testBuild(): void
+    public function testBuild()
     {
         $collectionChild = $this->createMock(RouteCollection::class);
 
@@ -46,7 +46,7 @@ class PathInfoBuilderSlashesTest extends TestCase
         $builder->build($admin, $collection);
     }
 
-    public function testBuildWithAcl(): void
+    public function testBuildWithAcl()
     {
         $admin = $this->createMock(AbstractAdmin::class);
         $admin->expects($this->once())
