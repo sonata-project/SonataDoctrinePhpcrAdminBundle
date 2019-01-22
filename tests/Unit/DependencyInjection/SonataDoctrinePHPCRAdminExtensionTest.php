@@ -25,7 +25,7 @@ class SonataDoctrinePHPCRAdminExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
-    public function testDocumentTreeDefaultValues()
+    public function testDocumentTreeDefaultValues(): void
     {
         $this->container->setParameter(
             'kernel.bundles',
