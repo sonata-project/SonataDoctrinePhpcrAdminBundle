@@ -17,6 +17,7 @@ use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\ODM\PHPCR\DocumentRepository;
 use PHPUnit\Framework\TestCase;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\StringFilter;
 use Sonata\DoctrinePHPCRAdminBundle\Guesser\FilterTypeGuesser;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Guess\Guess;
@@ -54,7 +55,7 @@ class FilterTypeGuesserTest extends TestCase
             $typeGuess
         );
         $this->assertSame(
-            'doctrine_phpcr_string',
+            StringFilter::class,
             $typeGuess->getType()
         );
         $this->assertSame(

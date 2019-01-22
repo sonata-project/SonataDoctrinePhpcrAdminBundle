@@ -15,11 +15,14 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Fixtures\App\Admin;
 
 use Doctrine\Bundle\PHPCRBundle\Form\DataTransformer\DocumentToPathTransformer;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ODM\PHPCR\Mapping\Annotations\String;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\NodeNameFilter;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\StringFilter;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Sonata\CoreBundle\Form\Type\CollectionType;
 use Sonata\DoctrinePHPCRAdminBundle\Admin\Admin;
@@ -179,7 +182,7 @@ class ContentAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('title', 'doctrine_phpcr_string')
-            ->add('name', 'doctrine_phpcr_nodename');
+            ->add('title', StringFilter::class)
+            ->add('name', NodeNameFilter::class);
     }
 }
