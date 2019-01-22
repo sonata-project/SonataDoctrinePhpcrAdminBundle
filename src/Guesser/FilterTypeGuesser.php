@@ -13,11 +13,19 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Guesser;
 
+use Doctrine\Bundle\PHPCRBundle\Form\Type\DocumentType;
 use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
 use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Doctrine\ODM\PHPCR\Mapping\MappingException;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
+use Sonata\CoreBundle\Form\Type\BooleanType;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\BooleanFilter;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\DateFilter;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\NumberFilter;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\StringFilter;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
@@ -52,7 +60,7 @@ class FilterTypeGuesser implements TypeGuesserInterface
         }
 
         $options = [
-            'field_type' => 'Symfony\Component\Form\Extension\Core\Type\TextType',
+            'field_type' => TextType::class,
             'field_options' => [],
             'options' => [],
         ];
@@ -61,10 +69,10 @@ class FilterTypeGuesser implements TypeGuesserInterface
             // TODO add support for children, child, referrers and parentDocument associations
             $mapping = $metadata->mappings[$property];
 
-            $options['operator_type'] = 'sonata_type_boolean';
+            $options['operator_type'] = BooleanType::class;
             $options['operator_options'] = [];
 
-            $options['field_type'] = 'Doctrine\Bundle\PHPCRBundle\Form\Type\DocumentType';
+            $options['field_type'] = DocumentType::class;
             if (!empty($mapping['targetDocument'])) {
                 $options['field_options'] = [
                     'class' => $mapping['targetDocument'],
@@ -87,30 +95,30 @@ class FilterTypeGuesser implements TypeGuesserInterface
         $options['field_name'] = $property;
         switch ($metadata->getTypeOfField($property)) {
             case 'boolean':
-                $options['field_type'] = 'Sonata\CoreBundle\Form\Type\BooleanType';
+                $options['field_type'] = BooleanType::class;
                 $options['field_options'] = [];
 
-                return new TypeGuess('doctrine_phpcr_boolean', $options, Guess::HIGH_CONFIDENCE);
+                return new TypeGuess(BooleanFilter::class, $options, Guess::HIGH_CONFIDENCE);
             case 'date':
-                return new TypeGuess('doctrine_phpcr_date', $options, Guess::HIGH_CONFIDENCE);
+                return new TypeGuess(DateFilter::class, $options, Guess::HIGH_CONFIDENCE);
             case 'decimal':
             case 'float':
-                return new TypeGuess('doctrine_phpcr_number', $options, Guess::HIGH_CONFIDENCE);
+                return new TypeGuess(NumberFilter::class, $options, Guess::HIGH_CONFIDENCE);
             case 'integer':
-                $options['field_type'] = 'Symfony\Component\Form\Extension\Core\Type\NumberType';
+                $options['field_type'] = NumberType::class;
                 $options['field_options'] = [
                     'csrf_protection' => false,
                 ];
 
-                return new TypeGuess('doctrine_phpcr_integer', $options, Guess::HIGH_CONFIDENCE);
+                return new TypeGuess(NumberFilter::class, $options, Guess::HIGH_CONFIDENCE);
             case 'text':
             case 'string':
-                $options['field_type'] = 'Symfony\Component\Form\Extension\Core\Type\TextType';
+                $options['field_type'] = TextType::class;
 
-                return new TypeGuess('doctrine_phpcr_string', $options, Guess::HIGH_CONFIDENCE);
+                return new TypeGuess(StringFilter::class, $options, Guess::HIGH_CONFIDENCE);
         }
 
-        return new TypeGuess('doctrine_phpcr_string', $options, Guess::LOW_CONFIDENCE);
+        return new TypeGuess(StringFilter::class, $options, Guess::LOW_CONFIDENCE);
     }
 
     /**

@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Datagrid;
 
+use Doctrine\ODM\PHPCR\DocumentManager;
 use Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder;
+use Doctrine\ODM\PHPCR\Query\Query;
 use PHPUnit\Framework\TestCase;
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 
@@ -31,19 +33,15 @@ class ProxyQueryTest extends TestCase
 
     public function setUp()
     {
-        $this->qb = $this->getMockBuilder('Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->query = $this->getMockBuilder('Doctrine\ODM\PHPCR\Query\Query')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->qb = $this->createMock(QueryBuilder::class);
+        $this->query = $this->createMock(Query::class);
 
         $this->pq = new ProxyQuery($this->qb, 'a');
     }
 
     public function testConstructor()
     {
-        $this->assertInstanceOf('Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder', $this->pq->getQueryBuilder());
+        $this->assertInstanceOf(QueryBuilder::class, $this->pq->getQueryBuilder());
     }
 
     public function testSetSortBy()
@@ -115,9 +113,7 @@ class ProxyQueryTest extends TestCase
 
     public function testGetAndSetDocumentManager()
     {
-        $dm = $this->getMockBuilder('Doctrine\\ODM\\PHPCR\\DocumentManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $dm = $this->createMock(DocumentManager::class);
         $this->pq->setDocumentManager($dm);
         $this->assertEquals($dm, $this->pq->getDocumentManager());
     }

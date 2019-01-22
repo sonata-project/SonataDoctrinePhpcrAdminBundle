@@ -54,7 +54,7 @@ Example
             $datagrid
                 ->add('title')
                 ->add('enabled')
-                ->add('tags', null, array(), null, array('expanded' => true, 'multiple' => true))
+                ->add('tags', null, [], null, ['expanded' => true, 'multiple' => true])
             ;
         }
     }
@@ -109,7 +109,7 @@ You can customize the label which appears on the main widget by using a ``label`
     {
         $datagrid
             // ..
-            ->add('tags', null, array('label' => 'les tags'), null, array('expanded' => true, 'multiple' => true))
+            ->add('tags', null, ['label' => 'les tags'], null, ['expanded' => true, 'multiple' => true])
             // ..
         ;
     }
@@ -144,10 +144,10 @@ implement this functionality.
             $datagridMapper
                 ->add('title')
                 ->add('enabled')
-                ->add('tags', null, array(), null, array('expanded' => true, 'multiple' => true))
+                ->add('tags', null, [], null, ['expanded' => true, 'multiple' => true])
                 ->add('author')
-                ->add('with_open_comments', 'doctrine_phpcr_callback', array(
-    //                'callback'   => array($this, 'getWithOpenCommentFilter'),
+                ->add('with_open_comments', 'doctrine_phpcr_callback', [
+    //                'callback'   => [$this, 'getWithOpenCommentFilter'],
                     'callback' => function($queryBuilder, $alias, $field, $data) {
                         if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
                             return;
@@ -161,7 +161,7 @@ implement this functionality.
                         return true;
                     },
                     'field_type' => 'checkbox'
-                ))
+                ])
             ;
         }
 
@@ -202,8 +202,8 @@ To make the filter case insensitive, use the ``compare_case_insensitive`` option
         protected function configureDatagridFilters(DatagridMapper $datagridMapper)
         {
             $datagridMapper
-                ->add('title', 'doctrine_phpcr_string', array('compare_case_insensitive' => true))
-                ->add('author', 'doctrine_phpcr_string', array('compare_case_insensitive' => true))
+                ->add('title', 'doctrine_phpcr_string', ['compare_case_insensitive' => true])
+                ->add('author', 'doctrine_phpcr_string', ['compare_case_insensitive' => true])
                 ->add('label', 'doctrine_phpcr_string')
             ;
         }

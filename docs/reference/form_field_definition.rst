@@ -23,11 +23,10 @@ you can use the corresponding option in the form field definition:
         {
             $formMapper
                 ->with('General')
-                    ->add('enabled', null, array('required' => false))
-                    ->add('author', 'sonata_type_model_list', array(
-                    ), array(
-                        'placeholder' => 'No author selected'
-                    ))
+                    ->add('enabled', null, ['required' => false])
+                    ->add('author', 'sonata_type_model_list', [], [
+                        'placeholder' => 'No author selected',
+                    ])
 
             ;
         }

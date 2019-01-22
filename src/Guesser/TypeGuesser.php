@@ -18,6 +18,10 @@ use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Doctrine\ODM\PHPCR\Mapping\MappingException;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
+use Sonata\CoreBundle\Form\Type\BooleanType;
+use Sonata\CoreBundle\Form\Type\DatePickerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
@@ -53,7 +57,7 @@ class TypeGuesser implements TypeGuesserInterface
     public function guessType($class, $property, ModelManagerInterface $modelManager)
     {
         if (!$metadata = $this->getMetadata($class)) {
-            return new TypeGuess('Symfony\Component\Form\Extension\Core\Type\TextType', [], Guess::LOW_CONFIDENCE);
+            return new TypeGuess(TextType::class, [], Guess::LOW_CONFIDENCE);
         }
 
         if ($metadata->hasAssociation($property)) {
@@ -79,24 +83,24 @@ class TypeGuesser implements TypeGuesserInterface
         // TODO: missing multivalue support
         switch ($metadata->getTypeOfField($property)) {
             case 'boolean':
-                return new TypeGuess('boolean', [], Guess::HIGH_CONFIDENCE);
+                return new TypeGuess(BooleanType::class, [], Guess::HIGH_CONFIDENCE);
             case 'date':
-                return new TypeGuess('date', [], Guess::HIGH_CONFIDENCE);
+                return new TypeGuess(DatePickerType::class, [], Guess::HIGH_CONFIDENCE);
 
             case 'decimal':
             case 'double':
-                return new TypeGuess('number', [], Guess::MEDIUM_CONFIDENCE);
+                return new TypeGuess(TextType::class, [], Guess::MEDIUM_CONFIDENCE);
             case 'integer':
             case 'long':
-                return new TypeGuess('integer', [], Guess::MEDIUM_CONFIDENCE);
+                return new TypeGuess(NumberType::class, [], Guess::MEDIUM_CONFIDENCE);
             case 'string':
-                return new TypeGuess('string', [], Guess::HIGH_CONFIDENCE);
+                return new TypeGuess(TextType::class, [], Guess::HIGH_CONFIDENCE);
             case 'binary':
             case 'uri':
-                return new TypeGuess('string', [], Guess::MEDIUM_CONFIDENCE);
+                return new TypeGuess(TextType::class, [], Guess::MEDIUM_CONFIDENCE);
         }
 
-        return new TypeGuess('Symfony\Component\Form\Extension\Core\Type\TextType', [], Guess::LOW_CONFIDENCE);
+        return new TypeGuess(TextType::class, [], Guess::LOW_CONFIDENCE);
     }
 
     /**
