@@ -230,14 +230,14 @@ like this:
 
     .. code-block:: php
 
-        <?php echo $view['actions']->render(new ControllerReference(
+        echo $view['actions']->render(new ControllerReference(
                 'sonata.admin.doctrine_phpcr.tree_controller::treeAction',
                 [
                     'root'     => $basePath . '/menu',
                     'selected' => $menuNodeId,
-                    '_locale'  => $app->getRequest()->getLocale()
+                    '_locale'  => $app->getRequest()->getLocale(),
                 ],
-        )) ?>
+        ));
 
 .. note::
 

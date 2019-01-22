@@ -24,7 +24,9 @@ you can use the corresponding option in the form field definition:
             $formMapper
                 ->with('General')
                     ->add('enabled', null, ['required' => false])
-                    ->add('author', 'sonata_type_model_list', [], ['placeholder' => 'No author selected'])
+                    ->add('author', 'sonata_type_model_list', [], [
+                        'placeholder' => 'No author selected',
+                    ])
 
             ;
         }
