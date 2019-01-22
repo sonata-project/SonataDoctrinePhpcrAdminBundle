@@ -6,57 +6,39 @@ storage connectivity for SonataAdminBundle. As such, SonataDoctrinePhpcrAdminBun
 depends on SonataAdminBundle, and will not work without it.
 
 .. note::
+
     These installation instructions are meant to be used only as part of SonataAdminBundle's
     installation process, which is documented `here <http://sonata-project.org/bundles/admin/master/doc/reference/installation.html>`_.
-
 
 Download the Bundle
 -------------------
 
-Use composer:
-
 .. code-block:: bash
 
-    php composer.phar require sonata-project/doctrine-phpcr-admin-bundle
-
-You'll be asked to type in a version constraint. 'dev-master' will get you the
-latest, bleeding edge version. Check packagist_ for the current stable version:
+    composer require sonata-project/doctrine-phpcr-admin-bundle
 
 Enable the Bundle
 -----------------
 
-Next, be sure to enable the bundle in your AppKernel.php file:
+Then, enable the bundle by adding it to the list of registered bundles
+in ``bundles.php`` file of your project::
 
-.. code-block:: php
+    // config/bundles.php
 
-    <?php
-    // app/AppKernel.php
-    public function registerBundles()
-    {
-        return [
-            // ...
-            // set up basic doctrine phpcr-odm requirements
-            // set up basic sonata requirements
-            // ...
-            new Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle(),
-            new Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle(),
-            // ...
-        ];
-    }
-
-.. note::
-    Don't forget that, as part of `SonataAdminBundle's installation instructions <http://sonata-project.org/bundles/admin/master/doc/reference/installation.html>`_,
-    you need to enable additional bundles on AppKernel.php
+    return [
+        // ...
+        Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle::class => ['all' => true],
+        Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle::class => ['all' => true],
+    ];
 
 Load Routing
 ------------
-
 
 .. configuration-block::
 
     .. code-block:: yaml
 
-        # app/config/routing.yml
+        # config/routes.yaml
 
         admin:
             resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
@@ -73,7 +55,7 @@ Load Routing
 
     .. code-block:: xml
 
-        <!-- app/config/routing.xml -->
+        <!-- config/routes.xml -->
         <?xml version="1.0" encoding="UTF-8" ?>
         <routes xmlns="http://symfony.com/schema/routing"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -100,7 +82,7 @@ Load Routing
 
     .. code-block:: php
 
-        // app/config/routing.php
+        // config/routes.php
         use Symfony\Component\Routing\RouteCollection;
 
         $collection = new RouteCollection();
