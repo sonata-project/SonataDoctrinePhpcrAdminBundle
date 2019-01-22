@@ -15,7 +15,6 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Fixtures\App\Admin;
 
 use Doctrine\Bundle\PHPCRBundle\Form\DataTransformer\DocumentToPathTransformer;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ODM\PHPCR\Mapping\Annotations\String;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
