@@ -131,7 +131,7 @@ class StringFilterTest extends BaseTestCase
             $node = $this->qbTester->getNode($path);
             foreach ($assertions as $methodName => $expectedValue) {
                 $res = $node->$methodName();
-                $this->assertEquals($expectedValue, $res);
+                $this->assertSame($expectedValue, $res);
             }
         }
 

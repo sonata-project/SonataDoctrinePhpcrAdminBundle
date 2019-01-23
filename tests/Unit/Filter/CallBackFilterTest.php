@@ -55,9 +55,9 @@ class CallBackFilterTest extends BaseTestCase
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
 
-        $this->assertEquals('a', $opDynamic->getAlias());
-        $this->assertEquals('somefield', $opDynamic->getField());
-        $this->assertEquals('somevalue', $opStatic->getValue());
+        $this->assertSame('a', $opDynamic->getAlias());
+        $this->assertSame('somefield', $opDynamic->getField());
+        $this->assertSame('somevalue', $opStatic->getValue());
 
         $this->assertTrue($filter->isActive());
     }
@@ -91,9 +91,9 @@ class CallBackFilterTest extends BaseTestCase
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
 
-        $this->assertEquals('a', $opDynamic->getAlias());
-        $this->assertEquals('somefield', $opDynamic->getField());
-        $this->assertEquals('somevalue', $opStatic->getValue());
+        $this->assertSame('a', $opDynamic->getAlias());
+        $this->assertSame('somefield', $opDynamic->getField());
+        $this->assertSame('somevalue', $opStatic->getValue());
 
         $this->assertTrue($filter->isActive());
     }

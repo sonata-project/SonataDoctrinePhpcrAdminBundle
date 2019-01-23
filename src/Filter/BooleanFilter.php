@@ -28,12 +28,12 @@ class BooleanFilter extends BaseFilter
             return;
         }
 
-        if (\is_array($data['value']) || !\in_array($data['value'], [BooleanType::TYPE_NO, BooleanType::TYPE_YES])) {
+        if (\is_array($data['value']) || !\in_array($data['value'], [BooleanType::TYPE_NO, BooleanType::TYPE_YES], true)) {
             return;
         }
 
         $where = $this->getWhere($proxyQuery);
-        $where->eq()->field('a.'.$field)->literal(BooleanType::TYPE_YES == $data['value'] ? true : false);
+        $where->eq()->field('a.'.$field)->literal(BooleanType::TYPE_YES === $data['value'] ? true : false);
 
         // filter is active as we have now modified the query
         $this->active = true;

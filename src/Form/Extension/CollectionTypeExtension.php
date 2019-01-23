@@ -29,7 +29,7 @@ class CollectionTypeExtension extends AbstractTypeExtension
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ('doctrine_phpcr' != $options['sonata_field_description']->getAdmin()->getManagerType() || !$options['sonata_field_description']->getOption('sortable')) {
+        if ('doctrine_phpcr' !== $options['sonata_field_description']->getAdmin()->getManagerType() || !$options['sonata_field_description']->getOption('sortable')) {
             return;
         }
         $listener = new CollectionOrderListener($options['sonata_field_description']->getName());

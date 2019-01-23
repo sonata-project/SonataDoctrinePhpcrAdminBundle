@@ -104,18 +104,18 @@ class TreeController extends Controller
             return new JsonResponse(['Parameters parent, dropped and target has to be set to reorder.'], Response::HTTP_BAD_REQUEST);
         }
 
-        if (\in_array($position, ['over', 'child'])) {
+        if (\in_array($position, ['over', 'child'], true)) {
             return new JsonResponse(['Can not reorder when dropping into a collection.'], Response::HTTP_BAD_REQUEST);
         }
 
-        $before = 'before' == $position;
+        $before = 'before' === $position;
         $parentNode = $this->session->getNode($parentPath);
         $targetName = PathHelper::getNodeName($targetPath);
         if (!$before) {
             $nodesIterator = $parentNode->getNodes();
             $nodesIterator->rewind();
             while ($nodesIterator->valid()) {
-                if ($nodesIterator->key() == $targetName) {
+                if ($nodesIterator->key() === $targetName) {
                     break;
                 }
                 $nodesIterator->next();
