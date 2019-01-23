@@ -83,7 +83,7 @@ class ContentAdminTest extends BaseTestCase
         $res = $this->client->getResponse();
 
         // If we have a 302 redirect, then all is well
-        $this->assertEquals(302, $res->getStatusCode());
+        $this->assertSame(302, $res->getStatusCode());
     }
 
     public function testShowContent()

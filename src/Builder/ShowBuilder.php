@@ -55,7 +55,7 @@ class ShowBuilder implements ShowBuilderInterface
      */
     public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
-        if (null == $type) {
+        if (null === $type) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
             $fieldDescription->setType($guessType->getType());
         } else {
@@ -105,11 +105,11 @@ class ShowBuilder implements ShowBuilderInterface
         if (!$fieldDescription->getTemplate()) {
             $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
 
-            if (ClassMetadata::MANY_TO_ONE == $fieldDescription->getMappingType()) {
+            if (ClassMetadata::MANY_TO_ONE === $fieldDescription->getMappingType()) {
                 $fieldDescription->setTemplate('@SonataAdmin/CRUD/Association/show_many_to_one.html.twig');
             }
 
-            if (ClassMetadata::MANY_TO_MANY == $fieldDescription->getMappingType()) {
+            if (ClassMetadata::MANY_TO_MANY === $fieldDescription->getMappingType()) {
                 $fieldDescription->setTemplate('@SonataAdmin/CRUD/Association/show_many_to_many.html.twig');
             }
         }
@@ -123,7 +123,7 @@ class ShowBuilder implements ShowBuilderInterface
             'referrers',
         ];
 
-        if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && \in_array($fieldDescription->getMappingType(), $mappingTypes)) {
+        if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && \in_array($fieldDescription->getMappingType(), $mappingTypes, true)) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
