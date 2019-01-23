@@ -110,7 +110,7 @@ class AutocompleteController
         }
 
         //did we max out x+1
-        $more = (\count($results) == $itemsPerPage + 1);
+        $more = (\count($results) === $itemsPerPage + 1);
         $method = $request->get('_method_name');
 
         $items = [];

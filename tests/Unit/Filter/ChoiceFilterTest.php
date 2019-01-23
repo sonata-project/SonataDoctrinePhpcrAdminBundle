@@ -275,11 +275,11 @@ class ChoiceFilterTest extends BaseTestCase
             $node = $this->qbTester->getNode($path);
             foreach ($methodAssertions as $methodName => $expectedValue) {
                 $res = $node->$methodName();
-                $this->assertEquals($expectedValue, $res);
+                $this->assertSame($expectedValue, $res);
             }
         }
 
         $this->assertTrue($this->filter->isActive());
-        $this->assertEquals($options['qbNodeCount'], \count($this->qbTester->getAllNodes()));
+        $this->assertSame($options['qbNodeCount'], \count($this->qbTester->getAllNodes()));
     }
 }

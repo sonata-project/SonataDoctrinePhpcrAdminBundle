@@ -68,7 +68,7 @@ class FilterTypeGuesserTest extends TestCase
             $typeGuess->getOptions()
         );
 
-        $this->assertEquals(
+        $this->assertSame(
             Guess::LOW_CONFIDENCE,
             $typeGuess->getConfidence()
         );
