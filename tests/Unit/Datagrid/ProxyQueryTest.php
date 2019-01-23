@@ -47,13 +47,13 @@ class ProxyQueryTest extends TestCase
     public function testSetSortBy(): void
     {
         $this->pq->setSortBy([], ['fieldName' => 'field']);
-        $this->assertEquals('field', $this->pq->getSortBy());
+        $this->assertSame('field', $this->pq->getSortBy());
     }
 
     public function testSetSortOrder(): void
     {
         $this->pq->setSortOrder('ASC');
-        $this->assertEquals('ASC', $this->pq->getSortOrder());
+        $this->assertSame('ASC', $this->pq->getSortOrder());
     }
 
     public function testSetSortOrderInvalid(): void
@@ -61,7 +61,7 @@ class ProxyQueryTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
 
         $this->pq->setSortOrder('SOME_ORDER');
-        $this->assertEquals('SOME_ORDER', $this->pq->getSortOrder());
+        $this->assertSame('SOME_ORDER', $this->pq->getSortOrder());
     }
 
     public function testSetFirstResult(): void
@@ -108,13 +108,13 @@ class ProxyQueryTest extends TestCase
             ->will($this->returnValue('test'));
 
         $res = $this->pq->execute();
-        $this->assertEquals('test', $res);
+        $this->assertSame('test', $res);
     }
 
     public function testGetAndSetDocumentManager(): void
     {
         $dm = $this->createMock(DocumentManager::class);
         $this->pq->setDocumentManager($dm);
-        $this->assertEquals($dm, $this->pq->getDocumentManager());
+        $this->assertSame($dm, $this->pq->getDocumentManager());
     }
 }

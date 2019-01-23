@@ -187,7 +187,7 @@ class ProxyQuery implements ProxyQueryInterface
      */
     public function setSortOrder($sortOrder)
     {
-        if (!\in_array($sortOrder, ['ASC', 'DESC'])) {
+        if (!\in_array($sortOrder, ['ASC', 'DESC'], true)) {
             throw new \InvalidArgumentException(sprintf('The parameter $sortOrder must be one of "ASC" or "DESC", got "%s"', $sortOrder));
         }
         $this->sortOrder = $sortOrder;
