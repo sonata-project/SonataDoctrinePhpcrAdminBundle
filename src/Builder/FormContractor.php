@@ -63,7 +63,7 @@ class FormContractor implements FormContractorInterface
             throw new \RuntimeException(sprintf(
                 'Please define a type for field `%s` in `%s`',
                 $fieldDescription->getName(),
-                get_class($admin)
+                \get_class($admin)
             ));
         }
 
@@ -79,7 +79,7 @@ class FormContractor implements FormContractorInterface
             'referrers',
         ];
 
-        if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && in_array($fieldDescription->getMappingType(), $mappingTypes)) {
+        if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && \in_array($fieldDescription->getMappingType(), $mappingTypes)) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
@@ -175,7 +175,7 @@ class FormContractor implements FormContractorInterface
     protected function getAssociationAdminException(FieldDescriptionInterface $fieldDescription)
     {
         $msg = sprintf('The current field `%s` is not linked to an admin. Please create one', $fieldDescription->getName());
-        if (in_array($fieldDescription->getMappingType(), [ClassMetadata::MANY_TO_ONE, ClassMetadata::MANY_TO_MANY, 'referrers'])) {
+        if (\in_array($fieldDescription->getMappingType(), [ClassMetadata::MANY_TO_ONE, ClassMetadata::MANY_TO_MANY, 'referrers'], true)) {
             if ($fieldDescription->getTargetEntity()) {
                 $msg .= " for the target document: `{$fieldDescription->getTargetEntity()}`";
             }

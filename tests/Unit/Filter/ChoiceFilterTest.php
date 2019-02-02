@@ -280,6 +280,6 @@ class ChoiceFilterTest extends BaseTestCase
         }
 
         $this->assertTrue($this->filter->isActive());
-        $this->assertEquals($options['qbNodeCount'], count($this->qbTester->getAllNodes()));
+        $this->assertEquals($options['qbNodeCount'], \count($this->qbTester->getAllNodes()));
     }
 }

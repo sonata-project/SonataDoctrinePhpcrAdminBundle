@@ -110,7 +110,7 @@ class AutocompleteController
         }
 
         //did we max out x+1
-        $more = (count($results) == $itemsPerPage + 1);
+        $more = (\count($results) == $itemsPerPage + 1);
         $method = $request->get('_method_name');
 
         $items = [];
@@ -126,11 +126,11 @@ class AutocompleteController
 
             $label = $document->{$method}();
             if (null !== $toStringCallback) {
-                if (!is_callable($toStringCallback)) {
+                if (!\is_callable($toStringCallback)) {
                     throw new \RuntimeException('Option "to_string_callback" does not contain callable function.');
                 }
 
-                $label = call_user_func($toStringCallback, $document, $property);
+                $label = \call_user_func($toStringCallback, $document, $property);
             }
 
             $items[] = [

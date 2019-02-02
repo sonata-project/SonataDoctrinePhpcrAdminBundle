@@ -23,7 +23,7 @@ class ChoiceFilter extends Filter
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data): void
     {
-        if (!$data || !is_array($data) || !array_key_exists('type', $data) || !array_key_exists('value', $data)) {
+        if (!$data || !\is_array($data) || !array_key_exists('type', $data) || !array_key_exists('value', $data)) {
             return;
         }
 
@@ -41,7 +41,7 @@ class ChoiceFilter extends Filter
         }
 
         // if values not set or "all" specified, do not do this filter
-        if (!$values || in_array('all', $values, true)) {
+        if (!$values || \in_array('all', $values, true)) {
             return;
         }
 

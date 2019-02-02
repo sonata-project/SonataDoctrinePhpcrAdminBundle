@@ -7,29 +7,22 @@ Short Object Placeholder
 When using Many-to-One or One-to-One relations with Sonata Type fields, a short
 object description is used to represent the target object. If no object is selected,
 a 'No selection' placeholder will be used. If you want to customize this placeholder,
-you can use the corresponding option in the form field definition:
+you can use the corresponding option in the form field definition::
 
-.. code-block:: php
-
-    <?php
     namespace Sonata\NewsBundle\Admin;
 
-    use Sonata\AdminBundle\Admin\Admin;
+    use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Form\FormMapper;
 
-    class PostAdmin extends Admin
+    final class PostAdmin extends AbstractAdmin
     {
         protected function configureFormFields(FormMapper $formMapper)
         {
             $formMapper
-                ->with('General')
-                    ->add('enabled', null, array('required' => false))
-                    ->add('author', 'sonata_type_model_list', array(
-                    ), array(
-                        'placeholder' => 'No author selected'
-                    ))
-
-            ;
+                ->add('enabled', null, ['required' => false])
+                ->add('author', 'sonata_type_model_list', [], [
+                    'placeholder' => 'No author selected',
+                ]);
         }
     }
 

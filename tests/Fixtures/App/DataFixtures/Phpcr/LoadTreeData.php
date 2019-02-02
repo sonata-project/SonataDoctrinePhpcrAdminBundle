@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Resources\DataFixtures\Phpcr;
+namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Fixtures\App\DataFixtures\Phpcr;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use PHPCR\Util\NodeHelper;
-use Sonata\DoctrinePHPCRAdminBundle\Tests\Resources\Document\Content;
+use Sonata\DoctrinePHPCRAdminBundle\Tests\Fixtures\App\Document\Content;
 
 class LoadTreeData implements FixtureInterface
 {

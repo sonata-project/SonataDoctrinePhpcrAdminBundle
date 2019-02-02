@@ -94,7 +94,7 @@ class Admin extends AbstractAdmin
     {
         if (null === $this->subject && $this->request) {
             $id = $this->request->get($this->getIdParameter());
-            if (!preg_match('#^[0-9A-Za-z/\-_]+$#', $id)) {
+            if (null === $id || !preg_match('#^[0-9A-Za-z/\-_]+$#', $id)) {
                 $this->subject = false;
             } else {
                 if (!UUIDHelper::isUUID($id)) {
@@ -112,7 +112,7 @@ class Admin extends AbstractAdmin
      */
     public function toString($object)
     {
-        if (!is_object($object)) {
+        if (!\is_object($object)) {
             return parent::toString($object);
         }
 

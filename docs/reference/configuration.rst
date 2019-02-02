@@ -11,14 +11,16 @@ On this bundle, you can configure templates and the document tree.
 
     .. code-block:: yaml
 
+        # config/packages/sonata_doctrine_phpcr_admin.yaml
+
         sonata_doctrine_phpcr_admin:
             templates:
                 form:
                     # Default:
-                    - "@SonataDoctrinePHPCRAdmin/Form/form_admin_fields.html.twig"
+                    - '@SonataDoctrinePHPCRAdmin/Form/form_admin_fields.html.twig'
                 filter:
                     # Default:
-                    - "@SonataDoctrinePHPCRAdmin/Form/filter_admin_fields.html.twig"
+                    - '@SonataDoctrinePHPCRAdmin/Form/filter_admin_fields.html.twig'
                 types:
                     list:
                         # Prototype
@@ -26,7 +28,7 @@ On this bundle, you can configure templates and the document tree.
                     show:
                         # Prototype
                         name:                 []
-                pager_results:        "@SonataDoctrinePHPCRAdmin/Pager/simple_pager_results.html.twig"
+                pager_results:        '@SonataDoctrinePHPCRAdmin/Pager/simple_pager_results.html.twig'
 
             document_tree:
                 # See :doc:`document_tree`.
@@ -38,7 +40,8 @@ On this bundle, you can configure templates and the document tree.
             document_tree_options:
                 # Depth to which to fetch tree children when rendering the initial tree
                 depth:                1
-                # Exact check if document has children. For large trees, set to false for better performance, but user might needs to click on expand to see there are no children.
+                # Exact check if document has children. For large trees, set to false for better
+                # performance, but user might needs to click on expand to see there are no children.
                 precise_children:     true
                 # Whether moving a node in the tree asks for confirmation.
                 confirm_move:         true

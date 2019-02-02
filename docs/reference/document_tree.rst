@@ -4,25 +4,30 @@ Document Tree
 This admin integrates with the `CmfTreeBrowserBundle`_ to provide a tree view
 of the documents.
 
+Download the Bundles
+--------------------
+
+.. code-block:: bash
+
+    composer require symfony-cmf/tree-browser-bundle
+
+.. code-block:: bash
+
+    composer require friendsofsymfony/jsrouting-bundle
+
 Enable the Bundles
 ------------------
 
-You need to load two additional bundles to use the tree::
+Then, enable the bundle by adding it to the list of registered bundles
+in ``bundles.php`` file of your project::
 
-    // app/AppKernel.php
-    class AppKernel extends Kernel
-    {
-        public function registerBundles()
-        {
-            $bundles = array(
-                // ...
-                new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-                new Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle(),
-            );
+    // config/bundles.php
 
-            // ...
-        }
-    }
+    return [
+        // ...
+        FOS\JsRoutingBundle\FOSJsRoutingBundle::class => ['all' => true],
+        Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle::class => ['all' => true],
+    ];
 
 You also need to load the routing of those bundles:
 
@@ -30,7 +35,7 @@ You also need to load the routing of those bundles:
 
     .. code-block:: yaml
 
-        # app/config/routing.yml
+        # config/routes.yaml
 
         cmf_tree:
             resource: .
@@ -41,7 +46,8 @@ You also need to load the routing of those bundles:
 
     .. code-block:: xml
 
-        <!-- app/config/routing.xml -->
+        <!-- config/routes.xml -->
+
         <?xml version="1.0" encoding="UTF-8" ?>
         <routes xmlns="http://symfony.com/schema/routing"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -61,16 +67,17 @@ You also need to load the routing of those bundles:
 
     .. code-block:: php
 
-        // app/config/routing.php
+        // config/routes.php
+
         use Symfony\Component\Routing\RouteCollection;
 
         $collection = new RouteCollection();
 
-        $collection->addCollection($loader->import('.', 'cmf_tree'));
-
-        $collection->addCollection($loader->import(
-            "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
-        ));
+        $collection
+            ->addCollection($loader->import('.', 'cmf_tree'))
+            ->addCollection($loader->import(
+                "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+            ));
 
         return $collection;
 
@@ -86,15 +93,18 @@ content:
 
     .. code-block:: yaml
 
-        #app/config/config.yml
-        # ...
+        # config/packages/sonata_block.yaml
+
         sonata_block:
             blocks:
-                # ...
                 sonata_admin_doctrine_phpcr.tree_block:
                     settings:
                         id: '/cms'
                     contexts:   [admin]
+
+    .. code-block:: yaml
+
+        # config/packages/sonata_admin.yaml
 
         sonata_admin:
             dashboard:
@@ -128,26 +138,26 @@ content:
     .. code-block:: php
 
         // app/config/config.php
-        $container->loadFromExtension('sonata_block', array(
-            'blocks' => array(
+        $container->loadFromExtension('sonata_block', [
+            'blocks' => [
                 // ...
-                'sonata_admin_doctrine_phpcr.tree_block' => array(
-                    'settings' => array(
+                'sonata_admin_doctrine_phpcr.tree_block' => [
+                    'settings' => [
                         'id' => '/cms',
-                    ),
-                    'contexts' => array('admin'),
-                ),
-            ),
-        ));
+                    ],
+                    'contexts' => ['admin'],
+                ],
+            ],
+        ]);
 
-        $container->loadFromExtension('sonata_admin', array(
-            'dashboard' => array(
-                'blocks' => array(
-                    array('position' => 'left', 'type' => 'sonata_admin_doctrine_phpcr.tree_block'),
-                    array('position' => 'right', 'type' => 'sonata.admin.block.admin_list'),
-                ),
-            ),
-        ));
+        $container->loadFromExtension('sonata_admin', [
+            'dashboard' => [
+                'blocks' => [
+                    ['position' => 'left', 'type' => 'sonata_admin_doctrine_phpcr.tree_block'],
+                    ['position' => 'right', 'type' => 'sonata.admin.block.admin_list'],
+                ],
+            ],
+        ]);
 
 Configuring the tree
 --------------------
@@ -164,7 +174,8 @@ This configuration is global for all your document trees.
 
     .. code-block:: yaml
 
-        # app/config/config.yml
+        # config/packages/sonata_doctrine_phpcr_admin.yaml
+
         sonata_doctrine_phpcr_admin:
             document_tree:
                 routing_defaults: [locale]
@@ -177,7 +188,7 @@ This configuration is global for all your document trees.
         <?xml version="1.0" encoding="UTF-8" ?>
         <container xmlns="http://symfony.com/schema/dic/services">
 
-            <config xmlns="http://sonata-project.org/schema/dic/doctrine_phpcr_admin" />
+            <config xmlns="http://sonata-project.org/schema/dic/doctrine_phpcr_admin"/>
 
                 <document-tree-default>locale</document-tree-default>
 
@@ -194,13 +205,13 @@ This configuration is global for all your document trees.
     .. code-block:: php
 
         // app/config/config.php
-        $container->loadFromExtension('sonata_doctrine_phpcr_admin', array(
-            'document_tree' => array(
-                'routing_defaults' => array('locale'),
+        $container->loadFromExtension('sonata_doctrine_phpcr_admin', [
+            'document_tree' => [
+                'routing_defaults' => ['locale'],
                 'repository_name' => 'default',
                 'sortable_by' => 'position',
-            ),
-        ));
+            ],
+        ]);
 
 .. tip::
 
@@ -220,7 +231,7 @@ like this:
     .. code-block:: jinja
 
         {% render(controller(
-            'sonata.admin.doctrine_phpcr.tree_controller:treeAction',
+            'sonata.admin.doctrine_phpcr.tree_controller::treeAction',
              {
                 'root':     basePath ~ "/menu",
                 'selected': menuNodeId,
@@ -230,15 +241,21 @@ like this:
 
     .. code-block:: php
 
-        <?php echo $view['actions']->render(new ControllerReference(
-                'sonata.admin.doctrine_phpcr.tree_controller:treeAction',
-                array(
-                    'root'     => $basePath . '/menu',
-                    'selected' => $menuNodeId,
-                    '_locale'  => $app->getRequest()->getLocale()
-                ),
-        )) ?>
+        echo $view['actions']->render(new ControllerReference(
+            'sonata.admin.doctrine_phpcr.tree_controller::treeAction',
+            [
+                'root'     => $basePath . '/menu',
+                'selected' => $menuNodeId,
+                '_locale'  => $app->getRequest()->getLocale(),
+            ],
+        ));
+
+.. note::
+
+    To use the configuration for Symfony < 3.4 you should use the single colon (:) notation to define controller
+    actions: ``sonata.admin.doctrine_phpcr.tree_controller:treeAction`` – `jsTree`_
 
 .. _`CmfTreeBrowserBundle`: http://symfony.com/doc/master/cmf/bundles/tree_browser/introduction.html
 .. _`cmf-sandbox configuration`: https://github.com/symfony-cmf/cmf-sandbox/blob/master/app/config/config.yml
 .. _`jsTree`: http://www.jstree.com/documentation
+.. _`Symfony documentation`: https://symfony.com/doc/3.1/controller/service.html#referring-to-the-service

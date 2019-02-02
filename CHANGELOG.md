@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.0](https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/compare/2.1.1...2.2.0) - 2019-01-22
+
+### Added
+- Symfony 4 support
+
+### Fixed
+- Form Type Filter ChoiceType Symfony 3 compatibility
+- Deprecation for symfony/config 4.2+
+
+### Removed
+- support for php 5 and php 7.0
+
 ## [2.1.1](https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/compare/2.1.0...2.1.1) - 2018-02-08
 ### Changed
 - Switch all templates references to Twig namespaced syntax

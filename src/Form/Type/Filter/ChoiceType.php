@@ -45,10 +45,10 @@ class ChoiceType extends BaseChoiceType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $choices = [
-            self::TYPE_CONTAINS => $this->translator->trans('label_type_contains', [], 'SonataAdminBundle'),
-            self::TYPE_NOT_CONTAINS => $this->translator->trans('label_type_not_contains', [], 'SonataAdminBundle'),
-            self::TYPE_EQUAL => $this->translator->trans('label_type_equals', [], 'SonataAdminBundle'),
-            self::TYPE_CONTAINS_WORDS => $this->translator->trans('label_type_contains_words', [], 'SonataDoctrinePHPCRAdmin'),
+            $this->translator->trans('label_type_contains', [], 'SonataAdminBundle') => self::TYPE_CONTAINS,
+            $this->translator->trans('label_type_not_contains', [], 'SonataAdminBundle') => self::TYPE_NOT_CONTAINS,
+            $this->translator->trans('label_type_equals', [], 'SonataAdminBundle') => self::TYPE_EQUAL,
+            $this->translator->trans('label_type_contains_words', [], 'SonataDoctrinePHPCRAdmin') => self::TYPE_CONTAINS_WORDS,
         ];
 
         $builder

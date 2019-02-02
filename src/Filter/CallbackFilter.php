@@ -26,11 +26,11 @@ class CallbackFilter extends BaseFilter
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data): void
     {
-        if (!is_callable($this->getOption('callback'))) {
+        if (!\is_callable($this->getOption('callback'))) {
             throw new \RuntimeException(sprintf('Please provide a valid callback for option "callback" and field "%s"', $this->getName()));
         }
 
-        $this->active = true === call_user_func($this->getOption('callback'), $proxyQuery, $alias, $field, $data);
+        $this->active = true === \call_user_func($this->getOption('callback'), $proxyQuery, $alias, $field, $data);
     }
 
     /**

@@ -38,23 +38,19 @@ Example
 
 .. code-block:: php
 
-    <?php
     namespace Sonata\NewsBundle\Admin;
 
-    use Sonata\AdminBundle\Admin\Admin;
-    use Sonata\AdminBundle\Form\FormMapper;
+    use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Datagrid\DatagridMapper;
-    use Sonata\AdminBundle\Datagrid\ListMapper;
-    use Sonata\AdminBundle\Show\ShowMapper;
 
-    class PostAdmin extends Admin
+    final class PostAdmin extends AbstractAdmin
     {
-        protected function configureDatagridFilters(DatagridMapper $datagrid)
+        protected function configureDatagridFilters(DatagridMapper $datagridMapper)
         {
-            $datagrid
+            $datagridMapper
                 ->add('title')
                 ->add('enabled')
-                ->add('tags', null, array(), null, array('expanded' => true, 'multiple' => true))
+                ->add('tags', null, [], null, ['expanded' => true, 'multiple' => true])
             ;
         }
     }
@@ -66,25 +62,19 @@ Filtering by sub entity properties
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you need to filter your base entities by the value of a sub entity property,
-you can simply use the dot-separated notation (note that this only makes sense
-when the prefix path is made of entities, not collections):
+you can use the dot-separated notation (note that this only makes sense
+when the prefix path is made of entities, not collections)::
 
-.. code-block:: php
+    namespace App\Admin;
 
-    <?php
-    namespace Acme\AcmeBundle\Admin;
-
-    use Sonata\AdminBundle\Admin\Admin;
-    use Sonata\AdminBundle\Form\FormMapper;
+    use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Datagrid\DatagridMapper;
-    use Sonata\AdminBundle\Datagrid\ListMapper;
-    use Sonata\AdminBundle\Show\ShowMapper;
 
-    class UserAdmin extends Admin
+    final class UserAdmin extends AbstractAdmin
     {
-        protected function configureDatagridFilters(DatagridMapper $datagrid)
+        protected function configureDatagridFilters(DatagridMapper $datagridMapper)
         {
-            $datagrid
+            $datagridMapper
                 ->add('id')
                 ->add('firstName')
                 ->add('lastName')
@@ -95,25 +85,18 @@ when the prefix path is made of entities, not collections):
         }
     }
 
-
 Label
 ^^^^^
 
-You can customize the label which appears on the main widget by using a ``label`` option.
+You can customize the label which appears on the main widget by using a ``label`` option::
 
-.. code-block:: php
-
-    <?php
-
-    protected function configureDatagridFilters(DatagridMapper $datagrid)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
-        $datagrid
-            // ..
-            ->add('tags', null, array('label' => 'les tags'), null, array('expanded' => true, 'multiple' => true))
-            // ..
-        ;
+        $datagridMapper
+            ->add('tags', null, ['label' => 'les tags'], null, [
+                'expanded' => true, 'multiple' => true
+            ]);
     }
-
 
 Callback
 ^^^^^^^^
@@ -122,32 +105,26 @@ To create a custom callback filter, two methods need to be implemented; one to
 define the field type and one to define how to use the field's value. The
 latter shall return wether the filter actually is applied to the queryBuilder
 or not. In this example, ``getWithOpenCommentField`` and ``getWithOpenCommentFilter``
-implement this functionality.
+implement this functionality::
 
-.. code-block:: php
-
-    <?php
     namespace Sonata\NewsBundle\Admin;
 
-    use Sonata\AdminBundle\Admin\Admin;
-    use Sonata\AdminBundle\Form\FormMapper;
+    use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Datagrid\DatagridMapper;
-    use Sonata\AdminBundle\Datagrid\ListMapper;
-    use Sonata\AdminBundle\Show\ShowMapper;
 
     use Application\Sonata\NewsBundle\Document\Comment;
 
-    class PostAdmin extends Admin
+    final class PostAdmin extends AbstractAdmin
     {
         protected function configureDatagridFilters(DatagridMapper $datagridMapper)
         {
             $datagridMapper
                 ->add('title')
                 ->add('enabled')
-                ->add('tags', null, array(), null, array('expanded' => true, 'multiple' => true))
+                ->add('tags', null, [], null, ['expanded' => true, 'multiple' => true])
                 ->add('author')
-                ->add('with_open_comments', 'doctrine_phpcr_callback', array(
-    //                'callback'   => array($this, 'getWithOpenCommentFilter'),
+                ->add('with_open_comments', 'doctrine_phpcr_callback', [
+    //                'callback'   => [$this, 'getWithOpenCommentFilter'],
                     'callback' => function($queryBuilder, $alias, $field, $data) {
                         if (!$data || !is_array($data) || !array_key_exists('value', $data)) {
                             return;
@@ -161,7 +138,7 @@ implement this functionality.
                         return true;
                     },
                     'field_type' => 'checkbox'
-                ))
+                ])
             ;
         }
 
@@ -185,25 +162,22 @@ Filtering Fields and Case Sensitivity
 
 The default behaviour when filtering is to compare values in a case sensitive manner.
 For example "Test" is not the same as "test". Depending on your use case, you might want case insensitive filtering.
-To make the filter case insensitive, use the ``compare_case_insensitive`` option for the string filter:
+To make the filter case insensitive, use the ``compare_case_insensitive`` option for the string filter::
 
-.. code-block:: php
+    namespace App\Admin;
 
-    <?php
-    namespace My\AppBundle\Admin;
-
-    use Sonata\AdminBundle\Admin\Admin;
+    use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Datagrid\DatagridMapper;
 
     use Application\Sonata\NewsBundle\Document\Comment;
 
-    class PostAdmin extends Admin
+    final class PostAdmin extends AbstractAdmin
     {
         protected function configureDatagridFilters(DatagridMapper $datagridMapper)
         {
             $datagridMapper
-                ->add('title', 'doctrine_phpcr_string', array('compare_case_insensitive' => true))
-                ->add('author', 'doctrine_phpcr_string', array('compare_case_insensitive' => true))
+                ->add('title', 'doctrine_phpcr_string', ['compare_case_insensitive' => true])
+                ->add('author', 'doctrine_phpcr_string', ['compare_case_insensitive' => true])
                 ->add('label', 'doctrine_phpcr_string')
             ;
         }

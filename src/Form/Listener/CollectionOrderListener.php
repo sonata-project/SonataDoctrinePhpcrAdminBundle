@@ -54,7 +54,7 @@ class CollectionOrderListener
         $form = $event->getForm()->getParent();
         $data = $form->getData();
 
-        if (!is_object($data)) {
+        if (!\is_object($data)) {
             return;
         }
 

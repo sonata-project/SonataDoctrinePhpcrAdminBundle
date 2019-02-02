@@ -19,3 +19,8 @@ sonata_block:
 sonata_doctrine_phpcr_admin:
     document_tree:
         routing_defaults: []
+
+sonata_core:
+    form:
+        mapping:
+            enabled: false

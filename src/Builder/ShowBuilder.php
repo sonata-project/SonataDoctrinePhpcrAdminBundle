@@ -96,7 +96,7 @@ class ShowBuilder implements ShowBuilderInterface
         }
 
         if (!$fieldDescription->getType()) {
-            throw new \RuntimeException(sprintf('Please define a type for field `%s` in `%s`', $fieldDescription->getName(), get_class($admin)));
+            throw new \RuntimeException(sprintf('Please define a type for field `%s` in `%s`', $fieldDescription->getName(), \get_class($admin)));
         }
 
         $fieldDescription->setOption('code', $fieldDescription->getOption('code', $fieldDescription->getName()));
@@ -123,7 +123,7 @@ class ShowBuilder implements ShowBuilderInterface
             'referrers',
         ];
 
-        if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && in_array($fieldDescription->getMappingType(), $mappingTypes)) {
+        if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && \in_array($fieldDescription->getMappingType(), $mappingTypes, true)) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
