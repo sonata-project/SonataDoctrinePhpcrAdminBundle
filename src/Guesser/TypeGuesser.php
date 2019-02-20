@@ -110,7 +110,7 @@ class TypeGuesser implements TypeGuesserInterface
      */
     protected function getMetadata($class)
     {
-        if (array_key_exists($class, $this->cache)) {
+        if (\array_key_exists($class, $this->cache)) {
             return $this->cache[$class];
         }
 
