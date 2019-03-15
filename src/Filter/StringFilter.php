@@ -23,7 +23,7 @@ class StringFilter extends Filter
      */
     public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
     {
-        if (!$data || !\is_array($data) || !array_key_exists('value', $data) || null === $data['value']) {
+        if (!$data || !\is_array($data) || !\array_key_exists('value', $data) || null === $data['value']) {
             return;
         }
 
