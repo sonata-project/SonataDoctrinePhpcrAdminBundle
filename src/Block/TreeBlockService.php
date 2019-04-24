@@ -67,13 +67,13 @@ class TreeBlockService extends AbstractBlockService
         // the callables are a workaround to make bundle configuration win over the default values
         // see https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/pull/345
         $resolver->setDefaults([
-            'template' => function (Options $options, $value) {
+            'template' => static function (Options $options, $value) {
                 return $value ?: '@SonataDoctrinePHPCRAdmin/Block/tree.html.twig';
             },
-            'id' => function (Options $options, $value) {
+            'id' => static function (Options $options, $value) {
                 return $value ?: '/';
             },
-            'selected' => function (Options $options, $value) {
+            'selected' => static function (Options $options, $value) {
                 return $value ?: null;
             },
             'routing_defaults' => function (Options $options, $value) {
