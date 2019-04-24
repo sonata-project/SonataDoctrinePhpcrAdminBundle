@@ -21,7 +21,7 @@ class CallBackFilterTest extends BaseTestCase
     public function testFilterNullData()
     {
         $filter = new CallbackFilter();
-        $filter->initialize('field_name', ['callback' => function () {
+        $filter->initialize('field_name', ['callback' => static function () {
         }]);
         $res = $filter->filter($this->proxyQuery, null, 'somefield', null);
         $this->assertNull($res);
@@ -32,7 +32,7 @@ class CallBackFilterTest extends BaseTestCase
     {
         $filter = new CallbackFilter();
 
-        $filter->initialize('field_name', ['callback' => function () {
+        $filter->initialize('field_name', ['callback' => static function () {
         }]);
         $res = $filter->filter($this->proxyQuery, null, 'somefield', []);
         $this->assertNull($res);
@@ -78,7 +78,7 @@ class CallBackFilterTest extends BaseTestCase
 
         $filter = new CallbackFilter();
         $filter->initialize('field_name', [
-            'callback' => function (ProxyQueryInterface $proxyQuery, $alias, $field, $data) {
+            'callback' => static function (ProxyQueryInterface $proxyQuery, $alias, $field, $data) {
                 $queryBuilder = $proxyQuery->getQueryBuilder();
                 $queryBuilder->andWhere()->eq()->field('a.'.$field)->literal($data['value']);
 
