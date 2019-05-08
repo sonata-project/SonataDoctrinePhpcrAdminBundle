@@ -102,10 +102,10 @@ class ProxyQueryTest extends TestCase
     {
         $this->qb->expects($this->once())
             ->method('getQuery')
-            ->will($this->returnValue($this->query));
+            ->willReturn($this->query);
         $this->query->expects($this->once())
             ->method('execute')
-            ->will($this->returnValue('test'));
+            ->willReturn('test');
 
         $res = $this->pq->execute();
         $this->assertSame('test', $res);

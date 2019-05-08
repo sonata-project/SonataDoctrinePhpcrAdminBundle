@@ -82,7 +82,7 @@ class ChoiceFilterTest extends BaseTestCase
     {
         $this->proxyQuery->expects($this->once())
             ->method('getQueryBuilder')
-            ->will($this->returnValue($this->qb));
+            ->willReturn($this->qb);
 
         $this->filter->filter(
             $this->proxyQuery,
@@ -262,7 +262,7 @@ class ChoiceFilterTest extends BaseTestCase
 
         $this->proxyQuery->expects($this->once())
             ->method('getQueryBuilder')
-            ->will($this->returnValue($this->qb));
+            ->willReturn($this->qb);
 
         $this->filter->filter(
             $this->proxyQuery,

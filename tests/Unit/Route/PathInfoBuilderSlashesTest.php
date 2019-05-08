@@ -27,12 +27,12 @@ class PathInfoBuilderSlashesTest extends TestCase
         $adminChild = $this->createMock(AbstractAdmin::class);
         $adminChild->expects($this->once())
             ->method('getRoutes')
-            ->will($this->returnValue($collectionChild));
+            ->willReturn($collectionChild);
 
         $admin = $this->createMock(AbstractAdmin::class);
         $admin->expects($this->once())
             ->method('getChildren')
-            ->will($this->returnValue([$adminChild]));
+            ->willReturn([$adminChild]);
 
         $collection = $this->createMock(RouteCollection::class);
         $collection->expects($this->once())
@@ -51,10 +51,10 @@ class PathInfoBuilderSlashesTest extends TestCase
         $admin = $this->createMock(AbstractAdmin::class);
         $admin->expects($this->once())
             ->method('getChildren')
-            ->will($this->returnValue([]));
+            ->willReturn([]);
         $admin->expects($this->once())
             ->method('isAclEnabled')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $collection = $this->createMock(RouteCollection::class);
         $collection->expects($this->exactly(8))
