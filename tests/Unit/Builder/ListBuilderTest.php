@@ -81,7 +81,7 @@ class ListBuilderTest extends TestCase
         $this->guesser->expects($this->once())
             ->method('guessType')
             ->with($this->anything())
-            ->will($this->returnValue($typeguess));
+            ->willReturn($typeguess);
         $this->setupAddField();
         $this->lb->addField($this->fieldDescriptionCollection, null, $this->fieldDescription, $this->admin);
     }
@@ -137,11 +137,11 @@ class ListBuilderTest extends TestCase
         $this->modelManager = $this->createMock(ModelManager::class);
         $this->modelManager->expects($this->any())
             ->method('getMetadata')
-            ->will($this->returnValue($this->metaData));
+            ->willReturn($this->metaData);
         $this->modelManager->expects($this->any())
             ->method('hasMetadata')
             ->with($this->anything())
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->admin = $this->createMock(Admin::class, [], [], '', false);
         $this->admin->expects($this->atLeastOnce())->method('getModelManager')
@@ -157,16 +157,16 @@ class ListBuilderTest extends TestCase
         $this->modelManager = $this->createMock(ModelManager::class);
         $this->modelManager->expects($this->any())
             ->method('getMetadata')
-            ->will($this->returnValue($this->metaData));
+            ->willReturn($this->metaData);
         $this->modelManager->expects($this->any())
             ->method('hasMetadata')
             ->with($this->anything())
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $this->fieldDescription = $this->createMock(FieldDescriptionInterface::class);
         $this->fieldDescription->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue('string'));
+            ->willReturn('string');
         $this->fieldDescription->expects($this->once())
             ->method('setType')
             ->with($this->anything());
@@ -176,7 +176,7 @@ class ListBuilderTest extends TestCase
         $this->admin = $this->createMock(AbstractAdmin::class, [], [], '', false);
         $this->admin->expects($this->any())
             ->method('getModelManager')
-            ->will($this->returnValue($this->modelManager));
+            ->willReturn($this->modelManager);
         $this->admin->expects($this->once())
             ->method('addListFieldDescription')
             ->with($this->anything(), $this->fieldDescription);

@@ -32,7 +32,7 @@ class PagerTest extends TestCase
         $this->proxyQuery->expects($this->once())
             ->method('execute')
             ->with([], PHPCRQuery::HYDRATE_PHPCR)
-            ->will($this->returnValue(range(0, 12)));
+            ->willReturn(range(0, 12));
 
         $this->proxyQuery->expects($this->once())
             ->method('setMaxResults')
@@ -53,7 +53,7 @@ class PagerTest extends TestCase
         $this->proxyQuery->expects($this->once())
             ->method('execute')
             ->with([], PHPCRQuery::HYDRATE_PHPCR)
-            ->will($this->returnValue(range(0, 12)));
+            ->willReturn(range(0, 12));
 
         $this->proxyQuery->expects($this->once())
             ->method('setMaxResults')
@@ -76,7 +76,7 @@ class PagerTest extends TestCase
         $this->proxyQuery->expects($this->once())
             ->method('execute')
             ->with([], PHPCRQuery::HYDRATE_PHPCR)
-            ->will($this->returnValue([]));
+            ->willReturn([]);
 
         $this->proxyQuery->expects($this->once())
             ->method('setMaxResults')
@@ -100,7 +100,7 @@ class PagerTest extends TestCase
         $this->proxyQuery->expects($this->once())
             ->method('execute')
             ->with([], PHPCRQuery::HYDRATE_PHPCR)
-            ->will($this->returnValue([]));
+            ->willReturn([]);
 
         $this->proxyQuery->expects($this->once())
             ->method('setMaxResults')

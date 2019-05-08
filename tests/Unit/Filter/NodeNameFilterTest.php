@@ -73,7 +73,7 @@ class NodeNameFilterTest extends BaseTestCase
     {
         $this->proxyQuery->expects($this->exactly(1))
             ->method('getQueryBuilder')
-            ->will($this->returnValue($this->qb));
+            ->willReturn($this->qb);
 
         $this->filter->filter(
             $this->proxyQuery,

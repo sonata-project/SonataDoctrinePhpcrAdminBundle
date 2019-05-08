@@ -34,13 +34,13 @@ class FilterTypeGuesserTest extends TestCase
         $documentRepository->expects($this->once())
             ->method('getClassMetadata')
             ->with($this->equalTo($class = 'Whatever'))
-            ->will($this->returnValue($this->createMock(
+            ->willReturn($this->createMock(
                 ClassMetadata::class
-            )));
+            ));
 
         $managerRegistry->expects($this->once())
             ->method('getManagers')
-            ->will($this->returnValue([$documentRepository]));
+            ->willReturn([$documentRepository]);
 
         $guesser = new FilterTypeGuesser(
             $managerRegistry
