@@ -43,7 +43,7 @@ class CallBackFilterTest extends BaseTestCase
     {
         $this->proxyQuery->expects($this->once())
             ->method('getQueryBuilder')
-            ->will($this->returnValue($this->qb));
+            ->willReturn($this->qb);
 
         $filter = new CallbackFilter();
         $filter->initialize('field_name', [
@@ -74,7 +74,7 @@ class CallBackFilterTest extends BaseTestCase
     {
         $this->proxyQuery->expects($this->once())
             ->method('getQueryBuilder')
-            ->will($this->returnValue($this->qb));
+            ->willReturn($this->qb);
 
         $filter = new CallbackFilter();
         $filter->initialize('field_name', [
