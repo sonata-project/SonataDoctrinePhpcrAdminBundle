@@ -34,7 +34,6 @@ class PositionEnhancer implements DescriptionEnhancerInterface
     private $session;
 
     /**
-     * @param ManagerRegistry $manager
      * @param $sessionName
      */
     public function __construct(ManagerRegistry $manager, $sessionName)

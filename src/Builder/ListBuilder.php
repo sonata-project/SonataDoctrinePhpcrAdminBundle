@@ -33,10 +33,6 @@ class ListBuilder implements ListBuilderInterface
      */
     protected $templates;
 
-    /**
-     * @param TypeGuesserInterface $guesser
-     * @param array                $templates
-     */
     public function __construct(TypeGuesserInterface $guesser, array $templates = [])
     {
         $this->guesser = $guesser;
@@ -198,8 +194,6 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * @param FieldDescriptionInterface $fieldDescription
-     *
      * @return FieldDescriptionInterface
      */
     public function buildActionFieldDescription(FieldDescriptionInterface $fieldDescription)

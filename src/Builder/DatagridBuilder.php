@@ -55,10 +55,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     protected $pager;
 
     /**
-     * @param FormFactory            $formFactory
-     * @param FilterFactoryInterface $filterFactory
-     * @param TypeGuesserInterface   $guesser
-     * @param bool                   $csrfTokenEnabled
+     * @param bool $csrfTokenEnabled
      */
     public function __construct(FormFactory $formFactory, FilterFactoryInterface $filterFactory, TypeGuesserInterface $guesser, $csrfTokenEnabled = true)
     {
@@ -68,9 +65,6 @@ class DatagridBuilder implements DatagridBuilderInterface
         $this->csrfTokenEnabled = $csrfTokenEnabled;
     }
 
-    /**
-     * @param PagerInterface $pager
-     */
     public function setPager(PagerInterface $pager)
     {
         $this->pager = $pager;
