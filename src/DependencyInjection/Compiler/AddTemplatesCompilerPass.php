@@ -22,9 +22,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class AddTemplatesCompilerPass implements CompilerPassInterface
 {
-    /**
-     * @param ContainerBuilder $container
-     */
     public function process(ContainerBuilder $container)
     {
         $settings = $this->fixSettings($container);
@@ -48,8 +45,6 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
     }
 
     /**
-     * @param ContainerBuilder $container
-     *
      * @return bool
      */
     protected function fixSettings(ContainerBuilder $container)

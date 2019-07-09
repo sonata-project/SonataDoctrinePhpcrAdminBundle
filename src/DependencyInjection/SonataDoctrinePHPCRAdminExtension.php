@@ -89,8 +89,7 @@ class SonataDoctrinePHPCRAdminExtension extends AbstractSonataAdminExtension
     /**
      * Set the document tree parameters and configuration.
      *
-     * @param array            $config
-     * @param ContainerBuilder $container
+     * @param array $config
      */
     private function loadDocumentTree($config, ContainerBuilder $container)
     {

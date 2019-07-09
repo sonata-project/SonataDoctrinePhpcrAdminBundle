@@ -30,9 +30,6 @@ class TreeModelType extends AbstractType
      */
     protected $defaults = [];
 
-    /**
-     * @param array $defaults
-     */
     public function setDefaults(array $defaults)
     {
         $this->defaults = $defaults;

@@ -31,8 +31,7 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     /**
      * Renders a property of a node.
      *
-     * @param NodeInterface $node
-     * @param string        $property
+     * @param string $property
      *
      * @return string String representation of the property
      */
@@ -44,7 +43,6 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     /**
      * Renders a path of a node.
      *
-     * @param NodeInterface $node
      *
      * @return string Node path
      */
