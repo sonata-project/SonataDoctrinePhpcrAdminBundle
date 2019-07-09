@@ -130,9 +130,6 @@ class Admin extends AbstractAdmin
         return parent::toString($object);
     }
 
-    /**
-     * @param RouteCollection $collection
-     */
     protected function configureRoutes(RouteCollection $collection)
     {
         foreach (['edit', 'create', 'delete'] as $name) {
