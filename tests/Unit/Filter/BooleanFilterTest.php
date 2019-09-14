@@ -56,8 +56,8 @@ class BooleanFilterTest extends BaseTestCase
     public function getFilters()
     {
         return [
-            ['eq', BooleanType::TYPE_YES, 1],
-            ['eq', BooleanType::TYPE_NO, 0],
+            ['eq', BooleanType::TYPE_YES, true],
+            ['eq', BooleanType::TYPE_NO, false],
         ];
     }
 

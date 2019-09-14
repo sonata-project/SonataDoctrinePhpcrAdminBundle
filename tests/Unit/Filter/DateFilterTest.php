@@ -77,7 +77,11 @@ class DateFilterTest extends BaseTestCase
 
         $this->assertSame('a', $opDynamic->getAlias());
         $this->assertSame('somefield', $opDynamic->getField());
-        $this->assertSame($expectedValue, $opStatic->getValue());
+        $this->assertTrue(
+            $expectedValue instanceof \DateTimeInterface ?
+            $expectedValue->getTimestamp() === $opStatic->getValue()->getTimestamp() :
+            $expectedValue === $opStatic->getValue()
+        );
 
         $this->assertTrue($this->filter->isActive());
     }
@@ -102,7 +106,7 @@ class DateFilterTest extends BaseTestCase
 
         $this->assertSame('a', $opDynamic->getAlias());
         $this->assertSame('somefield', $opDynamic->getField());
-        $this->assertSame($from, $opStatic->getValue());
+        $this->assertSame($from->getTimestamp(), $opStatic->getValue()->getTimestamp());
 
         // TO
         $opDynamic = $this->qbTester->getNode(
@@ -112,7 +116,7 @@ class DateFilterTest extends BaseTestCase
 
         $this->assertSame('a', $opDynamic->getAlias());
         $this->assertSame('somefield', $opDynamic->getField());
-        $this->assertSame($to, $opStatic->getValue());
+        $this->assertSame($to->getTimestamp(), $opStatic->getValue()->getTimestamp());
 
         $this->assertTrue($this->filter->isActive());
     }
