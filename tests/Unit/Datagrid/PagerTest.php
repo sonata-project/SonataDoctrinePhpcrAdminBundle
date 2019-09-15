@@ -32,7 +32,7 @@ class PagerTest extends TestCase
         $this->proxyQuery->expects($this->once())
             ->method('execute')
             ->with([], PHPCRQuery::HYDRATE_PHPCR)
-            ->will($this->returnValue(range(0, 12)));
+            ->willReturn(range(0, 12));
 
         $this->proxyQuery->expects($this->once())
             ->method('setMaxResults')
@@ -45,7 +45,7 @@ class PagerTest extends TestCase
         $this->pager->setQuery($this->proxyQuery);
         $this->pager->init();
 
-        $this->assertEquals(2, $this->pager->getLastPage());
+        $this->assertSame(2, $this->pager->getLastPage());
     }
 
     public function testInitOffset(): void
@@ -53,7 +53,7 @@ class PagerTest extends TestCase
         $this->proxyQuery->expects($this->once())
             ->method('execute')
             ->with([], PHPCRQuery::HYDRATE_PHPCR)
-            ->will($this->returnValue(range(0, 12)));
+            ->willReturn(range(0, 12));
 
         $this->proxyQuery->expects($this->once())
             ->method('setMaxResults')
@@ -68,7 +68,7 @@ class PagerTest extends TestCase
         $this->pager->setPage(2);
         $this->pager->init();
 
-        $this->assertEquals(2, $this->pager->getLastPage());
+        $this->assertSame(2, $this->pager->getLastPage());
     }
 
     public function testNoPagesPerConfig(): void
@@ -76,7 +76,7 @@ class PagerTest extends TestCase
         $this->proxyQuery->expects($this->once())
             ->method('execute')
             ->with([], PHPCRQuery::HYDRATE_PHPCR)
-            ->will($this->returnValue([]));
+            ->willReturn([]);
 
         $this->proxyQuery->expects($this->once())
             ->method('setMaxResults')
@@ -92,7 +92,7 @@ class PagerTest extends TestCase
         $this->pager->setMaxPerPage(0);
         $this->pager->init();
 
-        $this->assertEquals(0, $this->pager->getLastPage());
+        $this->assertSame(0, $this->pager->getLastPage());
     }
 
     public function testNoPagesForNoResults(): void
@@ -100,7 +100,7 @@ class PagerTest extends TestCase
         $this->proxyQuery->expects($this->once())
             ->method('execute')
             ->with([], PHPCRQuery::HYDRATE_PHPCR)
-            ->will($this->returnValue([]));
+            ->willReturn([]);
 
         $this->proxyQuery->expects($this->once())
             ->method('setMaxResults')

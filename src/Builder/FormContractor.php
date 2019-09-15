@@ -26,9 +26,6 @@ class FormContractor implements FormContractorInterface
      */
     protected $formFactory;
 
-    /**
-     * @param FormFactoryInterface $formFactory
-     */
     public function __construct(FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
@@ -79,7 +76,7 @@ class FormContractor implements FormContractorInterface
             'referrers',
         ];
 
-        if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && \in_array($fieldDescription->getMappingType(), $mappingTypes)) {
+        if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && \in_array($fieldDescription->getMappingType(), $mappingTypes, true)) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
@@ -168,8 +165,6 @@ class FormContractor implements FormContractorInterface
     }
 
     /**
-     * @param FieldDescriptionInterface $fieldDescription
-     *
      * @return \LogicException
      */
     protected function getAssociationAdminException(FieldDescriptionInterface $fieldDescription)

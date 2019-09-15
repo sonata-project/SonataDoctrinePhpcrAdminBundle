@@ -30,9 +30,6 @@ class TreeModelType extends AbstractType
      */
     protected $defaults = [];
 
-    /**
-     * @param array $defaults
-     */
     public function setDefaults(array $defaults): void
     {
         $this->defaults = $defaults;
@@ -88,7 +85,7 @@ class TreeModelType extends AbstractType
             'parent' => 'choice',
             'repository_name' => 'default',
             'preferred_choices' => [],
-            'choice_list' => function (Options $options, $previousValue) {
+            'choice_list' => static function (Options $options, $previousValue) {
                 return new ModelChoiceList(
                     $options['model_manager'],
                     $options['class'],

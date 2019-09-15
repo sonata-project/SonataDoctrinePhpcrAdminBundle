@@ -43,13 +43,11 @@ abstract class Filter extends BaseFilter
 
     /**
      * Add the where statement for this filter to the query.
-     *
-     * @param ProxyQuery $proxy
      */
     protected function getWhere(ProxyQuery $proxy)
     {
         $queryBuilder = $proxy->getQueryBuilder();
-        if (self::CONDITION_OR == $this->getCondition()) {
+        if (self::CONDITION_OR === $this->getCondition()) {
             return $queryBuilder->orWhere();
         }
 

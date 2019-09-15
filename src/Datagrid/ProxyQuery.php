@@ -74,9 +74,8 @@ class ProxyQuery implements ProxyQueryInterface
     /**
      * Creates a Query Builder from the QOMFactory.
      *
-     * @param QueryBuilder $queryBuilder
-     * @param string       $alias        Short name to use instead of the FQN
-     *                                   of the document
+     * @param string $alias Short name to use instead of the FQN
+     *                      of the document
      *
      * @throws \InvalidArgumentException if alias is not a string or an empty string
      */
@@ -187,7 +186,7 @@ class ProxyQuery implements ProxyQueryInterface
      */
     public function setSortOrder($sortOrder)
     {
-        if (!\in_array($sortOrder, ['ASC', 'DESC'])) {
+        if (!\in_array($sortOrder, ['ASC', 'DESC'], true)) {
             throw new \InvalidArgumentException(sprintf('The parameter $sortOrder must be one of "ASC" or "DESC", got "%s"', $sortOrder));
         }
         $this->sortOrder = $sortOrder;
@@ -272,8 +271,6 @@ class ProxyQuery implements ProxyQueryInterface
 
     /**
      * Sets the document manager.
-     *
-     * @param DocumentManager $documentManager
      */
     public function setDocumentManager(DocumentManager $documentManager)
     {
@@ -296,9 +293,6 @@ class ProxyQuery implements ProxyQueryInterface
     {
     }
 
-    /**
-     * @param array $associationMappings
-     */
     public function entityJoin(array $associationMappings): void
     {
     }

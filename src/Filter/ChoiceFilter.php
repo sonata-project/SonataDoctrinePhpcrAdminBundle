@@ -48,11 +48,11 @@ class ChoiceFilter extends Filter
         $andX = $this->getWhere($proxyQuery)->andX();
 
         foreach ($values as $value) {
-            if (ChoiceType::TYPE_NOT_CONTAINS == $type) {
+            if (ChoiceType::TYPE_NOT_CONTAINS === $type) {
                 $andX->not()->like()->field('a.'.$field)->literal('%'.$value.'%');
-            } elseif (ChoiceType::TYPE_CONTAINS == $type) {
+            } elseif (ChoiceType::TYPE_CONTAINS === $type) {
                 $andX->like()->field('a.'.$field)->literal('%'.$value.'%');
-            } elseif (ChoiceType::TYPE_EQUAL == $type) {
+            } elseif (ChoiceType::TYPE_EQUAL === $type) {
                 $andX->like()->field('a.'.$field)->literal($value);
             }
         }

@@ -33,8 +33,7 @@ class ShowBuilder implements ShowBuilderInterface
     protected $templates;
 
     /**
-     * @param TypeGuesserInterface $guesser
-     * @param array                $templates Indexed by field type
+     * @param array $templates Indexed by field type
      */
     public function __construct(TypeGuesserInterface $guesser, array $templates)
     {
@@ -55,7 +54,7 @@ class ShowBuilder implements ShowBuilderInterface
      */
     public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin): void
     {
-        if (null == $type) {
+        if (null === $type) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
             $fieldDescription->setType($guessType->getType());
         } else {
@@ -105,11 +104,11 @@ class ShowBuilder implements ShowBuilderInterface
         if (!$fieldDescription->getTemplate()) {
             $fieldDescription->setTemplate($this->getTemplate($fieldDescription->getType()));
 
-            if (ClassMetadata::MANY_TO_ONE == $fieldDescription->getMappingType()) {
+            if (ClassMetadata::MANY_TO_ONE === $fieldDescription->getMappingType()) {
                 $fieldDescription->setTemplate('@SonataAdmin/CRUD/Association/show_many_to_one.html.twig');
             }
 
-            if (ClassMetadata::MANY_TO_MANY == $fieldDescription->getMappingType()) {
+            if (ClassMetadata::MANY_TO_MANY === $fieldDescription->getMappingType()) {
                 $fieldDescription->setTemplate('@SonataAdmin/CRUD/Association/show_many_to_many.html.twig');
             }
         }

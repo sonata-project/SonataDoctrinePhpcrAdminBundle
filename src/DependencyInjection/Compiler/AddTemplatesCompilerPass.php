@@ -22,14 +22,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class AddTemplatesCompilerPass implements CompilerPassInterface
 {
-    /**
-     * @param ContainerBuilder $container
-     */
     public function process(ContainerBuilder $container): void
     {
         $settings = $this->fixSettings($container);
         foreach ($container->findTaggedServiceIds('sonata.admin') as $id => $attributes) {
-            if (!isset($attributes[0]['manager_type']) || 'doctrine_phpcr' != $attributes[0]['manager_type']) {
+            if (!isset($attributes[0]['manager_type']) || 'doctrine_phpcr' !== $attributes[0]['manager_type']) {
                 continue;
             }
 
@@ -48,8 +45,6 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
     }
 
     /**
-     * @param ContainerBuilder $container
-     *
      * @return bool
      */
     protected function fixSettings(ContainerBuilder $container)
@@ -60,7 +55,7 @@ class AddTemplatesCompilerPass implements CompilerPassInterface
         $settings = false;
         $methods = $pool->getMethodCalls();
         foreach ($methods as $pos => $calls) {
-            if ('__hack_doctrine_phpcr__' == $calls[0]) {
+            if ('__hack_doctrine_phpcr__' === $calls[0]) {
                 $settings = $calls[1];
 
                 break;

@@ -22,9 +22,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SonataDoctrinePHPCRAdminBundle extends Bundle
 {
-    /**
-     * @param ContainerBuilder $container
-     */
     public function build(ContainerBuilder $container): void
     {
         $this->registerFormMapping();

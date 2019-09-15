@@ -73,7 +73,7 @@ class NodeNameFilterTest extends BaseTestCase
     {
         $this->proxyQuery->expects($this->exactly(1))
             ->method('getQueryBuilder')
-            ->will($this->returnValue($this->qb));
+            ->willReturn($this->qb);
 
         $this->filter->filter(
             $this->proxyQuery,
@@ -85,8 +85,8 @@ class NodeNameFilterTest extends BaseTestCase
         $localName = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $literal = $this->qbTester->getNode('where.constraint.operand_static');
 
-        $this->assertEquals('a', $localName->getAlias());
-        $this->assertEquals($expectedValue, $literal->getValue());
+        $this->assertSame('a', $localName->getAlias());
+        $this->assertSame($expectedValue, $literal->getValue());
 
         $this->assertTrue($this->filter->isActive());
     }

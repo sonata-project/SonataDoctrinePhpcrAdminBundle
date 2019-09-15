@@ -56,8 +56,8 @@ class BooleanFilterTest extends BaseTestCase
     public function getFilters()
     {
         return [
-            ['eq', BooleanType::TYPE_YES, 1],
-            ['eq', BooleanType::TYPE_NO, 0],
+            ['eq', BooleanType::TYPE_YES, true],
+            ['eq', BooleanType::TYPE_NO, false],
         ];
     }
 
@@ -76,9 +76,9 @@ class BooleanFilterTest extends BaseTestCase
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
 
-        $this->assertEquals('a', $opDynamic->getAlias());
-        $this->assertEquals('somefield', $opDynamic->getField());
-        $this->assertEquals($expectedValue, $opStatic->getValue());
+        $this->assertSame('a', $opDynamic->getAlias());
+        $this->assertSame('somefield', $opDynamic->getField());
+        $this->assertSame($expectedValue, $opStatic->getValue());
 
         $this->assertTrue($this->filter->isActive());
     }

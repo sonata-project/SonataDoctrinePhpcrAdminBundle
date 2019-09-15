@@ -55,10 +55,7 @@ class DatagridBuilder implements DatagridBuilderInterface
     protected $pager;
 
     /**
-     * @param FormFactory            $formFactory
-     * @param FilterFactoryInterface $filterFactory
-     * @param TypeGuesserInterface   $guesser
-     * @param bool                   $csrfTokenEnabled
+     * @param bool $csrfTokenEnabled
      */
     public function __construct(FormFactory $formFactory, FilterFactoryInterface $filterFactory, TypeGuesserInterface $guesser, $csrfTokenEnabled = true)
     {
@@ -68,9 +65,6 @@ class DatagridBuilder implements DatagridBuilderInterface
         $this->csrfTokenEnabled = $csrfTokenEnabled;
     }
 
-    /**
-     * @param PagerInterface $pager
-     */
     public function setPager(PagerInterface $pager): void
     {
         $this->pager = $pager;
@@ -103,7 +97,7 @@ class DatagridBuilder implements DatagridBuilderInterface
             if (isset($metadata->mappings[$fieldDescription->getName()])) {
                 $fieldDescription->setFieldMapping($metadata->mappings[$fieldDescription->getName()]);
 
-                if ('string' == $metadata->mappings[$fieldDescription->getName()]['type']) {
+                if ('string' === $metadata->mappings[$fieldDescription->getName()]['type']) {
                     $fieldDescription->setOption('global_search', $fieldDescription->getOption('global_search', true)); // always search on string field only
                 }
             }
@@ -125,7 +119,7 @@ class DatagridBuilder implements DatagridBuilderInterface
      */
     public function addFilter(DatagridInterface $datagrid, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
     {
-        if (null == $type) {
+        if (null === $type) {
             $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
             $type = $guessType->getType();
             $fieldDescription->setType($type);

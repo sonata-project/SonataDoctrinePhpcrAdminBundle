@@ -40,11 +40,10 @@ class TreeController extends Controller
     private $treeConfiguration;
 
     /**
-     * @param ManagerRegistry $manager
-     * @param string          $sessionName
-     * @param array           $treeConfiguration     same structure as defined in Configuration
-     * @param string          $defaultRepositoryName The name of the default resource repository
-     * @param string          $template
+     * @param string $sessionName
+     * @param array  $treeConfiguration     same structure as defined in Configuration
+     * @param string $defaultRepositoryName The name of the default resource repository
+     * @param string $template
      */
     public function __construct(
         ManagerRegistry $manager,
@@ -68,7 +67,6 @@ class TreeController extends Controller
      * Renders a tree, passing the routes for each of the admin types (document types)
      * to the view.
      *
-     * @param Request $request
      *
      * @return Response
      */
@@ -89,7 +87,6 @@ class TreeController extends Controller
     /**
      * Reorder $moved (child of $parent) before or after $target.
      *
-     * @param Request $request
      *
      * @return Response
      */
@@ -104,18 +101,18 @@ class TreeController extends Controller
             return new JsonResponse(['Parameters parent, dropped and target has to be set to reorder.'], Response::HTTP_BAD_REQUEST);
         }
 
-        if (\in_array($position, ['over', 'child'])) {
+        if (\in_array($position, ['over', 'child'], true)) {
             return new JsonResponse(['Can not reorder when dropping into a collection.'], Response::HTTP_BAD_REQUEST);
         }
 
-        $before = 'before' == $position;
+        $before = 'before' === $position;
         $parentNode = $this->session->getNode($parentPath);
         $targetName = PathHelper::getNodeName($targetPath);
         if (!$before) {
             $nodesIterator = $parentNode->getNodes();
             $nodesIterator->rewind();
             while ($nodesIterator->valid()) {
-                if ($nodesIterator->key() == $targetName) {
+                if ($nodesIterator->key() === $targetName) {
                     break;
                 }
                 $nodesIterator->next();

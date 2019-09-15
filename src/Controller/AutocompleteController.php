@@ -31,17 +31,12 @@ class AutocompleteController
      */
     protected $pool;
 
-    /**
-     * @param \Sonata\AdminBundle\Admin\Pool $pool
-     */
     public function __construct(Pool $pool)
     {
         $this->pool = $pool;
     }
 
     /**
-     * @param Request $request
-     *
      * @throws AccessDeniedException
      *
      * @return Response
@@ -110,7 +105,7 @@ class AutocompleteController
         }
 
         //did we max out x+1
-        $more = (\count($results) == $itemsPerPage + 1);
+        $more = (\count($results) === $itemsPerPage + 1);
         $method = $request->get('_method_name');
 
         $items = [];
@@ -149,8 +144,7 @@ class AutocompleteController
     /**
      * Retrieve the field description given by field name.
      *
-     * @param AdminInterface $admin
-     * @param string         $field
+     * @param string $field
      *
      * @throws \RuntimeException
      *

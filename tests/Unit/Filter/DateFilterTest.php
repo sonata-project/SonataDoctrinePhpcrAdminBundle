@@ -61,7 +61,7 @@ class DateFilterTest extends BaseTestCase
     {
         $value = new \DateTime('2013/01/16 00:00:00');
 
-        if ('__null__' == $expectedValue) {
+        if ('__null__' === $expectedValue) {
             $expectedValue = new \DateTime('2013/01/16 00:00:00');
         }
 
@@ -75,9 +75,13 @@ class DateFilterTest extends BaseTestCase
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
 
-        $this->assertEquals('a', $opDynamic->getAlias());
-        $this->assertEquals('somefield', $opDynamic->getField());
-        $this->assertEquals($expectedValue, $opStatic->getValue());
+        $this->assertSame('a', $opDynamic->getAlias());
+        $this->assertSame('somefield', $opDynamic->getField());
+        $this->assertTrue(
+            $expectedValue instanceof \DateTimeInterface ?
+            $expectedValue->getTimestamp() === $opStatic->getValue()->getTimestamp() :
+            $expectedValue === $opStatic->getValue()
+        );
 
         $this->assertTrue($this->filter->isActive());
     }
@@ -100,9 +104,9 @@ class DateFilterTest extends BaseTestCase
         $opStatic = $this->qbTester->getNode(
             'where.constraint.constraint.operand_static');
 
-        $this->assertEquals('a', $opDynamic->getAlias());
-        $this->assertEquals('somefield', $opDynamic->getField());
-        $this->assertEquals($from, $opStatic->getValue());
+        $this->assertSame('a', $opDynamic->getAlias());
+        $this->assertSame('somefield', $opDynamic->getField());
+        $this->assertSame($from->getTimestamp(), $opStatic->getValue()->getTimestamp());
 
         // TO
         $opDynamic = $this->qbTester->getNode(
@@ -110,9 +114,9 @@ class DateFilterTest extends BaseTestCase
         $opStatic = $this->qbTester->getNode(
             'where.constraint.constraint[1].operand_static');
 
-        $this->assertEquals('a', $opDynamic->getAlias());
-        $this->assertEquals('somefield', $opDynamic->getField());
-        $this->assertEquals($to, $opStatic->getValue());
+        $this->assertSame('a', $opDynamic->getAlias());
+        $this->assertSame('somefield', $opDynamic->getField());
+        $this->assertSame($to->getTimestamp(), $opStatic->getValue()->getTimestamp());
 
         $this->assertTrue($this->filter->isActive());
     }
