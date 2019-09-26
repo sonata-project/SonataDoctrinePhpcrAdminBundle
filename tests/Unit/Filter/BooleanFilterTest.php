@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Filter;
 
-use Sonata\CoreBundle\Form\Type\BooleanType;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\BooleanFilter;
+use Sonata\Form\Type\BooleanType;
 
 class BooleanFilterTest extends BaseTestCase
 {

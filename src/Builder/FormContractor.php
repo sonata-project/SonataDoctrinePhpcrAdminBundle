@@ -146,6 +146,12 @@ class FormContractor implements FormContractorInterface
 
                 break;
             case 'Sonata\CoreBundle\Form\Type\CollectionType':
+            case 'sonata_type_collection_legacy':
+            /*
+             * NEXT_MAJOR: Remove 'Sonata\CoreBundle\Form\Type\CollectionType' and 'sonata_type_collection_legacy'
+             * cases when replace SonataCoreBundle by SonataFormExtension
+             */
+            case 'Sonata\Form\Type\CollectionType':
             case 'sonata_type_collection':
                 if (!$fieldDescription->getAssociationAdmin()) {
                     throw $this->getAssociationAdminException($fieldDescription);

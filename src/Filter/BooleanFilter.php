@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\CoreBundle\Form\Type\BooleanType;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\Filter as BaseFilter;
+use Sonata\Form\Type\BooleanType;
 
 class BooleanFilter extends BaseFilter
 {

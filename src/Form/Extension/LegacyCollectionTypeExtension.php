@@ -13,17 +13,19 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Form\Extension;
 
+use Sonata\CoreBundle\Form\Type\CollectionType as DeprecatedCollectionType;
 use Sonata\DoctrinePHPCRAdminBundle\Form\Listener\CollectionOrderListener;
-use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 
 /**
+ * @deprecated since sonata-project/doctrine-phpcr-admin-bundle 2.x
+ * NEXT_MAJOR: Remove this class when replace SonataCoreBundle by SonataFormExtension
  * Extend the sonata collection type to sort the collection so the reordering
  * is automatically persisted in phpcr-odm.
  */
-class CollectionTypeExtension extends AbstractTypeExtension
+class LegacyCollectionTypeExtension extends AbstractTypeExtension
 {
     /**
      * {@inheritdoc}
@@ -51,7 +53,7 @@ class CollectionTypeExtension extends AbstractTypeExtension
     public static function getExtendedTypes()
     {
         return [
-            CollectionType::class,
+            DeprecatedCollectionType::class,
         ];
     }
 }
