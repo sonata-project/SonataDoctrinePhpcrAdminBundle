@@ -67,7 +67,7 @@ class CollectionOrderListener
 
         /** @var $item FormBuilder */
         foreach ($form->get($this->name) as $key => $item) {
-            if ($item->get('_delete')->getData()) {
+            if ($item->has('_delete') && $item->get('_delete')->getData()) {
                 // do not re-add a deleted child
                 continue;
             }
