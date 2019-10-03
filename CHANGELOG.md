@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.3.0](https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/compare/2.2.0...2.3.0) - 2019-10-03
+### Fixed
+- `Child "_delete" does not exist` in Collection when we don't have delete permission
+
+### Changed
+- `sonata-project/core-bundle` dependencies from `^3.8` to `^3.14`
+- use new `Sonata\Form\Type\*` namespace of SonataCoreBundle
+
 ## [2.2.0](https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/compare/2.1.1...2.2.0) - 2019-01-22
 
 ### Added
