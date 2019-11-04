@@ -57,11 +57,7 @@ class FormContractor implements FormContractorInterface
         }
 
         if (!$fieldDescription->getType()) {
-            throw new \RuntimeException(sprintf(
-                'Please define a type for field `%s` in `%s`',
-                $fieldDescription->getName(),
-                \get_class($admin)
-            ));
+            throw new \RuntimeException(sprintf('Please define a type for field `%s` in `%s`', $fieldDescription->getName(), \get_class($admin)));
         }
 
         $fieldDescription->setAdmin($admin);
@@ -124,11 +120,7 @@ class FormContractor implements FormContractorInterface
             case 'Sonata\AdminBundle\Form\Type\ModelTypeList':
             case 'sonata_type_model_list':
                 if ('child' !== $fieldDescription->getMappingType() && !$fieldDescription->getTargetEntity()) {
-                    throw new \LogicException(sprintf(
-                        'The field "%s" in class "%s" does not have a target model defined. Please specify the "targetDocument" attribute in the mapping for this class.',
-                        $fieldDescription->getName(),
-                        $fieldDescription->getAdmin()->getClass()
-                    ));
+                    throw new \LogicException(sprintf('The field "%s" in class "%s" does not have a target model defined. Please specify the "targetDocument" attribute in the mapping for this class.', $fieldDescription->getName(), $fieldDescription->getAdmin()->getClass()));
                 }
 
                 $options['class'] = $fieldDescription->getTargetEntity();
