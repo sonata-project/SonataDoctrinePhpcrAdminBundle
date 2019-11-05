@@ -67,7 +67,6 @@ class TreeController extends Controller
      * Renders a tree, passing the routes for each of the admin types (document types)
      * to the view.
      *
-     *
      * @return Response
      */
     public function treeAction(Request $request)
@@ -86,7 +85,6 @@ class TreeController extends Controller
 
     /**
      * Reorder $moved (child of $parent) before or after $target.
-     *
      *
      * @return Response
      */
