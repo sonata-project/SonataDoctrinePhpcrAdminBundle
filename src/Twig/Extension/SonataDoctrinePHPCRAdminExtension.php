@@ -43,7 +43,6 @@ class SonataDoctrinePHPCRAdminExtension extends \Twig_Extension
     /**
      * Renders a path of a node.
      *
-     *
      * @return string Node path
      */
     public function renderNodePath(NodeInterface $node)
