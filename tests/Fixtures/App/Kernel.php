@@ -37,6 +37,17 @@ class Kernel extends TestKernel
         }
     }
 
+    public function getCacheDir(): string
+    {
+        return sys_get_temp_dir().'/SonataDoctrinePhpcrAdminBundle/cache';
+    }
+
+    public function getLogDir(): string
+    {
+        return sys_get_temp_dir().'/SonataDoctrinePhpcrAdminBundle/logs';
+    }
+
+
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__ . '/config/config.php');

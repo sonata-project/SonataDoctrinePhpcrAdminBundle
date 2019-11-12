@@ -4,4 +4,4 @@
 .php_cs.cache
 composer.lock
 phpunit.xml
-tests/Fixtures/App/var
+tests/Fixtures/App/app.sqlite

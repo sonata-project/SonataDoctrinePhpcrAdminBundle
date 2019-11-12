@@ -1,3 +1,6 @@
+parameters:
+    database_path: '%kernel.root_dir%/app.sqlite'
+
 sonata_admin:
     dashboard:
         blocks:
