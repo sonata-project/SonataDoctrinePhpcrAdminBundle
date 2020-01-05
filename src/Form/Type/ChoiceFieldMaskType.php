@@ -41,9 +41,7 @@ class ChoiceFieldMaskType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @todo Remove when Symfony <2.8 is no longer supported
+     * NEXT_MAJOR: remove this method.
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -69,9 +67,7 @@ class ChoiceFieldMaskType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @todo Remove when Symfony <2.8 is no longer supported
+     * NEXT_MAJOR: remove this method.
      */
     public function getName()
     {

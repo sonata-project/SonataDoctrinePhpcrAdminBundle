@@ -22,9 +22,7 @@ class ChoiceType extends BaseChoiceType
     public const TYPE_CONTAINS_WORDS = 4;
 
     /**
-     * {@inheritdoc}
-     *
-     * @todo Remove when Symfony <2.8 is no longer supported
+     * NEXT_MAJOR: remove this method.
      */
     public function getName()
     {

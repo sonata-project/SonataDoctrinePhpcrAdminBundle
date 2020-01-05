@@ -147,7 +147,7 @@ file that was distributed with this source code.
         or sonata_admin.field_description.mappingtype == 'referrers'  %}
             {{ block('sonata_admin_phpcr_one_to_many_widget') }}
     {% else %}
-        INVALID MODE : {{ id }} - type : sonata_type_collection - mapping : {{ sonata_admin.field_description.mappingtype }}
+        INVALID MODE : {{ id }} - type : CollectionType - mapping : {{ sonata_admin.field_description.mappingtype }}
     {% endif %}
 {% endblock %}
 
@@ -159,7 +159,7 @@ file that was distributed with this source code.
     %}
         {{ block('sonata_admin_phpcr_one_to_many_widget') }}
     {% else %}
-        INVALID MODE : {{ id }} - type : sonata_type_collection - mapping : {{ sonata_admin.field_description.mappingtype }}
+        INVALID MODE : {{ id }} - type : CollectionType - mapping : {{ sonata_admin.field_description.mappingtype }}
     {% endif %}
 {% endblock %}
 
