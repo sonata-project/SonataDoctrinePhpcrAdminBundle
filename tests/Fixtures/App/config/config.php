@@ -11,7 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+use Symfony\Component\HttpKernel\Kernel;
+
 $container->setParameter('cmf_testing.bundle_fqn', 'Sonata\DoctrinePHPCRAdminBundle');
 $loader->import(CMF_TEST_CONFIG_DIR.'/default.php');
 $loader->import(__DIR__.'/sonata_phpcr_admin.yml');
 $loader->import(CMF_TEST_CONFIG_DIR.'/phpcr_odm.php');
+if (version_compare(Kernel::VERSION, '4.2', '<')) {
+    $container->loadFromExtension('framework', [
+        'fragments' => ['enabled' => true],
+    ]);
+}

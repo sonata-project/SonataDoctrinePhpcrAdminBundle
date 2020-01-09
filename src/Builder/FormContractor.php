@@ -17,6 +17,13 @@ use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\FormContractorInterface;
+use Sonata\AdminBundle\Form\Type\AdminType;
+use Sonata\AdminBundle\Form\Type\ModelType;
+use Sonata\AdminBundle\Form\Type\ModelTypeList;
+use Sonata\CoreBundle\Form\Type\CollectionType as DeprecatedCollectionType;
+use Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeModelType;
+use Sonata\Form\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class FormContractor implements FormContractorInterface
@@ -42,7 +49,7 @@ class FormContractor implements FormContractorInterface
     {
         $metadata = null;
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
-            /** @var \Doctrine\ODM\PHPCR\Mapping\ClassMetadata $metadata */
+            /** @var ClassMetadata $metadata */
             $metadata = $admin->getModelManager()->getMetadata($admin->getClass());
 
             // set the default field mapping
@@ -96,7 +103,7 @@ class FormContractor implements FormContractorInterface
     {
         return $this->getFormFactory()->createNamedBuilder(
             $name,
-            'Symfony\Component\Form\Extension\Core\Type\FormType',
+            FormType::class,
             null,
             $options);
     }
@@ -113,15 +120,15 @@ class FormContractor implements FormContractorInterface
         $options['sonata_field_description'] = $fieldDescription;
 
         switch ($type) {
-            case 'Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeModelType':
+            case TreeModelType::class:
             case 'doctrine_phpcr_odm_tree':
                 $options['class'] = $fieldDescription->getTargetEntity();
                 $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
 
                 break;
-            case 'Sonata\AdminBundle\Form\Type\ModelType':
+            case ModelType::class:
             case 'sonata_type_model':
-            case 'Sonata\AdminBundle\Form\Type\ModelTypeList':
+            case ModelTypeList::class:
             case 'sonata_type_model_list':
                 if ('child' !== $fieldDescription->getMappingType() && !$fieldDescription->getTargetEntity()) {
                     throw new \LogicException(sprintf(
@@ -135,7 +142,7 @@ class FormContractor implements FormContractorInterface
                 $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();
 
                 break;
-            case 'Sonata\AdminBundle\Form\Type\AdminType':
+            case AdminType::class:
             case 'sonata_type_admin':
                 if (!$fieldDescription->getAssociationAdmin()) {
                     throw $this->getAssociationAdminException($fieldDescription);
@@ -145,19 +152,19 @@ class FormContractor implements FormContractorInterface
                 $fieldDescription->setOption('edit', $fieldDescription->getOption('edit', 'admin'));
 
                 break;
-            case 'Sonata\CoreBundle\Form\Type\CollectionType':
+            case DeprecatedCollectionType::class:
             case 'sonata_type_collection_legacy':
             /*
              * NEXT_MAJOR: Remove 'Sonata\CoreBundle\Form\Type\CollectionType' and 'sonata_type_collection_legacy'
              * cases when replace SonataCoreBundle by SonataFormExtension
              */
-            case 'Sonata\Form\Type\CollectionType':
+            case CollectionType::class:
             case 'sonata_type_collection':
                 if (!$fieldDescription->getAssociationAdmin()) {
                     throw $this->getAssociationAdminException($fieldDescription);
                 }
 
-                $options['type'] = 'Sonata\AdminBundle\Form\Type\AdminType';
+                $options['type'] = AdminType::class;
                 $options['modifiable'] = true;
                 $options['type_options'] = [
                     'sonata_field_description' => $fieldDescription,

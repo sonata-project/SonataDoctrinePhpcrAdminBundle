@@ -34,9 +34,7 @@ class TreeManagerType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @todo Remove when Symfony <2.8 is no longer supported
+     * NEXT_MAJOR: remove this method.
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -50,13 +48,8 @@ class TreeManagerType extends AbstractType
     {
         $resolver->setRequired(['root']);
 
-        if (method_exists($resolver, 'setDefined')) {
-            // The new OptionsResolver API
-            $resolver->setDefined(['create_in_overlay', 'edit_in_overlay', 'delete_in_overlay']);
-        } else {
-            // To keep compatibility with old Symfony <2.6 API
-            $resolver->setOptional(['create_in_overlay', 'edit_in_overlay', 'delete_in_overlay']);
-        }
+        // The new OptionsResolver API
+        $resolver->setDefined(['create_in_overlay', 'edit_in_overlay', 'delete_in_overlay']);
 
         $resolver->setDefaults([
             'create_in_overlay' => true,
@@ -66,9 +59,7 @@ class TreeManagerType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @todo Remove when Symfony <2.8 is no longer supported
+     * NEXT_MAJOR: remove this method.
      */
     public function getName()
     {
