@@ -18,7 +18,7 @@ use Sonata\DoctrinePHPCRAdminBundle\DependencyInjection\SonataDoctrinePHPCRAdmin
 
 class SonataDoctrinePHPCRAdminExtensionTest extends AbstractExtensionTestCase
 {
-    public function getContainerExtensions()
+    public function getContainerExtensions(): array
     {
         return [
            new SonataDoctrinePHPCRAdminExtension(),
