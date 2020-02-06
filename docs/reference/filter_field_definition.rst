@@ -160,7 +160,7 @@ implement this functionality::
 Filtering Fields and Case Sensitivity
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The default behaviour when filtering is to compare values in a case sensitive manner.
+The default behavior when filtering is to compare values in a case sensitive manner.
 For example "Test" is not the same as "test". Depending on your use case, you might want case insensitive filtering.
 To make the filter case insensitive, use the ``compare_case_insensitive`` option for the string filter::
 

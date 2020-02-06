@@ -102,8 +102,6 @@ content:
                         id: '/cms'
                     contexts:   [admin]
 
-    .. code-block:: yaml
-
         # config/packages/sonata_admin.yaml
 
         sonata_admin:
@@ -185,6 +183,7 @@ This configuration is global for all your document trees.
     .. code-block:: xml
 
         <!-- app/config/config.xml -->
+
         <?xml version="1.0" encoding="UTF-8" ?>
         <container xmlns="http://symfony.com/schema/dic/services">
 
@@ -205,6 +204,7 @@ This configuration is global for all your document trees.
     .. code-block:: php
 
         // app/config/config.php
+
         $container->loadFromExtension('sonata_doctrine_phpcr_admin', [
             'document_tree' => [
                 'routing_defaults' => ['locale'],
@@ -228,7 +228,7 @@ like this:
 
 .. configuration-block::
 
-    .. code-block:: jinja
+    .. code-block:: twig
 
         {% render(controller(
             'sonata.admin.doctrine_phpcr.tree_controller::treeAction',
