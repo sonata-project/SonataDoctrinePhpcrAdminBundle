@@ -100,9 +100,11 @@ class DateFilterTest extends BaseTestCase
 
         // FROM
         $opDynamic = $this->qbTester->getNode(
-            'where.constraint.constraint.operand_dynamic');
+            'where.constraint.constraint.operand_dynamic'
+        );
         $opStatic = $this->qbTester->getNode(
-            'where.constraint.constraint.operand_static');
+            'where.constraint.constraint.operand_static'
+        );
 
         $this->assertSame('a', $opDynamic->getAlias());
         $this->assertSame('somefield', $opDynamic->getField());
@@ -110,9 +112,11 @@ class DateFilterTest extends BaseTestCase
 
         // TO
         $opDynamic = $this->qbTester->getNode(
-            'where.constraint.constraint[1].operand_dynamic');
+            'where.constraint.constraint[1].operand_dynamic'
+        );
         $opStatic = $this->qbTester->getNode(
-            'where.constraint.constraint[1].operand_static');
+            'where.constraint.constraint[1].operand_static'
+        );
 
         $this->assertSame('a', $opDynamic->getAlias());
         $this->assertSame('somefield', $opDynamic->getField());

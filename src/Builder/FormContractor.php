@@ -105,7 +105,8 @@ class FormContractor implements FormContractorInterface
             $name,
             FormType::class,
             null,
-            $options);
+            $options
+        );
     }
 
     /**
