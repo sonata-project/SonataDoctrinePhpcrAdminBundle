@@ -374,7 +374,7 @@ class ModelManager implements ModelManagerInterface
     {
         $values = $datagrid->getValues();
 
-        if ($fieldDescription->getName() === $values['_sort_by']->getName()) {
+        if (isset($values['_sort_by']) && $fieldDescription->getName() === $values['_sort_by']->getName()) {
             if ('ASC' === $values['_sort_order']) {
                 $values['_sort_order'] = 'DESC';
             } else {
@@ -397,7 +397,9 @@ class ModelManager implements ModelManagerInterface
     {
         $values = $datagrid->getValues();
 
-        $values['_sort_by'] = $values['_sort_by']->getName();
+        if (isset($values['_sort_by'])) {
+            $values['_sort_by'] = $values['_sort_by']->getName();
+        }
         $values['_page'] = $page;
 
         return ['filter' => $values];
