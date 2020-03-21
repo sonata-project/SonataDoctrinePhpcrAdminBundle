@@ -31,10 +31,6 @@ class SonataDoctrinePHPCRAdminExtensionTest extends AbstractExtensionTestCase
             'kernel.bundles',
             []
         );
-        $this->container->setParameter(
-            'sonata.admin.configuration.use_intl_templates',
-            false
-        );
         $this->load(['document_tree' => []]);
 
         $this->assertContainerBuilderHasParameter(
