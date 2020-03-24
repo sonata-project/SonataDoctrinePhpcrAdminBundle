@@ -13,11 +13,16 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Filter;
 
-use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
+use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\ChoiceFilter;
 
 class ChoiceFilterTest extends BaseTestCase
 {
+    /**
+     * @var ChoiceFilter
+     */
+    private $filter;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -40,7 +45,7 @@ class ChoiceFilterTest extends BaseTestCase
 
     public function testFilterEmptyArrayDataSpecifiedType(): void
     {
-        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => ChoiceType::TYPE_EQUAL]);
+        $res = $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => EqualOperatorType::TYPE_EQUAL]);
         $this->assertNull($res);
         $this->assertFalse($this->filter->isActive());
     }
@@ -62,23 +67,22 @@ class ChoiceFilterTest extends BaseTestCase
      */
     public function testFilterEmptyArrayDataWithMeaninglessValue($value): void
     {
-        $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => ChoiceType::TYPE_EQUAL, 'value' => $value]);
+        $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => EqualOperatorType::TYPE_EQUAL, 'value' => $value]);
         $this->assertFalse($this->filter->isActive());
     }
 
     public function getFilters()
     {
         return [
-            ['eq', ChoiceType::TYPE_EQUAL],
-            ['textSearch', ChoiceType::TYPE_NOT_CONTAINS, '* -somevalue'],
-            ['like', ChoiceType::TYPE_CONTAINS, '%somevalue%'],
+            [EqualOperatorType::TYPE_EQUAL],
+            [EqualOperatorType::TYPE_NOT_EQUAL],
         ];
     }
 
     /**
      * @dataProvider getFilters
      */
-    public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue'): void
+    public function testFilterSwitch(int $choiceType): void
     {
         $this->proxyQuery->expects($this->once())
             ->method('getQueryBuilder')
@@ -97,118 +101,7 @@ class ChoiceFilterTest extends BaseTestCase
     {
         return [
             [[
-                'choiceType' => ChoiceType::TYPE_NOT_CONTAINS,
-                'value' => 'somevalue',
-                'qbNodeCount' => 6,
-                'assertPaths' => [
-                    'where.constraint.constraint[0].constraint.operand_dynamic' => [
-                        'getAlias' => 'a',
-                        'getField' => 'somefield',
-                    ],
-                    'where.constraint.constraint[0].constraint.operand_static' => [
-                        'getValue' => '%somevalue%',
-                    ],
-                ],
-            ]],
-            [[
-                'choiceType' => ChoiceType::TYPE_NOT_CONTAINS,
-                'value' => ['somevalue', 'somevalue'],
-                'qbNodeCount' => 10,
-                'assertPaths' => [
-                    'where.constraint.constraint.constraint.operand_dynamic' => [
-                        'getAlias' => 'a',
-                        'getField' => 'somefield',
-                    ],
-                    'where.constraint.constraint.constraint.operand_static' => [
-                        'getValue' => '%somevalue%',
-                    ],
-                    'where.constraint.constraint[1].constraint.operand_dynamic' => [
-                        'getAlias' => 'a',
-                        'getField' => 'somefield',
-                    ],
-                    'where.constraint.constraint[1].constraint.operand_static' => [
-                        'getValue' => '%somevalue%',
-                    ],
-                ],
-            ]],
-            [[
-                'choiceType' => ChoiceType::TYPE_CONTAINS,
-                'value' => 'somevalue',
-                'qbNodeCount' => 5,
-                'assertPaths' => [
-                    'where.constraint.constraint.operand_dynamic' => [
-                        'getAlias' => 'a',
-                        'getField' => 'somefield',
-                    ],
-                    'where.constraint.constraint.operand_static' => [
-                        'getValue' => '%somevalue%',
-                    ],
-                    'where.constraint.constraint.operand_static' => [
-                        'getValue' => '%somevalue%',
-                    ],
-                ],
-            ]],
-            [[
-                'choiceType' => ChoiceType::TYPE_CONTAINS,
-                'value' => ['somevalue', 'somevalue'],
-                'qbNodeCount' => 8,
-                'assertPaths' => [
-                    'where.constraint.constraint.operand_dynamic' => [
-                        'getAlias' => 'a',
-                        'getField' => 'somefield',
-                    ],
-                    'where.constraint.constraint.operand_static' => [
-                        'getValue' => '%somevalue%',
-                    ],
-                    'where.constraint.constraint[1].operand_dynamic' => [
-                        'getAlias' => 'a',
-                        'getField' => 'somefield',
-                    ],
-                    'where.constraint.constraint[1].operand_static' => [
-                        'getValue' => '%somevalue%',
-                    ],
-                ],
-            ]],
-            [[
-                'choiceType' => ChoiceType::TYPE_CONTAINS,
-                'value' => 'somevalue',
-                'qbNodeCount' => 5,
-                'assertPaths' => [
-                    'where.constraint.constraint.operand_dynamic' => [
-                        'getAlias' => 'a',
-                        'getField' => 'somefield',
-                    ],
-                    'where.constraint.constraint.operand_static' => [
-                        'getValue' => '%somevalue%',
-                    ],
-                    'where.constraint.constraint.operand_static' => [
-                        'getValue' => '%somevalue%',
-                    ],
-                ],
-            ]],
-            [[
-                'choiceType' => ChoiceType::TYPE_CONTAINS,
-                'value' => ['somevalue', 'somevalue'],
-                'qbNodeCount' => 8,
-                'assertPaths' => [
-                    'where.constraint.constraint.operand_dynamic' => [
-                        'getAlias' => 'a',
-                        'getField' => 'somefield',
-                    ],
-                    'where.constraint.constraint.operand_static' => [
-                        'getValue' => '%somevalue%',
-                    ],
-                    'where.constraint.constraint[1].operand_dynamic' => [
-                        'getAlias' => 'a',
-                        'getField' => 'somefield',
-                    ],
-                    'where.constraint.constraint[1].operand_static' => [
-                        'getValue' => '%somevalue%',
-                    ],
-                ],
-            ]],
-            [[
-                'choiceType' => ChoiceType::TYPE_EQUAL,
+                'choiceType' => EqualOperatorType::TYPE_NOT_EQUAL,
                 'value' => 'somevalue',
                 'qbNodeCount' => 5,
                 'assertPaths' => [
@@ -219,13 +112,115 @@ class ChoiceFilterTest extends BaseTestCase
                     'where.constraint.constraint.operand_static' => [
                         'getValue' => 'somevalue',
                     ],
+                ],
+            ]],
+            [[
+                'choiceType' => EqualOperatorType::TYPE_NOT_EQUAL,
+                'value' => ['somevalue', 'somevalue'],
+                'qbNodeCount' => 8,
+                'assertPaths' => [
+                    'where.constraint.constraint.operand_dynamic' => [
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
+                    ],
+                    'where.constraint.constraint.operand_static' => [
+                        'getValue' => 'somevalue',
+                    ],
+                    'where.constraint.constraint[1].operand_dynamic' => [
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
+                    ],
+                    'where.constraint.constraint[1].operand_static' => [
+                        'getValue' => 'somevalue',
+                    ],
+                ],
+            ]],
+            [[
+                'choiceType' => EqualOperatorType::TYPE_EQUAL,
+                'value' => 'somevalue',
+                'qbNodeCount' => 5,
+                'assertPaths' => [
+                    'where.constraint.constraint.operand_dynamic' => [
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
+                    ],
                     'where.constraint.constraint.operand_static' => [
                         'getValue' => 'somevalue',
                     ],
                 ],
             ]],
             [[
-                'choiceType' => ChoiceType::TYPE_EQUAL,
+                'choiceType' => EqualOperatorType::TYPE_EQUAL,
+                'value' => ['somevalue', 'somevalue'],
+                'qbNodeCount' => 8,
+                'assertPaths' => [
+                    'where.constraint.constraint.operand_dynamic' => [
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
+                    ],
+                    'where.constraint.constraint.operand_static' => [
+                        'getValue' => 'somevalue',
+                    ],
+                    'where.constraint.constraint[1].operand_dynamic' => [
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
+                    ],
+                    'where.constraint.constraint[1].operand_static' => [
+                        'getValue' => 'somevalue',
+                    ],
+                ],
+            ]],
+            [[
+                'choiceType' => EqualOperatorType::TYPE_EQUAL,
+                'value' => 'somevalue',
+                'qbNodeCount' => 5,
+                'assertPaths' => [
+                    'where.constraint.constraint.operand_dynamic' => [
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
+                    ],
+                    'where.constraint.constraint.operand_static' => [
+                        'getValue' => 'somevalue',
+                    ],
+                ],
+            ]],
+            [[
+                'choiceType' => EqualOperatorType::TYPE_EQUAL,
+                'value' => ['somevalue', 'somevalue'],
+                'qbNodeCount' => 8,
+                'assertPaths' => [
+                    'where.constraint.constraint.operand_dynamic' => [
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
+                    ],
+                    'where.constraint.constraint.operand_static' => [
+                        'getValue' => 'somevalue',
+                    ],
+                    'where.constraint.constraint[1].operand_dynamic' => [
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
+                    ],
+                    'where.constraint.constraint[1].operand_static' => [
+                        'getValue' => 'somevalue',
+                    ],
+                ],
+            ]],
+            [[
+                'choiceType' => EqualOperatorType::TYPE_EQUAL,
+                'value' => 'somevalue',
+                'qbNodeCount' => 5,
+                'assertPaths' => [
+                    'where.constraint.constraint.operand_dynamic' => [
+                        'getAlias' => 'a',
+                        'getField' => 'somefield',
+                    ],
+                    'where.constraint.constraint.operand_static' => [
+                        'getValue' => 'somevalue',
+                    ],
+                ],
+            ]],
+            [[
+                'choiceType' => EqualOperatorType::TYPE_EQUAL,
                 'value' => ['somevalue', 'somevalue'],
                 'qbNodeCount' => 8,
                 'assertPaths' => [

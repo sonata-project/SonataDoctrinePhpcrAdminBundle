@@ -14,7 +14,8 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
+use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
+use Sonata\AdminBundle\Form\Type\Operator\EqualOperatorType;
 
 class ChoiceFilter extends Filter
 {
@@ -45,15 +46,17 @@ class ChoiceFilter extends Filter
             return;
         }
 
-        $andX = $this->getWhere($proxyQuery)->andX();
+        if (EqualOperatorType::TYPE_NOT_EQUAL === $type) {
+            $where = $this->getWhere($proxyQuery)->andX();
+        } else {
+            $where = $this->getWhere($proxyQuery)->orX();
+        }
 
         foreach ($values as $value) {
-            if (ChoiceType::TYPE_NOT_CONTAINS === $type) {
-                $andX->not()->like()->field('a.'.$field)->literal('%'.$value.'%');
-            } elseif (ChoiceType::TYPE_CONTAINS === $type) {
-                $andX->like()->field('a.'.$field)->literal('%'.$value.'%');
-            } elseif (ChoiceType::TYPE_EQUAL === $type) {
-                $andX->like()->field('a.'.$field)->literal($value);
+            if (EqualOperatorType::TYPE_NOT_EQUAL === $type) {
+                $where->neq()->field('a.'.$field)->literal($value);
+            } else {
+                $where->eq()->field('a.'.$field)->literal($value);
             }
         }
 
@@ -66,7 +69,10 @@ class ChoiceFilter extends Filter
      */
     public function getDefaultOptions()
     {
-        return [];
+        return [
+            'operator_type' => EqualOperatorType::class,
+            'operator_options' => [],
+        ];
     }
 
     /**
@@ -74,8 +80,9 @@ class ChoiceFilter extends Filter
      */
     public function getRenderSettings()
     {
-        return ['sonata_type_filter_default', [
-            'operator_type' => 'sonata_type_equal',
+        return [DefaultType::class, [
+            'operator_type' => $this->getOption('operator_type'),
+            'operator_options' => $this->getOption('operator_options'),
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'label' => $this->getLabel(),

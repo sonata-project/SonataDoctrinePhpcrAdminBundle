@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Filter;
 
+use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\NodeNameFilter;
 use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 
@@ -26,7 +27,7 @@ class NodeNameFilterTest extends BaseTestCase
 
     public function getChoiceTypeForEmptyTests()
     {
-        return ChoiceType::TYPE_EQUAL;
+        return ContainsOperatorType::TYPE_EQUAL;
     }
 
     public function testFilterNullData(): void

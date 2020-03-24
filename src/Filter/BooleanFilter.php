@@ -14,8 +14,10 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Form\Type\Filter\DefaultType;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\Filter as BaseFilter;
 use Sonata\Form\Type\BooleanType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class BooleanFilter extends BaseFilter
 {
@@ -44,7 +46,11 @@ class BooleanFilter extends BaseFilter
      */
     public function getDefaultOptions()
     {
-        return [];
+        return [
+            'field_type' => BooleanType::class,
+            'operator_type' => HiddenType::class,
+            'operator_options' => [],
+        ];
     }
 
     /**
@@ -52,11 +58,11 @@ class BooleanFilter extends BaseFilter
      */
     public function getRenderSettings()
     {
-        return ['sonata_type_filter_default', [
+        return [DefaultType::class, [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
-            'operator_type' => 'hidden',
-            'operator_options' => [],
+            'operator_type' => $this->getOption('operator_type'),
+            'operator_options' => $this->getOption('operator_options'),
             'label' => $this->getLabel(),
         ]];
     }

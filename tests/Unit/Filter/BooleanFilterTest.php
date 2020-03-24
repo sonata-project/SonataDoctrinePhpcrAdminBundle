@@ -56,15 +56,15 @@ class BooleanFilterTest extends BaseTestCase
     public function getFilters()
     {
         return [
-            ['eq', BooleanType::TYPE_YES, true],
-            ['eq', BooleanType::TYPE_NO, false],
+            [BooleanType::TYPE_YES, true],
+            [BooleanType::TYPE_NO, false],
         ];
     }
 
     /**
      * @dataProvider getFilters
      */
-    public function testFilterSwitch($operatorMethod, $value, $expectedValue): void
+    public function testFilterSwitch(int $value, bool $expectedValue): void
     {
         $this->filter->filter(
             $this->proxyQuery,

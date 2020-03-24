@@ -14,10 +14,16 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Filter;
 
 use Sonata\AdminBundle\Form\Type\Filter\NumberType;
+use Sonata\AdminBundle\Form\Type\Operator\NumberOperatorType;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\NumberFilter;
 
 class NumberFilterTest extends BaseTestCase
 {
+    /**
+     * @var NumberFilter
+     */
+    private $filter;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -57,11 +63,11 @@ class NumberFilterTest extends BaseTestCase
     public function getFilters()
     {
         return [
-            ['gte', NumberType::TYPE_GREATER_EQUAL, 2],
-            ['gt', NumberType::TYPE_GREATER_THAN, 3],
-            ['lte', NumberType::TYPE_LESS_EQUAL, 4],
-            ['lt', NumberType::TYPE_LESS_THAN, 5],
-            ['eq', NumberType::TYPE_EQUAL, 6],
+            ['gte', NumberOperatorType::TYPE_GREATER_EQUAL, 2],
+            ['gt', NumberOperatorType::TYPE_GREATER_THAN, 3],
+            ['lte', NumberOperatorType::TYPE_LESS_EQUAL, 4],
+            ['lt', NumberOperatorType::TYPE_LESS_THAN, 5],
+            ['eq', NumberOperatorType::TYPE_EQUAL, 6],
             ['eq', 'default', 7],
         ];
     }

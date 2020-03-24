@@ -65,7 +65,7 @@ class NodeNameFilter extends Filter
      */
     public function getRenderSettings()
     {
-        return ['Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType', [
+        return [ChoiceType::class, [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'label' => $this->getLabel(),

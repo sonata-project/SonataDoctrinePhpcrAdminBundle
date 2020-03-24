@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Filter;
 
-use Sonata\AdminBundle\Form\Type\Filter\DateType;
+use Sonata\AdminBundle\Form\Type\Operator\DateOperatorType;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\DateFilter;
 
 class DateFilterTest extends BaseTestCase
@@ -44,13 +44,13 @@ class DateFilterTest extends BaseTestCase
     public function getFilters()
     {
         return [
-            ['gte', DateType::TYPE_GREATER_EQUAL],
-            ['gt', DateType::TYPE_GREATER_THAN],
-            ['lte', DateType::TYPE_LESS_EQUAL],
-            ['lt', DateType::TYPE_LESS_THAN],
-            ['eq', DateType::TYPE_NULL, null],
-            ['neq', DateType::TYPE_NOT_NULL, null],
-            // test ChoiceTYPE::TYPE_EQUAL separately, special case.
+            ['gte', DateOperatorType::TYPE_GREATER_EQUAL],
+            ['gt', DateOperatorType::TYPE_GREATER_THAN],
+            ['lte', DateOperatorType::TYPE_LESS_EQUAL],
+            ['lt', DateOperatorType::TYPE_LESS_THAN],
+            ['eq', DateOperatorType::TYPE_NULL, null],
+            ['neq', DateOperatorType::TYPE_NOT_NULL, null],
+            // test DateOperatorType::TYPE_EQUAL separately, special case.
         ];
     }
 
@@ -95,7 +95,7 @@ class DateFilterTest extends BaseTestCase
             $this->proxyQuery,
             null,
             'somefield',
-            ['type' => DateType::TYPE_EQUAL, 'value' => $from]
+            ['type' => DateOperatorType::TYPE_EQUAL, 'value' => $from]
         );
 
         // FROM
