@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Datagrid;
 
 use Doctrine\ODM\PHPCR\DocumentManager;
+use Doctrine\ODM\PHPCR\Query\Builder\AbstractNode;
 use Doctrine\ODM\PHPCR\Query\Builder\QueryBuilder;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 
@@ -131,26 +132,36 @@ class ProxyQuery implements ProxyQueryInterface
      */
     public function execute(array $params = [], $hydrationMode = null)
     {
+        // always clone the original queryBuilder
+        $queryBuilder = clone $this->qb;
+
         if ($this->getSortBy()) {
+            $orderByChildren = $queryBuilder->getChildrenOfType(AbstractNode::NT_ORDER_BY);
+            $queryBuilder->removeChildrenOfType(AbstractNode::NT_ORDER_BY);
+
             switch ($this->sortOrder) {
                 case 'DESC':
-                    $this->qb->orderBy()->desc()->field($this->alias.'.'.$this->sortBy);
+                    $queryBuilder->orderBy()->desc()->field($this->alias.'.'.$this->sortBy);
 
                     break;
                 case 'ASC':
-                    $this->qb->orderBy()->asc()->field($this->alias.'.'.$this->sortBy);
+                    $queryBuilder->orderBy()->asc()->field($this->alias.'.'.$this->sortBy);
 
                     break;
                 default:
                     throw new \Exception('Unsupported sort order direction: '.$this->sortOrder);
             }
+
+            foreach ($orderByChildren as $orderByChild) {
+                $queryBuilder->addChild($orderByChild);
+            }
         }
 
         if ($this->root) {
-            $this->qb->andWhere()->descendant($this->root, $this->alias);
+            $queryBuilder->andWhere()->descendant($this->root, $this->alias);
         }
 
-        return $this->qb->getQuery()->execute();
+        return $queryBuilder->getQuery()->execute();
     }
 
     /**

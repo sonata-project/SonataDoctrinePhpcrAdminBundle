@@ -111,6 +111,25 @@ class ProxyQueryTest extends TestCase
         $this->assertSame('test', $res);
     }
 
+    public function testExecuteWithSortBy(): void
+    {
+        $qb = $this->createPartialMock(QueryBuilder::class, ['getQuery']);
+
+        $qb->expects($this->once())
+            ->method('getQuery')
+            ->willReturn($this->query);
+        $this->query->expects($this->once())
+            ->method('execute')
+            ->willReturn('test');
+
+        $pq = new ProxyQuery($qb, 'a');
+
+        $pq->setSortBy([], ['fieldName' => 'field']);
+        $pq->setSortOrder('ASC');
+        $res = $pq->execute();
+        $this->assertSame('test', $res);
+    }
+
     public function testGetAndSetDocumentManager(): void
     {
         $dm = $this->createMock(DocumentManager::class);
