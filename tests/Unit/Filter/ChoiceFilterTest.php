@@ -51,9 +51,8 @@ class ChoiceFilterTest extends BaseTestCase
             ['  '],
             [null],
             [false],
-            ['all'],
             [[]],
-            [['', 'all']],
+            [['', '   ']],
         ];
     }
 
