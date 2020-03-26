@@ -74,26 +74,32 @@ class ChoiceFilterTest extends BaseTestCase
     public function getFilters()
     {
         return [
-            [EqualOperatorType::TYPE_EQUAL],
-            [EqualOperatorType::TYPE_NOT_EQUAL],
+            ['jcr.operator.equal.to', EqualOperatorType::TYPE_EQUAL],
+            ['jcr.operator.not.equal.to', EqualOperatorType::TYPE_NOT_EQUAL],
         ];
     }
 
     /**
      * @dataProvider getFilters
      */
-    public function testFilterSwitch(int $choiceType): void
+    public function testFilterSwitch(string $operator, int $choiceType): void
     {
-        $this->proxyQuery->expects($this->once())
-            ->method('getQueryBuilder')
-            ->willReturn($this->qb);
-
         $this->filter->filter(
             $this->proxyQuery,
             null,
             'somefield',
             ['type' => $choiceType, 'value' => 'somevalue']
         );
+
+        $op = $this->qbTester->getNode('where.constraint.constraint');
+        $opDynamic = $this->qbTester->getNode('where.constraint.constraint.operand_dynamic');
+        $opStatic = $this->qbTester->getNode('where.constraint.constraint.operand_static');
+
+        $this->assertSame('a', $opDynamic->getAlias());
+        $this->assertSame('somefield', $opDynamic->getField());
+        $this->assertSame('somevalue', $opStatic->getValue());
+        $this->assertSame($operator, $op->getOperator());
+
         $this->assertTrue($this->filter->isActive());
     }
 

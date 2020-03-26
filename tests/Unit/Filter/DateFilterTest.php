@@ -18,14 +18,16 @@ use Sonata\DoctrinePHPCRAdminBundle\Filter\DateFilter;
 
 class DateFilterTest extends BaseTestCase
 {
+    /**
+     * @var DateFilter
+     */
+    private $filter;
+
     public function setUp(): void
     {
         parent::setUp();
         $this->filter = new DateFilter();
     }
-
-    // @todo: Can probably factor the following 4 test cases into a common class
-    //        IF we introduce another test with the same need.
 
     public function testFilterNullData(): void
     {
@@ -44,12 +46,12 @@ class DateFilterTest extends BaseTestCase
     public function getFilters()
     {
         return [
-            ['gte', DateOperatorType::TYPE_GREATER_EQUAL],
-            ['gt', DateOperatorType::TYPE_GREATER_THAN],
-            ['lte', DateOperatorType::TYPE_LESS_EQUAL],
-            ['lt', DateOperatorType::TYPE_LESS_THAN],
-            ['eq', DateOperatorType::TYPE_NULL, null],
-            ['neq', DateOperatorType::TYPE_NOT_NULL, null],
+            ['jcr.operator.greater.than.or.equal.to', DateOperatorType::TYPE_GREATER_EQUAL, new \DateTime('2013/01/16 00:00:00')],
+            ['jcr.operator.greater.than', DateOperatorType::TYPE_GREATER_THAN, new \DateTime('2013/01/16 00:00:00')],
+            ['jcr.operator.less.than.or.equal.to', DateOperatorType::TYPE_LESS_EQUAL, new \DateTime('2013/01/16 00:00:00')],
+            ['jcr.operator.less.than', DateOperatorType::TYPE_LESS_THAN, new \DateTime('2013/01/16 00:00:00')],
+            ['jcr.operator.equal.to', DateOperatorType::TYPE_NULL, null],
+            ['jcr.operator.not.equal.to', DateOperatorType::TYPE_NOT_NULL, null],
             // test DateOperatorType::TYPE_EQUAL separately, special case.
         ];
     }
@@ -57,13 +59,9 @@ class DateFilterTest extends BaseTestCase
     /**
      * @dataProvider getFilters
      */
-    public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = '__null__'): void
+    public function testFilterSwitch(string $operator, int $choiceType, ?\DateTime $expectedValue): void
     {
         $value = new \DateTime('2013/01/16 00:00:00');
-
-        if ('__null__' === $expectedValue) {
-            $expectedValue = new \DateTime('2013/01/16 00:00:00');
-        }
 
         $this->filter->filter(
             $this->proxyQuery,
@@ -72,11 +70,13 @@ class DateFilterTest extends BaseTestCase
             ['type' => $choiceType, 'value' => $value]
         );
 
+        $op = $this->qbTester->getNode('where.constraint');
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
 
         $this->assertSame('a', $opDynamic->getAlias());
         $this->assertSame('somefield', $opDynamic->getField());
+        $this->assertSame($operator, $op->getOperator());
         $this->assertTrue(
             $expectedValue instanceof \DateTimeInterface ?
             $expectedValue->getTimestamp() === $opStatic->getValue()->getTimestamp() :
@@ -99,27 +99,23 @@ class DateFilterTest extends BaseTestCase
         );
 
         // FROM
-        $opDynamic = $this->qbTester->getNode(
-            'where.constraint.constraint.operand_dynamic'
-        );
-        $opStatic = $this->qbTester->getNode(
-            'where.constraint.constraint.operand_static'
-        );
+        $op = $this->qbTester->getNode('where.constraint.constraint');
+        $opDynamic = $this->qbTester->getNode('where.constraint.constraint.operand_dynamic');
+        $opStatic = $this->qbTester->getNode('where.constraint.constraint.operand_static');
 
         $this->assertSame('a', $opDynamic->getAlias());
         $this->assertSame('somefield', $opDynamic->getField());
+        $this->assertSame('jcr.operator.greater.than.or.equal.to', $op->getOperator());
         $this->assertSame($from->getTimestamp(), $opStatic->getValue()->getTimestamp());
 
         // TO
-        $opDynamic = $this->qbTester->getNode(
-            'where.constraint.constraint[1].operand_dynamic'
-        );
-        $opStatic = $this->qbTester->getNode(
-            'where.constraint.constraint[1].operand_static'
-        );
+        $op = $this->qbTester->getNode('where.constraint.constraint[1]');
+        $opDynamic = $this->qbTester->getNode('where.constraint.constraint[1].operand_dynamic');
+        $opStatic = $this->qbTester->getNode('where.constraint.constraint[1].operand_static');
 
         $this->assertSame('a', $opDynamic->getAlias());
         $this->assertSame('somefield', $opDynamic->getField());
+        $this->assertSame('jcr.operator.less.than.or.equal.to', $op->getOperator());
         $this->assertSame($to->getTimestamp(), $opStatic->getValue()->getTimestamp());
 
         $this->assertTrue($this->filter->isActive());

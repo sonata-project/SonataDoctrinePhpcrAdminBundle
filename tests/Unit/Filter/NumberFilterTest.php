@@ -63,19 +63,19 @@ class NumberFilterTest extends BaseTestCase
     public function getFilters()
     {
         return [
-            ['gte', NumberOperatorType::TYPE_GREATER_EQUAL, 2],
-            ['gt', NumberOperatorType::TYPE_GREATER_THAN, 3],
-            ['lte', NumberOperatorType::TYPE_LESS_EQUAL, 4],
-            ['lt', NumberOperatorType::TYPE_LESS_THAN, 5],
-            ['eq', NumberOperatorType::TYPE_EQUAL, 6],
-            ['eq', 'default', 7],
+            ['jcr.operator.greater.than.or.equal.to', NumberOperatorType::TYPE_GREATER_EQUAL, 2],
+            ['jcr.operator.greater.than', NumberOperatorType::TYPE_GREATER_THAN, 3],
+            ['jcr.operator.less.than.or.equal.to', NumberOperatorType::TYPE_LESS_EQUAL, 4],
+            ['jcr.operator.less.than', NumberOperatorType::TYPE_LESS_THAN, 5],
+            ['jcr.operator.equal.to', NumberOperatorType::TYPE_EQUAL, 6],
+            ['jcr.operator.equal.to', 'default', 7],
         ];
     }
 
     /**
      * @dataProvider getFilters
      */
-    public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue'): void
+    public function testFilterSwitch($operator, $choiceType, $expectedValue): void
     {
         $this->filter->filter(
             $this->proxyQuery,
@@ -84,11 +84,13 @@ class NumberFilterTest extends BaseTestCase
             ['type' => $choiceType, 'value' => $expectedValue]
         );
 
+        $op = $this->qbTester->getNode('where.constraint');
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
 
         $this->assertSame('a', $opDynamic->getAlias());
         $this->assertSame('somefield', $opDynamic->getField());
+        $this->assertSame($operator, $op->getOperator());
         $this->assertSame($expectedValue, $opStatic->getValue());
 
         $this->assertTrue($this->filter->isActive());

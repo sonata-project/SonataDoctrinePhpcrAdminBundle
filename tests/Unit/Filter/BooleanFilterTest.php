@@ -73,11 +73,13 @@ class BooleanFilterTest extends BaseTestCase
             ['type' => '', 'value' => $value]
         );
 
+        $op = $this->qbTester->getNode('where.constraint');
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
 
         $this->assertSame('a', $opDynamic->getAlias());
         $this->assertSame('somefield', $opDynamic->getField());
+        $this->assertSame('jcr.operator.equal.to', $op->getOperator());
         $this->assertSame($expectedValue, $opStatic->getValue());
 
         $this->assertTrue($this->filter->isActive());
