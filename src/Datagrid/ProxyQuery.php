@@ -60,8 +60,6 @@ class ProxyQuery implements ProxyQueryInterface
 
     /**
      * PHPCR ODM Document Manager.
-     *
-     * @var DocumentManager;
      */
     protected $documentManager;
 
