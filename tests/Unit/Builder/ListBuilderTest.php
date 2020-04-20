@@ -57,7 +57,7 @@ class ListBuilderTest extends TestCase
      */
     private $guesser;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->guesser = $this->createMock(TypeGuesserInterface::class);
         $this->templates = [];

@@ -18,7 +18,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Filter\DateFilter;
 
 class DateFilterTest extends BaseTestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->filter = new DateFilter();

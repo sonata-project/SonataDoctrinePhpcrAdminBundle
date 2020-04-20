@@ -31,7 +31,7 @@ class ProxyQueryTest extends TestCase
      */
     private $pq;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->qb = $this->createMock(QueryBuilder::class);
         $this->query = $this->createMock(Query::class);
