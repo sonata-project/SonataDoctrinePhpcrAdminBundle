@@ -20,7 +20,7 @@ use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 
 class PagerTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->pager = new Pager(10);
 
