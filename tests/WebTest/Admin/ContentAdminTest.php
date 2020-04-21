@@ -18,7 +18,7 @@ use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 class ContentAdminTest extends BaseTestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->db('PHPCR')->loadFixtures([LoadTreeData::class]);
         $this->client = $this->createClient();

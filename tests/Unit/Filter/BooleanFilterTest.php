@@ -23,7 +23,7 @@ class BooleanFilterTest extends BaseTestCase
      */
     private $filter;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->filter = new BooleanFilter();
