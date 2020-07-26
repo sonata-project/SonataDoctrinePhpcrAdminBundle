@@ -82,5 +82,6 @@
         "psr-4": {
             "Sonata\\DoctrinePHPCRAdminBundle\\Tests\\": "tests/"
         }
-    }
+    },
+    "abandoned": true
 }
