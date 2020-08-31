@@ -113,6 +113,7 @@ content:
     .. code-block:: xml
 
         <!-- app/config/config.xml -->
+
         <?xml version="1.0" encoding="UTF-8" ?>
         <container xmlns="http://symfony.com/schema/dic/services">
 
@@ -136,6 +137,7 @@ content:
     .. code-block:: php
 
         // app/config/config.php
+
         $container->loadFromExtension('sonata_block', [
             'blocks' => [
                 // ...
