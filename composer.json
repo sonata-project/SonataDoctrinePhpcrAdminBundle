@@ -3,10 +3,11 @@
     "type": "symfony-bundle",
     "description": "Symfony Sonata / Integrate Doctrine PHPCR into the SonataAdminBundle",
     "keywords": [
-        "Admin Generator",
         "admin",
+        "admin-generator",
+        "bootstrap"        
         "sonata",
-        "bootstrap"
+        "symfony-cmf!
     ],
     "license": "MIT",
     "authors": [
