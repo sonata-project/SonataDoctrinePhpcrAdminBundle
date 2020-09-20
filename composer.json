@@ -7,7 +7,7 @@
         "admin-generator",
         "bootstrap"        
         "sonata",
-        "symfony-cmf!
+        "symfony-cmf"
     ],
     "license": "MIT",
     "authors": [
