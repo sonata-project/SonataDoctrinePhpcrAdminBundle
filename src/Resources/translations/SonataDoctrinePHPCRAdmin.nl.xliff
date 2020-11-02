@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" datatype="plaintext" original="">
+        <body>
+            <trans-unit id="content_tree">
+                <source>content_tree</source>
+                <target>Inhoud</target>
+            </trans-unit>
+            <trans-unit id="reset_tree">
+                <source>reset_tree</source>
+                <target>Reset</target>
+            </trans-unit>
+            <trans-unit id="tree_create_item">
+                <source>create_item</source>
+                <target>Aammaken</target>
+            </trans-unit>
+            <trans-unit id="tree_delete_item">
+                <source>delete_item</source>
+                <target>Verwijder</target>
+            </trans-unit>
+            <trans-unit id="confirm_move_node">
+                <source>confirm_move_node</source>
+                <target>Weet u zeker dat u dat element wilt verplaatsen?</target>
+            </trans-unit>
+            <trans-unit id="list_results_count_prefix">
+                <source>list_results_count_prefix</source>
+                <target>ten minste</target>
+            </trans-unit>
+            <trans-unit id="tree_not_editable">
+                <source>not_editable</source>
+                <target>(niet bewerkbaar)</target>
+            </trans-unit>
+            <trans-unit id="label_type_contains_words">
+                <source>label_type_contains_words</source>
+                <target>bevat woorden</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
