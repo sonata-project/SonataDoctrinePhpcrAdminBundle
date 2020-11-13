@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Fixtures\App\Admin;
 
 use Doctrine\Bundle\PHPCRBundle\Form\DataTransformer\DocumentToPathTransformer;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;

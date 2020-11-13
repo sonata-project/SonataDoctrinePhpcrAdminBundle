@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Unit\Guesser;
 
 use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
-use Doctrine\Common\Persistence\Mapping\ClassMetadata;
+use Doctrine\Persistence\Mapping\ClassMetadata;
 use Doctrine\ODM\PHPCR\DocumentRepository;
 use PHPUnit\Framework\TestCase;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\StringFilter;
