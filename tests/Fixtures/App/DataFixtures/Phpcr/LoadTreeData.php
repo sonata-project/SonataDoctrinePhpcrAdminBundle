@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Fixtures\App\DataFixtures\Phpcr;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use PHPCR\Util\NodeHelper;
 use Sonata\DoctrinePHPCRAdminBundle\Tests\Fixtures\App\Document\Content;
 
