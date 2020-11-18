@@ -17,6 +17,11 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class Kernel extends TestKernel
 {
+    public function __construct()
+    {
+        parent::__construct('test', true);
+    }
+
     public function configure()
     {
         $this->registerConfiguredBundles();

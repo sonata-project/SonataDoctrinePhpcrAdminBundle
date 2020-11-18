@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Description;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use PHPCR\PathNotFoundException;
 use PHPCR\Util\PathHelper;
 use Symfony\Cmf\Component\Resource\Description\Description;
