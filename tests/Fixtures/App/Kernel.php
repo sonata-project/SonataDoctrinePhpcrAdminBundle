@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Sonata Project package.
  *
@@ -11,7 +13,6 @@
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\Fixtures\App;
 
-use ReflectionClass;
 use Symfony\Cmf\Component\Testing\HttpKernel\TestKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
@@ -32,13 +33,12 @@ class Kernel extends TestKernel
     public function getKernelDir()
     {
         try {
-            $refl = new ReflectionClass($this);
+            $refl = new \ReflectionClass($this);
             $fname = $refl->getFileName();
-            $kernelDir = dirname($fname);
+            $kernelDir = \dirname($fname);
 
             return $kernelDir;
         } catch (Execption $exception) {
-
         }
     }
 
@@ -52,10 +52,9 @@ class Kernel extends TestKernel
         return sys_get_temp_dir().'/SonataDoctrinePhpcrAdminBundle/logs';
     }
 
-
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(__DIR__ . '/config/config.php');
-        $loader->load(__DIR__ . '/config/admin-test.xml');
+        $loader->load(__DIR__.'/config/config.php');
+        $loader->load(__DIR__.'/config/admin-test.xml');
     }
 }
