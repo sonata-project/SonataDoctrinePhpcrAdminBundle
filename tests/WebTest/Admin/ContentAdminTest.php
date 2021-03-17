@@ -19,15 +19,15 @@ use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 class ContentAdminTest extends BaseTestCase
 {
-    public static function getKernelClass(): string
-    {
-        return Kernel::class;
-    }
-
     protected function setUp(): void
     {
         $this->db('PHPCR')->loadFixtures([LoadTreeData::class]);
         $this->client = $this->createClient();
+    }
+
+    public static function getKernelClass(): string
+    {
+        return Kernel::class;
     }
 
     public function testContentList(): void
