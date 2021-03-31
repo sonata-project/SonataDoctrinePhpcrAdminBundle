@@ -54,7 +54,6 @@ class ChoiceType extends BaseChoiceType
                 'choices' => $choices,
                 'required' => false,
             ])
-            ->add('value', $options['field_type'], array_merge(['required' => false], $options['field_options']))
-        ;
+            ->add('value', $options['field_type'], array_merge(['required' => false], $options['field_options']));
     }
 }
