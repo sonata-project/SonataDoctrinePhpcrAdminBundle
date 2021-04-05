@@ -16,7 +16,8 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-$_ENV['KERNEL_CLASS'] = $_SERVER['KERNEL_CLASS'] = Kernel::class;
+$_ENV['KERNEL_CLASS'] = Kernel::class;
+putenv(sprintf('KERNEL_CLASS=%s', $_ENV['KERNEL_CLASS']));
 
 require_once __DIR__.'/../vendor/symfony-cmf/testing/bootstrap/bootstrap.php';
 
