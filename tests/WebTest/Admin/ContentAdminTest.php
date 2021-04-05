@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Tests\WebTest\Admin;
 
 use Sonata\DoctrinePHPCRAdminBundle\Tests\Fixtures\App\DataFixtures\Phpcr\LoadTreeData;
-use Sonata\DoctrinePHPCRAdminBundle\Tests\Fixtures\App\Kernel;
 use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 class ContentAdminTest extends BaseTestCase
@@ -23,11 +22,6 @@ class ContentAdminTest extends BaseTestCase
     {
         $this->db('PHPCR')->loadFixtures([LoadTreeData::class]);
         $this->client = $this->createClient();
-    }
-
-    public static function getKernelClass(): string
-    {
-        return Kernel::class;
     }
 
     public function testContentList(): void

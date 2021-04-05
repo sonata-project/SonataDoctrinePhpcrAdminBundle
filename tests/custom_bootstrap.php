@@ -16,6 +16,8 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+$_SERVER['KERNEL_CLASS'] = Kernel::class;
+
 require_once __DIR__.'/../vendor/symfony-cmf/testing/bootstrap/bootstrap.php';
 
 $application = new Application(new Kernel());

@@ -38,7 +38,7 @@ class Kernel extends TestKernel
             $kernelDir = \dirname($fname);
 
             return $kernelDir;
-        } catch (Execption $exception) {
+        } catch (\Exception $exception) {
         }
     }
 
