@@ -11,6 +11,5 @@ phpunit.xml
 phpstan.neon
 /.phpunit.result.cache
 /docs/_build/
-
 tests/Fixtures/App/app.sqlite
 
