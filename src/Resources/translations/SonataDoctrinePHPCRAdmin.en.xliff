@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-    <file source-language="en" datatype="plaintext" original="">
-        <body>
-            <trans-unit id="content_tree">
-                <source>content_tree</source>
-                <target>Content</target>
-            </trans-unit>
-            <trans-unit id="reset_tree">
-                <source>reset_tree</source>
-                <target>Reset</target>
-            </trans-unit>
-            <trans-unit id="tree_create_item">
-                <source>create_item</source>
-                <target>Create</target>
-            </trans-unit>
-            <trans-unit id="tree_delete_item">
-                <source>delete_item</source>
-                <target>Delete</target>
-            </trans-unit>
-            <trans-unit id="confirm_move_node">
-                <source>confirm_move_node</source>
-                <target>Really move that node?</target>
-            </trans-unit>
-            <trans-unit id="list_results_count_prefix">
-                <source>list_results_count_prefix</source>
-                <target>at least</target>
-            </trans-unit>
-            <trans-unit id="tree_not_editable">
-                <source>not_editable</source>
-                <target>(not editable)</target>
-            </trans-unit>
-            <trans-unit id="label_type_contains_words">
-                <source>label_type_contains_words</source>
-                <target>contains words</target>
-            </trans-unit>
-        </body>
-    </file>
+  <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="content_tree">
+        <source>content_tree</source>
+        <target>Content</target>
+      </trans-unit>
+      <trans-unit id="reset_tree">
+        <source>reset_tree</source>
+        <target>Reset</target>
+      </trans-unit>
+      <trans-unit id="tree_create_item">
+        <source>create_item</source>
+        <target>Create</target>
+      </trans-unit>
+      <trans-unit id="tree_delete_item">
+        <source>delete_item</source>
+        <target>Delete</target>
+      </trans-unit>
+      <trans-unit id="confirm_move_node">
+        <source>confirm_move_node</source>
+        <target>Really move that node?</target>
+      </trans-unit>
+      <trans-unit id="list_results_count_prefix">
+        <source>list_results_count_prefix</source>
+        <target>at least</target>
+      </trans-unit>
+      <trans-unit id="tree_not_editable">
+        <source>not_editable</source>
+        <target>(not editable)</target>
+      </trans-unit>
+      <trans-unit id="label_type_contains_words">
+        <source>label_type_contains_words</source>
+        <target>contains words</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>
