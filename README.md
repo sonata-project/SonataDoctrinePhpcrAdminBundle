@@ -16,10 +16,10 @@ Symfony Sonata / Integrate Doctrine PHPCR into the SonataAdminBundle
 [![Monthly Downloads](https://poser.pugx.org/sonata-project/doctrine-phpcr-admin-bundle/d/monthly)](https://packagist.org/packages/sonata-project/doctrine-phpcr-admin-bundle)
 [![Daily Downloads](https://poser.pugx.org/sonata-project/doctrine-phpcr-admin-bundle/d/daily)](https://packagist.org/packages/sonata-project/doctrine-phpcr-admin-bundle)
 
-Branch | Github Actions | Code Coverage |
------- | -------------- | ------------- |
-2.x    | [![Test][test_stable_badge]][test_stable_link]     | [![Coverage Status][coverage_stable_badge]][coverage_stable_link]     |
-master | [![Test][test_unstable_badge]][test_unstable_link] | [![Coverage Status][coverage_unstable_badge]][coverage_unstable_link] |
+Branch | Github Actions | Code Coverage | Documentation |
+------ | -------------- | ------------- | ------------- |
+2.x    | [![Test][test_stable_badge]][test_stable_link]     | [![Coverage Status][coverage_stable_badge]][coverage_stable_link]     | [![Documentation Status][documentation_stable_badge]][documentation_stable_link]     |
+master | [![Test][test_unstable_badge]][test_unstable_link] | [![Coverage Status][coverage_unstable_badge]][coverage_unstable_link] | [![Documentation Status][documentation_unstable_badge]][documentation_unstable_link] |
 
 ## WARNING: This repository is abandoned
 
@@ -29,7 +29,7 @@ Feel free to ask if you want to help to keep this project up to date.
 
 ## Documentation
 
-Check out the documentation on the [official website](https://sonata-project.org/bundles/doctrine-phpcr-admin).
+Check out the documentation on the [official website](https://docs.sonata-project.org/projects/SonataDoctrinePhpcrAdminBundle).
 
 ## Support
 
@@ -51,3 +51,8 @@ This package is available under the [MIT license](LICENSE).
 [coverage_stable_link]: https://codecov.io/gh/sonata-project/SonataDoctrinePhpcrAdminBundle/branch/2.x
 [coverage_unstable_badge]: https://codecov.io/gh/sonata-project/SonataDoctrinePhpcrAdminBundle/branch/master/graph/badge.svg
 [coverage_unstable_link]: https://codecov.io/gh/sonata-project/SonataDoctrinePhpcrAdminBundle/branch/master
+
+[documentation_stable_badge]: https://readthedocs.org/projects/sonatadoctrinephpcradminbundle/badge/?version=2.x
+[documentation_stable_link]: https://docs.sonata-project.org/projects/SonataDoctrinePhpcrAdminBundle/en/2.x/?badge=2.x
+[documentation_unstable_badge]: https://readthedocs.org/projects/sonatadoctrinephpcradminbundle/badge/?version=master
+[documentation_unstable_link]: https://docs.readthedocs.org/projects/SonataDoctrinePhpcrAdminBundle/en/master/?badge=master
