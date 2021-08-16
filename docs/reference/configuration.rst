@@ -46,4 +46,4 @@ On this bundle, you can configure templates and the document tree.
                 # Whether moving a node in the tree asks for confirmation.
                 confirm_move:         true
 
-.. _`as usual`: http://sonata-project.org/bundles/admin/master/doc/reference/getting_started.html#step-3-create-an-admin-service
+.. _`as usual`: https://docs.sonata-project.org/projects/SonataAdminBundle/en/3.x/getting_started/creating_an_admin/#step-3-register-the-admin-class
