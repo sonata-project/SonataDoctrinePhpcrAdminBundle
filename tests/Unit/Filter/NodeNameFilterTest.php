@@ -32,28 +32,28 @@ class NodeNameFilterTest extends BaseTestCase
     public function testFilterNullData(): void
     {
         $res = $this->filter->filter($this->proxyQuery, 'a', 'somefield', null);
-        $this->assertNull($res);
-        $this->assertFalse($this->filter->isActive());
+        static::assertNull($res);
+        static::assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayData(): void
     {
         $res = $this->filter->filter($this->proxyQuery, 'a', 'somefield', []);
-        $this->assertNull($res);
-        $this->assertFalse($this->filter->isActive());
+        static::assertNull($res);
+        static::assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataSpecifiedType(): void
     {
         $res = $this->filter->filter($this->proxyQuery, 'a', 'somefield', ['type' => ChoiceType::TYPE_EQUAL]);
-        $this->assertNull($res);
-        $this->assertFalse($this->filter->isActive());
+        static::assertNull($res);
+        static::assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataWithMeaninglessValue(): void
     {
         $this->filter->filter($this->proxyQuery, 'a', 'somefield', ['type' => ChoiceType::TYPE_EQUAL, 'value' => ' ']);
-        $this->assertFalse($this->filter->isActive());
+        static::assertFalse($this->filter->isActive());
     }
 
     public function getFilters()
@@ -71,7 +71,7 @@ class NodeNameFilterTest extends BaseTestCase
      */
     public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue'): void
     {
-        $this->proxyQuery->expects($this->exactly(1))
+        $this->proxyQuery->expects(static::exactly(1))
             ->method('getQueryBuilder')
             ->willReturn($this->qb);
 
@@ -85,9 +85,9 @@ class NodeNameFilterTest extends BaseTestCase
         $localName = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $literal = $this->qbTester->getNode('where.constraint.operand_static');
 
-        $this->assertSame('a', $localName->getAlias());
-        $this->assertSame($expectedValue, $literal->getValue());
+        static::assertSame('a', $localName->getAlias());
+        static::assertSame($expectedValue, $literal->getValue());
 
-        $this->assertTrue($this->filter->isActive());
+        static::assertTrue($this->filter->isActive());
     }
 }

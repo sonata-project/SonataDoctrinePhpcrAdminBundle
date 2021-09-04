@@ -25,22 +25,22 @@ class PathInfoBuilderSlashesTest extends TestCase
         $collectionChild = $this->createMock(RouteCollection::class);
 
         $adminChild = $this->createMock(AbstractAdmin::class);
-        $adminChild->expects($this->once())
+        $adminChild->expects(static::once())
             ->method('getRoutes')
             ->willReturn($collectionChild);
 
         $admin = $this->createMock(AbstractAdmin::class);
-        $admin->expects($this->once())
+        $admin->expects(static::once())
             ->method('getChildren')
             ->willReturn([$adminChild]);
 
         $collection = $this->createMock(RouteCollection::class);
-        $collection->expects($this->once())
+        $collection->expects(static::once())
             ->method('addCollection')
-            ->with($this->anything());
-        $collection->expects($this->exactly(7))
+            ->with(static::anything());
+        $collection->expects(static::exactly(7))
             ->method('add')
-            ->with($this->anything());
+            ->with(static::anything());
 
         $builder = new PathInfoBuilderSlashes();
         $builder->build($admin, $collection);
@@ -49,17 +49,17 @@ class PathInfoBuilderSlashesTest extends TestCase
     public function testBuildWithAcl(): void
     {
         $admin = $this->createMock(AbstractAdmin::class);
-        $admin->expects($this->once())
+        $admin->expects(static::once())
             ->method('getChildren')
             ->willReturn([]);
-        $admin->expects($this->once())
+        $admin->expects(static::once())
             ->method('isAclEnabled')
             ->willReturn(true);
 
         $collection = $this->createMock(RouteCollection::class);
-        $collection->expects($this->exactly(8))
+        $collection->expects(static::exactly(8))
             ->method('add')
-            ->with($this->anything());
+            ->with(static::anything());
 
         $builder = new PathInfoBuilderSlashes();
         $builder->build($admin, $collection);

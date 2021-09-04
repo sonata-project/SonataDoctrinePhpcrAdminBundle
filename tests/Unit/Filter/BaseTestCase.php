@@ -41,7 +41,7 @@ class BaseTestCase extends TestCase
         $this->qbTester = new QueryBuilderTester($this->qb);
 
         $this->proxyQuery = $this->createMock(ProxyQuery::class);
-        $this->proxyQuery->expects($this->any())
+        $this->proxyQuery->expects(static::any())
             ->method('getQueryBuilder')
             ->willReturn($this->qb);
     }

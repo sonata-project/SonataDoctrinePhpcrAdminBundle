@@ -29,62 +29,62 @@ class PagerTest extends TestCase
 
     public function testInitNumPages(): void
     {
-        $this->proxyQuery->expects($this->once())
+        $this->proxyQuery->expects(static::once())
             ->method('execute')
             ->with([], PHPCRQuery::HYDRATE_PHPCR)
             ->willReturn(range(0, 12));
 
-        $this->proxyQuery->expects($this->once())
+        $this->proxyQuery->expects(static::once())
             ->method('setMaxResults')
-            ->with($this->equalTo(10));
+            ->with(static::equalTo(10));
 
-        $this->proxyQuery->expects($this->once())
+        $this->proxyQuery->expects(static::once())
             ->method('setFirstResult')
-            ->with($this->equalTo(0));
+            ->with(static::equalTo(0));
 
         $this->pager->setQuery($this->proxyQuery);
         $this->pager->init();
 
-        $this->assertSame(2, $this->pager->getLastPage());
+        static::assertSame(2, $this->pager->getLastPage());
     }
 
     public function testInitOffset(): void
     {
-        $this->proxyQuery->expects($this->once())
+        $this->proxyQuery->expects(static::once())
             ->method('execute')
             ->with([], PHPCRQuery::HYDRATE_PHPCR)
             ->willReturn(range(0, 12));
 
-        $this->proxyQuery->expects($this->once())
+        $this->proxyQuery->expects(static::once())
             ->method('setMaxResults')
-            ->with($this->equalTo(10));
+            ->with(static::equalTo(10));
 
         // Asserting that the offset will be set correctly
-        $this->proxyQuery->expects($this->once())
+        $this->proxyQuery->expects(static::once())
             ->method('setFirstResult')
-            ->with($this->equalTo(10));
+            ->with(static::equalTo(10));
 
         $this->pager->setQuery($this->proxyQuery);
         $this->pager->setPage(2);
         $this->pager->init();
 
-        $this->assertSame(2, $this->pager->getLastPage());
+        static::assertSame(2, $this->pager->getLastPage());
     }
 
     public function testNoPagesPerConfig(): void
     {
-        $this->proxyQuery->expects($this->once())
+        $this->proxyQuery->expects(static::once())
             ->method('execute')
             ->with([], PHPCRQuery::HYDRATE_PHPCR)
             ->willReturn([]);
 
-        $this->proxyQuery->expects($this->once())
+        $this->proxyQuery->expects(static::once())
             ->method('setMaxResults')
-            ->with($this->equalTo(0));
+            ->with(static::equalTo(0));
 
-        $this->proxyQuery->expects($this->once())
+        $this->proxyQuery->expects(static::once())
             ->method('setFirstResult')
-            ->with($this->equalTo(0));
+            ->with(static::equalTo(0));
 
         $this->pager->setQuery($this->proxyQuery);
 
@@ -92,22 +92,22 @@ class PagerTest extends TestCase
         $this->pager->setMaxPerPage(0);
         $this->pager->init();
 
-        $this->assertSame(0, $this->pager->getLastPage());
+        static::assertSame(0, $this->pager->getLastPage());
     }
 
     public function testNoPagesForNoResults(): void
     {
-        $this->proxyQuery->expects($this->once())
+        $this->proxyQuery->expects(static::once())
             ->method('execute')
             ->with([], PHPCRQuery::HYDRATE_PHPCR)
             ->willReturn([]);
 
-        $this->proxyQuery->expects($this->once())
+        $this->proxyQuery->expects(static::once())
             ->method('setMaxResults')
-            ->with($this->equalTo(0));
-        $this->proxyQuery->expects($this->once())
+            ->with(static::equalTo(0));
+        $this->proxyQuery->expects(static::once())
             ->method('setFirstResult')
-            ->with($this->equalTo(0));
+            ->with(static::equalTo(0));
 
         $this->pager->setQuery($this->proxyQuery);
         $this->pager->init();
