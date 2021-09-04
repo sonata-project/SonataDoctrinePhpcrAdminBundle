@@ -30,15 +30,15 @@ class DateFilterTest extends BaseTestCase
     public function testFilterNullData(): void
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', null);
-        $this->assertNull($res);
-        $this->assertFalse($this->filter->isActive());
+        static::assertNull($res);
+        static::assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayData(): void
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', []);
-        $this->assertNull($res);
-        $this->assertFalse($this->filter->isActive());
+        static::assertNull($res);
+        static::assertFalse($this->filter->isActive());
     }
 
     public function getFilters()
@@ -75,15 +75,15 @@ class DateFilterTest extends BaseTestCase
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
 
-        $this->assertSame('a', $opDynamic->getAlias());
-        $this->assertSame('somefield', $opDynamic->getField());
-        $this->assertTrue(
+        static::assertSame('a', $opDynamic->getAlias());
+        static::assertSame('somefield', $opDynamic->getField());
+        static::assertTrue(
             $expectedValue instanceof \DateTimeInterface ?
             $expectedValue->getTimestamp() === $opStatic->getValue()->getTimestamp() :
             $expectedValue === $opStatic->getValue()
         );
 
-        $this->assertTrue($this->filter->isActive());
+        static::assertTrue($this->filter->isActive());
     }
 
     public function testFilterEquals(): void
@@ -106,9 +106,9 @@ class DateFilterTest extends BaseTestCase
             'where.constraint.constraint.operand_static'
         );
 
-        $this->assertSame('a', $opDynamic->getAlias());
-        $this->assertSame('somefield', $opDynamic->getField());
-        $this->assertSame($from->getTimestamp(), $opStatic->getValue()->getTimestamp());
+        static::assertSame('a', $opDynamic->getAlias());
+        static::assertSame('somefield', $opDynamic->getField());
+        static::assertSame($from->getTimestamp(), $opStatic->getValue()->getTimestamp());
 
         // TO
         $opDynamic = $this->qbTester->getNode(
@@ -118,10 +118,10 @@ class DateFilterTest extends BaseTestCase
             'where.constraint.constraint[1].operand_static'
         );
 
-        $this->assertSame('a', $opDynamic->getAlias());
-        $this->assertSame('somefield', $opDynamic->getField());
-        $this->assertSame($to->getTimestamp(), $opStatic->getValue()->getTimestamp());
+        static::assertSame('a', $opDynamic->getAlias());
+        static::assertSame('somefield', $opDynamic->getField());
+        static::assertSame($to->getTimestamp(), $opStatic->getValue()->getTimestamp());
 
-        $this->assertTrue($this->filter->isActive());
+        static::assertTrue($this->filter->isActive());
     }
 }

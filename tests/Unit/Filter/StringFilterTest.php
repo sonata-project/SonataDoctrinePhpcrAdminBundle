@@ -32,31 +32,31 @@ class StringFilterTest extends BaseTestCase
     public function testFilterNullData(): void
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', null);
-        $this->assertNull($res);
-        $this->assertFalse($this->filter->isActive());
+        static::assertNull($res);
+        static::assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayData(): void
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', []);
-        $this->assertNull($res);
-        $this->assertFalse($this->filter->isActive());
+        static::assertNull($res);
+        static::assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataSpecifiedType(): void
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => ChoiceType::TYPE_EQUAL]);
-        $this->assertNull($res);
-        $this->assertFalse($this->filter->isActive());
+        static::assertNull($res);
+        static::assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataWithMeaninglessValue(): void
     {
-        $this->proxyQuery->expects($this->never())
+        $this->proxyQuery->expects(static::never())
             ->method('getQueryBuilder');
 
         $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => ChoiceType::TYPE_EQUAL, 'value' => ' ']);
-        $this->assertFalse($this->filter->isActive());
+        static::assertFalse($this->filter->isActive());
     }
 
     public function getFilters()
@@ -125,16 +125,16 @@ class StringFilterTest extends BaseTestCase
             'somefield',
             ['type' => $choiceType, 'value' => 'somevalue']
         );
-        $this->assertTrue($this->filter->isActive());
+        static::assertTrue($this->filter->isActive());
 
         foreach ($assertPaths as $path => $assertions) {
             $node = $this->qbTester->getNode($path);
             foreach ($assertions as $methodName => $expectedValue) {
                 $res = $node->$methodName();
-                $this->assertSame($expectedValue, $res);
+                static::assertSame($expectedValue, $res);
             }
         }
 
-        $this->assertTrue($this->filter->isActive());
+        static::assertTrue($this->filter->isActive());
     }
 }

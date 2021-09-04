@@ -66,7 +66,7 @@ class ListBuilderTest extends TestCase
     public function testGetBaseList(): void
     {
         $lb = new ListBuilder($this->guesser, $this->templates);
-        $this->assertInstanceOf(FieldDescriptionCollection::class, $lb->getBaseList());
+        static::assertInstanceOf(FieldDescriptionCollection::class, $lb->getBaseList());
     }
 
     public function testAddField(): void
@@ -78,9 +78,9 @@ class ListBuilderTest extends TestCase
     public function testAddFieldNullType(): void
     {
         $typeguess = $this->createMock(TypeGuess::class, [], [], '', false);
-        $this->guesser->expects($this->once())
+        $this->guesser->expects(static::once())
             ->method('guessType')
-            ->with($this->anything())
+            ->with(static::anything())
             ->willReturn($typeguess);
         $this->setupAddField();
         $this->lb->addField($this->fieldDescriptionCollection, null, $this->fieldDescription, $this->admin);
@@ -96,7 +96,7 @@ class ListBuilderTest extends TestCase
         $this->listBuilder
             ->addField($list, 'actions', $fieldDescription, $this->admin);
 
-        $this->assertSame(
+        static::assertSame(
             '@SonataAdmin/CRUD/list__action.html.twig',
             $list->get('foo')->getTemplate(),
             'Custom list action field has a default list action template assigned'
@@ -106,14 +106,14 @@ class ListBuilderTest extends TestCase
     public function testCorrectFixedActionsFieldType(): void
     {
         $this->setUpListActionTests();
-        $this->guesser->expects($this->once())->method('guessType')->willReturn(null);
+        $this->guesser->expects(static::once())->method('guessType')->willReturn(null);
 
         $fieldDescription = new FieldDescription();
         $fieldDescription->setName('_action');
         $list = $this->listBuilder->getBaseList();
         $this->listBuilder->addField($list, null, $fieldDescription, $this->admin);
 
-        $this->assertSame(
+        static::assertSame(
             'actions',
             $list->get('_action')->getType(),
             'Standard list _action field has "actions" type'
@@ -135,16 +135,16 @@ class ListBuilderTest extends TestCase
     {
         $this->metaData = $this->createMock(ClassMetadata::class);
         $this->modelManager = $this->createMock(ModelManager::class);
-        $this->modelManager->expects($this->any())
+        $this->modelManager->expects(static::any())
             ->method('getMetadata')
             ->willReturn($this->metaData);
-        $this->modelManager->expects($this->any())
+        $this->modelManager->expects(static::any())
             ->method('hasMetadata')
-            ->with($this->anything())
+            ->with(static::anything())
             ->willReturn(true);
 
         $this->admin = $this->createMock(Admin::class, [], [], '', false);
-        $this->admin->expects($this->atLeastOnce())->method('getModelManager')
+        $this->admin->expects(static::atLeastOnce())->method('getModelManager')
             ->willReturn($this->modelManager);
 
         $this->listBuilder = new ListBuilder($this->guesser);
@@ -155,34 +155,34 @@ class ListBuilderTest extends TestCase
         $this->lb = new ListBuilder($this->guesser, $this->templates);
         $this->metaData = $this->createMock(ClassMetadata::class, [], [], '', false);
         $this->modelManager = $this->createMock(ModelManager::class);
-        $this->modelManager->expects($this->any())
+        $this->modelManager->expects(static::any())
             ->method('getMetadata')
             ->willReturn($this->metaData);
-        $this->modelManager->expects($this->any())
+        $this->modelManager->expects(static::any())
             ->method('hasMetadata')
-            ->with($this->anything())
+            ->with(static::anything())
             ->willReturn(true);
 
         $this->fieldDescription = $this->createMock(FieldDescriptionInterface::class);
-        $this->fieldDescription->expects($this->any())
+        $this->fieldDescription->expects(static::any())
             ->method('getType')
             ->willReturn('string');
-        $this->fieldDescription->expects($this->once())
+        $this->fieldDescription->expects(static::once())
             ->method('setType')
-            ->with($this->anything());
+            ->with(static::anything());
 
         //AdminInterface doesn't implement methods called in addField,
         //so we mock Admin
         $this->admin = $this->createMock(AbstractAdmin::class, [], [], '', false);
-        $this->admin->expects($this->any())
+        $this->admin->expects(static::any())
             ->method('getModelManager')
             ->willReturn($this->modelManager);
-        $this->admin->expects($this->once())
+        $this->admin->expects(static::once())
             ->method('addListFieldDescription')
-            ->with($this->anything(), $this->fieldDescription);
+            ->with(static::anything(), $this->fieldDescription);
 
         $this->fieldDescriptionCollection = $this->createMock(FieldDescriptionCollection::class);
-        $this->fieldDescriptionCollection->expects($this->once())
+        $this->fieldDescriptionCollection->expects(static::once())
             ->method('add')
             ->with($this->fieldDescription);
     }

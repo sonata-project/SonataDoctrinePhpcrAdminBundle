@@ -27,31 +27,31 @@ class NumberFilterTest extends BaseTestCase
     public function testFilterNullData(): void
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', null);
-        $this->assertNull($res);
-        $this->assertFalse($this->filter->isActive());
+        static::assertNull($res);
+        static::assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayData(): void
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', []);
-        $this->assertNull($res);
-        $this->assertFalse($this->filter->isActive());
+        static::assertNull($res);
+        static::assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataSpecifiedType(): void
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => NumberType::TYPE_EQUAL]);
-        $this->assertNull($res);
-        $this->assertFalse($this->filter->isActive());
+        static::assertNull($res);
+        static::assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataWithMeaninglessValue(): void
     {
-        $this->proxyQuery->expects($this->never())
+        $this->proxyQuery->expects(static::never())
             ->method('getQueryBuilder');
 
         $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => NumberType::TYPE_EQUAL, 'value' => ' ']);
-        $this->assertFalse($this->filter->isActive());
+        static::assertFalse($this->filter->isActive());
     }
 
     public function getFilters()
@@ -81,10 +81,10 @@ class NumberFilterTest extends BaseTestCase
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
 
-        $this->assertSame('a', $opDynamic->getAlias());
-        $this->assertSame('somefield', $opDynamic->getField());
-        $this->assertSame($expectedValue, $opStatic->getValue());
+        static::assertSame('a', $opDynamic->getAlias());
+        static::assertSame('somefield', $opDynamic->getField());
+        static::assertSame($expectedValue, $opStatic->getValue());
 
-        $this->assertTrue($this->filter->isActive());
+        static::assertTrue($this->filter->isActive());
     }
 }

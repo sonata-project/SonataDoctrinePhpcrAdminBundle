@@ -32,25 +32,25 @@ class BooleanFilterTest extends BaseTestCase
     public function testFilterNullData(): void
     {
         $this->filter->filter($this->proxyQuery, null, 'somefield', null);
-        $this->assertFalse($this->filter->isActive());
+        static::assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayData(): void
     {
         $this->filter->filter($this->proxyQuery, null, 'somefield', []);
-        $this->assertFalse($this->filter->isActive());
+        static::assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataSpecifiedType(): void
     {
         $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => BooleanType::TYPE_YES]);
-        $this->assertFalse($this->filter->isActive());
+        static::assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataWithMeaninglessValue(): void
     {
         $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => BooleanType::TYPE_YES, 'value' => 'someValue']);
-        $this->assertFalse($this->filter->isActive());
+        static::assertFalse($this->filter->isActive());
     }
 
     public function getFilters()
@@ -76,10 +76,10 @@ class BooleanFilterTest extends BaseTestCase
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
 
-        $this->assertSame('a', $opDynamic->getAlias());
-        $this->assertSame('somefield', $opDynamic->getField());
-        $this->assertSame($expectedValue, $opStatic->getValue());
+        static::assertSame('a', $opDynamic->getAlias());
+        static::assertSame('somefield', $opDynamic->getField());
+        static::assertSame($expectedValue, $opStatic->getValue());
 
-        $this->assertTrue($this->filter->isActive());
+        static::assertTrue($this->filter->isActive());
     }
 }

@@ -24,8 +24,8 @@ class CallBackFilterTest extends BaseTestCase
         $filter->initialize('field_name', ['callback' => static function (): void {
         }]);
         $res = $filter->filter($this->proxyQuery, null, 'somefield', null);
-        $this->assertNull($res);
-        $this->assertFalse($filter->isActive());
+        static::assertNull($res);
+        static::assertFalse($filter->isActive());
     }
 
     public function testFilterEmptyArrayData(): void
@@ -35,13 +35,13 @@ class CallBackFilterTest extends BaseTestCase
         $filter->initialize('field_name', ['callback' => static function (): void {
         }]);
         $res = $filter->filter($this->proxyQuery, null, 'somefield', []);
-        $this->assertNull($res);
-        $this->assertFalse($filter->isActive());
+        static::assertNull($res);
+        static::assertFalse($filter->isActive());
     }
 
     public function testFilterMethod(): void
     {
-        $this->proxyQuery->expects($this->once())
+        $this->proxyQuery->expects(static::once())
             ->method('getQueryBuilder')
             ->willReturn($this->qb);
 
@@ -55,11 +55,11 @@ class CallBackFilterTest extends BaseTestCase
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
 
-        $this->assertSame('a', $opDynamic->getAlias());
-        $this->assertSame('somefield', $opDynamic->getField());
-        $this->assertSame('somevalue', $opStatic->getValue());
+        static::assertSame('a', $opDynamic->getAlias());
+        static::assertSame('somefield', $opDynamic->getField());
+        static::assertSame('somevalue', $opStatic->getValue());
 
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     public function callbackMethod(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
@@ -72,7 +72,7 @@ class CallBackFilterTest extends BaseTestCase
 
     public function testFilterClosure(): void
     {
-        $this->proxyQuery->expects($this->once())
+        $this->proxyQuery->expects(static::once())
             ->method('getQueryBuilder')
             ->willReturn($this->qb);
 
@@ -91,11 +91,11 @@ class CallBackFilterTest extends BaseTestCase
         $opDynamic = $this->qbTester->getNode('where.constraint.operand_dynamic');
         $opStatic = $this->qbTester->getNode('where.constraint.operand_static');
 
-        $this->assertSame('a', $opDynamic->getAlias());
-        $this->assertSame('somefield', $opDynamic->getField());
-        $this->assertSame('somevalue', $opStatic->getValue());
+        static::assertSame('a', $opDynamic->getAlias());
+        static::assertSame('somefield', $opDynamic->getField());
+        static::assertSame('somevalue', $opStatic->getValue());
 
-        $this->assertTrue($filter->isActive());
+        static::assertTrue($filter->isActive());
     }
 
     public function testWithoutCallback(): void

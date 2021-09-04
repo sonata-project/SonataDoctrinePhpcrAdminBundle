@@ -41,19 +41,19 @@ class ProxyQueryTest extends TestCase
 
     public function testConstructor(): void
     {
-        $this->assertInstanceOf(QueryBuilder::class, $this->pq->getQueryBuilder());
+        static::assertInstanceOf(QueryBuilder::class, $this->pq->getQueryBuilder());
     }
 
     public function testSetSortBy(): void
     {
         $this->pq->setSortBy([], ['fieldName' => 'field']);
-        $this->assertSame('field', $this->pq->getSortBy());
+        static::assertSame('field', $this->pq->getSortBy());
     }
 
     public function testSetSortOrder(): void
     {
         $this->pq->setSortOrder('ASC');
-        $this->assertSame('ASC', $this->pq->getSortOrder());
+        static::assertSame('ASC', $this->pq->getSortOrder());
     }
 
     public function testSetSortOrderInvalid(): void
@@ -61,21 +61,21 @@ class ProxyQueryTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
 
         $this->pq->setSortOrder('SOME_ORDER');
-        $this->assertSame('SOME_ORDER', $this->pq->getSortOrder());
+        static::assertSame('SOME_ORDER', $this->pq->getSortOrder());
     }
 
     public function testSetFirstResult(): void
     {
-        $this->qb->expects($this->once())
+        $this->qb->expects(static::once())
             ->method('setFirstResult')
-            ->with($this->equalTo(19));
+            ->with(static::equalTo(19));
 
         $this->pq->setFirstResult(19);
     }
 
     public function testGetFirstResult(): void
     {
-        $this->qb->expects($this->once())
+        $this->qb->expects(static::once())
             ->method('getFirstResult');
 
         $this->pq->getFirstResult();
@@ -83,16 +83,16 @@ class ProxyQueryTest extends TestCase
 
     public function testSetMaxResults(): void
     {
-        $this->qb->expects($this->once())
+        $this->qb->expects(static::once())
             ->method('setMaxResults')
-            ->with($this->equalTo(29));
+            ->with(static::equalTo(29));
 
         $this->pq->setMaxResults(29);
     }
 
     public function testGetMaxResults(): void
     {
-        $this->qb->expects($this->once())
+        $this->qb->expects(static::once())
             ->method('getMaxResults');
 
         $this->pq->getMaxResults();
@@ -100,25 +100,25 @@ class ProxyQueryTest extends TestCase
 
     public function testExecute(): void
     {
-        $this->qb->expects($this->once())
+        $this->qb->expects(static::once())
             ->method('getQuery')
             ->willReturn($this->query);
-        $this->query->expects($this->once())
+        $this->query->expects(static::once())
             ->method('execute')
             ->willReturn('test');
 
         $res = $this->pq->execute();
-        $this->assertSame('test', $res);
+        static::assertSame('test', $res);
     }
 
     public function testExecuteWithSortBy(): void
     {
         $qb = $this->createPartialMock(QueryBuilder::class, ['getQuery']);
 
-        $qb->expects($this->once())
+        $qb->expects(static::once())
             ->method('getQuery')
             ->willReturn($this->query);
-        $this->query->expects($this->once())
+        $this->query->expects(static::once())
             ->method('execute')
             ->willReturn('test');
 
@@ -127,13 +127,13 @@ class ProxyQueryTest extends TestCase
         $pq->setSortBy([], ['fieldName' => 'field']);
         $pq->setSortOrder('ASC');
         $res = $pq->execute();
-        $this->assertSame('test', $res);
+        static::assertSame('test', $res);
     }
 
     public function testGetAndSetDocumentManager(): void
     {
         $dm = $this->createMock(DocumentManager::class);
         $this->pq->setDocumentManager($dm);
-        $this->assertSame($dm, $this->pq->getDocumentManager());
+        static::assertSame($dm, $this->pq->getDocumentManager());
     }
 }
