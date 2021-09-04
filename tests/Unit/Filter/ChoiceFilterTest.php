@@ -27,22 +27,22 @@ class ChoiceFilterTest extends BaseTestCase
     public function testFilterNullData(): void
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', null);
-        $this->assertNull($res);
-        $this->assertFalse($this->filter->isActive());
+        static::assertNull($res);
+        static::assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayData(): void
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', []);
-        $this->assertNull($res);
-        $this->assertFalse($this->filter->isActive());
+        static::assertNull($res);
+        static::assertFalse($this->filter->isActive());
     }
 
     public function testFilterEmptyArrayDataSpecifiedType(): void
     {
         $res = $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => ChoiceType::TYPE_EQUAL]);
-        $this->assertNull($res);
-        $this->assertFalse($this->filter->isActive());
+        static::assertNull($res);
+        static::assertFalse($this->filter->isActive());
     }
 
     public function getMeaninglessValues()
@@ -62,7 +62,7 @@ class ChoiceFilterTest extends BaseTestCase
     public function testFilterEmptyArrayDataWithMeaninglessValue($value): void
     {
         $this->filter->filter($this->proxyQuery, null, 'somefield', ['type' => ChoiceType::TYPE_EQUAL, 'value' => $value]);
-        $this->assertFalse($this->filter->isActive());
+        static::assertFalse($this->filter->isActive());
     }
 
     public function getFilters()
@@ -79,7 +79,7 @@ class ChoiceFilterTest extends BaseTestCase
      */
     public function testFilterSwitch($operatorMethod, $choiceType, $expectedValue = 'somevalue'): void
     {
-        $this->proxyQuery->expects($this->once())
+        $this->proxyQuery->expects(static::once())
             ->method('getQueryBuilder')
             ->willReturn($this->qb);
 
@@ -89,7 +89,7 @@ class ChoiceFilterTest extends BaseTestCase
             'somefield',
             ['type' => $choiceType, 'value' => 'somevalue']
         );
-        $this->assertTrue($this->filter->isActive());
+        static::assertTrue($this->filter->isActive());
     }
 
     public function getFiltersMultiple()
@@ -259,7 +259,7 @@ class ChoiceFilterTest extends BaseTestCase
             'qbNodeCount' => 0,
         ], $options);
 
-        $this->proxyQuery->expects($this->once())
+        $this->proxyQuery->expects(static::once())
             ->method('getQueryBuilder')
             ->willReturn($this->qb);
 
@@ -274,11 +274,11 @@ class ChoiceFilterTest extends BaseTestCase
             $node = $this->qbTester->getNode($path);
             foreach ($methodAssertions as $methodName => $expectedValue) {
                 $res = $node->$methodName();
-                $this->assertSame($expectedValue, $res);
+                static::assertSame($expectedValue, $res);
             }
         }
 
-        $this->assertTrue($this->filter->isActive());
-        $this->assertSame($options['qbNodeCount'], \count($this->qbTester->getAllNodes()));
+        static::assertTrue($this->filter->isActive());
+        static::assertSame($options['qbNodeCount'], \count($this->qbTester->getAllNodes()));
     }
 }

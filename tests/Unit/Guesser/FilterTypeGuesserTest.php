@@ -31,14 +31,14 @@ class FilterTypeGuesserTest extends TestCase
 
         $documentRepository = $this->createMock(DocumentRepository::class);
 
-        $documentRepository->expects($this->once())
+        $documentRepository->expects(static::once())
             ->method('getClassMetadata')
-            ->with($this->equalTo($class = 'Whatever'))
+            ->with(static::equalTo($class = 'Whatever'))
             ->willReturn($this->createMock(
                 ClassMetadata::class
             ));
 
-        $managerRegistry->expects($this->once())
+        $managerRegistry->expects(static::once())
             ->method('getManagers')
             ->willReturn([$documentRepository]);
 
@@ -50,15 +50,15 @@ class FilterTypeGuesserTest extends TestCase
             'Sonata\AdminBundle\Model\ModelManagerInterface'
         ));
 
-        $this->assertInstanceOf(
+        static::assertInstanceOf(
             TypeGuess::class,
             $typeGuess
         );
-        $this->assertSame(
+        static::assertSame(
             StringFilter::class,
             $typeGuess->getType()
         );
-        $this->assertSame(
+        static::assertSame(
             [
                 'field_type' => TextType::class,
                 'field_options' => [],
@@ -68,7 +68,7 @@ class FilterTypeGuesserTest extends TestCase
             $typeGuess->getOptions()
         );
 
-        $this->assertSame(
+        static::assertSame(
             Guess::LOW_CONFIDENCE,
             $typeGuess->getConfidence()
         );

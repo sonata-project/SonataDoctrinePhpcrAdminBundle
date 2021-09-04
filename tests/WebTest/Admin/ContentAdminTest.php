@@ -30,47 +30,47 @@ class ContentAdminTest extends BaseTestCase
         $res = $this->client->getResponse();
 
         $this->assertResponseSuccess($res);
-        $this->assertCount(1, $crawler->filter('html:contains("Content 1")'));
+        static::assertCount(1, $crawler->filter('html:contains("Content 1")'));
     }
 
     public function testContentWithChildEdit(): void
     {
-        $this->markTestIncomplete('This test should be fixed.');
+        static::markTestIncomplete('This test should be fixed.');
 
         $crawler = $this->client->request('GET', '/admin/fixtures/app/content/test/content/content-1/edit');
         $res = $this->client->getResponse();
 
         $this->assertResponseSuccess($res);
-        $this->assertCount(1, $crawler->filter('input[value="content-1"]'));
-        $this->assertCount(1, $crawler->filter('input[value="Content 1"]'));
-        $this->assertCount(1, $crawler->filter('input[value="/test/content"]'));
-        $this->assertCount(1, $crawler->filter('input[value="/test/routes/route-1"]'));
+        static::assertCount(1, $crawler->filter('input[value="content-1"]'));
+        static::assertCount(1, $crawler->filter('input[value="Content 1"]'));
+        static::assertCount(1, $crawler->filter('input[value="/test/content"]'));
+        static::assertCount(1, $crawler->filter('input[value="/test/routes/route-1"]'));
         // ToDo: Sub Admin for child association
-        $this->assertCount(1, $crawler->filter('div[id$="child"] select'));
+        static::assertCount(1, $crawler->filter('div[id$="child"] select'));
 
         // see the routes selection of a ModelType
-        $this->assertCount(1, $crawler->filter('div[id$="_routes"] select'));
+        static::assertCount(1, $crawler->filter('div[id$="_routes"] select'));
     }
 
     public function testContentWithChildrenEdit(): void
     {
-        $this->markTestIncomplete('This test should be fixed.');
+        static::markTestIncomplete('This test should be fixed.');
 
         $crawler = $this->client->request('GET', '/admin/fixtures/app/content/test/content/content-2/edit');
         $res = $this->client->getResponse();
 
         $this->assertResponseSuccess($res);
-        $this->assertCount(1, $crawler->filter('input[value="content-2"]'));
-        $this->assertCount(1, $crawler->filter('input[value="Content 2"]'));
-        $this->assertCount(1, $crawler->filter('input[value="/test/content"]'));
+        static::assertCount(1, $crawler->filter('input[value="content-2"]'));
+        static::assertCount(1, $crawler->filter('input[value="Content 2"]'));
+        static::assertCount(1, $crawler->filter('input[value="/test/content"]'));
 
         // see the children table view of a CollectionType
-        $this->assertCount(1, $crawler->filter('div[id$="_children"] table'));
+        static::assertCount(1, $crawler->filter('div[id$="_children"] table'));
     }
 
     public function testContentCreate(): void
     {
-        $this->markTestIncomplete('This test should be fixed.');
+        static::markTestIncomplete('This test should be fixed.');
 
         $crawler = $this->client->request('GET', '/admin/fixtures/app/content/create');
         $res = $this->client->getResponse();
@@ -90,7 +90,7 @@ class ContentAdminTest extends BaseTestCase
         $res = $this->client->getResponse();
 
         // If we have a 302 redirect, then all is well
-        $this->assertSame(302, $res->getStatusCode());
+        static::assertSame(302, $res->getStatusCode());
     }
 
     public function testShowContent(): void

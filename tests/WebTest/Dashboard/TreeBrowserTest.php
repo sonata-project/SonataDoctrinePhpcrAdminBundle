@@ -34,6 +34,6 @@ class TreeBrowserTest extends BaseTestCase
 
         $this->assertResponseSuccess($res);
 
-        $this->assertCount(1, $crawler->filter('div#tree'));
+        static::assertCount(1, $crawler->filter('div#tree'));
     }
 }
