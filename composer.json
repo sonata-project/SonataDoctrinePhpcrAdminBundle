@@ -71,11 +71,6 @@
     "config": {
         "sort-packages": true
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.x-dev"
-        }
-    },
     "autoload": {
         "psr-4": {
             "Sonata\\DoctrinePHPCRAdminBundle\\": "src/"
