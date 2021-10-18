@@ -56,6 +56,7 @@
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "phpcr/phpcr": "^2.1",
         "phpcr/phpcr-utils": "^1.4.0",
+        "phpunit/phpunit": "^9.5",
         "sonata-project/core-bundle": "^3.14",
         "symfony-cmf/resource": "^1.0",
         "symfony-cmf/resource-bundle": "^1.0",
