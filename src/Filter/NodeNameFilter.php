@@ -30,7 +30,7 @@ class NodeNameFilter extends Filter
         $data['value'] = trim((string) $data['value']);
         $data['type'] = empty($data['type']) ? ChoiceType::TYPE_CONTAINS : $data['type'];
 
-        if (0 === \strlen($data['value'])) {
+        if ('' === $data['value']) {
             return;
         }
 
